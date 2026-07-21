@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Celestial Observatory — Undangan Pernikahan</title>
+<meta name="description" content="Sebuah perjalanan cinta di bawah jutaan bintang.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ============ CUSTOM CURSOR ============ -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing">
+  <svg viewBox="0 0 40 40" class="cursor-star">
+    <path d="M20 2 L23 15 L36 18 L23 21 L20 34 L17 21 L4 18 L17 15 Z"/>
+  </svg>
+</div>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader">
+  <canvas id="preloaderCanvas"></canvas>
+  <div class="preloader-inner">
+    <svg class="preloader-logo" id="preloaderLogo" viewBox="0 0 300 120"></svg>
+    <p class="preloader-label">MENYUSUN KONSTELASI&hellip;</p>
+    <div class="preloader-bar"><span id="preloaderFill"></span></div>
+  </div>
+</div>
+
+<!-- ============ OPENING SEQUENCE ============ -->
+<section class="opening" id="opening">
+  <canvas id="openingCanvas"></canvas>
+  <div class="opening-vignette"></div>
+  <div class="opening-content">
+    <p class="opening-eyebrow" id="openingEyebrow">Undangan Pernikahan</p>
+    <h1 class="opening-names" id="openingNames">
+      <span class="letters" data-text="Nadhira">Nadhira</span>
+      <span class="opening-amp">&amp;</span>
+      <span class="letters" data-text="Raditya">Raditya</span>
+    </h1>
+    <p class="opening-sub">Di Bawah Langit Yang Sama, Sejak Dahulu Kala</p>
+    <button class="btn-open" id="btnOpenInvitation">
+      <span>Buka Undangan</span>
+    </button>
+  </div>
+</section>
+
+<!-- ============ AMBIENT BACKGROUND (persists after opening) ============ -->
+<canvas id="ambientCanvas" class="ambient-canvas"></canvas>
+
+<!-- ============ SCROLL PROGRESS ORBIT ============ -->
+<div class="scroll-orbit" id="scrollOrbit" aria-hidden="true">
+  <svg viewBox="0 0 60 60">
+    <circle class="orbit-track" cx="30" cy="30" r="26"></circle>
+    <circle class="orbit-fill" id="orbitFill" cx="30" cy="30" r="26"></circle>
+  </svg>
+  <span class="orbit-dot" id="orbitDot"></span>
+</div>
+
+<!-- ============ MAIN SITE ============ -->
+<main id="mainSite" class="main-site">
+
+  <!-- HERO -->
+  <section class="hero section" id="hero">
+    <div class="hero-media" id="heroMedia"></div>
+    <div class="hero-dome"></div>
+    <div class="light-beam lb1"></div>
+    <div class="light-beam lb2"></div>
+    <div class="hero-content reveal">
+      <p class="eyebrow">The Wedding Of</p>
+      <h2 class="hero-title">Nadhira <span class="amp">&</span> Raditya</h2>
+      <p class="hero-date">12 . 12 . 2026 — Observatory Hall, Bandung</p>
+      <a href="#welcome" class="scroll-cue">
+        <span>Jelajahi Semesta Kami</span>
+        <i class="cue-line"></i>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider" data-divider="orbit"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,40 C300,90 900,-10 1200,40"/></svg></div>
+
+  <!-- WELCOME -->
+  <section class="welcome section" id="welcome">
+    <div class="section-inner reveal">
+      <p class="kicker">Welcome</p>
+      <h2 class="section-title">Selamat Datang di Observatorium Kami</h2>
+      <p class="lede">Di antara jutaan bintang dan galaksi yang bergerak perlahan, kami mengundang Anda untuk menjadi saksi dari sebuah perjalanan yang telah ditakdirkan sejak semesta pertama kali membentang. Malam ini, langit membuka atapnya untuk kami berdua.</p>
+      <div class="verse">
+        <p>"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya."</p>
+        <span>— QS. Ar-Rum: 21</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" data-divider="stardust"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,20 C400,80 800,0 1200,60"/></svg></div>
+
+  <!-- BRIDE & GROOM -->
+  <section class="couple section" id="couple">
+    <div class="section-inner reveal">
+      <p class="kicker">Bride & Groom</p>
+      <h2 class="section-title">Dua Bintang, Satu Orbit</h2>
+    </div>
+    <div class="couple-grid">
+      <article class="couple-card reveal">
+        <div class="couple-frame"><div class="couple-photo" id="groomPhoto"></div><span class="ring-orbit"></span></div>
+        <h3>Raditya Wicaksana</h3>
+        <p class="couple-parents">Putra dari<br>Bpk. Anggara Wicaksana &amp; Ibu Larasati</p>
+        <a class="ig-link" href="#" target="_blank" rel="noopener">@raditya.w</a>
+      </article>
+      <div class="couple-symbol" aria-hidden="true">&#10022;</div>
+      <article class="couple-card reveal">
+        <div class="couple-frame"><div class="couple-photo" id="bridePhoto"></div><span class="ring-orbit"></span></div>
+        <h3>Nadhira Anindya</h3>
+        <p class="couple-parents">Putri dari<br>Bpk. Herman Kusuma &amp; Ibu Sartika Dewi</p>
+        <a class="ig-link" href="#" target="_blank" rel="noopener">@nadhira.a</a>
+      </article>
+    </div>
+    <div class="couple-portrait reveal" id="couplePortrait"></div>
+  </section>
+
+  <div class="divider" data-divider="orbit"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,60 C300,-10 900,90 1200,20"/></svg></div>
+
+  <!-- LOVE STORY -->
+  <section class="story section" id="story">
+    <div class="section-inner reveal">
+      <p class="kicker">Love Story</p>
+      <h2 class="section-title">Perjalanan Melintasi Orbit Waktu</h2>
+    </div>
+    <div class="orbit-timeline" id="orbitTimeline">
+      <svg class="orbit-path" viewBox="0 0 1000 1400" preserveAspectRatio="xMidYMin meet">
+        <path id="storyPath" d="M500,20 C 850,150 850,350 500,480 C 150,610 150,810 500,940 C 850,1070 850,1270 500,1380"/>
+      </svg>
+      <div class="story-node" data-pos="0.02">
+        <div class="story-dot"></div>
+        <div class="story-card"><span class="story-year">2019</span><h4>Perjumpaan Pertama</h4><p>Dua orbit yang tak terduga saling bersinggungan di sebuah ruang kuliah malam.</p></div>
+      </div>
+      <div class="story-node right" data-pos="0.35">
+        <div class="story-dot"></div>
+        <div class="story-card"><span class="story-year">2021</span><h4>Menjadi Satu Konstelasi</h4><p>Kami memutuskan untuk berjalan pada lintasan yang sama, saling menerangi.</p></div>
+      </div>
+      <div class="story-node" data-pos="0.68">
+        <div class="story-dot"></div>
+        <div class="story-card"><span class="story-year">2024</span><h4>Lamaran di Bawah Bintang</h4><p>Di puncak observatorium, sebuah pertanyaan terucap di antara jutaan bintang.</p></div>
+      </div>
+      <div class="story-node right" data-pos="0.97">
+        <div class="story-dot"></div>
+        <div class="story-card"><span class="story-year">2026</span><h4>Menyatu Selamanya</h4><p>Dan kini, dua orbit itu akan menyatu menjadi satu perjalanan abadi.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" data-divider="nebula"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,50 C300,0 900,100 1200,30"/></svg></div>
+
+  <!-- WEDDING TRAILER -->
+  <section class="trailer section" id="trailer">
+    <div class="section-inner reveal">
+      <p class="kicker">Wedding Trailer</p>
+      <h2 class="section-title">Sebuah Kisah, Diceritakan Ulang</h2>
+    </div>
+    <div class="video-frame reveal" id="trailerFrame">
+      <video id="trailerVideoEl" playsinline preload="none" poster=""></video>
+      <button class="video-play" id="trailerPlayBtn" aria-label="Putar video">
+        <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="29"/><path d="M24 18 L44 30 L24 42 Z"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="countdown section" id="countdown">
+    <div class="section-inner reveal">
+      <p class="kicker">Save The Date</p>
+      <h2 class="section-title">Menghitung Menuju Malam Itu</h2>
+    </div>
+    <div class="flip-grid reveal" id="flipGrid">
+      <div class="flip-unit" data-unit="days"><div class="flip-glass"><span id="cdDays">00</span></div><label>Hari</label></div>
+      <div class="flip-unit" data-unit="hours"><div class="flip-glass"><span id="cdHours">00</span></div><label>Jam</label></div>
+      <div class="flip-unit" data-unit="minutes"><div class="flip-glass"><span id="cdMinutes">00</span></div><label>Menit</label></div>
+      <div class="flip-unit" data-unit="seconds"><div class="flip-glass"><span id="cdSeconds">00</span></div><label>Detik</label></div>
+    </div>
+    <div class="calendar-actions reveal">
+      <button class="btn-ghost" id="btnGoogleCal">+ Google Calendar</button>
+      <button class="btn-ghost" id="btnAppleCal">+ Apple Calendar</button>
+    </div>
+  </section>
+
+  <div class="divider" data-divider="orbit"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,30 C300,100 900,-20 1200,50"/></svg></div>
+
+  <!-- EVENTS -->
+  <section class="events section" id="events">
+    <div class="section-inner reveal">
+      <p class="kicker">The Ceremony</p>
+      <h2 class="section-title">Dua Momen, Satu Semesta</h2>
+    </div>
+    <div class="event-grid">
+      <article class="event-card reveal">
+        <span class="event-tag">Akad Nikah</span>
+        <h3>Ceremony</h3>
+        <p class="event-date">Sabtu, 12 Desember 2026</p>
+        <p class="event-time">07.00 — 09.00 WIB</p>
+        <p class="event-venue">Skydeck Observatory, Lantai 12<br>Grand Celestia Hall, Bandung</p>
+        <div class="event-actions">
+          <button class="btn-ghost small" data-copy-address="Skydeck Observatory, Lantai 12, Grand Celestia Hall, Jl. Dago Pakar No.1, Bandung">Salin Alamat</button>
+        </div>
+      </article>
+      <article class="event-card reveal">
+        <span class="event-tag">Resepsi</span>
+        <h3>Reception</h3>
+        <p class="event-date">Sabtu, 12 Desember 2026</p>
+        <p class="event-time">18.30 — 21.30 WIB</p>
+        <p class="event-venue">Galaxy Ballroom, Lantai 1<br>Grand Celestia Hall, Bandung</p>
+        <div class="event-actions">
+          <span class="dress-code">Dress Code: Midnight Blue &amp; Silver</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- MAP / VENUE -->
+  <section class="venue section" id="venue">
+    <div class="section-inner reveal">
+      <p class="kicker">Venue</p>
+      <h2 class="section-title">Menuju Observatorium</h2>
+    </div>
+    <div class="map-wrap reveal">
+      <iframe title="Lokasi acara" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Bandung&output=embed"></iframe>
+    </div>
+    <div class="venue-info reveal">
+      <div><h4>Navigasi</h4><a class="btn-ghost small" href="https://maps.google.com/?q=Grand+Celestia+Hall+Bandung" target="_blank" rel="noopener">Buka di Google Maps</a></div>
+      <div><h4>Parkir</h4><p>Tersedia valet &amp; area parkir luas di basement gedung.</p></div>
+      <div><h4>Hotel Terdekat</h4><p>The Trans Luxury Hotel — 5 menit berkendara.</p></div>
+      <div><h4>Restoran Terdekat</h4><p>Sky Lounge Dago — 8 menit berkendara.</p></div>
+    </div>
+  </section>
+
+  <div class="divider" data-divider="stardust"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,60 C400,-10 800,110 1200,10"/></svg></div>
+
+  <!-- GALLERY -->
+  <section class="gallery section" id="gallery">
+    <div class="section-inner reveal">
+      <p class="kicker">Highlight Moments</p>
+      <h2 class="section-title">Galeri Semesta Kami</h2>
+    </div>
+    <div class="masonry reveal" id="masonryGrid"></div>
+  </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <button class="lightbox-nav prev" id="lightboxPrev">&#10094;</button>
+    <img class="lightbox-img" id="lightboxImg" alt="">
+    <button class="lightbox-nav next" id="lightboxNext">&#10095;</button>
+  </div>
+
+  <!-- GIFT -->
+  <section class="gift section" id="gift">
+    <div class="section-inner reveal">
+      <p class="kicker">Wedding Gift</p>
+      <h2 class="section-title">Tanda Kasih Untuk Kami</h2>
+      <p class="lede">Doa restu Anda adalah hadiah terindah. Namun jika Anda ingin memberi sesuatu, kami menyediakan cara berikut dengan penuh syukur.</p>
+    </div>
+    <div class="gift-card reveal">
+      <div class="qris-frame">
+        <img id="qrisImage" src="assets/images/qris.webp" alt="Kode QRIS">
+      </div>
+      <div class="gift-details">
+        <p class="bank-name">Bank Semesta Nusantara</p>
+        <p class="bank-account" id="bankAccount">1234 5678 9099</p>
+        <p class="account-holder">a.n. Nadhira Anindya</p>
+        <div class="gift-actions">
+          <button class="btn-ghost small" id="btnCopyAccount">Salin No. Rekening</button>
+          <a class="btn-ghost small" id="btnDownloadQr" href="assets/images/qris.webp" download>Unduh QR</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" data-divider="orbit"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,40 C300,90 900,-10 1200,40"/></svg></div>
+
+  <!-- RSVP -->
+  <section class="rsvp section" id="rsvp">
+    <div class="section-inner reveal">
+      <p class="kicker">RSVP</p>
+      <h2 class="section-title">Konfirmasi Kehadiran</h2>
+      <p class="lede">Kehadiran Anda akan melengkapi konstelasi kami malam itu.</p>
+    </div>
+    <form class="rsvp-form reveal" id="rsvpForm">
+      <div class="field"><label for="rsvpName">Nama Lengkap</label><input type="text" id="rsvpName" required placeholder="Nama Anda"></div>
+      <div class="field"><label for="rsvpGuests">Jumlah Tamu</label>
+        <select id="rsvpGuests"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+      </div>
+      <div class="field"><label>Konfirmasi Kehadiran</label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="attend" value="hadir" checked><span>Hadir</span></label>
+          <label class="radio-pill"><input type="radio" name="attend" value="tidak"><span>Tidak Bisa Hadir</span></label>
+        </div>
+      </div>
+      <div class="field"><label for="rsvpMsg">Ucapan &amp; Doa</label><textarea id="rsvpMsg" rows="3" placeholder="Tuliskan ucapan untuk kami..."></textarea></div>
+      <button type="submit" class="btn-open small-btn"><span>Kirim Konfirmasi</span></button>
+    </form>
+  </section>
+
+  <!-- GUEST BOOK -->
+  <section class="guestbook section" id="guestbook">
+    <div class="section-inner reveal">
+      <p class="kicker">Guest Book</p>
+      <h2 class="section-title">Ucapan Dari Bintang-Bintang Kami</h2>
+    </div>
+    <div class="guestbook-grid reveal" id="guestbookGrid"></div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section class="social section" id="social">
+    <div class="section-inner reveal">
+      <p class="kicker">Share The Moment</p>
+      <h2 class="section-title">#NadhiraRadityaAmongStars</h2>
+      <p class="lede">Abadikan momen Anda dan bagikan menggunakan tagar kami — biarkan galaksi kami semakin ramai.</p>
+      <a class="btn-ghost" href="https://instagram.com" target="_blank" rel="noopener">Lihat di Instagram</a>
+    </div>
+  </section>
+
+  <div class="divider" data-divider="nebula"><svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,50 C300,0 900,100 1200,30"/></svg></div>
+
+  <!-- FAQ -->
+  <section class="faq section" id="faq">
+    <div class="section-inner reveal">
+      <p class="kicker">FAQ</p>
+      <h2 class="section-title">Pertanyaan Umum</h2>
+    </div>
+    <div class="accordion reveal" id="accordion">
+      <div class="acc-item"><button class="acc-head">Apakah anak-anak diperbolehkan hadir? <span>+</span></button><div class="acc-body"><p>Dengan hormat, acara ini dikhususkan untuk tamu dewasa agar suasana observatorium tetap khidmat.</p></div></div>
+      <div class="acc-item"><button class="acc-head">Apa dress code yang disarankan? <span>+</span></button><div class="acc-body"><p>Kami menyarankan warna Midnight Blue, Silver, atau Deep Purple untuk menyatu dengan tema malam ini.</p></div></div>
+      <div class="acc-item"><button class="acc-head">Apakah tersedia area parkir? <span>+</span></button><div class="acc-body"><p>Tersedia valet parking dan area parkir luas di basement gedung.</p></div></div>
+      <div class="acc-item"><button class="acc-head">Bagaimana cara konfirmasi kehadiran? <span>+</span></button><div class="acc-body"><p>Silakan isi formulir RSVP pada bagian di atas paling lambat 1 minggu sebelum acara.</p></div></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact section" id="contact">
+    <div class="section-inner reveal">
+      <p class="kicker">Contact</p>
+      <h2 class="section-title">Hubungi Kami</h2>
+      <div class="contact-grid">
+        <div><h4>Raditya</h4><a href="tel:+628123456789">+62 812-3456-789</a></div>
+        <div><h4>Nadhira</h4><a href="tel:+628987654321">+62 898-7654-321</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing section" id="closing">
+    <div class="section-inner reveal">
+      <p class="closing-quote">"Among Infinite Stars, We Found Each Other."</p>
+      <p class="closing-text">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+      <h3 class="closing-names">Nadhira &amp; Raditya</h3>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ ENDING EXPERIENCE ============ -->
+<section class="ending" id="ending">
+  <canvas id="endingCanvas"></canvas>
+  <div class="ending-content">
+    <p class="ending-line">Among Infinite Stars, We Found Each Other.</p>
+    <h2 class="ending-names">Nadhira &amp; Raditya</h2>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer" id="siteFooter">
+  <canvas id="footerCanvas"></canvas>
+  <div class="footer-inner">
+    <h3 class="footer-names">Nadhira <span>&amp;</span> Raditya</h3>
+    <p class="footer-date">12 Desember 2026</p>
+    <p class="footer-thanks">Terima kasih telah menjadi bagian dari konstelasi kami.</p>
+    <p class="footer-credit">Made with infinite love, under an infinite sky.</p>
+  </div>
+</footer>
+
+<!-- ============ AUDIO PLAYER ============ -->
+<audio id="bgAudio" loop preload="none"></audio>
+<div class="audio-player" id="audioPlayer">
+  <button class="audio-toggle" id="audioToggle" aria-label="Putar/Jeda musik">
+    <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="icon-pause" viewBox="0 0 24 24" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <div class="audio-progress"><div class="audio-progress-fill" id="audioProgressFill"></div></div>
+  <button class="audio-mute" id="audioMute" aria-label="Bisukan">
+    <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>
+  </button>
+</div>
+
+<script src="assets/js/media-config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

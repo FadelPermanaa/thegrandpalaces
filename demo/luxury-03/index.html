@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Alexander &amp; Isabella — The Wedding</title>
+<meta name="description" content="Black Diamond Luxury Wedding Invitation">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BLACK DIAMOND LUXURY WEDDING — DESIGN TOKENS
+   ============================================================ */
+:root{
+  --obsidian:#08080a;
+  --graphite:#141417;
+  --charcoal:#1c1c20;
+  --gunmetal:#26262c;
+  --gold:#c9a962;
+  --gold-light:#e8d5a3;
+  --gold-dim:#8a7442;
+  --silver:#9aa1ad;
+  --crystal:#efe9dc;
+  --navy:#0c1018;
+  --line: rgba(201,169,98,0.22);
+  --glass: rgba(255,255,255,0.035);
+  --glass-border: rgba(201,169,98,0.18);
+  --ease: cubic-bezier(.16,.8,.24,1);
+  --ease-slow: cubic-bezier(.22,.9,.2,1);
+  --font-display:'Cinzel', serif;
+  --font-sub:'Cormorant Garamond', serif;
+  --font-body:'Poppins', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--obsidian);
+  color:var(--crystal);
+  font-family:var(--font-body);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  cursor:default;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit;}
+:focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
+img{max-width:100%;display:block;}
+::selection{background:var(--gold); color:var(--obsidian);}
+
+/* subtle grain + vignette applied globally */
+.grain{
+  position:fixed; inset:0; pointer-events:none; z-index:9990; opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.vignette{
+  position:fixed; inset:0; pointer-events:none; z-index:9989;
+  background:radial-gradient(ellipse at 50% 45%, transparent 40%, rgba(0,0,0,.55) 100%);
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.eyebrow{
+  font-family:var(--font-body); font-size:11px; letter-spacing:.42em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; display:inline-flex; align-items:center; gap:14px;
+}
+.eyebrow::before{content:'';width:26px;height:1px;background:linear-gradient(90deg, transparent, var(--gold));}
+.eyebrow::after{content:'';width:26px;height:1px;background:linear-gradient(90deg, var(--gold), transparent);}
+.section-title{
+  font-family:var(--font-display); font-weight:500; letter-spacing:.06em;
+  font-size:clamp(30px,5vw,54px); color:var(--crystal); margin:18px 0 6px;
+}
+.section-sub{
+  font-family:var(--font-sub); font-style:italic; font-weight:400; color:var(--silver);
+  font-size:clamp(16px,2vw,20px); max-width:560px; margin:0 auto; line-height:1.6;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+.section{position:relative; padding:150px 0; overflow:hidden;}
+.center{text-align:center;}
+
+/* reveal-on-scroll */
+.reveal{opacity:0; transform:translateY(46px) scale(.985); filter:blur(6px);
+  transition:opacity 1.1s var(--ease-slow), transform 1.1s var(--ease-slow), filter 1.1s var(--ease-slow);}
+.reveal.in{opacity:1; transform:translateY(0) scale(1); filter:blur(0);}
+.reveal.d1{transition-delay:.1s;} .reveal.d2{transition-delay:.22s;} .reveal.d3{transition-delay:.34s;} .reveal.d4{transition-delay:.46s;}
+
+/* diamond divider — signature element, reused as motif */
+.diamond{
+  width:12px;height:12px; background:linear-gradient(135deg,var(--gold-light),var(--gold) 55%,var(--gold-dim));
+  transform:rotate(45deg); position:relative; box-shadow:0 0 18px rgba(201,169,98,.5);
+}
+.diamond::after{content:'';position:absolute;inset:2px;border:1px solid rgba(255,255,255,.35);}
+.divider{display:flex; align-items:center; justify-content:center; gap:16px; margin:34px 0;}
+.divider .line{height:1px; width:88px; background:linear-gradient(90deg, transparent, var(--gold), transparent); opacity:.7;}
+
+/* buttons */
+.btn{
+  position:relative; display:inline-flex; align-items:center; gap:12px; padding:16px 42px;
+  font-family:var(--font-body); font-size:12px; letter-spacing:.32em; text-transform:uppercase; font-weight:500;
+  color:var(--gold-light); border:1px solid var(--glass-border); background:linear-gradient(180deg, rgba(201,169,98,.08), rgba(201,169,98,.02));
+  overflow:hidden; transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease), color .5s var(--ease);
+}
+.btn::before{
+  content:''; position:absolute; top:0; left:-120%; width:60%; height:100%;
+  background:linear-gradient(115deg, transparent, rgba(255,255,255,.35), transparent);
+  transform:skewX(-20deg); transition:left .7s var(--ease);
+}
+.btn:hover{transform:translateY(-3px); box-shadow:0 14px 34px rgba(0,0,0,.55), 0 0 0 1px var(--gold); color:var(--obsidian); border-color:var(--gold);}
+.btn:hover::before{left:140%;}
+.btn.solid{background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--obsidian); border-color:var(--gold);}
+.btn.solid:hover{color:var(--obsidian); box-shadow:0 16px 40px rgba(201,169,98,.35);}
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+#preloader{
+  position:fixed; inset:0; z-index:10001; background:var(--obsidian);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px;
+  transition:opacity 1s var(--ease), visibility 1s var(--ease);
+}
+#preloader.hide{opacity:0; visibility:hidden;}
+.mono{
+  width:74px;height:74px; position:relative;
+}
+.mono svg{width:100%;height:100%;}
+.mono .facet{fill:none; stroke:var(--gold); stroke-width:1; opacity:.85;
+  stroke-dasharray:220; stroke-dashoffset:220; animation:draw 2.2s var(--ease) forwards, spin 5s linear infinite 2.2s;}
+@keyframes draw{to{stroke-dashoffset:0;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.mono{transform-origin:50% 50%;}
+.preload-label{font-family:var(--font-body); font-size:10px; letter-spacing:.4em; color:var(--silver); text-transform:uppercase;}
+.preload-bar{width:160px;height:1px;background:rgba(255,255,255,.08); position:relative; overflow:hidden;}
+.preload-bar::after{content:'';position:absolute;inset:0;background:var(--gold); transform:scaleX(0); transform-origin:left; animation:load 2.4s var(--ease) forwards;}
+@keyframes load{to{transform:scaleX(1);}}
+
+/* ============================================================
+   OPENING / COVER SCREEN
+   ============================================================ */
+#cover{
+  position:fixed; inset:0; z-index:9998; background:radial-gradient(ellipse at 50% 20%, #14141a 0%, var(--obsidian) 70%);
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+  transition:transform 1.1s var(--ease-slow), opacity 1s var(--ease-slow);
+}
+#cover.opened{transform:scale(1.12); opacity:0; pointer-events:none;}
+#cover .sweep{
+  position:absolute; inset:-20%; background:conic-gradient(from 220deg at 50% 30%, transparent 0deg, rgba(201,169,98,.08) 40deg, transparent 90deg);
+  animation:sweep 9s linear infinite;
+}
+@keyframes sweep{to{transform:rotate(360deg);}}
+.dust{position:absolute; inset:0; overflow:hidden; pointer-events:none;}
+.dust span{
+  position:absolute; width:3px;height:3px; background:var(--gold-light); border-radius:50%; opacity:0;
+  box-shadow:0 0 6px 1px rgba(232,213,163,.8);
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  0%{opacity:0; transform:translateY(0) translateX(0);}
+  10%{opacity:.9;}
+  90%{opacity:.4;}
+  100%{opacity:0; transform:translateY(-360px) translateX(var(--dx,20px));}
+}
+.cover-inner{position:relative; z-index:2; text-align:center; padding:0 24px;}
+.cover-mono{width:92px;height:92px; margin:0 auto 26px; opacity:0; animation:fadeUp 1.2s var(--ease) forwards .3s;}
+.cover-mono svg{width:100%;height:100%;}
+.cover-mono .facet{fill:none; stroke:var(--gold); stroke-width:1;}
+@keyframes fadeUp{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);}}
+.cover-label{
+  font-family:var(--font-body); font-size:11px; letter-spacing:.5em; color:var(--silver); text-transform:uppercase;
+  opacity:0; animation:fadeUp 1s var(--ease) forwards .9s;
+}
+.cover-names{
+  font-family:var(--font-display); font-weight:500; letter-spacing:.05em; color:var(--crystal);
+  font-size:clamp(38px,8vw,84px); margin:20px 0 6px; line-height:1.05;
+}
+.cover-names .letter{display:inline-block; opacity:0; transform:translateY(18px); filter:blur(4px);
+  animation:letterIn .8s var(--ease) forwards;}
+.cover-amp{
+  font-family:var(--font-sub); font-style:italic; color:var(--gold); font-size:clamp(22px,4vw,34px);
+  display:block; margin:2px 0;
+}
+@keyframes letterIn{to{opacity:1; transform:translateY(0); filter:blur(0);}}
+.cover-date{
+  font-family:var(--font-sub); font-style:italic; color:var(--silver); font-size:19px; letter-spacing:.06em;
+  opacity:0; animation:fadeUp 1s var(--ease) forwards 1.9s;
+}
+.cover-invite-to{
+  margin-top:34px; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--silver);
+  opacity:0; animation:fadeUp 1s var(--ease) forwards 2.2s;
+}
+.cover-guest{
+  font-family:var(--font-sub); font-style:italic; font-size:22px; color:var(--gold-light); margin-top:6px;
+  opacity:0; animation:fadeUp 1s var(--ease) forwards 2.4s;
+}
+.cover-btn-wrap{margin-top:46px; opacity:0; animation:fadeUp 1s var(--ease) forwards 2.7s;}
+.flash{
+  position:fixed; inset:0; z-index:9999; background:#fff; opacity:0; pointer-events:none;
+}
+.flash.go{animation:flashGo 1.1s var(--ease) forwards;}
+@keyframes flashGo{0%{opacity:0;} 12%{opacity:.9;} 100%{opacity:0;}}
+
+/* ============================================================
+   SCROLL PROGRESS DIAMOND + DOT NAV
+   ============================================================ */
+#progress-diamond{
+  position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:400;
+  width:20px;height:20px; display:none;
+}
+#progress-diamond svg{width:100%;height:100%; transform:rotate(45deg);}
+#progress-diamond .track{fill:none; stroke:rgba(255,255,255,.12); stroke-width:2;}
+#progress-diamond .fill{fill:none; stroke:var(--gold); stroke-width:2; stroke-dasharray:126; stroke-dashoffset:126; transition:stroke-dashoffset .1s linear;}
+.dotnav{position:fixed; right:56px; top:50%; transform:translateY(-50%); z-index:400; display:none; flex-direction:column; gap:16px;}
+.dotnav button{width:7px;height:7px;border-radius:50%; background:rgba(255,255,255,.22); transition:all .4s var(--ease);}
+.dotnav button.active{background:var(--gold); box-shadow:0 0 10px rgba(201,169,98,.8); transform:scale(1.5);}
+@media (min-width:960px){#progress-diamond,.dotnav{display:flex;}}
+
+/* ============================================================
+   FLOATING MUSIC PLAYER
+   ============================================================ */
+#player{
+  position:fixed; left:22px; bottom:22px; z-index:500; display:flex; align-items:center; gap:12px;
+  padding:10px 16px 10px 10px; background:rgba(10,10,12,.72); backdrop-filter:blur(14px);
+  border:1px solid var(--glass-border); border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,.5);
+  transition:transform .5s var(--ease), opacity .5s var(--ease);
+}
+#player.hidden-init{opacity:0; transform:translateY(14px); pointer-events:none;}
+#play-toggle{
+  width:34px;height:34px;border-radius:50%; background:linear-gradient(180deg,var(--gold-light),var(--gold));
+  display:flex; align-items:center; justify-content:center; color:var(--obsidian); flex:0 0 auto;
+}
+#play-toggle svg{width:13px;height:13px;}
+.player-meta{display:flex; flex-direction:column; gap:5px; min-width:110px;}
+.player-title{font-size:10px; letter-spacing:.14em; color:var(--crystal); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:130px;}
+.player-bar{width:120px;height:2px;background:rgba(255,255,255,.14); position:relative; border-radius:2px; overflow:hidden;}
+.player-bar-fill{position:absolute; inset:0; width:0%; background:var(--gold); transition:width .3s linear;}
+.eq{display:flex; align-items:flex-end; gap:2px; height:12px; margin-left:2px;}
+.eq span{width:2px; background:var(--gold); animation:eq 1s ease-in-out infinite; opacity:.85;}
+.eq span:nth-child(1){height:40%; animation-delay:0s;}
+.eq span:nth-child(2){height:100%; animation-delay:.2s;}
+.eq span:nth-child(3){height:60%; animation-delay:.4s;}
+@keyframes eq{0%,100%{transform:scaleY(.4);}50%{transform:scaleY(1);}}
+body:not(.playing) .eq span{animation-play-state:paused;}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero{
+  min-height:100svh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center;
+  overflow:hidden;
+}
+#hero .bg{
+  position:absolute; inset:-6%; z-index:0;
+  background:
+    radial-gradient(1100px 700px at 50% 8%, rgba(201,169,98,.10), transparent 60%),
+    radial-gradient(900px 600px at 15% 90%, rgba(201,169,98,.05), transparent 60%),
+    linear-gradient(180deg, #0b0b0e 0%, #08080a 55%, #060607 100%);
+  animation:kenburns 24s ease-in-out infinite alternate;
+}
+@keyframes kenburns{from{transform:scale(1.03) translate(0,0);} to{transform:scale(1.1) translate(-1%,-1%);}}
+#hero .curtain{position:absolute; inset:0; z-index:1; pointer-events:none;}
+#hero .curtain::before,#hero .curtain::after{
+  content:''; position:absolute; top:0; bottom:0; width:14%;
+  background:linear-gradient(90deg, rgba(0,0,0,.9), transparent);
+}
+#hero .curtain::before{left:0;}
+#hero .curtain::after{right:0; transform:scaleX(-1);}
+.chandelier{position:absolute; top:0; left:50%; transform:translateX(-50%); z-index:1; opacity:.5; filter:blur(.3px);}
+.spotlight{
+  position:absolute; top:-10%; left:50%; width:70%; height:120%; transform:translateX(-50%);
+  background:radial-gradient(ellipse at 50% 0%, rgba(255,240,210,.06), transparent 60%); z-index:1; pointer-events:none;
+  animation:spotShift 10s ease-in-out infinite alternate;
+}
+@keyframes spotShift{from{opacity:.6;} to{opacity:1;}}
+.floating-crystals{position:absolute; inset:0; z-index:1; pointer-events:none;}
+.floating-crystals span{
+  position:absolute; width:5px;height:5px; background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  transform:rotate(45deg); opacity:.55; box-shadow:0 0 10px rgba(201,169,98,.6);
+  animation:floaty 8s ease-in-out infinite;
+}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(45deg);}50%{transform:translateY(-22px) rotate(45deg);}}
+.hero-content{position:relative; z-index:2; padding:0 24px;}
+.hero-eyebrow{opacity:0; animation:fadeUp 1s var(--ease) forwards .1s;}
+.hero-title{
+  font-family:var(--font-display); font-weight:500; letter-spacing:.04em; color:var(--crystal);
+  font-size:clamp(46px,9vw,110px); line-height:1; margin:24px 0 10px;
+  opacity:0; animation:fadeUp 1.2s var(--ease) forwards .3s;
+}
+.hero-title span{color:var(--gold); font-family:var(--font-sub); font-style:italic; font-size:.55em; display:inline-block; margin:0 14px; vertical-align:middle;}
+.hero-sub{font-family:var(--font-sub); font-style:italic; font-size:clamp(18px,2.4vw,24px); color:var(--silver);
+  opacity:0; animation:fadeUp 1s var(--ease) forwards .55s;}
+.hero-date-row{
+  margin-top:38px; display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 1s var(--ease) forwards .8s;
+}
+.hero-date{
+  font-family:var(--font-body); letter-spacing:.24em; font-size:13px; color:var(--gold-light);
+  border:1px solid var(--glass-border); padding:12px 26px; border-radius:2px; background:var(--glass);
+}
+.scroll-cue{
+  position:absolute; bottom:34px; left:50%; transform:translateX(-50%); z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  opacity:0; animation:fadeUp 1s var(--ease) forwards 1.3s;
+}
+.scroll-cue .stick{width:1px;height:38px; background:linear-gradient(180deg,var(--gold),transparent); position:relative; overflow:hidden;}
+.scroll-cue .stick::after{content:'';position:absolute; top:-100%; left:0; width:100%; height:50%; background:var(--gold-light); animation:stickDrop 2s ease-in-out infinite;}
+@keyframes stickDrop{0%{top:-50%;}100%{top:100%;}}
+.scroll-cue span{font-size:9px; letter-spacing:.35em; color:var(--silver); text-transform:uppercase;}
+
+/* ============================================================
+   WELCOME QUOTE SECTION
+   ============================================================ */
+#welcome{background:linear-gradient(180deg, var(--obsidian), #0a0a0d 50%, var(--obsidian));}
+.quote-mark{font-family:var(--font-display); font-size:64px; color:var(--gold); opacity:.5; line-height:1;}
+.quote-text{
+  font-family:var(--font-sub); font-style:italic; font-weight:400; color:var(--crystal);
+  font-size:clamp(22px,3.4vw,34px); line-height:1.6; max-width:760px; margin:14px auto 0;
+}
+.verse-ref{margin-top:22px; font-size:12px; letter-spacing:.28em; color:var(--silver); text-transform:uppercase;}
+
+/* ============================================================
+   COUPLE / BRIDE & GROOM
+   ============================================================ */
+.couple-grid{display:grid; grid-template-columns:1fr auto 1fr; gap:56px; align-items:center; margin-top:70px;}
+@media (max-width:760px){.couple-grid{grid-template-columns:1fr; gap:60px;}}
+.person{text-align:center;}
+.portrait{
+  width:190px;height:190px; margin:0 auto 26px; position:relative; border-radius:50%;
+  background:linear-gradient(160deg, var(--charcoal), var(--graphite));
+  border:1px solid var(--glass-border);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 26px 60px rgba(0,0,0,.55), inset 0 0 40px rgba(201,169,98,.06);
+}
+.portrait::before{
+  content:''; position:absolute; inset:-10px; border-radius:50%; border:1px solid var(--glass-border);
+  opacity:.6;
+}
+.portrait .initial{font-family:var(--font-display); font-size:56px; color:var(--gold-light); letter-spacing:.05em;}
+.person h3{font-family:var(--font-display); font-weight:500; font-size:26px; letter-spacing:.03em; color:var(--crystal); margin-bottom:8px;}
+.person .role{font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:14px;}
+.person p{font-family:var(--font-sub); font-style:italic; font-size:16px; color:var(--silver); line-height:1.7;}
+.couple-div{width:1px; align-self:stretch; background:linear-gradient(180deg, transparent, var(--gold), transparent); position:relative;}
+.couple-div .diamond{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(45deg);}
+@media (max-width:760px){.couple-div{width:60px;height:1px; margin:0 auto; background:linear-gradient(90deg, transparent, var(--gold), transparent);}}
+
+/* ============================================================
+   LOVE STORY TIMELINE
+   ============================================================ */
+.timeline{position:relative; margin-top:80px;}
+.timeline .spine{
+  position:absolute; left:50%; top:0; bottom:0; width:1px; transform:translateX(-50%);
+  background:rgba(255,255,255,.08);
+}
+.timeline .spine-fill{
+  position:absolute; left:0; top:0; width:100%; height:0%;
+  background:linear-gradient(180deg,var(--gold-light),var(--gold)); box-shadow:0 0 12px rgba(201,169,98,.6);
+  transition:height .2s linear;
+}
+@media (max-width:760px){.timeline .spine{left:18px;}}
+.tl-item{position:relative; width:calc(50% - 46px); margin-bottom:70px; padding:30px 32px; background:var(--glass);
+  border:1px solid var(--glass-border); backdrop-filter:blur(6px);}
+.tl-item::after{
+  content:''; position:absolute; top:34px; width:11px;height:11px; background:var(--gold); transform:rotate(45deg);
+  box-shadow:0 0 14px rgba(201,169,98,.7);
+}
+.tl-item.left{margin-left:0;}
+.tl-item.left::after{right:-51px;}
+.tl-item.right{margin-left:calc(50% + 46px);}
+.tl-item.right::after{left:-51px;}
+@media (max-width:760px){
+  .tl-item, .tl-item.right{width:calc(100% - 56px); margin-left:56px;}
+  .tl-item::after, .tl-item.right::after{left:-42px; right:auto;}
+}
+.tl-year{font-family:var(--font-display); font-size:13px; letter-spacing:.2em; color:var(--gold); margin-bottom:10px;}
+.tl-item h4{font-family:var(--font-display); font-size:21px; font-weight:500; color:var(--crystal); margin-bottom:10px;}
+.tl-item p{font-size:14px; line-height:1.8; color:var(--silver); font-weight:300;}
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+.gallery-grid{
+  columns:3 260px; column-gap:18px; margin-top:60px;
+}
+@media (max-width:640px){.gallery-grid{columns:2 160px;}}
+.g-item{
+  break-inside:avoid; margin-bottom:18px; position:relative; overflow:hidden; border:1px solid var(--glass-border);
+  cursor:pointer; background:var(--charcoal);
+}
+.g-item .ph{
+  width:100%; aspect-ratio:var(--ar, 1); display:flex; align-items:center; justify-content:center;
+  background:
+    linear-gradient(135deg, rgba(201,169,98,.09), transparent 60%),
+    linear-gradient(160deg, #17171b, #0c0c0e);
+  color:var(--gold-dim); font-family:var(--font-sub); font-style:italic; font-size:14px; text-align:center; padding:10px;
+  transition:transform .8s var(--ease);
+}
+.g-item:hover .ph{transform:scale(1.08);}
+.g-item .shine{
+  position:absolute; inset:0; background:linear-gradient(120deg, transparent 30%, rgba(255,255,255,.18) 45%, transparent 60%);
+  transform:translateX(-120%); transition:transform .8s var(--ease);
+}
+.g-item:hover .shine{transform:translateX(120%);}
+#lightbox{
+  position:fixed; inset:0; z-index:2000; background:rgba(4,4,5,.94); backdrop-filter:blur(10px);
+  display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .4s var(--ease);
+}
+#lightbox.open{opacity:1; pointer-events:auto;}
+#lightbox .frame{
+  width:min(560px,86vw); aspect-ratio:4/5; border:1px solid var(--gold); background:linear-gradient(160deg,#17171b,#0c0c0e);
+  display:flex; align-items:center; justify-content:center; color:var(--gold-light); font-family:var(--font-sub); font-style:italic;
+  box-shadow:0 30px 90px rgba(0,0,0,.7);
+}
+#lightbox .close{position:absolute; top:26px; right:32px; font-size:13px; letter-spacing:.3em; color:var(--silver); text-transform:uppercase;}
+
+/* ============================================================
+   COUNTDOWN
+   ============================================================ */
+.count-grid{display:flex; justify-content:center; gap:22px; margin-top:60px; flex-wrap:wrap;}
+.count-cell{
+  width:118px; padding:26px 0 20px; text-align:center; position:relative;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+  border:1px solid var(--glass-border); backdrop-filter:blur(8px);
+}
+.count-cell::before{content:'';position:absolute; inset:0; border:1px solid transparent; box-shadow:inset 0 1px 0 rgba(255,255,255,.05);}
+.count-num{font-family:var(--font-display); font-size:44px; color:var(--gold-light); letter-spacing:.02em; font-variant-numeric:tabular-nums;}
+.count-label{margin-top:10px; font-size:10px; letter-spacing:.3em; color:var(--silver); text-transform:uppercase;}
+
+/* ============================================================
+   EVENT DETAILS
+   ============================================================ */
+.event-grid{display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:60px;}
+@media (max-width:760px){.event-grid{grid-template-columns:1fr;}}
+.event-card{
+  padding:44px 38px; background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.008));
+  border:1px solid var(--glass-border); position:relative; text-align:center;
+}
+.event-card .diamond{margin:0 auto 22px;}
+.event-card h3{font-family:var(--font-display); font-size:26px; font-weight:500; color:var(--crystal); margin-bottom:6px;}
+.event-card .time{font-family:var(--font-sub); font-style:italic; color:var(--gold-light); font-size:19px; margin-bottom:18px;}
+.event-card p{font-size:13.5px; color:var(--silver); line-height:2; font-weight:300;}
+.event-actions{display:flex; gap:12px; justify-content:center; margin-top:26px; flex-wrap:wrap;}
+.mini-btn{
+  font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; padding:11px 18px; border:1px solid var(--glass-border);
+  color:var(--silver); transition:all .4s var(--ease);
+}
+.mini-btn:hover{color:var(--obsidian); background:var(--gold); border-color:var(--gold);}
+
+.map-box{
+  margin-top:44px; border:1px solid var(--glass-border); aspect-ratio:16/7; position:relative; overflow:hidden;
+  background:linear-gradient(160deg,#15151a,#0a0a0c);
+}
+.map-box iframe{width:100%;height:100%;border:0; filter:grayscale(.4) invert(.92) contrast(.9);}
+.map-overlay{
+  position:absolute; left:24px; bottom:24px; background:rgba(8,8,10,.78); backdrop-filter:blur(10px);
+  border:1px solid var(--glass-border); padding:18px 22px; max-width:320px;
+}
+.map-overlay h4{font-family:var(--font-display); font-size:15px; color:var(--gold-light); margin-bottom:6px; letter-spacing:.04em;}
+.map-overlay p{font-size:12px; color:var(--silver); line-height:1.7;}
+.map-overlay .row{display:flex; gap:10px; margin-top:12px;}
+
+/* dress code swatches */
+.dress-row{display:flex; gap:14px; justify-content:center; margin-top:20px; flex-wrap:wrap;}
+.swatch{width:34px;height:34px; border-radius:50%; border:1px solid rgba(255,255,255,.15); box-shadow:0 6px 16px rgba(0,0,0,.4);}
+
+/* ============================================================
+   GIFT
+   ============================================================ */
+.gift-grid{display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:60px;}
+@media (max-width:760px){.gift-grid{grid-template-columns:1fr;}}
+.gift-card{
+  padding:34px; background:linear-gradient(160deg, rgba(255,255,255,.035), rgba(255,255,255,.008));
+  border:1px solid var(--glass-border); display:flex; align-items:center; gap:22px;
+}
+.qr-box{
+  width:96px;height:96px; flex:0 0 auto; background:repeating-conic-gradient(#111 0% 25%, #1c1c20 0% 50%) 0/16px 16px;
+  border:1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:10px;
+}
+.gift-info h4{font-family:var(--font-display); font-size:17px; color:var(--crystal); margin-bottom:6px;}
+.gift-info .acc{font-family:var(--font-body); font-size:14px; letter-spacing:.08em; color:var(--gold-light); margin-bottom:10px;}
+.copy-btn{font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--silver); border-bottom:1px solid var(--glass-border); padding-bottom:2px;}
+.copy-btn:hover{color:var(--gold);}
+
+/* ============================================================
+   RSVP
+   ============================================================ */
+.form-card{
+  max-width:620px; margin:60px auto 0; padding:48px 40px; background:linear-gradient(160deg, rgba(255,255,255,.035), rgba(255,255,255,.008));
+  border:1px solid var(--glass-border); position:relative;
+}
+.field{margin-bottom:24px; text-align:left;}
+.field label{display:block; font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--silver); margin-bottom:10px;}
+.field input, .field select, .field textarea{
+  width:100%; padding:13px 4px; background:transparent; border:none; border-bottom:1px solid var(--glass-border);
+  color:var(--crystal); font-family:var(--font-body); font-size:14px; transition:border-color .4s;
+}
+.field select option{background:var(--charcoal); color:var(--crystal);}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--gold);}
+.field textarea{resize:vertical; min-height:70px;}
+.form-row{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+@media (max-width:560px){.form-row{grid-template-columns:1fr;}}
+.submit-wrap{text-align:center; margin-top:8px;}
+#rsvp-success{
+  display:none; text-align:center; padding:20px 0;
+}
+#rsvp-success.show{display:block; animation:fadeUp .8s var(--ease) forwards;}
+#rsvp-success .diamond{margin:0 auto 20px;}
+.confetti-piece{position:fixed; top:-10px; width:7px;height:12px; z-index:3000; pointer-events:none;}
+
+/* ============================================================
+   GUEST BOOK
+   ============================================================ */
+.wishes-list{max-width:680px; margin:60px auto 0; display:flex; flex-direction:column; gap:16px; max-height:420px; overflow-y:auto; padding-right:6px;}
+.wishes-list::-webkit-scrollbar{width:4px;}
+.wishes-list::-webkit-scrollbar-thumb{background:var(--gold-dim);}
+.wish-card{
+  padding:22px 24px; background:var(--glass); border:1px solid var(--glass-border); text-align:left;
+  opacity:0; transform:translateY(14px); animation:fadeUp .6s var(--ease) forwards;
+}
+.wish-card .who{font-family:var(--font-display); font-size:14px; color:var(--gold-light); margin-bottom:6px; letter-spacing:.03em;}
+.wish-card .msg{font-size:13.5px; color:var(--silver); line-height:1.8; font-weight:300;}
+.wish-form{max-width:680px; margin:34px auto 0; display:flex; gap:12px; flex-wrap:wrap;}
+.wish-form input, .wish-form textarea{
+  flex:1; min-width:200px; background:transparent; border:1px solid var(--glass-border); color:var(--crystal);
+  padding:13px 16px; font-family:var(--font-body); font-size:13px;
+}
+.wish-form textarea{width:100%; min-height:60px; resize:vertical;}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-list{max-width:720px; margin:60px auto 0;}
+.faq-item{border-bottom:1px solid var(--glass-border);}
+.faq-q{
+  width:100%; text-align:left; padding:22px 4px; display:flex; justify-content:space-between; align-items:center;
+  font-family:var(--font-display); font-size:16px; color:var(--crystal); letter-spacing:.02em;
+}
+.faq-q .plus{color:var(--gold); transition:transform .4s var(--ease); font-size:18px;}
+.faq-item.open .plus{transform:rotate(135deg);}
+.faq-a{max-height:0; overflow:hidden; transition:max-height .5s var(--ease);}
+.faq-a p{padding:0 4px 22px; font-size:13.5px; color:var(--silver); line-height:1.8; font-weight:300;}
+
+/* ============================================================
+   FOOTER / ENDING
+   ============================================================ */
+#footer{
+  position:relative; padding:150px 0 70px; text-align:center; overflow:hidden;
+  background:linear-gradient(180deg, var(--obsidian) 0%, #050506 60%, #020202 100%);
+}
+.city-lights{position:absolute; inset:0; z-index:0; opacity:.5;}
+.city-lights span{
+  position:absolute; bottom:0; width:2px;height:2px; background:var(--gold-light); border-radius:50%;
+  animation:twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.15;}50%{opacity:.9;}}
+.footer-inner{position:relative; z-index:1;}
+.ending-line{font-family:var(--font-sub); font-style:italic; font-size:clamp(20px,3vw,30px); color:var(--gold-light);
+  letter-spacing:.02em; opacity:0; transform:translateY(10px);}
+.ending-line.in{animation:fadeUp 1.4s var(--ease) forwards;}
+.footer-names{
+  font-family:var(--font-display); font-size:clamp(32px,6vw,60px); color:var(--crystal); margin:22px 0 14px; letter-spacing:.04em;
+  background:linear-gradient(120deg, var(--crystal) 30%, var(--gold-light) 50%, var(--crystal) 70%);
+  background-size:220% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:shimmer 5s linear infinite;
+}
+@keyframes shimmer{to{background-position:-220% 0;}}
+.footer-thanks{font-size:13px; color:var(--silver); max-width:420px; margin:0 auto; line-height:1.9; font-weight:300;}
+.footer-meta{margin-top:60px; padding-top:34px; border-top:1px solid var(--glass-border); font-size:10.5px; letter-spacing:.22em; color:var(--gold-dim); text-transform:uppercase;}
+
+/* nav bar */
+#navbar{
+  position:fixed; top:0; left:0; right:0; z-index:600; display:flex; align-items:center; justify-content:center;
+  padding:18px 0; background:linear-gradient(180deg, rgba(4,4,5,.6), transparent); backdrop-filter:blur(6px);
+  transform:translateY(-100%); transition:transform .5s var(--ease);
+  opacity:0; pointer-events:none;
+}
+#navbar.show{transform:translateY(0); opacity:1; pointer-events:auto;}
+.nav-mono{width:26px;height:26px;}
+.nav-mono svg{width:100%;height:100%;}
+.nav-mono .facet{fill:none;stroke:var(--gold);stroke-width:1.4;}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="mono">
+    <svg viewBox="0 0 100 100"><polygon class="facet" points="50,6 90,38 74,94 26,94 10,38"/><polygon class="facet" points="50,6 74,94" opacity="0.5"/><polygon class="facet" points="50,6 26,94" opacity="0.5"/><polygon class="facet" points="10,38 90,38" opacity="0.5"/></svg>
+  </div>
+  <div class="preload-label">Black Diamond Wedding</div>
+  <div class="preload-bar"></div>
+</div>
+
+<!-- COVER / OPENING -->
+<div id="cover">
+  <div class="sweep"></div>
+  <div class="dust" id="dust"></div>
+  <div class="cover-inner">
+    <div class="cover-mono">
+      <svg viewBox="0 0 100 100"><polygon class="facet" points="50,6 90,38 74,94 26,94 10,38"/></svg>
+    </div>
+    <div class="cover-label">The Wedding Of</div>
+    <h1 class="cover-names" id="cover-names" aria-label="Alexander &amp; Isabella"></h1>
+    <div class="cover-date">Saturday, 21st November 2026</div>
+    <div class="cover-invite-to">Kepada Yth. Bapak / Ibu / Saudara/i</div>
+    <div class="cover-guest">Tamu Undangan</div>
+    <div class="cover-btn-wrap">
+      <button class="btn solid" id="open-invite">
+        <span>Buka Undangan</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="flash" id="flash"></div>
+
+<!-- FLOATING PLAYER -->
+<div id="player" class="hidden-init">
+  <button id="play-toggle" aria-label="Play music">
+    <svg id="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <div class="player-meta">
+    <div class="player-title">Luxury Piano — Cinematic</div>
+    <div class="player-bar"><div class="player-bar-fill" id="player-bar-fill"></div></div>
+  </div>
+  <div class="eq"><span></span><span></span><span></span></div>
+</div>
+<audio id="bg-audio" loop preload="none">
+  <!-- Ganti src di bawah ini dengan file musik pilihan Anda -->
+  <source src="" type="audio/mpeg">
+</audio>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress-diamond">
+  <svg viewBox="0 0 40 40">
+    <polygon class="track" points="20,3 37,20 20,37 3,20"/>
+    <polygon class="fill" id="diamond-fill" points="20,3 37,20 20,37 3,20"/>
+  </svg>
+</div>
+<nav class="dotnav" id="dotnav"></nav>
+
+<nav id="navbar">
+  <div class="nav-mono"><svg viewBox="0 0 100 100"><polygon class="facet" points="50,6 90,38 74,94 26,94 10,38"/></svg></div>
+</nav>
+
+<!-- ============================================================ HERO ============================================================ -->
+<section id="hero" data-section="Hero">
+  <div class="bg"></div>
+  <div class="spotlight"></div>
+  <div class="curtain"></div>
+  <div class="floating-crystals" id="hero-crystals"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow eyebrow">Black Tie Gala Wedding</div>
+    <h1 class="hero-title">Alexander<span>&amp;</span>Isabella</h1>
+    <p class="hero-sub">Together with their families, request the honor of your presence</p>
+    <div class="hero-date-row">
+      <div class="hero-date">21 · 11 · 2026</div>
+      <div class="hero-date">The Ballroom, Grand Obsidian Hotel</div>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="stick"></div><span>Scroll</span></div>
+</section>
+
+<!-- ============================================================ WELCOME ============================================================ -->
+<section id="welcome" class="section" data-section="Welcome">
+  <div class="wrap center reveal">
+    <div class="eyebrow">Welcome</div>
+    <div class="quote-mark">"</div>
+    <p class="quote-text">Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa cinta dan kasih sayang.</p>
+    <div class="verse-ref">QS. Ar-Rum : 21</div>
+    <div class="divider"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>
+    <p class="section-sub">Dengan penuh rasa syukur, kami mengundang Anda untuk turut merayakan malam yang akan kami kenang selamanya.</p>
+  </div>
+</section>
+
+<!-- ============================================================ COUPLE ============================================================ -->
+<section id="couple" class="section" data-section="Couple">
+  <div class="wrap center">
+    <div class="reveal"><div class="eyebrow">The Bride &amp; Groom</div><h2 class="section-title">Bride &amp; Groom</h2></div>
+    <div class="couple-grid">
+      <div class="person reveal d1">
+        <div class="portrait"><span class="initial">A</span></div>
+        <h3>Alexander Reign</h3>
+        <div class="role">The Groom</div>
+        <p>Putra dari<br>Bapak Richard Wijaya &amp;<br>Ibu Margaret Wijaya</p>
+      </div>
+      <div class="couple-div reveal d2"><div class="diamond"></div></div>
+      <div class="person reveal d3">
+        <div class="portrait"><span class="initial">I</span></div>
+        <h3>Isabella Grace</h3>
+        <div class="role">The Bride</div>
+        <p>Putri dari<br>Bapak Alexander Halim &amp;<br>Ibu Victoria Halim</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ COUNTDOWN ============================================================ -->
+<section id="countdown" class="section" data-section="Countdown">
+  <div class="wrap center reveal">
+    <div class="eyebrow">Counting Down</div>
+    <h2 class="section-title">Menuju Hari Bahagia</h2>
+    <div class="count-grid">
+      <div class="count-cell"><div class="count-num" id="cd-days">00</div><div class="count-label">Hari</div></div>
+      <div class="count-cell"><div class="count-num" id="cd-hours">00</div><div class="count-label">Jam</div></div>
+      <div class="count-cell"><div class="count-num" id="cd-mins">00</div><div class="count-label">Menit</div></div>
+      <div class="count-cell"><div class="count-num" id="cd-secs">00</div><div class="count-label">Detik</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ LOVE STORY ============================================================ -->
+<section id="story" class="section" data-section="Love Story">
+  <div class="wrap">
+    <div class="center reveal"><div class="eyebrow">Our Journey</div><h2 class="section-title">Love Story</h2></div>
+    <div class="timeline" id="timeline">
+      <div class="spine"><div class="spine-fill" id="spine-fill"></div></div>
+
+      <div class="tl-item left reveal">
+        <div class="tl-year">2019 · First Meeting</div>
+        <h4>A Chance Encounter</h4>
+        <p>Pertemuan tak terduga di sebuah gala amal, di mana pandangan pertama berubah menjadi percakapan yang tak pernah usai.</p>
+      </div>
+      <div class="tl-item right reveal">
+        <div class="tl-year">2021 · Growing Closer</div>
+        <h4>Building Something Real</h4>
+        <p>Dari secangkir kopi sore hingga perjalanan lintas kota, kami belajar bahwa kebersamaan adalah rumah yang sesungguhnya.</p>
+      </div>
+      <div class="tl-item left reveal">
+        <div class="tl-year">2024 · The Proposal</div>
+        <h4>Yes, Forever</h4>
+        <p>Di bawah lampu kota yang berkelip, sebuah pertanyaan sederhana mengubah dua kehidupan menjadi satu tujuan.</p>
+      </div>
+      <div class="tl-item right reveal">
+        <div class="tl-year">2026 · The Wedding</div>
+        <h4>Where It All Begins</h4>
+        <p>Dan kini, kami mengundang orang-orang terkasih untuk menyaksikan awal dari selamanya.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ GALLERY ============================================================ -->
+<section id="gallery" class="section" data-section="Gallery">
+  <div class="wrap">
+    <div class="center reveal"><div class="eyebrow">Moments</div><h2 class="section-title">Gallery</h2></div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<div id="lightbox">
+  <button class="close" id="lightbox-close">Close ✕</button>
+  <div class="frame">Ganti dengan foto pilihan Anda</div>
+</div>
+
+<!-- ============================================================ EVENT ============================================================ -->
+<section id="event" class="section" data-section="Event">
+  <div class="wrap">
+    <div class="center reveal"><div class="eyebrow">Save The Date</div><h2 class="section-title">Wedding Ceremony</h2></div>
+    <div class="event-grid">
+      <div class="event-card reveal d1">
+        <div class="diamond"></div>
+        <h3>Akad Nikah</h3>
+        <div class="time">08.00 — 10.00 WIB</div>
+        <p>Sabtu, 21 November 2026<br>The Grand Ballroom<br>Hotel Obsidian, Jakarta</p>
+        <div class="event-actions">
+          <button class="mini-btn" data-cal>Simpan ke Kalender</button>
+          <button class="mini-btn" data-nav>Buka Navigasi</button>
+        </div>
+      </div>
+      <div class="event-card reveal d2">
+        <div class="diamond"></div>
+        <h3>Resepsi</h3>
+        <div class="time">18.00 — 22.00 WIB</div>
+        <p>Sabtu, 21 November 2026<br>The Grand Ballroom<br>Hotel Obsidian, Jakarta</p>
+        <div class="event-actions">
+          <button class="mini-btn" data-cal>Simpan ke Kalender</button>
+          <button class="mini-btn" data-nav>Buka Navigasi</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal center" style="margin-top:70px;">
+      <div class="eyebrow">Dress Code</div>
+      <div class="dress-row">
+        <div class="swatch" style="background:#08080a" title="Obsidian Black"></div>
+        <div class="swatch" style="background:#c9a962" title="Champagne Gold"></div>
+        <div class="swatch" style="background:#26262c" title="Gunmetal"></div>
+        <div class="swatch" style="background:#efe9dc" title="Crystal White"></div>
+      </div>
+      <p class="section-sub" style="margin-top:16px;">Black Tie — Formal Elegance</p>
+    </div>
+
+    <div class="map-box reveal">
+      <iframe loading="lazy" src="https://www.google.com/maps?q=Jakarta&output=embed" title="Venue Location"></iframe>
+      <div class="map-overlay">
+        <h4>Grand Obsidian Hotel</h4>
+        <p>Jl. Kemewahan No. 1, Jakarta<br>Estimasi tempuh: 15 menit dari pusat kota · Valet parking tersedia</p>
+        <div class="row">
+          <button class="mini-btn" data-nav>Navigasi</button>
+          <button class="mini-btn" id="copy-address">Salin Alamat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ GIFT ============================================================ -->
+<section id="gift" class="section" data-section="Gift">
+  <div class="wrap">
+    <div class="center reveal"><div class="eyebrow">With Love</div><h2 class="section-title">Wedding Gift</h2>
+      <p class="section-sub">Doa restu Anda adalah karunia terindah. Namun jika ingin memberi tanda kasih, kami sediakan dengan hormat.</p>
+    </div>
+    <div class="gift-grid">
+      <div class="gift-card reveal d1">
+        <div class="qr-box">QRIS</div>
+        <div class="gift-info">
+          <h4>QRIS — Scan to Send</h4>
+          <p class="acc">Pindai untuk menampilkan &amp; mengunduh QR</p>
+          <button class="copy-btn" id="download-qr">Download QR</button>
+        </div>
+      </div>
+      <div class="gift-card reveal d2">
+        <div class="qr-box" style="background:none;display:flex;align-items:center;justify-content:center;border:1px dashed var(--glass-border);font-size:22px;">🏦</div>
+        <div class="gift-info">
+          <h4>Bank Transfer</h4>
+          <div class="acc" id="acc-number">BCA · 1234 5678 90</div>
+          <p style="margin-bottom:10px;">a.n. Alexander Reign</p>
+          <button class="copy-btn" id="copy-acc">Salin Nomor Rekening</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ RSVP ============================================================ -->
+<section id="rsvp" class="section" data-section="RSVP">
+  <div class="wrap center">
+    <div class="reveal"><div class="eyebrow">Kindly Reply</div><h2 class="section-title">RSVP</h2>
+      <p class="section-sub">Kehadiran Anda adalah kehormatan bagi kami. Mohon konfirmasi sebelum 10 November 2026.</p>
+    </div>
+    <form class="form-card reveal" id="rsvp-form">
+      <div class="form-row">
+        <div class="field"><label>Nama Lengkap</label><input type="text" required placeholder="Nama Anda"></div>
+        <div class="field"><label>Jumlah Tamu</label>
+          <select><option>1 Orang</option><option>2 Orang</option><option>3 Orang</option><option>4 Orang</option></select>
+        </div>
+      </div>
+      <div class="field"><label>Konfirmasi Kehadiran</label>
+        <select><option>Hadir dengan Sukacita</option><option>Mohon Maaf, Berhalangan</option><option>Masih Ragu</option></select>
+      </div>
+      <div class="field"><label>Ucapan (opsional)</label><textarea placeholder="Tuliskan doa dan harapan Anda..."></textarea></div>
+      <div class="submit-wrap">
+        <button type="submit" class="btn solid">Kirim Konfirmasi</button>
+      </div>
+      <div id="rsvp-success">
+        <div class="diamond"></div>
+        <h3 style="font-family:var(--font-display); font-size:24px; color:var(--gold-light); margin-bottom:10px;">Terima Kasih</h3>
+        <p style="color:var(--silver); font-size:14px; font-weight:300;">Konfirmasi Anda telah kami terima dengan penuh syukur.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================ GUEST BOOK ============================================================ -->
+<section id="guestbook" class="section" data-section="Guest Book">
+  <div class="wrap center">
+    <div class="reveal"><div class="eyebrow">Doa &amp; Ucapan</div><h2 class="section-title">Guest Book</h2></div>
+    <div class="wishes-list" id="wishes-list"></div>
+    <form class="wish-form" id="wish-form">
+      <input type="text" id="wish-name" placeholder="Nama Anda" required>
+      <textarea id="wish-msg" placeholder="Tulis ucapan &amp; doa Anda..." required></textarea>
+      <button type="submit" class="btn" style="align-self:flex-start;">Kirim</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================ FAQ ============================================================ -->
+<section id="faq" class="section" data-section="FAQ">
+  <div class="wrap">
+    <div class="center reveal"><div class="eyebrow">Good To Know</div><h2 class="section-title">Frequently Asked</h2></div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q"><span>Apakah anak-anak diperkenankan hadir?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Dengan penuh hormat, undangan ini berlaku untuk tamu dewasa agar kenyamanan bersama tetap terjaga.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Apakah tersedia area parkir?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Valet parking tersedia di lobi utama Grand Obsidian Hotel tanpa biaya tambahan bagi tamu undangan.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Bagaimana jika saya berhalangan hadir?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Mohon konfirmasikan melalui form RSVP agar kami dapat mempersiapkan segala sesuatunya dengan baik.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Apakah ada rekomendasi hotel terdekat?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Beberapa hotel bintang lima berada dalam radius 5 menit dari venue, dapat dihubungi melalui contact person kami.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CONTACT / CLOSING ============================================================ -->
+<section id="closing" class="section" data-section="Closing">
+  <div class="wrap center reveal">
+    <div class="eyebrow">Contact Person</div>
+    <h2 class="section-title">Ada Pertanyaan?</h2>
+    <div class="couple-grid" style="margin-top:50px;">
+      <div class="person"><h3 style="font-size:20px;">Michael</h3><p>Groomsman<br>+62 812 0000 0000</p></div>
+      <div class="couple-div"><div class="diamond"></div></div>
+      <div class="person"><h3 style="font-size:20px;">Sophia</h3><p>Bridesmaid<br>+62 813 0000 0000</p></div>
+    </div>
+    <div class="divider" style="margin-top:60px;"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>
+    <p class="section-sub">#AlexanderIsabellaGala &nbsp;·&nbsp; Bagikan momen Anda dengan tagar kami</p>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER / ENDING ============================================================ -->
+<footer id="footer">
+  <div class="city-lights" id="city-lights"></div>
+  <div class="footer-inner wrap">
+    <p class="ending-line" id="ending-line">Where Two Souls Shine As One</p>
+    <h2 class="footer-names">Alexander &amp; Isabella</h2>
+    <p class="footer-thanks">Terima kasih telah menjadi bagian dari kisah kami. Kehadiran serta doa restu Anda adalah hadiah paling berharga di malam istimewa ini.</p>
+    <div class="footer-meta">Black Diamond Luxury Wedding · 21 November 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- helper: generate dust particles ---------- */
+  const dust = document.getElementById('dust');
+  for(let i=0;i<26;i++){
+    const s=document.createElement('span');
+    s.style.left = Math.random()*100+'%';
+    s.style.bottom = (Math.random()*30)+'%';
+    s.style.setProperty('--dx',(Math.random()*40-20)+'px');
+    s.style.animationDuration=(6+Math.random()*6)+'s';
+    s.style.animationDelay=(Math.random()*6)+'s';
+    dust.appendChild(s);
+  }
+
+  /* hero floating crystals */
+  const hc = document.getElementById('hero-crystals');
+  for(let i=0;i<14;i++){
+    const s=document.createElement('span');
+    s.style.left = Math.random()*100+'%';
+    s.style.top = (10+Math.random()*80)+'%';
+    s.style.animationDuration=(5+Math.random()*5)+'s';
+    s.style.animationDelay=(Math.random()*5)+'s';
+    hc.appendChild(s);
+  }
+
+  /* city lights in footer */
+  const cl = document.getElementById('city-lights');
+  for(let i=0;i<40;i++){
+    const s=document.createElement('span');
+    s.style.left = Math.random()*100+'%';
+    s.style.bottom = (Math.random()*70)+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    cl.appendChild(s);
+  }
+
+  /* ---------- letter-by-letter name reveal on cover ---------- */
+  const coverNames = document.getElementById('cover-names');
+  const text = "Alexander & Isabella";
+  let html='';
+  let delay = 0;
+  for(const ch of text){
+    if(ch === '&'){
+      html += `<span class="cover-amp" style="animation-delay:${(1.1+delay).toFixed(2)}s; opacity:0; animation:fadeUp .8s var(--ease) forwards ${(1.1+delay).toFixed(2)}s;">&amp;</span>`;
+    } else if (ch === ' '){
+      html += ' ';
+    } else {
+      html += `<span class="letter" style="animation-delay:${(0.5+delay).toFixed(2)}s">${ch}</span>`;
+      delay += 0.045;
+    }
+  }
+  coverNames.innerHTML = html;
+
+  /* ---------- preloader ---------- */
+  window.addEventListener('load', ()=>{
+    setTimeout(()=>{
+      document.getElementById('preloader').classList.add('hide');
+    }, 2400);
+  });
+
+  /* ---------- open invitation ---------- */
+  const openBtn = document.getElementById('open-invite');
+  const cover = document.getElementById('cover');
+  const flash = document.getElementById('flash');
+  const audio = document.getElementById('bg-audio');
+  const player = document.getElementById('player');
+  const navbar = document.getElementById('navbar');
+
+  openBtn.addEventListener('click', ()=>{
+    flash.classList.add('go');
+    setTimeout(()=>{
+      cover.classList.add('opened');
+      document.body.style.overflow='auto';
+      player.classList.remove('hidden-init');
+      navbar.classList.add('show');
+      // attempt music fade-in over 6-8s
+      if(audio && audio.currentSrc){
+        audio.volume = 0;
+        audio.play().catch(()=>{});
+        let vol = 0;
+        const fade = setInterval(()=>{
+          vol += 0.02;
+          if(vol >= 0.6){ vol = 0.6; clearInterval(fade); }
+          audio.volume = vol;
+        }, 220);
+        document.body.classList.add('playing');
+        document.getElementById('icon-play').style.display='none';
+        document.getElementById('icon-pause').style.display='block';
+      }
+    }, 550);
+  });
+  document.body.style.overflow='hidden';
+
+  /* ---------- music player toggle ---------- */
+  const playToggle = document.getElementById('play-toggle');
+  const iconPlay = document.getElementById('icon-play');
+  const iconPause = document.getElementById('icon-pause');
+  playToggle.addEventListener('click', ()=>{
+    if(!audio.currentSrc){ return; }
+    if(audio.paused){
+      audio.play().catch(()=>{});
+      document.body.classList.add('playing');
+      iconPlay.style.display='none'; iconPause.style.display='block';
+    } else {
+      audio.pause();
+      document.body.classList.remove('playing');
+      iconPlay.style.display='block'; iconPause.style.display='none';
+    }
+  });
+  audio.addEventListener('timeupdate', ()=>{
+    if(audio.duration){
+      document.getElementById('player-bar-fill').style.width = (audio.currentTime/audio.duration*100)+'%';
+    }
+  });
+
+  /* ---------- reveal on scroll ---------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); }
+    });
+  }, {threshold:0.18});
+  revealEls.forEach(el=>io.observe(el));
+
+  /* ---------- section-based nav dots + progress diamond ---------- */
+  const sections = document.querySelectorAll('[data-section]');
+  const dotnav = document.getElementById('dotnav');
+  sections.forEach((sec,i)=>{
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', sec.dataset.section);
+    b.addEventListener('click', ()=> sec.scrollIntoView({behavior:'smooth'}));
+    dotnav.appendChild(b);
+  });
+  const dotBtns = dotnav.querySelectorAll('button');
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = Math.min(1, scrollTop/docHeight);
+    const dash = 126 - (126*pct);
+    document.getElementById('diamond-fill').style.strokeDashoffset = dash;
+
+    let activeIdx = 0;
+    sections.forEach((sec,i)=>{
+      const r = sec.getBoundingClientRect();
+      if(r.top < window.innerHeight*0.5) activeIdx = i;
+    });
+    dotBtns.forEach((b,i)=> b.classList.toggle('active', i===activeIdx));
+
+    // timeline spine fill
+    const tl = document.getElementById('timeline');
+    if(tl){
+      const r = tl.getBoundingClientRect();
+      const vh = window.innerHeight;
+      let p = (vh*0.7 - r.top) / r.height;
+      p = Math.max(0, Math.min(1,p));
+      document.getElementById('spine-fill').style.height = (p*100)+'%';
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ---------- countdown ---------- */
+  const target = new Date('2026-11-21T08:00:00+07:00').getTime();
+  function tickCountdown(){
+    const now = Date.now();
+    let diff = Math.max(0, target-now);
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor(diff%86400000/3600000);
+    const m = Math.floor(diff%3600000/60000);
+    const s = Math.floor(diff%60000/1000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+  }
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+
+  /* ---------- gallery (placeholder frames — swap with real photos) ---------- */
+  const galleryData = [
+    {ar:'4/5', label:'Engagement — Golden Hour'},
+    {ar:'1/1', label:'Pre-Wedding — Ballroom'},
+    {ar:'3/4', label:'Portrait — Black Tie'},
+    {ar:'4/5', label:'Candid — City Lights'},
+    {ar:'1/1', label:'Detail — Ring & Diamond'},
+    {ar:'3/4', label:'Together — Evening'},
+  ];
+  const grid = document.getElementById('gallery-grid');
+  galleryData.forEach(g=>{
+    const item = document.createElement('div');
+    item.className='g-item';
+    item.innerHTML = `<div class="ph" style="--ar:${g.ar}">${g.label}<div class="shine"></div></div>`;
+    item.addEventListener('click', ()=>{
+      document.querySelector('#lightbox .frame').textContent = g.label + ' — ganti dengan foto asli';
+      document.getElementById('lightbox').classList.add('open');
+    });
+    grid.appendChild(item);
+  });
+  document.getElementById('lightbox-close').addEventListener('click', ()=>{
+    document.getElementById('lightbox').classList.remove('open');
+  });
+  document.getElementById('lightbox').addEventListener('click', (e)=>{
+    if(e.target.id==='lightbox') e.target.classList.remove('open');
+  });
+
+  /* ---------- FAQ accordion ---------- */
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(o=>{
+        o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight=null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight+'px';
+      }
+    });
+  });
+
+  /* ---------- calendar / navigation mini buttons ---------- */
+  document.querySelectorAll('[data-cal]').forEach(b=> b.addEventListener('click', ()=>{
+    const start = '20261121T010000Z', end='20261121T030000Z';
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding+of+Alexander+%26+Isabella&dates=${start}/${end}&location=Grand+Obsidian+Hotel,+Jakarta&details=Black+Tie+Gala+Wedding`;
+    window.open(url,'_blank');
+  }));
+  document.querySelectorAll('[data-nav]').forEach(b=> b.addEventListener('click', ()=>{
+    window.open('https://www.google.com/maps/search/?api=1&query=Jakarta','_blank');
+  }));
+  document.getElementById('copy-address')?.addEventListener('click', (e)=>{
+    navigator.clipboard?.writeText('Jl. Kemewahan No. 1, Jakarta').then(()=>{
+      const t=e.target.textContent; e.target.textContent='Tersalin ✓'; setTimeout(()=>e.target.textContent=t,1800);
+    });
+  });
+  document.getElementById('copy-acc')?.addEventListener('click', (e)=>{
+    navigator.clipboard?.writeText('1234567890').then(()=>{
+      const t=e.target.textContent; e.target.textContent='Tersalin ✓'; setTimeout(()=>e.target.textContent=t,1800);
+    });
+  });
+  document.getElementById('download-qr')?.addEventListener('click', ()=>{
+    alert('Ganti tombol ini agar mengunduh file QRIS asli Anda.');
+  });
+
+  /* ---------- RSVP submit + confetti ---------- */
+  const rsvpForm = document.getElementById('rsvp-form');
+  rsvpForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    rsvpForm.querySelectorAll('.field, .submit-wrap').forEach(el=> el.style.display='none');
+    document.getElementById('rsvp-success').classList.add('show');
+    launchConfetti();
+  });
+  function launchConfetti(){
+    const colors=['#c9a962','#e8d5a3','#efe9dc'];
+    for(let i=0;i<60;i++){
+      const p=document.createElement('div');
+      p.className='confetti-piece';
+      p.style.left = Math.random()*100+'vw';
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      p.style.transform = `rotate(${Math.random()*360}deg)`;
+      p.style.opacity = 0.9;
+      document.body.appendChild(p);
+      const duration = 2200+Math.random()*1800;
+      const drift = (Math.random()*160-80);
+      p.animate([
+        {transform:`translate(0,0) rotate(0deg)`, opacity:1},
+        {transform:`translate(${drift}px, 100vh) rotate(${360+Math.random()*360}deg)`, opacity:0.2}
+      ], {duration, easing:'cubic-bezier(.2,.6,.3,1)'}).onfinish = ()=> p.remove();
+    }
+  }
+
+  /* ---------- guest book ---------- */
+  const wishesList = document.getElementById('wishes-list');
+  const seedWishes = [
+    {name:'Michael & Sophia', msg:'Selamat menempuh hidup baru! Semoga selalu bahagia dan langgeng.'},
+    {name:'Keluarga Wijaya', msg:'Bahagia melihat kalian bersatu. Barakallahu lakuma.'},
+    {name:'Sarah Amelia', msg:'So happy for you both — here\'s to forever!'},
+  ];
+  function renderWish(w, animate){
+    const el = document.createElement('div');
+    el.className='wish-card';
+    if(animate) el.style.animationDelay = '0s';
+    el.innerHTML = `<div class="who">${w.name}</div><div class="msg">${w.msg}</div>`;
+    wishesList.prepend(el);
+  }
+  seedWishes.forEach(w=>renderWish(w,false));
+
+  document.getElementById('wish-form').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const name = document.getElementById('wish-name').value.trim();
+    const msg = document.getElementById('wish-msg').value.trim();
+    if(!name || !msg) return;
+    renderWish({name, msg}, true);
+    e.target.reset();
+  });
+
+  /* ---------- keyboard: close lightbox with Escape ---------- */
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='Escape') document.getElementById('lightbox').classList.remove('open');
+  });
+
+})();
+</script>
+</body>
+</html>

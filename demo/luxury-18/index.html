@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Rangga &amp; Sakura — Undangan Pernikahan</title>
+<meta name="description" content="Undangan pernikahan Rangga &amp; Sakura — di bawah rimbunnya bunga sakura Kyoto.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Serif+JP:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     CUSTOM CURSOR
+============================================================= -->
+<div class="sakura-cursor" aria-hidden="true">
+  <svg viewBox="0 0 60 60" class="sakura-cursor__svg">
+    <g class="sakura-cursor__petals">
+      <path class="sakura-cursor__petal" d="M30 30 C30 18, 24 8, 30 2 C36 8, 30 18, 30 30 Z"/>
+      <path class="sakura-cursor__petal" d="M30 30 C40 24, 52 24, 58 30 C52 36, 40 36, 30 30 Z"/>
+      <path class="sakura-cursor__petal" d="M30 30 C30 42, 36 52, 30 58 C24 52, 30 42, 30 30 Z"/>
+      <path class="sakura-cursor__petal" d="M30 30 C20 36, 8 36, 2 30 C8 24, 20 24, 30 30 Z"/>
+      <circle class="sakura-cursor__core" cx="30" cy="30" r="4.5"/>
+    </g>
+  </svg>
+</div>
+<div class="cursor-ripple" aria-hidden="true"></div>
+
+<!-- ============================================================
+     PRELOADER
+============================================================= -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <svg class="preloader__branch" viewBox="0 0 200 200">
+    <path class="preloader__branch-path" d="M100 180 C 95 140, 105 120, 100 90 C 96 65, 108 45, 100 20" />
+  </svg>
+  <div class="preloader__monogram">
+    <span class="preloader__initial">R</span>
+    <span class="preloader__ampersand">&amp;</span>
+    <span class="preloader__initial">S</span>
+  </div>
+  <div class="preloader__label">
+    <span>menata kelopak sakura</span>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     OPENING EXPERIENCE (COVER)
+============================================================= -->
+<section class="cover" id="cover">
+  <div class="cover__sky"></div>
+  <div class="cover__fog"></div>
+  <div class="cover__mountains"></div>
+  <canvas class="cover__petals-canvas" id="coverPetals"></canvas>
+  <svg class="cover__bird" viewBox="0 0 100 40" aria-hidden="true">
+    <path d="M2 20 Q 15 2, 28 18 Q 41 2, 54 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>
+
+  <svg class="cover__torii" viewBox="0 0 300 220" aria-hidden="true">
+    <rect x="30" y="60" width="14" height="150" fill="currentColor"/>
+    <rect x="256" y="60" width="14" height="150" fill="currentColor"/>
+    <rect x="10" y="40" width="280" height="16" rx="2" fill="currentColor"/>
+    <rect x="0" y="66" width="300" height="10" rx="2" fill="currentColor"/>
+    <rect x="140" y="76" width="20" height="60" fill="currentColor"/>
+  </svg>
+
+  <div class="cover__content">
+    <p class="cover__eyebrow" id="coverGuestLine">The Wedding Of</p>
+    <div class="cover__branch-logo">
+      <svg viewBox="0 0 220 90" class="cover__branch-svg">
+        <path d="M10 70 C 60 40, 90 60, 110 45 C 130 30, 160 45, 210 20" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <g class="cover__blossom-group">
+          <circle cx="60" cy="48" r="4"/>
+          <circle cx="95" cy="55" r="3.4"/>
+          <circle cx="130" cy="36" r="4.2"/>
+          <circle cx="165" cy="34" r="3.2"/>
+          <circle cx="195" cy="22" r="3.8"/>
+        </g>
+      </svg>
+    </div>
+    <h1 class="cover__names" id="coverNames">
+      <span class="cover__letters" data-text="Rangga">Rangga</span>
+      <span class="cover__amp">&amp;</span>
+      <span class="cover__letters" data-text="Sakura">Sakura</span>
+    </h1>
+    <p class="cover__date">08 . 11 . 2026</p>
+    <button class="btn btn--bloom cover__cta" id="openInvitation">
+      <span>Buka Undangan</span>
+    </button>
+    <p class="cover__hint">Sentuh untuk memasuki taman hanami kami</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     AMBIENT / MUSIC PLAYER (persistent)
+============================================================= -->
+<div class="music-player" id="musicPlayer" data-state="paused">
+  <audio id="themeSong" loop preload="none">
+    <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="ambientRiver" loop preload="none">
+    <source src="assets/audio/ambient-river.mp3" type="audio/mpeg">
+  </audio>
+  <button class="music-player__toggle" id="musicToggle" aria-label="Putar / Jeda musik">
+    <svg viewBox="0 0 24 24" class="icon-play"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+    <svg viewBox="0 0 24 24" class="icon-pause"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>
+    <span class="music-player__disc"></span>
+  </button>
+  <div class="music-player__panel">
+    <div class="music-player__track">
+      <span class="music-player__title">Theme Song — Hanami</span>
+      <input type="range" id="musicProgress" class="music-player__progress" min="0" max="100" value="0">
+    </div>
+    <div class="music-player__volume">
+      <button class="music-player__mute" id="musicMute" aria-label="Bisukan">
+        <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3z" fill="currentColor"/></svg>
+      </button>
+      <input type="range" id="musicVolume" class="music-player__volume-slider" min="0" max="100" value="55">
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCROLL PROGRESS — GROWING SAKURA BRANCH
+============================================================= -->
+<div class="branch-rail" id="branchRail" aria-hidden="true">
+  <svg viewBox="0 0 40 1000" preserveAspectRatio="none" class="branch-rail__svg">
+    <path id="branchPath" d="M20 0 C 30 60, 10 120, 22 180 C 32 240, 8 300, 20 360 C 30 420, 10 480, 22 540 C 32 600, 8 660, 20 720 C 30 780, 10 840, 22 900 C 30 940, 15 970, 20 1000"
+      fill="none" stroke="currentColor" stroke-width="1.2"/>
+  </svg>
+  <div class="branch-rail__bud" id="branchBud">
+    <svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="5"/></svg>
+  </div>
+</div>
+
+<main id="mainContent">
+
+<!-- ============================================================
+     HERO
+============================================================= -->
+<section class="hero" id="hero" data-reveal>
+  <div class="hero__bg">
+    <img src="assets/photos/1.webp" alt="Rangga dan Sakura" class="hero__photo" id="heroPhoto" loading="eager">
+    <div class="hero__grade"></div>
+  </div>
+  <div class="hero__garden">
+    <svg class="hero__mountain-layer" viewBox="0 0 1440 260" preserveAspectRatio="none"><path d="M0 200 L120 120 L260 190 L420 90 L600 170 L800 100 L1000 180 L1220 110 L1440 190 L1440 260 L0 260 Z" fill="currentColor"/></svg>
+    <svg class="hero__bridge" viewBox="0 0 400 120" aria-hidden="true"><path d="M20 100 C 100 40, 300 40, 380 100" fill="none" stroke="currentColor" stroke-width="6"/><path d="M20 100 L20 112 M380 100 L380 112" stroke="currentColor" stroke-width="6"/></svg>
+    <div class="hero__lanterns">
+      <span class="lantern"></span><span class="lantern lantern--sm"></span><span class="lantern"></span>
+    </div>
+  </div>
+  <canvas class="hero__petals-canvas" id="heroPetals"></canvas>
+  <div class="hero__content">
+    <p class="hero__kicker">Kyoto Spring · Hanami 2026</p>
+    <h2 class="hero__title">Sebuah Perjalanan Cinta<br>Menuju Musim Semi</h2>
+    <div class="hero__countdown-teaser" id="heroCountdown">
+      <div class="hcd__item"><span class="hcd__num" data-cd="days">00</span><span class="hcd__label">Hari</span></div>
+      <div class="hcd__item"><span class="hcd__num" data-cd="hours">00</span><span class="hcd__label">Jam</span></div>
+      <div class="hcd__item"><span class="hcd__num" data-cd="mins">00</span><span class="hcd__label">Menit</span></div>
+      <div class="hcd__item"><span class="hcd__num" data-cd="secs">00</span><span class="hcd__label">Detik</span></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span></span>Gulir ke Bawah</div>
+</section>
+
+<div class="divider divider--brush" aria-hidden="true"></div>
+
+<!-- ============================================================
+     WELCOME
+============================================================= -->
+<section class="section welcome" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">歓迎 · Selamat Datang</span>
+    <h2 class="section__title">Assalamu'alaikum Warahmatullahi Wabarakatuh</h2>
+    <p class="lead">
+      Bagai kelopak sakura yang mekar tepat pada waktunya, kami percaya pertemuan kami pun telah
+      dituliskan oleh Yang Maha Kuasa. Dengan penuh syukur, kami mengundang Bapak/Ibu/Saudara/i
+      untuk turut hadir merayakan hari istimewa ini — hari ketika dua hati memilih untuk berjalan
+      beriringan, sepanjang musim yang akan datang.
+    </p>
+    <p class="quote-jp">桜咲く春に、永遠の約束を。</p>
+  </div>
+</section>
+
+<div class="divider divider--petal" aria-hidden="true"></div>
+
+<!-- ============================================================
+     BRIDE & GROOM + FAMILY
+============================================================= -->
+<section class="section couple" id="couple" data-reveal>
+  <div class="section__inner">
+    <span class="eyebrow">結婚式 · Kedua Mempelai</span>
+    <h2 class="section__title">Yang Berbahagia</h2>
+
+    <div class="couple__grid">
+      <article class="couple__card">
+        <div class="couple__frame">
+          <img src="assets/photos/2.webp" alt="Rangga" loading="lazy">
+        </div>
+        <h3 class="couple__name">Rangga Aditya Wijaya</h3>
+        <p class="couple__parents">Putra pertama dari<br>Bapak Hendra Wijaya &amp; Ibu Ratna Kusuma</p>
+        <a href="https://instagram.com/" target="_blank" rel="noopener" class="couple__ig">@rangga.aditya</a>
+      </article>
+
+      <div class="couple__emblem" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1"/><path d="M50 20 C55 35 65 40 80 40 C68 48 65 60 70 75 C58 68 46 68 34 75 C39 60 36 48 24 40 C39 40 45 35 50 20Z" fill="currentColor"/></svg>
+      </div>
+
+      <article class="couple__card">
+        <div class="couple__frame">
+          <img src="assets/photos/3.webp" alt="Sakura" loading="lazy">
+        </div>
+        <h3 class="couple__name">Sakura Amelia Putri</h3>
+        <p class="couple__parents">Putri kedua dari<br>Bapak Ahmad Suryadi &amp; Ibu Sari Lestari</p>
+        <a href="https://instagram.com/" target="_blank" rel="noopener" class="couple__ig">@sakura.amelia</a>
+      </article>
+    </div>
+
+    <div class="couple__portrait" data-reveal>
+      <img src="assets/photos/4.webp" alt="Rangga dan Sakura bersama" loading="lazy">
+      <p class="couple__portrait-caption">"Dua musim yang akhirnya bertemu di satu titik semi."</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--zen" aria-hidden="true"></div>
+
+<!-- ============================================================
+     LOVE STORY
+============================================================= -->
+<section class="section love-story" id="loveStory" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">物語 · Kisah Kami</span>
+    <h2 class="section__title">Jalan Setapak Menuju Hanami</h2>
+
+    <div class="timeline">
+      <div class="timeline__line" aria-hidden="true">
+        <svg viewBox="0 0 20 800" preserveAspectRatio="none"><path id="timelineBranch" d="M10 0 C 16 100, 4 200, 10 300 C 15 400, 5 500, 10 600 C 14 680, 6 740, 10 800" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+      </div>
+
+      <article class="timeline__item" data-reveal>
+        <span class="timeline__dot"></span>
+        <span class="timeline__year">Musim Semi, 2019</span>
+        <h3>Pertemuan Pertama</h3>
+        <p>Di sebuah kedai kopi kecil, di antara aroma matcha dan hujan gerimis, percakapan pertama
+          kami dimulai tanpa rencana — dan berlanjut jauh lebih lama dari yang kami duga.</p>
+      </article>
+      <article class="timeline__item" data-reveal>
+        <span class="timeline__dot"></span>
+        <span class="timeline__year">Musim Gugur, 2021</span>
+        <h3>Menjadi Teman Sejalan</h3>
+        <p>Dari sekadar bertukar kabar, kami mulai berjalan berdampingan — menghadiri hari-hari sulit
+          maupun sederhana, saling menjadi tempat pulang yang paling nyaman.</p>
+      </article>
+      <article class="timeline__item" data-reveal>
+        <span class="timeline__dot"></span>
+        <span class="timeline__year">Musim Dingin, 2024</span>
+        <h3>Lamaran</h3>
+        <p>Di bawah langit senja, sebuah pertanyaan sederhana mengubah segalanya. Dengan hati penuh haru,
+          jawaban "ya" pun terucap.</p>
+      </article>
+      <article class="timeline__item" data-reveal>
+        <span class="timeline__dot timeline__dot--bloom"></span>
+        <span class="timeline__year">Musim Semi, 2026</span>
+        <h3>Hari Pernikahan</h3>
+        <p>Dan kini, seperti sakura yang mekar sempurna pada waktunya, kami memilih untuk mengikat janji —
+          menuju musim-musim berikutnya, bersama.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--fog" aria-hidden="true"></div>
+
+<!-- ============================================================
+     GALLERY + HIGHLIGHT MOMENTS + VIDEO
+============================================================= -->
+<section class="section gallery-section" id="gallery" data-reveal>
+  <div class="section__inner">
+    <span class="eyebrow">写真 · Momen Kami</span>
+    <h2 class="section__title">Highlight Moments</h2>
+    <p class="section__subtitle">Sekumpulan potret yang mengiringi perjalanan kami menuju hari ini.</p>
+
+    <div class="masonry" id="masonryGrid">
+      <!-- populated via JS from photos 5.webp - 20.webp, also hard-coded below for no-js fallback -->
+      <noscript>
+        <img src="assets/photos/5.webp" alt="Galeri 5"><img src="assets/photos/6.webp" alt="Galeri 6">
+        <img src="assets/photos/7.webp" alt="Galeri 7"><img src="assets/photos/8.webp" alt="Galeri 8">
+      </noscript>
+    </div>
+
+    <div class="video-feature" data-reveal>
+      <button class="video-feature__thumb" id="videoOpenBtn" aria-label="Putar video pernikahan">
+        <img src="assets/photos/4.webp" alt="Cuplikan video pernikahan" loading="lazy">
+        <span class="video-feature__vignette"></span>
+        <span class="video-feature__play">
+          <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="29" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M24 18 L44 30 L24 42 Z" fill="currentColor"/></svg>
+        </span>
+        <span class="video-feature__caption">Tonton Cerita Kami</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox__close" id="lightboxClose" aria-label="Tutup">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Sebelumnya">&#10094;</button>
+  <div class="lightbox__frame">
+    <img src="" alt="" id="lightboxImg">
+  </div>
+  <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Berikutnya">&#10095;</button>
+</div>
+
+<!-- Video Modal -->
+<div class="video-modal" id="videoModal" aria-hidden="true">
+  <button class="video-modal__close" id="videoCloseBtn" aria-label="Tutup video">&times;</button>
+  <div class="video-modal__frame">
+    <video id="weddingVideo" controls playsinline poster="assets/photos/4.webp">
+      <source src="assets/video/wedding-video.mp4" type="video/mp4">
+    </video>
+    <p class="video-modal__fallback" id="videoFallback">Video akan segera hadir — nantikan cerita kami.</p>
+  </div>
+</div>
+
+<div class="divider divider--brush" aria-hidden="true"></div>
+
+<!-- ============================================================
+     COUNTDOWN
+============================================================= -->
+<section class="section countdown-section" id="countdownSection" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">時 · Menghitung Hari</span>
+    <h2 class="section__title">Hingga Hari Bahagia Tiba</h2>
+
+    <div class="flip-clock" id="flipClock">
+      <div class="flip-unit">
+        <div class="flip-card"><span class="flip-card__value" data-flip="days">00</span></div>
+        <span class="flip-unit__label">Hari</span>
+      </div>
+      <div class="flip-unit">
+        <div class="flip-card"><span class="flip-card__value" data-flip="hours">00</span></div>
+        <span class="flip-unit__label">Jam</span>
+      </div>
+      <div class="flip-unit">
+        <div class="flip-card"><span class="flip-card__value" data-flip="mins">00</span></div>
+        <span class="flip-unit__label">Menit</span>
+      </div>
+      <div class="flip-unit">
+        <div class="flip-card"><span class="flip-card__value" data-flip="secs">00</span></div>
+        <span class="flip-unit__label">Detik</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--petal" aria-hidden="true"></div>
+
+<!-- ============================================================
+     CEREMONY & RECEPTION (EVENT) + DRESS CODE
+============================================================= -->
+<section class="section event" id="event" data-reveal>
+  <div class="section__inner">
+    <span class="eyebrow">式次第 · Rangkaian Acara</span>
+    <h2 class="section__title">Akad &amp; Resepsi</h2>
+
+    <div class="event__grid">
+      <article class="event__card" data-reveal>
+        <span class="event__tag">Akad Nikah</span>
+        <h3>Sabtu, 08 November 2026</h3>
+        <p class="event__time">07.30 — 09.00 WIB</p>
+        <p class="event__place">Kediaman Mempelai Putri<br>Jl. Sakura Raya No. 8, Bandung</p>
+        <div class="event__actions">
+          <button class="btn btn--ghost btn--sm" data-calendar="akad">Simpan ke Kalender</button>
+        </div>
+      </article>
+      <article class="event__card" data-reveal>
+        <span class="event__tag">Resepsi</span>
+        <h3>Sabtu, 08 November 2026</h3>
+        <p class="event__time">11.00 — 14.00 WIB</p>
+        <p class="event__place">Zenko Garden Hall<br>Jl. Taman Momiji No. 21, Bandung</p>
+        <div class="event__actions">
+          <button class="btn btn--ghost btn--sm" data-calendar="resepsi">Simpan ke Kalender</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="dresscode" data-reveal>
+      <h3 class="dresscode__title">Dress Code</h3>
+      <p>Kami mengundang Bapak/Ibu/Saudara/i untuk mengenakan busana bernuansa musim semi.</p>
+      <div class="dresscode__palette">
+        <span style="--c:#F4C2C2"></span>
+        <span style="--c:#F0E6D8"></span>
+        <span style="--c:#F5D9C8"></span>
+        <span style="--c:#B8C4A9"></span>
+        <span style="--c:#FBF7F0"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--zen" aria-hidden="true"></div>
+
+<!-- ============================================================
+     VENUE, MAPS & TRAVEL GUIDE
+============================================================= -->
+<section class="section venue" id="venue" data-reveal>
+  <div class="section__inner">
+    <span class="eyebrow">地図 · Lokasi</span>
+    <h2 class="section__title">Menuju Taman Hanami Kami</h2>
+
+    <div class="venue__grid">
+      <div class="venue__map" data-reveal>
+        <iframe
+          src="https://www.google.com/maps?q=Zenko+Garden+Hall+Bandung&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+          title="Lokasi Venue"></iframe>
+      </div>
+      <div class="venue__info">
+        <h3>Zenko Garden Hall</h3>
+        <p>Jl. Taman Momiji No. 21, Bandung, Jawa Barat</p>
+        <div class="venue__buttons">
+          <a class="btn btn--ghost btn--sm" href="https://maps.google.com/?q=Zenko+Garden+Hall+Bandung" target="_blank" rel="noopener">Buka di Maps</a>
+          <button class="btn btn--ghost btn--sm" id="copyAddressBtn">Salin Alamat</button>
+        </div>
+
+        <div class="venue__tabs">
+          <div class="venue__tab-buttons" role="tablist">
+            <button class="venue__tab-btn is-active" data-tab="parkir">Parkir</button>
+            <button class="venue__tab-btn" data-tab="hotel">Hotel Terdekat</button>
+            <button class="venue__tab-btn" data-tab="cafe">Kafe Terdekat</button>
+            <button class="venue__tab-btn" data-tab="rute">Panduan Rute</button>
+          </div>
+          <div class="venue__tab-panel is-active" data-panel="parkir">
+            <p>Area parkir tersedia di halaman utama venue, memuat hingga 80 kendaraan. Petugas parkir akan memandu Bapak/Ibu/Saudara/i.</p>
+          </div>
+          <div class="venue__tab-panel" data-panel="hotel">
+            <p>Sakura Ryokan Hotel (600m) · The Momiji Suites (1.2km) · Kyoto Garden Inn (2km)</p>
+          </div>
+          <div class="venue__tab-panel" data-panel="cafe">
+            <p>Matcha & Co. (300m) · Kohi House (450m) · Zen Bakery (700m)</p>
+          </div>
+          <div class="venue__tab-panel" data-panel="rute">
+            <p>Dari Tol Pasteur, keluar di exit Pasirkoja, lurus 3km, venue berada di sisi kanan jalan setelah taman kota.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--fog" aria-hidden="true"></div>
+
+<!-- ============================================================
+     GIFT
+============================================================= -->
+<section class="section gift" id="gift" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">贈り物 · Tanda Kasih</span>
+    <h2 class="section__title">Kado Pernikahan</h2>
+    <p class="lead">Kehadiran serta doa restu Bapak/Ibu/Saudara/i adalah hadiah terindah bagi kami.
+      Namun apabila ingin memberikan tanda kasih, kami sediakan dengan penuh rasa hormat.</p>
+
+    <div class="gift__card">
+      <div class="gift__qris">
+        <img src="assets/photos/qris-placeholder.webp" alt="QRIS Kode Pembayaran" id="qrisImage" loading="lazy">
+      </div>
+      <div class="gift__bank">
+        <p class="gift__bank-name">Bank Sakura Kyoto</p>
+        <p class="gift__bank-number" id="bankNumber">1234 5678 9012</p>
+        <p class="gift__bank-holder">a.n. Sakura Amelia Putri</p>
+        <div class="gift__buttons">
+          <button class="btn btn--ghost btn--sm" id="copyAccountBtn">Salin Rekening</button>
+          <a class="btn btn--ghost btn--sm" id="downloadQrisBtn" href="assets/photos/qris-placeholder.webp" download="QRIS-Sakura-Rangga.webp">Unduh QR</a>
+        </div>
+      </div>
+    </div>
+
+    <form class="gift__confirm" id="giftConfirmForm">
+      <p class="gift__confirm-label">Sudah mengirimkan kado? Beri tahu kami agar dapat mengucapkan terima kasih.</p>
+      <div class="gift__confirm-row">
+        <input type="text" id="giftName" placeholder="Nama Anda" required>
+        <button type="submit" class="btn btn--ghost btn--sm">Konfirmasi Kado</button>
+      </div>
+      <p class="gift__confirm-thanks" id="giftConfirmThanks" aria-hidden="true">Terima kasih atas kado dan doa terbaik Anda 🌸</p>
+    </form>
+  </div>
+</section>
+
+<div class="divider divider--petal" aria-hidden="true"></div>
+
+<!-- ============================================================
+     RSVP
+============================================================= -->
+<section class="section rsvp" id="rsvp" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">返信 · Konfirmasi Kehadiran</span>
+    <h2 class="section__title">RSVP</h2>
+    <p class="lead">Mohon konfirmasi kehadiran Bapak/Ibu/Saudara/i sebelum 25 Oktober 2026, agar kami dapat
+      mempersiapkan hari istimewa ini dengan sebaik-baiknya.</p>
+
+    <form class="rsvp__form" id="rsvpForm">
+      <div class="field">
+        <label for="rsvpName">Nama</label>
+        <input type="text" id="rsvpName" name="name" required placeholder="Nama lengkap">
+      </div>
+      <div class="field">
+        <label for="rsvpGuests">Jumlah Tamu</label>
+        <input type="number" id="rsvpGuests" name="guests" min="1" max="5" value="1">
+      </div>
+      <div class="field field--radio">
+        <span class="field__legend">Konfirmasi Kehadiran</span>
+        <div class="radio-group">
+          <label><input type="radio" name="attendance" value="hadir" checked> Hadir</label>
+          <label><input type="radio" name="attendance" value="tidak"> Tidak Dapat Hadir</label>
+          <label><input type="radio" name="attendance" value="ragu"> Masih Ragu</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="rsvpMessage">Ucapan &amp; Doa</label>
+        <textarea id="rsvpMessage" name="message" rows="3" placeholder="Tuliskan ucapan dan doa terbaik Anda"></textarea>
+      </div>
+      <button type="submit" class="btn btn--bloom">Kirim Konfirmasi</button>
+    </form>
+
+    <div class="rsvp__success" id="rsvpSuccess" aria-hidden="true">
+      <canvas class="rsvp__success-petals" id="rsvpPetals"></canvas>
+      <svg viewBox="0 0 100 100" class="rsvp__success-icon"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M30 52 L44 66 L72 34" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Terima Kasih</h3>
+      <p>Konfirmasi Anda telah kami terima dengan penuh syukur.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--zen" aria-hidden="true"></div>
+
+<!-- ============================================================
+     GUEST BOOK
+============================================================= -->
+<section class="section guestbook" id="guestbook" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">寄せ書き · Buku Tamu</span>
+    <h2 class="section__title">Ucapan &amp; Doa</h2>
+
+    <form class="guestbook__form" id="guestbookForm">
+      <input type="text" id="gbName" placeholder="Nama Anda" required>
+      <textarea id="gbMessage" rows="2" placeholder="Tuliskan ucapan..." required></textarea>
+      <button type="submit" class="btn btn--ghost btn--sm">Kirim Ucapan</button>
+    </form>
+
+    <div class="guestbook__list" id="guestbookList">
+      <!-- populated by JS + localStorage -->
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--fog" aria-hidden="true"></div>
+
+<!-- ============================================================
+     INSTAGRAM / HASHTAG
+============================================================= -->
+<section class="section instagram" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">SNS · Abadikan Momen</span>
+    <h2 class="section__title">#RanggaSakuraHanami</h2>
+    <p class="lead">Bagikan foto dan momen indah Anda di hari bahagia kami menggunakan tagar di atas.</p>
+    <div class="instagram__grid">
+      <img src="assets/photos/5.webp" alt="" loading="lazy">
+      <img src="assets/photos/6.webp" alt="" loading="lazy">
+      <img src="assets/photos/7.webp" alt="" loading="lazy">
+      <img src="assets/photos/8.webp" alt="" loading="lazy">
+      <img src="assets/photos/9.webp" alt="" loading="lazy">
+    </div>
+    <a class="btn btn--ghost btn--sm" href="https://www.instagram.com/explore/tags/RanggaSakuraHanami/" target="_blank" rel="noopener">Lihat di Instagram</a>
+  </div>
+</section>
+
+<div class="divider divider--petal" aria-hidden="true"></div>
+
+<!-- ============================================================
+     FAQ
+============================================================= -->
+<section class="section faq" id="faq" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">質問 · Tanya Jawab</span>
+    <h2 class="section__title">Pertanyaan Umum</h2>
+
+    <div class="accordion" id="accordion">
+      <div class="accordion__item">
+        <button class="accordion__trigger">Apakah anak-anak diperkenankan hadir?<span class="accordion__icon"></span></button>
+        <div class="accordion__panel"><p>Dengan penuh hormat, undangan ini berlaku untuk dewasa, mengingat kapasitas tempat duduk yang terbatas.</p></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__trigger">Apakah tersedia area parkir?<span class="accordion__icon"></span></button>
+        <div class="accordion__panel"><p>Tersedia area parkir yang cukup luas di venue, dengan petugas yang siap membantu.</p></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__trigger">Bagaimana jika belum bisa konfirmasi kehadiran?<span class="accordion__icon"></span></button>
+        <div class="accordion__panel"><p>Silakan isi kolom RSVP dengan pilihan "Masih Ragu", dan Anda dapat memperbarui konfirmasi sewaktu-waktu.</p></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__trigger">Apa tema busana yang disarankan?<span class="accordion__icon"></span></button>
+        <div class="accordion__panel"><p>Kami menyarankan warna-warna lembut musim semi seperti yang tertera pada bagian Dress Code.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider divider--zen" aria-hidden="true"></div>
+
+<!-- ============================================================
+     CONTACT PERSON
+============================================================= -->
+<section class="section contact" id="contact" data-reveal>
+  <div class="section__inner section__inner--narrow">
+    <span class="eyebrow">連絡先 · Narahubung</span>
+    <h2 class="section__title">Hubungi Kami</h2>
+    <div class="contact__grid">
+      <div class="contact__card">
+        <h3>Dimas (Pihak Mempelai Pria)</h3>
+        <div class="contact__links">
+          <a href="tel:+6281234567890" class="btn btn--ghost btn--sm">Telepon</a>
+          <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">WhatsApp</a>
+        </div>
+      </div>
+      <div class="contact__card">
+        <h3>Anisa (Pihak Mempelai Wanita)</h3>
+        <div class="contact__links">
+          <a href="tel:+6281298765432" class="btn btn--ghost btn--sm">Telepon</a>
+          <a href="https://wa.me/6281298765432" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CLOSING / ENDING EXPERIENCE
+============================================================= -->
+<section class="closing" id="closing" data-reveal>
+  <canvas class="closing__petals" id="closingPetals"></canvas>
+  <div class="closing__mountains"></div>
+  <div class="closing__lanterns">
+    <span class="lantern"></span><span class="lantern lantern--sm"></span><span class="lantern"></span><span class="lantern lantern--sm"></span>
+  </div>
+  <div class="closing__content">
+    <p class="closing__quote">"Like The Sakura Blooms,<br>Our Love Blossoms Forever."</p>
+    <p class="closing__names">Rangga <span class="closing__amp">&amp;</span> Sakura</p>
+    <p class="closing__thanks">Terima kasih telah menjadi bagian dari kisah kami.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================= -->
+<footer class="footer">
+  <div class="footer__inner">
+    <p class="footer__names">Rangga &amp; Sakura</p>
+    <p class="footer__date">08 November 2026 · Bandung, Indonesia</p>
+    <p class="footer__credit">Dibuat dengan ketulusan, terinspirasi musim semi Kyoto.</p>
+  </div>
+</footer>
+
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/audio-player.js"></script>
+<script src="js/scroll.js"></script>
+<script src="js/interactive.js"></script>
+<script src="js/forms.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

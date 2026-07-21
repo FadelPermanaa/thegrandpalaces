@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Alessandro & Isabella — Amalfi Coast Wedding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AMALFI COAST LUXURY — DESIGN TOKENS
+   ============================================================ */
+:root{
+  --ocean-deep:   #0B3654;
+  --ocean:        #2E6E8E;
+  --azure:        #4A90B8;
+  --turquoise:    #6EC1C2;
+  --ivory:        #FBF5EC;
+  --sand:         #E8D6B3;
+  --terracotta:   #C1613D;
+  --olive:        #6E7B4E;
+  --gold:         #D9A857;
+  --bougainvillea:#C4577E;
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-sub:     'Cormorant', serif;
+  --font-body:    'Inter', sans-serif;
+
+  --ease-soft: cubic-bezier(.22,.61,.36,1);
+  --ease-slow: cubic-bezier(.16,.84,.44,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--ivory);
+  color:var(--ocean-deep);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;border:none;background:none;cursor:pointer;}
+::selection{background:var(--bougainvillea);color:#fff;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important;}
+}
+
+.eyebrow{
+  font-family:var(--font-sub);
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  font-size:.72rem;
+  color:var(--terracotta);
+}
+.section-title{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:clamp(2.1rem,5vw,3.4rem);
+  line-height:1.15;
+  color:var(--ocean-deep);
+}
+.section-sub{
+  font-family:var(--font-sub);
+  font-size:1.05rem;
+  color:var(--ocean);
+  line-height:1.8;
+  max-width:560px;
+}
+.container{max-width:1080px;margin:0 auto;padding:0 6vw;}
+.section{position:relative;padding:min(14vh,120px) 0;overflow:hidden;}
+
+/* thin gold divider — recurring ornament */
+.gold-divider{
+  width:64px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:22px auto;
+  position:relative;
+}
+.gold-divider::before{
+  content:"";position:absolute;left:50%;top:50%;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);transform:translate(-50%,-50%) rotate(45deg);
+}
+
+/* reveal-on-scroll */
+.reveal{opacity:0;transform:translateY(36px);filter:blur(4px);transition:opacity 1.1s var(--ease-slow),transform 1.1s var(--ease-slow),filter 1.1s var(--ease-slow);}
+.reveal.in{opacity:1;transform:translateY(0);filter:blur(0);}
+
+/* ============================================================
+   SIGNATURE ELEMENT: The Sun Path
+   A single arc that rises in the preloader, becomes the scroll
+   progress indicator along the right edge, threads through the
+   Love Story as a coastal path, and sets in the footer.
+   ============================================================ */
+.sun-path-rail{
+  position:fixed;right:18px;top:50%;transform:translateY(-50%);
+  width:2px;height:220px;z-index:60;
+  display:none;
+}
+.sun-path-rail svg{overflow:visible;}
+@media (min-width:860px){ .sun-path-rail{display:block;} }
+
+/* ============================================================
+   BACKDROP — layered Amalfi cliffscape (pure CSS/SVG, no stock photos)
+   ============================================================ */
+.amalfi-scene{
+  position:absolute;inset:0;overflow:hidden;
+}
+.amalfi-scene .sky{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,#F7D9A8 0%,#F0B98C 22%,#D98A78 42%,#8FB9C9 65%,#3E82A8 100%);
+}
+.amalfi-scene .sun{
+  position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,#FFE9B8 0%,#F7C97E 55%,rgba(247,201,126,0) 75%);
+  filter:blur(1px);
+}
+.amalfi-scene .sea{
+  position:absolute;left:0;right:0;bottom:0;height:38%;
+  background:linear-gradient(180deg,#1F5C79 0%,#0F3D5C 100%);
+}
+.amalfi-scene .sea::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(100deg,rgba(255,255,255,.06) 0px,rgba(255,255,255,.06) 2px,transparent 2px,transparent 40px);
+  animation:shimmer 7s linear infinite;
+}
+@keyframes shimmer{0%{transform:translateX(0);}100%{transform:translateX(80px);}}
+.cliff{position:absolute;bottom:34%;width:0;height:0;}
+.cliff svg{display:block;}
+.villa{position:absolute;}
+
+.seagull{position:absolute;width:26px;opacity:.85;animation:fly linear infinite;}
+@keyframes fly{
+  0%{transform:translate(-10vw,0) scale(.8);}
+  100%{transform:translate(110vw,-40px) scale(1);}
+}
+
+/* Bougainvillea petal drift */
+.petal{position:fixed;top:-5%;width:10px;height:10px;border-radius:60% 40% 60% 40%;background:var(--bougainvillea);opacity:.75;z-index:5;pointer-events:none;animation:petal-fall linear forwards;}
+@keyframes petal-fall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:.85;}
+  100%{transform:translate(var(--drift,60px),115vh) rotate(320deg);opacity:0;}
+}
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+#preloader{
+  position:fixed;inset:0;z-index:200;
+  background:linear-gradient(180deg,#0B3654,#154564 55%,#1F5C79);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  transition:opacity 1.1s var(--ease-slow),visibility 1.1s;
+}
+#preloader.done{opacity:0;visibility:hidden;pointer-events:none;}
+.preloader-scene{position:relative;width:220px;height:220px;margin-bottom:28px;}
+.preloader-sea{position:absolute;left:0;right:0;bottom:22px;height:2px;background:rgba(255,255,255,.35);}
+.preloader-sea::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+  animation:wave-sweep 2.4s ease-in-out infinite;
+}
+@keyframes wave-sweep{0%,100%{opacity:.3;}50%{opacity:1;}}
+.preloader-sun{
+  position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
+  width:46px;height:46px;border-radius:50%;
+  background:radial-gradient(circle,#FFE9B8,#E0A458 70%);
+  box-shadow:0 0 40px 6px rgba(224,164,88,.55);
+  animation:sunrise 3.6s var(--ease-slow) infinite;
+}
+@keyframes sunrise{
+  0%{bottom:-10px;opacity:0;}
+  55%{bottom:120px;opacity:1;}
+  100%{bottom:120px;opacity:1;}
+}
+.preloader-mono{
+  font-family:var(--font-display);font-size:1.9rem;color:var(--ivory);
+  letter-spacing:.12em;opacity:.92;
+}
+.preloader-label{
+  font-family:var(--font-sub);color:var(--sand);letter-spacing:.4em;
+  font-size:.68rem;text-transform:uppercase;margin-top:10px;
+}
+
+/* ============================================================
+   COVER / OPENING
+   ============================================================ */
+#cover{
+  position:fixed;inset:0;z-index:150;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  transition:opacity 1.4s var(--ease-slow),visibility 1.4s;
+}
+#cover.hide{opacity:0;visibility:hidden;pointer-events:none;}
+#cover .amalfi-scene{animation:kenburns 22s var(--ease-slow) infinite alternate;}
+@keyframes kenburns{0%{transform:scale(1.06) translateY(0);}100%{transform:scale(1.16) translateY(-2%);}}
+.cover-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,54,84,.15),rgba(11,54,84,.55));}
+.cover-content{position:relative;z-index:2;text-align:center;color:var(--ivory);padding:0 8vw;}
+.cover-eyebrow{
+  font-family:var(--font-sub);letter-spacing:.5em;text-transform:uppercase;
+  font-size:.7rem;color:var(--sand);opacity:0;animation:fadeUp 1s var(--ease-soft) .2s forwards;
+}
+.cover-names{
+  font-family:var(--font-display);font-weight:300;
+  font-size:clamp(2.6rem,9vw,5.6rem);margin:14px 0;line-height:1.05;
+}
+.cover-names .letter{display:inline-block;opacity:0;transform:translateY(18px);animation:letterIn .7s var(--ease-soft) forwards;}
+.cover-amp{color:var(--gold);font-style:italic;padding:0 .15em;}
+@keyframes letterIn{to{opacity:1;transform:translateY(0);}}
+.cover-date{
+  font-family:var(--font-sub);font-size:1rem;letter-spacing:.25em;color:var(--sand);
+  opacity:0;animation:fadeUp 1s var(--ease-soft) 1.6s forwards;
+}
+.cover-cta{
+  margin-top:44px;opacity:0;animation:fadeUp 1s var(--ease-soft) 2.2s forwards;
+}
+.btn-luxury{
+  position:relative;display:inline-flex;align-items:center;gap:10px;
+  padding:16px 40px;border:1px solid rgba(251,245,236,.55);
+  border-radius:2px;color:var(--ivory);font-family:var(--font-sub);
+  letter-spacing:.25em;text-transform:uppercase;font-size:.78rem;
+  overflow:hidden;transition:transform .5s var(--ease-soft),border-color .5s;
+  isolation:isolate;
+}
+.btn-luxury::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(120deg,var(--gold),var(--terracotta));
+  transform:translateX(-105%);transition:transform .6s var(--ease-slow);
+}
+.btn-luxury:hover{transform:translateY(-2px);border-color:transparent;}
+.btn-luxury:hover::before{transform:translateX(0);}
+.btn-luxury:active{transform:translateY(0) scale(.98);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ============================================================
+   FLOATING MUSIC PLAYER
+   ============================================================ */
+#player{
+  position:fixed;left:18px;bottom:18px;z-index:90;
+  display:flex;align-items:center;gap:10px;
+  background:rgba(251,245,236,.9);backdrop-filter:blur(10px);
+  border:1px solid rgba(193,97,61,.25);
+  border-radius:40px;padding:9px 16px 9px 9px;
+  box-shadow:0 8px 30px rgba(11,54,84,.18);
+  opacity:0;transform:translateY(10px);transition:opacity .8s,transform .8s;
+}
+#player.show{opacity:1;transform:translateY(0);}
+#playToggle{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--terracotta),var(--gold));
+  color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+#playToggle svg{width:14px;height:14px;}
+.player-meta{display:flex;flex-direction:column;line-height:1.2;}
+.player-title{font-family:var(--font-sub);font-size:.72rem;letter-spacing:.08em;color:var(--ocean-deep);}
+.player-track{width:110px;height:2px;background:rgba(46,110,142,.2);border-radius:2px;margin-top:5px;position:relative;cursor:pointer;}
+#playerProgress{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--terracotta);border-radius:2px;}
+#muteToggle{width:26px;height:26px;flex-shrink:0;color:var(--ocean);opacity:.75;}
+#muteToggle svg{width:15px;height:15px;}
+
+/* ============================================================
+   SCROLL SECTION INDICATOR (right side dots)
+   ============================================================ */
+#navDots{
+  position:fixed;right:14px;top:50%;transform:translateY(-50%);
+  z-index:70;display:none;flex-direction:column;gap:14px;
+}
+@media (min-width:860px){#navDots{display:flex;}}
+.nav-dot{
+  width:7px;height:7px;border-radius:50%;background:rgba(46,110,142,.3);
+  transition:all .4s var(--ease-soft);cursor:pointer;
+}
+.nav-dot.active{background:var(--terracotta);transform:scale(1.6);}
+
+/* top ocean progress bar */
+#oceanProgress{
+  position:fixed;top:0;left:0;height:3px;z-index:100;
+  background:linear-gradient(90deg,var(--turquoise),var(--gold));
+  width:0%;transition:width .1s linear;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero{height:100vh;position:relative;display:flex;align-items:flex-end;color:var(--ivory);}
+#hero .amalfi-scene{animation:kenburns 30s var(--ease-slow) infinite alternate;}
+#hero .cover-veil{background:linear-gradient(180deg,rgba(11,54,84,.05) 30%,rgba(11,54,84,.65));}
+.hero-content{position:relative;z-index:2;padding:0 6vw 9vh;width:100%;}
+.hero-content .eyebrow{color:var(--sand);}
+.hero-title{
+  font-family:var(--font-display);font-weight:300;
+  font-size:clamp(2.2rem,6vw,4rem);margin:10px 0 18px;max-width:820px;
+}
+.hero-scroll-hint{
+  display:flex;align-items:center;gap:10px;margin-top:26px;
+  font-family:var(--font-sub);letter-spacing:.25em;text-transform:uppercase;font-size:.68rem;color:var(--sand);
+}
+.hero-scroll-hint .line{width:22px;height:1px;background:var(--sand);position:relative;overflow:hidden;}
+.hero-scroll-hint .line::after{content:"";position:absolute;left:-100%;top:0;width:100%;height:100%;background:var(--gold);animation:lineSweep 2.4s ease-in-out infinite;}
+@keyframes lineSweep{50%{left:100%;}100%{left:100%;}}
+
+/* ============================================================
+   WELCOME
+   ============================================================ */
+#welcome{background:var(--ivory);text-align:center;}
+#welcome .container{display:flex;flex-direction:column;align-items:center;}
+.quote-mark{font-family:var(--font-display);font-size:3.2rem;color:var(--gold);line-height:1;}
+.welcome-text{
+  font-family:var(--font-display);font-style:italic;font-weight:400;
+  font-size:clamp(1.3rem,2.6vw,1.8rem);line-height:1.7;color:var(--ocean-deep);
+  max-width:680px;margin:16px auto 0;
+}
+.verse{font-family:var(--font-sub);color:var(--ocean);margin-top:18px;font-size:.9rem;}
+
+/* ============================================================
+   COUPLE
+   ============================================================ */
+#couple{background:linear-gradient(180deg,var(--ivory),#F2E9DA);}
+.couple-grid{display:grid;grid-template-columns:1fr;gap:60px;text-align:center;}
+@media (min-width:760px){.couple-grid{grid-template-columns:1fr auto 1fr;align-items:center;}}
+.couple-card .portrait{
+  width:190px;height:230px;margin:0 auto 22px;border-radius:50% 50% 46% 46% / 60% 60% 40% 40%;
+  background:linear-gradient(160deg,var(--sand),var(--turquoise));
+  position:relative;overflow:hidden;border:1px solid rgba(193,97,61,.25);
+}
+.couple-card .portrait::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),transparent 55%);
+}
+.couple-name{font-family:var(--font-display);font-size:2rem;color:var(--ocean-deep);}
+.couple-role{font-family:var(--font-sub);letter-spacing:.3em;text-transform:uppercase;font-size:.68rem;color:var(--terracotta);margin:6px 0 14px;}
+.couple-desc{font-family:var(--font-sub);color:var(--ocean);max-width:280px;margin:0 auto;line-height:1.7;}
+.couple-parents{font-family:var(--font-body);font-size:.82rem;color:var(--ocean-deep);opacity:.75;margin-top:14px;}
+.amp-divider{font-family:var(--font-display);font-style:italic;font-size:2.6rem;color:var(--gold);}
+
+/* ============================================================
+   LOVE STORY — coastal path timeline
+   ============================================================ */
+#story{background:var(--ivory);position:relative;}
+.story-line{
+  position:absolute;left:50%;top:120px;bottom:120px;width:2px;
+  background:linear-gradient(180deg,var(--sand),var(--turquoise),var(--sand));
+  transform:translateX(-50%);
+}
+.story-line-fill{
+  position:absolute;top:0;left:0;width:100%;height:0%;
+  background:linear-gradient(180deg,var(--terracotta),var(--gold));
+  transition:height .2s linear;
+}
+.story-item{
+  position:relative;display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:70px;
+}
+@media (min-width:760px){
+  .story-item{grid-template-columns:1fr 60px 1fr;align-items:center;}
+  .story-item:nth-child(even) .story-text{grid-column:3;text-align:left;}
+  .story-item:nth-child(odd) .story-text{grid-column:1;text-align:right;}
+}
+.story-dot{
+  width:12px;height:12px;border-radius:50%;background:var(--ivory);
+  border:2px solid var(--terracotta);margin:0 auto;position:relative;z-index:2;
+}
+.story-year{font-family:var(--font-sub);color:var(--terracotta);letter-spacing:.2em;font-size:.72rem;text-transform:uppercase;}
+.story-title{font-family:var(--font-display);font-size:1.5rem;margin:6px 0 8px;}
+.story-desc{font-family:var(--font-body);font-size:.92rem;color:var(--ocean);line-height:1.75;max-width:360px;}
+@media (min-width:760px){
+  .story-item:nth-child(odd) .story-desc{margin-left:auto;}
+}
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+#gallery{background:linear-gradient(180deg,#F2E9DA,var(--ivory));}
+.masonry{columns:2;column-gap:14px;}
+@media (min-width:760px){.masonry{columns:3;}}
+.masonry .frame{
+  break-inside:avoid;margin-bottom:14px;border-radius:4px;overflow:hidden;
+  position:relative;cursor:pointer;border:1px solid rgba(255,255,255,.5);
+  box-shadow:0 10px 30px rgba(11,54,84,.12);
+}
+.masonry .frame .ph{
+  width:100%;display:block;aspect-ratio:var(--ar,1/1.2);
+  background:linear-gradient(150deg,var(--tone1),var(--tone2));
+  transition:transform .8s var(--ease-slow);
+}
+.masonry .frame:hover .ph{transform:scale(1.08);}
+.masonry .frame::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(11,54,84,.45));
+  opacity:0;transition:opacity .4s;
+}
+.masonry .frame:hover::after{opacity:1;}
+
+#lightbox{
+  position:fixed;inset:0;z-index:180;background:rgba(11,54,84,.92);
+  display:none;align-items:center;justify-content:center;padding:6vw;
+}
+#lightbox.open{display:flex;}
+#lightbox .lb-inner{width:min(560px,90vw);aspect-ratio:4/5;border-radius:6px;background:linear-gradient(150deg,var(--sand),var(--turquoise));position:relative;}
+#lightbox .lb-close{position:absolute;top:-42px;right:0;color:var(--ivory);font-family:var(--font-sub);letter-spacing:.2em;font-size:.75rem;text-transform:uppercase;}
+
+/* ============================================================
+   COUNTDOWN
+   ============================================================ */
+#countdown{
+  position:relative;text-align:center;color:var(--ivory);
+  background:linear-gradient(180deg,var(--ocean-deep),var(--ocean));
+}
+#countdown .amalfi-scene{opacity:.35;}
+.cd-grid{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:34px;position:relative;z-index:2;}
+.flip{
+  width:88px;background:linear-gradient(160deg,#fff,var(--sand));
+  border-radius:6px;padding:18px 0;color:var(--ocean-deep);
+  box-shadow:0 12px 30px rgba(0,0,0,.25),inset 0 0 0 1px rgba(193,97,61,.3);
+  position:relative;
+}
+.flip::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(193,97,61,.3);}
+.flip-num{font-family:var(--font-display);font-size:2.6rem;line-height:1;}
+.flip-label{font-family:var(--font-sub);letter-spacing:.2em;text-transform:uppercase;font-size:.62rem;margin-top:6px;color:var(--terracotta);}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+#events{background:var(--ivory);}
+.event-grid{display:grid;grid-template-columns:1fr;gap:26px;}
+@media (min-width:760px){.event-grid{grid-template-columns:1fr 1fr;}}
+.event-card{
+  background:linear-gradient(170deg,#fff,#F6EEE0);
+  border-radius:8px;padding:40px 32px;position:relative;overflow:hidden;
+  border:1px solid rgba(193,97,61,.18);box-shadow:0 20px 40px rgba(11,54,84,.08);
+}
+.event-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--terracotta),var(--gold),var(--turquoise));
+}
+.event-icon{width:44px;height:44px;color:var(--terracotta);margin-bottom:14px;}
+.event-name{font-family:var(--font-display);font-size:1.7rem;}
+.event-when{font-family:var(--font-sub);color:var(--ocean);margin:10px 0 4px;font-size:1.02rem;}
+.event-where{font-family:var(--font-body);font-size:.85rem;color:var(--ocean-deep);opacity:.75;margin-bottom:20px;}
+.event-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.chip{
+  font-family:var(--font-sub);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:9px 16px;border:1px solid rgba(46,110,142,.35);border-radius:30px;color:var(--ocean);
+  transition:all .3s;
+}
+.chip:hover{background:var(--ocean-deep);color:#fff;border-color:var(--ocean-deep);}
+
+/* ============================================================
+   MAP / VENUE
+   ============================================================ */
+#venue{background:linear-gradient(180deg,var(--ivory),#F2E9DA);}
+.venue-grid{display:grid;grid-template-columns:1fr;gap:30px;}
+@media (min-width:860px){.venue-grid{grid-template-columns:1.1fr 1fr;align-items:stretch;}}
+.map-frame{
+  border-radius:8px;overflow:hidden;min-height:320px;border:1px solid rgba(193,97,61,.2);
+  box-shadow:0 20px 40px rgba(11,54,84,.1);
+}
+.map-frame iframe{width:100%;height:100%;min-height:320px;border:0;filter:saturate(.9) sepia(.08);}
+.venue-info{display:flex;flex-direction:column;gap:14px;justify-content:center;}
+.venue-row{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px dashed rgba(46,110,142,.25);font-size:.9rem;}
+.venue-row span:first-child{color:var(--terracotta);font-family:var(--font-sub);letter-spacing:.08em;}
+
+/* ============================================================
+   DRESS CODE / GIFT / RSVP shared card pattern
+   ============================================================ */
+.swatches{display:flex;gap:14px;margin:26px 0;flex-wrap:wrap;}
+.swatch{width:54px;height:54px;border-radius:50%;box-shadow:0 6px 16px rgba(11,54,84,.18),inset 0 0 0 3px rgba(255,255,255,.7);}
+
+#gift{background:var(--ivory);}
+.gift-card{
+  max-width:440px;margin:0 auto;background:linear-gradient(170deg,#fff,#F6EEE0);
+  border-radius:10px;padding:40px;text-align:center;border:1px solid rgba(193,97,61,.2);
+  box-shadow:0 20px 50px rgba(11,54,84,.1);
+}
+.qr-box{
+  width:170px;height:170px;margin:20px auto;border-radius:8px;
+  background:repeating-conic-gradient(var(--ocean-deep) 0% 25%,#fff 0% 50%) 0 0/22px 22px;
+  border:8px solid #fff;box-shadow:0 8px 24px rgba(11,54,84,.15);
+}
+.acc-number{font-family:var(--font-sub);font-size:1.15rem;letter-spacing:.1em;margin:8px 0 16px;}
+
+/* ============================================================
+   RSVP
+   ============================================================ */
+#rsvp{background:linear-gradient(180deg,#F2E9DA,var(--ivory));}
+.rsvp-form{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-family:var(--font-sub);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--terracotta);}
+.field input,.field select,.field textarea{
+  border:none;border-bottom:1px solid rgba(46,110,142,.3);background:transparent;
+  padding:10px 4px;font-family:var(--font-body);font-size:.95rem;color:var(--ocean-deep);
+  transition:border-color .3s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--terracotta);}
+.rsvp-submit{
+  margin-top:8px;align-self:center;padding:15px 44px;border-radius:2px;
+  background:linear-gradient(120deg,var(--terracotta),var(--gold));color:#fff;
+  font-family:var(--font-sub);letter-spacing:.2em;text-transform:uppercase;font-size:.75rem;
+  transition:transform .4s var(--ease-soft);
+}
+.rsvp-submit:hover{transform:translateY(-2px);}
+#rsvpSuccess{
+  display:none;text-align:center;padding:30px 0;
+}
+#rsvpSuccess.show{display:block;}
+#rsvpSuccess .check{
+  width:60px;height:60px;border-radius:50%;margin:0 auto 16px;
+  background:linear-gradient(135deg,var(--turquoise),var(--ocean));
+  display:flex;align-items:center;justify-content:center;color:#fff;
+}
+
+/* ============================================================
+   GUEST BOOK
+   ============================================================ */
+#guestbook{background:var(--ivory);}
+.wish-grid{display:grid;grid-template-columns:1fr;gap:16px;max-width:760px;margin:36px auto 0;}
+@media (min-width:640px){.wish-grid{grid-template-columns:1fr 1fr;}}
+.wish-card{
+  background:rgba(255,255,255,.65);backdrop-filter:blur(6px);
+  border:1px solid rgba(193,97,61,.18);border-radius:8px;padding:22px;
+  box-shadow:0 12px 28px rgba(11,54,84,.08);
+}
+.wish-name{font-family:var(--font-sub);color:var(--terracotta);font-size:.85rem;letter-spacing:.05em;}
+.wish-text{font-size:.88rem;color:var(--ocean-deep);margin-top:8px;line-height:1.6;}
+
+/* ============================================================
+   FAQ / TRAVEL
+   ============================================================ */
+#faq{background:linear-gradient(180deg,var(--ivory),#F2E9DA);}
+.faq-item{border-bottom:1px solid rgba(46,110,142,.2);padding:18px 0;cursor:pointer;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-sub);font-size:1.05rem;}
+.faq-q .plus{transition:transform .4s;color:var(--terracotta);}
+.faq-item.open .plus{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease-soft);font-size:.88rem;color:var(--ocean);line-height:1.7;}
+.faq-item.open .faq-a{max-height:200px;padding-top:10px;}
+
+#travel{background:var(--ivory);}
+.travel-grid{display:grid;grid-template-columns:1fr;gap:20px;}
+@media (min-width:760px){.travel-grid{grid-template-columns:repeat(3,1fr);}}
+.travel-card{padding:26px;border-radius:8px;background:linear-gradient(170deg,#fff,#F6EEE0);border:1px solid rgba(193,97,61,.15);}
+.travel-card h4{font-family:var(--font-display);font-size:1.25rem;margin-bottom:8px;}
+.travel-card p{font-size:.85rem;color:var(--ocean);line-height:1.6;}
+
+/* ============================================================
+   FOOTER / ENDING
+   ============================================================ */
+#footer{
+  position:relative;padding:min(16vh,140px) 0 60px;text-align:center;color:var(--ivory);
+  background:linear-gradient(180deg,#3E82A8,#C97A4A 55%,#7A3A2C);
+  overflow:hidden;
+}
+#footer .villa-lights{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(11,54,84,0),rgba(11,54,84,.55));}
+.footer-tagline{
+  font-family:var(--font-display);font-style:italic;font-weight:400;
+  font-size:clamp(1.3rem,3vw,2rem);max-width:640px;margin:0 auto 22px;
+  background:linear-gradient(90deg,var(--ivory),var(--gold),var(--ivory));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  background-size:220% auto;animation:shine 5s linear infinite;
+}
+@keyframes shine{to{background-position:220% center;}}
+.footer-names{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.2rem);margin-bottom:10px;}
+.footer-date{font-family:var(--font-sub);letter-spacing:.3em;color:var(--sand);font-size:.8rem;text-transform:uppercase;}
+.footer-hashtag{margin-top:24px;font-family:var(--font-sub);letter-spacing:.2em;color:var(--gold);}
+.footer-contact{margin-top:40px;display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--sand);}
+.footer-credit{margin-top:50px;font-size:.7rem;letter-spacing:.15em;color:rgba(251,245,236,.55);text-transform:uppercase;}
+
+/* skip link / focus visibility */
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:2px solid var(--gold);outline-offset:3px;
+}
+</style>
+</head>
+<body>
+
+<!-- ============ SIGNATURE SUN-PATH RAIL ============ -->
+<div id="oceanProgress"></div>
+<div id="navDots"></div>
+
+<!-- ============ PRELOADER ============ -->
+<div id="preloader">
+  <div class="preloader-scene">
+    <div class="preloader-sun"></div>
+    <div class="preloader-sea"></div>
+  </div>
+  <div class="preloader-mono">A &amp; I</div>
+  <div class="preloader-label">Amalfi Coast &middot; Italia</div>
+</div>
+
+<!-- ============ COVER / OPENING ============ -->
+<div id="cover">
+  <div class="amalfi-scene">
+    <div class="sky"></div>
+    <div class="sun"></div>
+    <div class="sea"></div>
+  </div>
+  <div class="cover-veil"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">The Wedding Celebration Of</div>
+    <h1 class="cover-names" id="coverNames"></h1>
+    <div class="cover-date">12 &middot; 09 &middot; 2026 — Ravello, Italia</div>
+    <div class="cover-cta">
+      <button class="btn-luxury" id="openBtn">
+        <span>Buka Undangan</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FLOATING MUSIC PLAYER ============ -->
+<div id="player">
+  <button id="playToggle" aria-label="Play or pause music">
+    <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <div class="player-meta">
+    <span class="player-title">theme&#8209;song</span>
+    <div class="player-track" id="playerTrack"><div id="playerProgress"></div></div>
+  </div>
+  <button id="muteToggle" aria-label="Mute">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 5V5L7 10H3z"/></svg>
+  </button>
+  <audio id="themeAudio" loop preload="auto">
+    <source src="theme-song.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<!-- ============ HERO ============ -->
+<section id="hero" data-nav="Hero">
+  <div class="amalfi-scene">
+    <div class="sky"></div>
+    <div class="sun"></div>
+    <svg class="seagull" style="top:18%;animation-duration:26s;animation-delay:0s" viewBox="0 0 40 20"><path d="M0 10 Q10 0 20 10 Q30 0 40 10" stroke="#0B3654" stroke-width="1.5" fill="none"/></svg>
+    <svg class="seagull" style="top:28%;animation-duration:34s;animation-delay:6s" viewBox="0 0 40 20"><path d="M0 10 Q10 0 20 10 Q30 0 40 10" stroke="#0B3654" stroke-width="1.5" fill="none"/></svg>
+    <div class="sea"></div>
+  </div>
+  <div class="cover-veil"></div>
+  <div class="hero-content reveal">
+    <div class="eyebrow">Destination Wedding</div>
+    <h2 class="hero-title">A private villa on the cliffs of Ravello,<br>overlooking an endless Mediterranean horizon.</h2>
+    <div class="hero-scroll-hint"><span class="line"></span> Scroll to begin the journey</div>
+  </div>
+</section>
+
+<!-- ============ WELCOME ============ -->
+<section id="welcome" class="section" data-nav="Welcome">
+  <div class="container reveal">
+    <div class="eyebrow">Welcome</div>
+    <div class="quote-mark">&ldquo;</div>
+    <p class="welcome-text">Seperti angin yang membawa aroma jeruk lemon dan air laut yang tenang di sepanjang pesisir Amalfi, cinta kami mengalir tanpa tergesa &mdash; hangat, dalam, dan abadi. Kami mengundang Anda untuk merayakannya bersama kami.</p>
+    <div class="verse">Kasih setia sampai selama-lamanya bagi orang yang tetap mengasihi Dia.</div>
+  </div>
+</section>
+
+<!-- ============ COUPLE ============ -->
+<section id="couple" class="section" data-nav="Couple">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:50px;">
+      <div class="eyebrow">Bride &amp; Groom</div>
+      <h2 class="section-title">Mempelai</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="couple-grid">
+      <div class="couple-card reveal">
+        <div class="portrait"></div>
+        <div class="couple-name">Isabella</div>
+        <div class="couple-role">The Bride</div>
+        <p class="couple-desc">Putri kedua dari pasangan keluarga yang penuh kehangatan, tumbuh dengan kecintaan pada laut dan cerita.</p>
+        <div class="couple-parents">Putri dari Bpk. Marco &amp; Ibu Elena</div>
+      </div>
+      <div class="amp-divider reveal">&amp;</div>
+      <div class="couple-card reveal">
+        <div class="portrait" style="background:linear-gradient(160deg,var(--terracotta),var(--sand));"></div>
+        <div class="couple-name">Alessandro</div>
+        <div class="couple-role">The Groom</div>
+        <p class="couple-desc">Putra sulung yang membawa ketenangan seperti tebing Positano — kokoh, hangat, dan penuh kejujuran.</p>
+        <div class="couple-parents">Putra dari Bpk. Giovanni &amp; Ibu Carla</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOVE STORY ============ -->
+<section id="story" class="section" data-nav="Love Story">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:60px;">
+      <div class="eyebrow">Love Story</div>
+      <h2 class="section-title">Jalan Menuju Amalfi</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div style="position:relative;">
+      <div class="story-line"><div class="story-line-fill" id="storyFill"></div></div>
+      <div class="story-item reveal">
+        <div class="story-text">
+          <div class="story-year">Musim Panas, 2019</div>
+          <div class="story-title">Pertemuan Pertama</div>
+          <p class="story-desc">Bertemu di sebuah kafe kecil tepi laut, di mana percakapan singkat berubah menjadi obrolan sepanjang senja.</p>
+        </div>
+        <div class="story-dot"></div>
+        <div></div>
+      </div>
+      <div class="story-item reveal">
+        <div></div>
+        <div class="story-dot"></div>
+        <div class="story-text">
+          <div class="story-year">2021</div>
+          <div class="story-title">Perjalanan Bersama</div>
+          <p class="story-desc">Menyusuri Positano dan Capri, menyadari bahwa setiap perjalanan terasa lebih indah bila ditempuh berdua.</p>
+        </div>
+      </div>
+      <div class="story-item reveal">
+        <div class="story-text">
+          <div class="story-year">2024</div>
+          <div class="story-title">Lamaran di Tebing</div>
+          <p class="story-desc">Di atas tebing menghadap laut saat matahari terbenam, sebuah pertanyaan diucapkan dan dijawab dengan air mata bahagia.</p>
+        </div>
+        <div class="story-dot"></div>
+        <div></div>
+      </div>
+      <div class="story-item reveal">
+        <div></div>
+        <div class="story-dot"></div>
+        <div class="story-text">
+          <div class="story-year">2026</div>
+          <div class="story-title">Hari Yang Dinanti</div>
+          <p class="story-desc">Kini, di villa yang sama menghadap laut Mediterania, kami mengucap janji untuk selamanya.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section id="gallery" class="section" data-nav="Gallery">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:40px;">
+      <div class="eyebrow">Highlight Moments</div>
+      <h2 class="section-title">Galeri</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="masonry reveal" id="masonry"></div>
+  </div>
+</section>
+
+<div id="lightbox">
+  <div class="lb-inner">
+    <div class="lb-close" id="lbClose">Tutup ✕</div>
+  </div>
+</div>
+
+<!-- ============ COUNTDOWN ============ -->
+<section id="countdown" class="section" data-nav="Countdown">
+  <div class="amalfi-scene"><div class="sky"></div><div class="sea"></div></div>
+  <div class="container reveal">
+    <div class="eyebrow" style="color:var(--sand)">Menghitung Hari</div>
+    <h2 class="section-title" style="color:#fff">Hingga Kami Bersatu</h2>
+    <div class="cd-grid">
+      <div class="flip"><div class="flip-num" id="cdDays">00</div><div class="flip-label">Hari</div></div>
+      <div class="flip"><div class="flip-num" id="cdHours">00</div><div class="flip-label">Jam</div></div>
+      <div class="flip"><div class="flip-num" id="cdMins">00</div><div class="flip-label">Menit</div></div>
+      <div class="flip"><div class="flip-num" id="cdSecs">00</div><div class="flip-label">Detik</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVENTS ============ -->
+<section id="events" class="section" data-nav="Events">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:40px;">
+      <div class="eyebrow">Rangkaian Acara</div>
+      <h2 class="section-title">Ceremony &amp; Reception</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="event-grid">
+      <div class="event-card reveal">
+        <svg class="event-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2l3 6 6 1-4.5 4.3L17.5 20 12 16.8 6.5 20l1-6.7L3 9l6-1z"/></svg>
+        <div class="event-name">Holy Matrimony</div>
+        <div class="event-when">Sabtu, 12 September 2026 &middot; 15.00 WITA</div>
+        <div class="event-where">Chiesa di San Giovanni, Ravello</div>
+        <div class="event-actions">
+          <a class="chip" href="#">+ Google Calendar</a>
+          <a class="chip" href="#">+ Apple Calendar</a>
+        </div>
+      </div>
+      <div class="event-card reveal">
+        <svg class="event-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20h16M6 20V10l6-5 6 5v10M9 20v-6h6v6"/></svg>
+        <div class="event-name">Cliffside Reception</div>
+        <div class="event-when">Sabtu, 12 September 2026 &middot; 18.00 WITA</div>
+        <div class="event-where">Villa Cimbrone Terrace, Ravello</div>
+        <div class="event-actions">
+          <a class="chip" href="#">Buka Navigasi</a>
+          <a class="chip" id="copyAddr" href="#">Salin Alamat</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VENUE / MAP ============ -->
+<section id="venue" class="section" data-nav="Venue">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:40px;">
+      <div class="eyebrow">Venue</div>
+      <h2 class="section-title">Menuju Villa Cimbrone</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="venue-grid reveal">
+      <div class="map-frame">
+        <iframe loading="lazy" src="https://www.google.com/maps?q=Villa%20Cimbrone%2C%20Ravello%2C%20Italy&output=embed" allowfullscreen title="Peta lokasi venue"></iframe>
+      </div>
+      <div class="venue-info">
+        <div class="venue-row"><span>Estimasi Perjalanan</span><span>25 menit dari Amalfi</span></div>
+        <div class="venue-row"><span>Parkir</span><span>Tersedia valet di area villa</span></div>
+        <div class="venue-row"><span>Hotel Terdekat</span><span>Hotel Caruso, Ravello</span></div>
+        <div class="venue-row"><span>Restoran Terdekat</span><span>Ristorante Rossellinis</span></div>
+        <div class="venue-row"><span>Atraksi Terdekat</span><span>Giardini di Villa Rufolo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DRESS CODE ============ -->
+<section id="dresscode" class="section" data-nav="Dress Code">
+  <div class="container reveal" style="text-align:center;">
+    <div class="eyebrow">Dress Code</div>
+    <h2 class="section-title">Mediterranean Formal</h2>
+    <p class="section-sub" style="margin:14px auto 0;">Kami mengundang Anda mengenakan busana bernuansa pesisir Italia — warna ivory, terracotta, biru laut, dan sand tone.</p>
+    <div class="swatches" style="justify-content:center;">
+      <div class="swatch" style="background:var(--ivory);border:1px solid rgba(0,0,0,.05)"></div>
+      <div class="swatch" style="background:var(--sand)"></div>
+      <div class="swatch" style="background:var(--terracotta)"></div>
+      <div class="swatch" style="background:var(--azure)"></div>
+      <div class="swatch" style="background:var(--olive)"></div>
+      <div class="swatch" style="background:var(--bougainvillea)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GIFT ============ -->
+<section id="gift" class="section" data-nav="Gift">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:30px;">
+      <div class="eyebrow">Wedding Gift</div>
+      <h2 class="section-title">Tanda Kasih</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="gift-card reveal">
+      <p class="section-sub" style="margin:0 auto;text-align:center;">Doa restu Anda adalah karunia terindah. Namun bila ingin memberi tanda kasih, kami menyediakan:</p>
+      <div class="qr-box" aria-label="Kode QRIS"></div>
+      <div class="acc-number">BCA &middot; 1234 5678 90 &middot; Isabella &amp; Alessandro</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <a class="chip" href="#">Salin Nomor Rekening</a>
+        <a class="chip" href="#">Unduh QRIS</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RSVP ============ -->
+<section id="rsvp" class="section" data-nav="RSVP">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:30px;">
+      <div class="eyebrow">RSVP</div>
+      <h2 class="section-title">Konfirmasi Kehadiran</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <form class="rsvp-form reveal" id="rsvpForm">
+      <div class="field"><label>Nama</label><input type="text" required placeholder="Nama lengkap Anda"></div>
+      <div class="field"><label>Kehadiran</label>
+        <select required>
+          <option value="">Pilih konfirmasi</option>
+          <option>Hadir dengan sukacita</option>
+          <option>Mohon maaf, berhalangan hadir</option>
+        </select>
+      </div>
+      <div class="field"><label>Jumlah Tamu</label><input type="number" min="1" max="4" value="1"></div>
+      <div class="field"><label>Ucapan</label><textarea rows="3" placeholder="Tuliskan doa dan ucapan Anda"></textarea></div>
+      <button type="submit" class="rsvp-submit">Kirim Konfirmasi</button>
+    </form>
+    <div id="rsvpSuccess" class="reveal">
+      <div class="check"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="section-title" style="font-size:1.6rem;">Terima Kasih</div>
+      <p class="section-sub" style="margin:8px auto 0;">Konfirmasi Anda telah kami terima dengan hangat, seperti sinar matahari pesisir Amalfi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GUEST BOOK ============ -->
+<section id="guestbook" class="section" data-nav="Guest Book">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="eyebrow">Guest Book</div>
+      <h2 class="section-title">Ucapan &amp; Doa</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="wish-grid" id="wishGrid"></div>
+  </div>
+</section>
+
+<!-- ============ FAQ / TRAVEL ============ -->
+<section id="faq" class="section" data-nav="FAQ">
+  <div class="container" style="max-width:720px;">
+    <div class="reveal" style="text-align:center;margin-bottom:20px;">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="section-title">Pertanyaan Umum</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="reveal" id="faqList"></div>
+  </div>
+</section>
+
+<section id="travel" class="section" data-nav="Travel">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:30px;">
+      <div class="eyebrow">Travel Guide</div>
+      <h2 class="section-title">Akomodasi &amp; Sekitar Venue</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="travel-grid reveal">
+      <div class="travel-card"><h4>Akomodasi</h4><p>Hotel Caruso dan Belmond Villa Cimbrone menawarkan kamar dengan pemandangan laut, hanya beberapa menit dari venue.</p></div>
+      <div class="travel-card"><h4>Kafe &amp; Restoran</h4><p>Cicipi limoncello dan pasta segar di Ristorante Rossellinis atau Caffè Calise di pusat Ravello.</p></div>
+      <div class="travel-card"><h4>Atraksi Terdekat</h4><p>Sempatkan mampir ke Giardini di Villa Rufolo dan menikmati panorama pesisir dari Belvedere Ravello.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section" data-nav="Contact">
+  <div class="container reveal" style="text-align:center;">
+    <div class="eyebrow">Contact Person</div>
+    <h2 class="section-title">Hubungi Kami</h2>
+    <div class="gold-divider"></div>
+    <p class="section-sub" style="margin:0 auto;">Marco (Keluarga Mempelai Wanita) &middot; +62 812-xxxx-xxxx<br>Giovanni (Keluarga Mempelai Pria) &middot; +62 813-xxxx-xxxx</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER / ENDING ============ -->
+<footer id="footer" data-nav="Closing">
+  <div class="villa-lights"></div>
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="reveal footer-tagline">&ldquo;Like The Endless Sea, Our Love Knows No Horizon.&rdquo;</div>
+    <div class="reveal footer-names">Alessandro &amp; Isabella</div>
+    <div class="reveal footer-date">12 September 2026 &middot; Ravello, Italia</div>
+    <div class="reveal footer-hashtag">#AlessandroIsabellaInAmalfi</div>
+    <div class="reveal footer-contact">
+      <span>Dengan penuh syukur, kami menantikan kehadiran Anda.</span>
+    </div>
+    <div class="footer-credit">Amalfi Coast Luxury Wedding &middot; Made with love</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ---------- data ----------
+  const tones = [
+    ['#E8D6B3','#6EC1C2'],['#4A90B8','#0B3654'],['#C1613D','#E8D6B3'],
+    ['#6E7B4E','#E8D6B3'],['#D9A857','#C4577E'],['#2E6E8E','#6EC1C2'],
+    ['#C4577E','#F7D9A8'],['#0B3654','#4A90B8']
+  ];
+  const masonry = document.getElementById('masonry');
+  for(let i=0;i<8;i++){
+    const f=document.createElement('div');f.className='frame';
+    const ph=document.createElement('div');ph.className='ph';
+    ph.style.setProperty('--tone1',tones[i][0]);ph.style.setProperty('--tone2',tones[i][1]);
+    ph.style.setProperty('--ar', (i%3===0)?'1/1':(i%3===1?'4/5':'1/1.3'));
+    f.appendChild(ph);f.addEventListener('click',()=>lightbox.classList.add('open'));
+    masonry.appendChild(f);
+  }
+  const lightbox=document.getElementById('lightbox');
+  document.getElementById('lbClose').addEventListener('click',()=>lightbox.classList.remove('open'));
+  lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.classList.remove('open');});
+
+  const wishes=[
+    ['Marco & Elena','Selamat menempuh hidup baru! Semoga selalu bahagia seperti pesisir Amalfi yang tenang.'],
+    ['Giulia','So happy for you both — cheers to a lifetime of golden sunsets together!'],
+    ['Sofia','Doa terbaik untuk kalian berdua, semoga cinta kalian abadi selamanya.'],
+    ['Luca','Congratulations! Can’t wait to celebrate with you in Ravello.']
+  ];
+  const wishGrid=document.getElementById('wishGrid');
+  wishes.forEach(w=>{
+    const c=document.createElement('div');c.className='wish-card reveal';
+    c.innerHTML=`<div class="wish-name">${w[0]}</div><div class="wish-text">${w[1]}</div>`;
+    wishGrid.appendChild(c);
+  });
+
+  const faqs=[
+    ['Apakah acara terbuka untuk anak-anak?','Dengan hormat, acara ini dikhususkan untuk tamu dewasa agar suasana tetap intim.'],
+    ['Bagaimana cara menuju venue?','Shuttle tersedia dari pusat kota Ravello, atau gunakan tautan navigasi pada bagian Venue.'],
+    ['Apakah tersedia akomodasi?','Kami menyiapkan rekomendasi hotel terdekat pada bagian Travel Guide.'],
+    ['Kapan batas konfirmasi kehadiran?','Kami menantikan RSVP Anda paling lambat dua minggu sebelum hari bahagia.']
+  ];
+  const faqList=document.getElementById('faqList');
+  faqs.forEach(f=>{
+    const item=document.createElement('div');item.className='faq-item';
+    item.innerHTML=`<div class="faq-q"><span>${f[0]}</span><span class="plus">+</span></div><div class="faq-a">${f[1]}</div>`;
+    item.addEventListener('click',()=>item.classList.toggle('open'));
+    faqList.appendChild(item);
+  });
+
+  // ---------- cover name letters ----------
+  const coverNames=document.getElementById('coverNames');
+  const nameStr="Alessandro & Isabella";
+  [...nameStr].forEach((ch,i)=>{
+    const span=document.createElement('span');
+    span.className='letter';
+    span.style.animationDelay=(0.5+i*0.035)+'s';
+    if(ch===' '){span.innerHTML='&nbsp;';}
+    else if(ch==='&'){span.textContent=ch;span.classList.add('cover-amp');}
+    else{span.textContent=ch;}
+    coverNames.appendChild(span);
+  });
+
+  // ---------- preloader -> cover ----------
+  window.addEventListener('load',()=>{
+    setTimeout(()=>{document.getElementById('preloader').classList.add('done');},1600);
+  });
+
+  // ---------- audio + open invitation ----------
+  const audio=document.getElementById('themeAudio');
+  const openBtn=document.getElementById('openBtn');
+  const cover=document.getElementById('cover');
+  const player=document.getElementById('player');
+  let audioReady=false;
+
+  function fadeAudio(target,duration){
+    const startVol=audio.volume, startTime=performance.now();
+    function step(now){
+      const p=Math.min(1,(now-startTime)/duration);
+      audio.volume=startVol+(target-startVol)*p;
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  openBtn.addEventListener('click',()=>{
+    cover.classList.add('hide');
+    document.body.style.overflow='auto';
+    player.classList.add('show');
+    audio.volume=0;
+    audio.play().then(()=>{audioReady=true;fadeAudio(0.6,7000);}).catch(()=>{ /* autoplay blocked, wait for tap */ });
+  });
+
+  document.body.style.overflow='hidden';
+
+  // play/pause toggle
+  const playIcon=document.getElementById('playIcon'), pauseIcon=document.getElementById('pauseIcon');
+  document.getElementById('playToggle').addEventListener('click',()=>{
+    if(audio.paused){audio.play();playIcon.style.display='none';pauseIcon.style.display='block';}
+    else{audio.pause();playIcon.style.display='block';pauseIcon.style.display='none';}
+  });
+  audio.addEventListener('play',()=>{playIcon.style.display='none';pauseIcon.style.display='block';});
+  audio.addEventListener('pause',()=>{playIcon.style.display='block';pauseIcon.style.display='none';});
+
+  let muted=false;
+  document.getElementById('muteToggle').addEventListener('click',(e)=>{
+    muted=!muted;audio.muted=muted;
+    e.currentTarget.style.opacity=muted?'.35':'.75';
+  });
+
+  audio.addEventListener('timeupdate',()=>{
+    if(audio.duration){
+      document.getElementById('playerProgress').style.width=(audio.currentTime/audio.duration*100)+'%';
+    }
+  });
+  document.getElementById('playerTrack').addEventListener('click',(e)=>{
+    const rect=e.currentTarget.getBoundingClientRect();
+    const p=(e.clientX-rect.left)/rect.width;
+    if(audio.duration)audio.currentTime=p*audio.duration;
+  });
+
+  // ---------- scroll reveal ----------
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); });
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // ---------- ocean progress + section nav dots ----------
+  const sections=[...document.querySelectorAll('[data-nav]')];
+  const navDotsWrap=document.getElementById('navDots');
+  sections.forEach((s,i)=>{
+    const dot=document.createElement('div');dot.className='nav-dot';
+    dot.title=s.dataset.nav;
+    dot.addEventListener('click',()=>s.scrollIntoView({behavior:'smooth'}));
+    navDotsWrap.appendChild(dot);
+  });
+  const dotEls=[...navDotsWrap.children];
+
+  function onScroll(){
+    const scrollTop=window.scrollY;
+    const docH=document.documentElement.scrollHeight-window.innerHeight;
+    const pct=Math.min(100,(scrollTop/docH)*100);
+    document.getElementById('oceanProgress').style.width=pct+'%';
+
+    let activeIdx=0;
+    sections.forEach((s,i)=>{ if(s.getBoundingClientRect().top<window.innerHeight*0.5) activeIdx=i; });
+    dotEls.forEach((d,i)=>d.classList.toggle('active',i===activeIdx));
+
+    // story path fill
+    const story=document.getElementById('story');
+    const fill=document.getElementById('storyFill');
+    if(story && fill){
+      const r=story.getBoundingClientRect();
+      const progressed=Math.min(1,Math.max(0,(window.innerHeight*0.7-r.top)/(r.height)));
+      fill.style.height=(progressed*100)+'%';
+    }
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  // ---------- countdown ----------
+  const weddingDate=new Date('2026-09-12T15:00:00+08:00').getTime();
+  function tick(){
+    const now=Date.now();
+    let diff=Math.max(0,weddingDate-now);
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor((diff%86400000)/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    const s=Math.floor((diff%60000)/1000);
+    document.getElementById('cdDays').textContent=String(d).padStart(2,'0');
+    document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
+    document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
+    document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+
+  // ---------- RSVP fake submit ----------
+  document.getElementById('rsvpForm').addEventListener('submit',(e)=>{
+    e.preventDefault();
+    e.currentTarget.style.display='none';
+    const success=document.getElementById('rsvpSuccess');
+    success.classList.add('show','in');
+  });
+
+  // ---------- copy address ----------
+  document.getElementById('copyAddr').addEventListener('click',(e)=>{
+    e.preventDefault();
+    navigator.clipboard && navigator.clipboard.writeText('Villa Cimbrone, Via Santa Chiara, 26, 84010 Ravello SA, Italy');
+    const el=e.currentTarget; const orig=el.textContent;
+    el.textContent='Alamat Disalin ✓'; setTimeout(()=>el.textContent=orig,1800);
+  });
+
+  // ---------- bougainvillea petals ----------
+  function spawnPetal(){
+    const p=document.createElement('div');p.className='petal';
+    p.style.left=Math.random()*100+'vw';
+    p.style.setProperty('--drift',(Math.random()*120-60)+'px');
+    p.style.animationDuration=(9+Math.random()*6)+'s';
+    p.style.background=Math.random()>0.5?'#C4577E':'#E0A458';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),16000);
+  }
+  setInterval(spawnPetal,1800);
+})();
+</script>
+</body>
+</html>
