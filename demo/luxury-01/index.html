@@ -275,6 +275,28 @@ img{max-width:100%; display:block;}
 .dot-nav a.active{ background:var(--gold); box-shadow:0 0 10px rgba(201,163,92,.7); transform:scale(1.5); }
 
 /* ============================================================
+   CUSTOM CURSOR (golden vine motif)
+   ============================================================ */
+#cursor-dot, #cursor-ring{
+  position:fixed; top:0; left:0; pointer-events:none; z-index:9999; border-radius:50%;
+  transform:translate(-50%,-50%); will-change:transform;
+}
+#cursor-dot{ width:5px; height:5px; background:var(--gold-light); box-shadow:0 0 6px rgba(232,207,148,.8); transition:opacity .3s, transform .15s var(--ease-soft); }
+#cursor-ring{
+  width:34px; height:34px; border:1px solid var(--gold-deep); opacity:.7;
+  transition:width .35s var(--ease-lux), height .35s var(--ease-lux), opacity .35s, border-color .35s, background .35s;
+}
+#cursor-ring::before{
+  content:''; position:absolute; inset:-6px; border-radius:50%; border:1px solid var(--line); opacity:.6;
+}
+body.cursor-active #cursor-ring.hover{ width:56px; height:56px; border-color:var(--gold); background:rgba(201,163,92,.08); }
+body.cursor-active #cursor-ring.click{ width:24px; height:24px; }
+body.cursor-active, body.cursor-active a, body.cursor-active button, body.cursor-active .g-item, body.cursor-active input, body.cursor-active textarea, body.cursor-active select{ cursor:none; }
+@media (max-width:880px), (hover:none){
+  #cursor-dot, #cursor-ring{ display:none; }
+}
+
+/* ============================================================
    HERO
    ============================================================ */
 #hero{
@@ -325,11 +347,13 @@ img{max-width:100%; display:block;}
   width:180px; height:220px; margin:0 auto 22px; border-radius:6px; overflow:hidden; position:relative;
   border:1px solid var(--line);
 }
-.couple-photo .ph{ width:100%; height:100%; background:linear-gradient(155deg, var(--emerald-soft), var(--emerald-deep)); display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-style:italic; font-size:15px; color:var(--sage);}
+.couple-photo img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.92); transition:transform 1.1s var(--ease-lux); }
+.couple-photo:hover img{ transform:scale(1.06); }
 .couple-name{ font-size:28px; margin-bottom:6px; }
 .couple-role{ font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
 .couple-parents{ font-size:13px; color:var(--ivory-dim); line-height:1.9;}
-.couple-social{ margin-top:14px; font-size:11px; letter-spacing:.15em; color:var(--sage); }
+.couple-social{ display:inline-block; margin-top:14px; font-size:11px; letter-spacing:.15em; color:var(--sage); border-bottom:1px solid transparent; transition:color .3s, border-color .3s; }
+.couple-social:hover{ color:var(--gold-light); border-color:var(--gold-deep); }
 .couple-divider{ font-family:var(--serif); font-style:italic; font-size:34px; color:var(--gold); }
 @media (max-width:640px){ .couple-divider{ transform:rotate(90deg); } }
 
@@ -580,6 +604,8 @@ footer b{ color:var(--gold); }
 
 <div class="grain"></div>
 <div id="transition-flash"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
 
 <!-- PRELOADER -->
 <div id="preloader">
@@ -644,6 +670,9 @@ footer b{ color:var(--gold); }
      QUOTE
      ============================================================ -->
 <section id="quote" class="section">
+  <p class="eyebrow reveal">Selamat Datang</p>
+  <h2 class="section-title reveal">Assalamu'alaikum Wr. Wb.</h2>
+  <p class="section-sub reveal" style="max-width:520px; margin:14px auto 0; font-style:normal;">Dengan penuh rasa syukur kepada Tuhan Yang Maha Esa, kami mengundang Bapak/Ibu/Saudara/i untuk turut serta merayakan dan mendoakan hari bahagia pernikahan kami.</p>
   <div class="vine-divider reveal"><svg viewBox="0 0 200 24"><path class="vine-path" d="M2 12 C 50 -6, 80 30, 100 12 S 150 -6, 198 12"/><circle class="vine-dot" cx="100" cy="12" r="2.4"/></svg></div>
   <div class="quote-mark reveal">“</div>
   <p class="quote-text reveal">Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan untukmu, agar kamu merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.</p>
@@ -658,19 +687,19 @@ footer b{ color:var(--gold); }
   <h2 class="section-title reveal">Kedua Mempelai</h2>
   <div class="couple-grid">
     <div class="couple-card reveal">
-      <div class="couple-photo"><div class="ph">Foto Mempelai Wanita</div></div>
+      <div class="couple-photo"><img src="assets/couple-bride.jpg" alt="Foto Aiko Ramadhani" loading="lazy"></div>
       <h3 class="couple-name">Aiko Ramadhani</h3>
-      <p class="couple-role">Putri Kedua</p>
+      <p class="couple-role">Putri Kedua dari</p>
       <p class="couple-parents">Bapak Herman Wijaya &amp;<br>Ibu Ratna Kusuma</p>
-      <p class="couple-social">@aiko.ramadhani</p>
+      <a class="couple-social" href="https://instagram.com/aiko.ramadhani" target="_blank" rel="noopener">@aiko.ramadhani</a>
     </div>
     <div class="couple-divider reveal">&amp;</div>
     <div class="couple-card reveal">
-      <div class="couple-photo"><div class="ph">Foto Mempelai Pria</div></div>
+      <div class="couple-photo"><img src="assets/couple-groom.jpg" alt="Foto Danendra Putra" loading="lazy"></div>
       <h3 class="couple-name">Danendra Putra</h3>
-      <p class="couple-role">Putra Pertama</p>
+      <p class="couple-role">Putra Pertama dari</p>
       <p class="couple-parents">Bapak Agus Santoso &amp;<br>Ibu Dewi Lestari</p>
-      <p class="couple-social">@danendra.putra</p>
+      <a class="couple-social" href="https://instagram.com/danendra.putra" target="_blank" rel="noopener">@danendra.putra</a>
     </div>
   </div>
 </section>
@@ -717,24 +746,30 @@ footer b{ color:var(--gold); }
   <p class="eyebrow reveal">Moments</p>
   <h2 class="section-title reveal">Galeri Kami</h2>
   <div class="gallery-grid">
-    <div class="g-item reveal-scale" onclick="openLightbox()"><div class="ph">Momen 01</div></div>
-    <div class="g-item reveal-scale" onclick="openLightbox()"><div class="ph">Momen 02</div></div>
-    <div class="g-item reveal-scale" onclick="openLightbox()"><div class="ph">Momen 03</div></div>
-    <div class="g-item reveal-scale" onclick="openLightbox()"><div class="ph">Momen 04</div></div>
-    <div class="g-item reveal-scale" onclick="openLightbox()"><div class="ph">Momen 05</div></div>
-    <div class="g-item reveal-scale" onclick="openLightbox()"><div class="ph">Momen 06</div></div>
+    <div class="g-item reveal-scale" onclick="openLightbox(0)"><img src="assets/gallery-1.jpg" alt="Momen 01" loading="lazy"></div>
+    <div class="g-item reveal-scale" onclick="openLightbox(1)"><img src="assets/gallery-2.jpg" alt="Momen 02" loading="lazy"></div>
+    <div class="g-item reveal-scale" onclick="openLightbox(2)"><img src="assets/gallery-3.jpg" alt="Momen 03" loading="lazy"></div>
+    <div class="g-item reveal-scale" onclick="openLightbox(3)"><img src="assets/gallery-4.jpg" alt="Momen 04" loading="lazy"></div>
+    <div class="g-item reveal-scale" onclick="openLightbox(4)"><img src="assets/gallery-5.jpg" alt="Momen 05" loading="lazy"></div>
+    <div class="g-item reveal-scale" onclick="openLightbox(5)"><img src="assets/gallery-6.jpg" alt="Momen 06" loading="lazy"></div>
   </div>
 
   <div class="video-frame reveal-scale">
-    <div class="video-play"></div>
+    <video id="weddingVideo" poster="assets/video-poster.jpg" preload="none" playsinline controls>
+      <source src="assets/video-placeholder.mp4" type="video/mp4">
+      Browser Anda tidak mendukung pemutaran video.
+    </video>
+    <div class="video-play" id="videoPlayBtn" onclick="playWeddingVideo()"></div>
     <div class="video-caption">Tonton Video Prewedding</div>
   </div>
 </section>
 
 <!-- lightbox -->
-<div id="lightbox" onclick="closeLightbox()">
-  <span class="lb-close">Tutup ✕</span>
-  <div class="lb-box">Pratinjau Foto</div>
+<div id="lightbox">
+  <span class="lb-close" onclick="closeLightbox()">Tutup ✕</span>
+  <button class="lb-nav lb-prev" onclick="event.stopPropagation(); navLightbox(-1)">‹</button>
+  <div class="lb-box"><img id="lb-img" src="" alt="Pratinjau Foto"></div>
+  <button class="lb-nav lb-next" onclick="event.stopPropagation(); navLightbox(1)">›</button>
 </div>
 
 <!-- ============================================================
@@ -1237,6 +1272,32 @@ window.addEventListener('resize', ()=>{
   const params = new URLSearchParams(window.location.search);
   const to = params.get('to');
   if(to){ document.getElementById('guestName').textContent = decodeURIComponent(to.replace(/\+/g,' ')); }
+})();
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+(function(){
+  const isFine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if(!isFine) return;
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  document.body.classList.add('cursor-active');
+  let rx=0, ry=0, tx=0, ty=0;
+  window.addEventListener('mousemove', (e)=>{
+    dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+    tx = e.clientX; ty = e.clientY;
+  });
+  (function loop(){
+    rx += (tx-rx)*.18; ry += (ty-ry)*.18;
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  })();
+  const hoverables = 'a, button, .g-item, input, textarea, select, .acc-q';
+  document.addEventListener('mouseover', (e)=>{ if(e.target.closest(hoverables)) ring.classList.add('hover'); });
+  document.addEventListener('mouseout', (e)=>{ if(e.target.closest(hoverables)) ring.classList.remove('hover'); });
+  document.addEventListener('mousedown', ()=> ring.classList.add('click'));
+  document.addEventListener('mouseup', ()=> ring.classList.remove('click'));
 })();
 </script>
 </body>
