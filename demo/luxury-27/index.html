@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reyhan & Aleida — The Wedding</title>
+<meta name="description" content="Undangan pernikahan Reyhan & Aleida">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= CUSTOM CURSOR ================= -->
+<div class="luxury-cursor" id="luxuryCursor" aria-hidden="true"></div>
+
+<!-- ================= PRELOADER ================= -->
+<div class="preloader" id="preloader">
+  <div class="preloader-marble"></div>
+  <svg class="preloader-monogram" viewBox="0 0 200 200" aria-hidden="true">
+    <line class="mono-line mono-line-1" x1="100" y1="30" x2="100" y2="170"></line>
+    <line class="mono-line mono-line-2" x1="30" y1="100" x2="170" y2="100"></line>
+    <circle class="mono-circle" cx="100" cy="100" r="60"></circle>
+  </svg>
+  <p class="preloader-label">Sedang Menyalakan Galeri</p>
+</div>
+
+<!-- ================= SCROLL PROGRESS ================= -->
+<div class="scroll-indicator" aria-hidden="true"><div class="scroll-indicator-fill" id="scrollFill"></div></div>
+
+<!-- ================= OPENING GATE ================= -->
+<section class="gate" id="gate">
+  <div class="gate-texture"></div>
+  <div class="gate-content">
+    <div class="gate-seam" id="gateSeam"></div>
+    <p class="eyebrow gate-eyebrow" data-reveal>The Wedding Of</p>
+    <h1 class="gate-names" id="gateNames" aria-label="Reyhan & Aleida">
+      <span class="letters" data-text="Reyhan">Reyhan</span>
+      <span class="gate-amp">&amp;</span>
+      <span class="letters" data-text="Aleida">Aleida</span>
+    </h1>
+    <div class="gate-arch"></div>
+    <button class="btn-open" id="btnOpen" type="button">
+      <span>Buka Undangan</span>
+    </button>
+    <p class="gate-guest">Kepada Yth. <span id="guestName">Bapak/Ibu/Saudara/i</span></p>
+  </div>
+</section>
+
+<!-- Ambient particles / window shadow overlay -->
+<div class="ambient-dust" aria-hidden="true"></div>
+<div class="window-shadow" aria-hidden="true"></div>
+
+<main id="mainContent">
+
+  <!-- ================= HERO / WELCOME ================= -->
+  <section class="section hero-section" id="welcome">
+    <div class="marble-wall"></div>
+    <div class="hero-arch">
+      <img id="heroImage" src="" alt="Reyhan & Aleida" class="hero-img">
+    </div>
+    <div class="glass-panel hero-panel" data-reveal>
+      <p class="eyebrow">Selamat Datang di Galeri Cinta Kami</p>
+      <h2 class="display-xl">Reyhan <span class="amp">&amp;</span> Aleida</h2>
+      <p class="hero-date">Sabtu, 12 Desember 2026</p>
+      <div class="gold-line-single"></div>
+      <p class="hero-quote">"In quiet moments, we found forever."</p>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= BRIDE & GROOM ================= -->
+  <section class="section" id="couple">
+    <p class="eyebrow center" data-reveal>Mempelai</p>
+    <h2 class="display-lg center" data-reveal>Bride &amp; Groom</h2>
+    <div class="couple-grid">
+      <article class="couple-card arch-frame" data-reveal>
+        <img id="groomImage" src="" alt="Mempelai Pria" class="couple-img">
+        <div class="brass-corner"></div>
+        <h3 class="display-md">Reyhan Adyatma</h3>
+        <p class="body-caption">Putra dari Bapak Yth. &amp; Ibu Yth.</p>
+        <a href="#" class="ig-link" id="groomIg">@reyhan.adyatma</a>
+      </article>
+      <div class="couple-divider"><div class="olive-leaf"></div></div>
+      <article class="couple-card arch-frame" data-reveal>
+        <img id="brideImage" src="" alt="Mempelai Wanita" class="couple-img">
+        <div class="brass-corner"></div>
+        <h3 class="display-md">Aleida Kirana</h3>
+        <p class="body-caption">Putri dari Bapak Yth. &amp; Ibu Yth.</p>
+        <a href="#" class="ig-link" id="brideIg">@aleida.kirana</a>
+      </article>
+    </div>
+    <div class="glass-panel couple-photo-panel" data-reveal>
+      <img id="coupleImage" src="" alt="Pasangan" class="couple-full-img">
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= FAMILY ================= -->
+  <section class="section section-tight" id="family">
+    <p class="eyebrow center" data-reveal>Restu Keluarga</p>
+    <h2 class="display-lg center" data-reveal>Keluarga</h2>
+    <div class="family-grid">
+      <div class="family-card glass-panel" data-reveal>
+        <p class="body-caption">Keluarga Mempelai Pria</p>
+        <p class="family-parents">Bapak Yth. &amp; Ibu Yth.</p>
+      </div>
+      <div class="family-card glass-panel" data-reveal>
+        <p class="body-caption">Keluarga Mempelai Wanita</p>
+        <p class="family-parents">Bapak Yth. &amp; Ibu Yth.</p>
+      </div>
+    </div>
+    <div class="travertine-strip" data-seam></div>
+  </section>
+
+  <!-- ================= LOVE STORY ================= -->
+  <section class="section" id="lovestory">
+    <p class="eyebrow center" data-reveal>Perjalanan Kami</p>
+    <h2 class="display-lg center" data-reveal>Love Story</h2>
+    <div class="timeline" id="timeline">
+      <div class="timeline-seam"></div>
+      <div class="timeline-item" data-reveal>
+        <span class="timeline-year">2019</span>
+        <div class="glass-panel timeline-panel">
+          <h4 class="display-sm">Pertemuan Pertama</h4>
+          <p>Di sebuah galeri seni yang tenang, dua pandangan bertemu tanpa rencana.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-reveal>
+        <span class="timeline-year">2021</span>
+        <div class="glass-panel timeline-panel">
+          <h4 class="display-sm">Langkah Bersama</h4>
+          <p>Perjalanan yang dulunya sendiri, kini ditempuh berdua, langkah demi langkah.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-reveal>
+        <span class="timeline-year">2024</span>
+        <div class="glass-panel timeline-panel">
+          <h4 class="display-sm">Janji Sehidup</h4>
+          <p>Di bawah cahaya senja, sebuah pertanyaan dijawab dengan air mata bahagia.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-reveal>
+        <span class="timeline-year">2026</span>
+        <div class="glass-panel timeline-panel">
+          <h4 class="display-sm">Selamanya</h4>
+          <p>Dan kini, kami mengundang Anda untuk menjadi saksi babak baru kami.</p>
+        </div>
+      </div>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section class="section" id="gallery">
+    <p class="eyebrow center" data-reveal>Momen</p>
+    <h2 class="display-lg center" data-reveal>Gallery</h2>
+    <div class="masonry" id="masonryGrid"></div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Sebelumnya">&#8249;</button>
+    <div class="lightbox-arch">
+      <img id="lightboxImg" src="" alt="">
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Berikutnya">&#8250;</button>
+  </div>
+
+  <!-- ================= HIGHLIGHT MOMENTS / TRAILER ================= -->
+  <section class="section" id="highlight">
+    <p class="eyebrow center" data-reveal>Sorotan</p>
+    <h2 class="display-lg center" data-reveal>Highlight Moments</h2>
+    <div class="glass-panel video-panel" data-reveal>
+      <video id="preweddingVideo" controls playsinline preload="none" poster=""></video>
+    </div>
+    <div class="glass-panel video-panel" data-reveal>
+      <p class="body-caption center">Wedding Trailer</p>
+      <video id="trailerVideo" controls playsinline preload="none" poster=""></video>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= COUNTDOWN ================= -->
+  <section class="section" id="countdown">
+    <p class="eyebrow center" data-reveal>Hitung Mundur</p>
+    <h2 class="display-lg center" data-reveal>Menuju Hari Bahagia</h2>
+    <div class="countdown-grid" id="countdownGrid" data-reveal>
+      <div class="flip-card"><span class="flip-num" id="cdDays">00</span><span class="flip-label">Hari</span></div>
+      <div class="flip-card"><span class="flip-num" id="cdHours">00</span><span class="flip-label">Jam</span></div>
+      <div class="flip-card"><span class="flip-num" id="cdMinutes">00</span><span class="flip-label">Menit</span></div>
+      <div class="flip-card"><span class="flip-num" id="cdSeconds">00</span><span class="flip-label">Detik</span></div>
+    </div>
+    <div class="save-calendar" data-reveal>
+      <button class="btn-ghost" id="btnGCal">Google Calendar</button>
+      <button class="btn-ghost" id="btnICal">Apple Calendar</button>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= CEREMONY & RECEPTION ================= -->
+  <section class="section" id="event">
+    <p class="eyebrow center" data-reveal>Acara</p>
+    <h2 class="display-lg center" data-reveal>Ceremony &amp; Reception</h2>
+    <div class="event-grid">
+      <div class="event-card arch-frame" data-reveal>
+        <h3 class="display-md">Akad Nikah</h3>
+        <p class="event-time">08.00 – 10.00 WIB</p>
+        <p class="event-venue">The Marble Atelier Hall<br>Jl. Golden Hour No. 1, Jakarta</p>
+        <button class="btn-ghost btn-copy" data-copy="Jl. Golden Hour No. 1, Jakarta">Copy Address</button>
+      </div>
+      <div class="event-card arch-frame" data-reveal>
+        <h3 class="display-md">Resepsi</h3>
+        <p class="event-time">18.00 – 21.00 WIB</p>
+        <p class="event-venue">The Marble Atelier Hall<br>Jl. Golden Hour No. 1, Jakarta</p>
+        <button class="btn-ghost btn-copy" data-copy="Jl. Golden Hour No. 1, Jakarta">Copy Address</button>
+      </div>
+    </div>
+    <p class="copy-feedback" id="copyFeedback">Alamat disalin</p>
+
+    <div class="dresscode-block" data-reveal>
+      <p class="eyebrow center">Dress Code</p>
+      <div class="swatches">
+        <div class="swatch" style="background:var(--ivory)"><span>Ivory</span></div>
+        <div class="swatch" style="background:var(--champagne)"><span>Champagne</span></div>
+        <div class="swatch" style="background:var(--walnut)"><span>Walnut Brown</span></div>
+      </div>
+    </div>
+
+    <div class="glass-panel map-panel" data-reveal>
+      <iframe
+        title="Lokasi Acara"
+        src="https://www.google.com/maps?q=Jakarta&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-actions">
+        <a class="btn-ghost" id="btnNavigate" href="https://www.google.com/maps?q=Jakarta" target="_blank" rel="noopener">Navigation</a>
+        <span class="body-caption">Parkir tersedia · Nearby Hotel tersedia</span>
+      </div>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= GIFT ================= -->
+  <section class="section" id="gift">
+    <p class="eyebrow center" data-reveal>Tanda Kasih</p>
+    <h2 class="display-lg center" data-reveal>Wedding Gift</h2>
+    <p class="body-text center" data-reveal>Kehadiran Anda adalah hadiah terbesar bagi kami. Namun apabila ingin memberikan tanda kasih, kami sediakan sarana berikut.</p>
+    <div class="gift-grid">
+      <div class="glass-panel gift-card" data-reveal>
+        <p class="body-caption">QRIS</p>
+        <div class="qris-frame"><img src="" alt="QRIS Code" id="qrisImage"></div>
+        <button class="btn-ghost" id="btnDownloadQr">Download QR</button>
+      </div>
+      <div class="glass-panel gift-card" data-reveal>
+        <p class="body-caption">Transfer Bank</p>
+        <p class="bank-name">BCA — a.n. Reyhan Adyatma</p>
+        <p class="bank-number" id="bankNumber">1234 5678 90</p>
+        <button class="btn-ghost btn-copy" data-copy="1234567890">Copy Account</button>
+      </div>
+    </div>
+    <p class="copy-feedback" id="giftFeedback">Nomor rekening disalin</p>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= RSVP ================= -->
+  <section class="section" id="rsvp">
+    <p class="eyebrow center" data-reveal>Konfirmasi Kehadiran</p>
+    <h2 class="display-lg center" data-reveal>RSVP</h2>
+    <div class="glass-panel rsvp-panel" data-reveal>
+      <form id="rsvpForm" class="rsvp-form">
+        <label class="field">
+          <span>Nama</span>
+          <input type="text" name="name" required autocomplete="name">
+        </label>
+        <label class="field">
+          <span>Kehadiran</span>
+          <select name="attendance" required>
+            <option value="">Pilih</option>
+            <option value="hadir">Saya akan hadir</option>
+            <option value="tidak">Mohon maaf, tidak dapat hadir</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Jumlah Tamu</span>
+          <input type="number" name="guests" min="1" max="4" value="1">
+        </label>
+        <label class="field">
+          <span>Ucapan &amp; Doa</span>
+          <textarea name="message" rows="3" placeholder="Tuliskan ucapan dan doa terbaik Anda"></textarea>
+        </label>
+        <button type="submit" class="btn-open btn-submit"><span>Kirim Konfirmasi</span></button>
+      </form>
+      <div class="rsvp-success" id="rsvpSuccess" aria-hidden="true">
+        <div class="gold-burst" id="goldBurst"></div>
+        <h3 class="display-md">Terima Kasih</h3>
+        <p>Konfirmasi Anda telah kami terima dengan penuh syukur.</p>
+      </div>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= GUEST BOOK ================= -->
+  <section class="section" id="guestbook">
+    <p class="eyebrow center" data-reveal>Ucapan</p>
+    <h2 class="display-lg center" data-reveal>Guest Book</h2>
+    <div class="guestbook-list" id="guestbookList"></div>
+    <p class="body-caption center" id="guestbookEmpty">Jadilah yang pertama memberikan ucapan melalui form RSVP di atas.</p>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= WEDDING HASHTAG / INSTAGRAM ================= -->
+  <section class="section section-tight" id="hashtag">
+    <div class="glass-panel hashtag-panel" data-reveal>
+      <p class="eyebrow">Wedding Hashtag</p>
+      <h3 class="display-md">#ReyhanAndAleida</h3>
+      <p class="body-caption">Abadikan momen Anda dan bagikan dengan tagar di atas</p>
+      <a href="https://instagram.com" target="_blank" rel="noopener" class="ig-link">Lihat Instagram Feed</a>
+    </div>
+    <div class="travertine-strip" data-seam></div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section" id="faq">
+    <p class="eyebrow center" data-reveal>Informasi</p>
+    <h2 class="display-lg center" data-reveal>FAQ</h2>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item glass-panel" data-reveal>
+        <button class="faq-question">Apakah anak-anak diperkenankan hadir?<span class="faq-icon"></span></button>
+        <div class="faq-answer"><p>Dengan hormat, undangan ini berlaku untuk dewasa guna kenyamanan bersama.</p></div>
+      </div>
+      <div class="faq-item glass-panel" data-reveal>
+        <button class="faq-question">Apa dress code yang disarankan?<span class="faq-icon"></span></button>
+        <div class="faq-answer"><p>Kami menyarankan palet Ivory, Champagne, dan Walnut Brown.</p></div>
+      </div>
+      <div class="faq-item glass-panel" data-reveal>
+        <button class="faq-question">Apakah tersedia area parkir?<span class="faq-icon"></span></button>
+        <div class="faq-answer"><p>Area parkir tersedia di venue, dengan bantuan valet pada pintu utama.</p></div>
+      </div>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= ACCOMMODATION / TRAVEL ================= -->
+  <section class="section" id="accommodation">
+    <p class="eyebrow center" data-reveal>Akomodasi</p>
+    <h2 class="display-lg center" data-reveal>Nearby &amp; Travel Guide</h2>
+    <div class="accom-grid">
+      <div class="glass-panel accom-card" data-reveal>
+        <h4 class="display-sm">Nearby Hotel</h4>
+        <p>The Ivory Grand Hotel — 5 menit dari venue</p>
+      </div>
+      <div class="glass-panel accom-card" data-reveal>
+        <h4 class="display-sm">Nearby Restaurant</h4>
+        <p>Marble & Co. Bistro — 3 menit dari venue</p>
+      </div>
+      <div class="glass-panel accom-card" data-reveal>
+        <h4 class="display-sm">Travel Guide</h4>
+        <p>Akses termudah melalui Tol Golden Hour, keluar di Gerbang Atelier.</p>
+      </div>
+    </div>
+    <div class="seam-connector" data-seam></div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="section section-tight" id="contact">
+    <p class="eyebrow center" data-reveal>Kontak</p>
+    <h2 class="display-lg center" data-reveal>Contact</h2>
+    <div class="contact-grid">
+      <div class="glass-panel contact-card" data-reveal>
+        <p class="body-caption">Reyhan</p>
+        <a href="tel:+62812000000">+62 812-0000-000</a>
+      </div>
+      <div class="glass-panel contact-card" data-reveal>
+        <p class="body-caption">Aleida</p>
+        <a href="tel:+62813000000">+62 813-0000-000</a>
+      </div>
+    </div>
+    <div class="travertine-strip" data-seam></div>
+  </section>
+
+  <!-- ================= CLOSING ================= -->
+  <section class="section closing-section" id="closing">
+    <div class="marble-wall"></div>
+    <div class="closing-content" data-reveal>
+      <div class="gold-line-single"></div>
+      <p class="closing-text">"In Quiet Moments, We Found Forever."</p>
+      <h2 class="display-xl gold-shimmer">Reyhan &amp; Aleida</h2>
+      <p class="body-caption">Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= LUXURY FOOTER ================= -->
+<footer class="luxury-footer">
+  <div class="footer-glow"></div>
+  <p class="footer-names gold-shimmer">Reyhan &amp; Aleida</p>
+  <p class="footer-date">12 . 12 . 2026</p>
+  <div class="footer-line"></div>
+  <p class="footer-credit">Dibuat dengan penuh ketenangan &amp; kehangatan</p>
+</footer>
+
+<!-- ================= AUDIO PLAYER ================= -->
+<div class="audio-player" id="audioPlayer">
+  <button class="audio-toggle" id="audioToggle" aria-label="Play/Pause music">
+    <span class="audio-ring"></span>
+    <span class="audio-icon" id="audioIcon"></span>
+  </button>
+  <div class="audio-panel" id="audioPanel">
+    <p class="audio-track">theme-song.mp3</p>
+    <input type="range" id="audioProgress" class="audio-progress" min="0" max="100" value="0">
+    <div class="audio-controls">
+      <button id="audioMute" class="btn-icon" aria-label="Mute">Mute</button>
+      <input type="range" id="audioVolume" class="audio-volume" min="0" max="1" step="0.01" value="0.6">
+    </div>
+  </div>
+  <audio id="bgAudio" loop preload="none"></audio>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

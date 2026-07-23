@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Alexander &amp; Isabella — The Wedding Invitation</title>
+<meta name="description" content="Undangan pernikahan Alexander & Isabella. Sebuah malam di Obsidian Grand Ballroom.">
+<meta name="theme-color" content="#050508">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="no-scroll">
+
+<!-- ============================================================ -->
+<!-- CUSTOM CURSOR                                                 -->
+<!-- ============================================================ -->
+<div class="cursor-wrap" aria-hidden="true">
+  <div class="cursor-ring"></div>
+  <div class="cursor-core"></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- AMBIENT BACKGROUND (floating dust / marble veining)           -->
+<!-- ============================================================ -->
+<div class="marble-vein-bg" aria-hidden="true"></div>
+<div class="ambient-layer" aria-hidden="true">
+  <canvas id="dustCanvas"></canvas>
+</div>
+
+<!-- ============================================================ -->
+<!-- PRELOADER                                                     -->
+<!-- ============================================================ -->
+<div class="preloader" id="preloader" role="status" aria-live="polite">
+  <div class="preloader-mark">
+    <svg viewBox="0 0 120 120" fill="none">
+      <path class="mark-line" d="M60 8 L104 34 L104 86 L60 112 L16 86 L16 34 Z"/>
+      <path class="mark-line" d="M60 34 L82 47 L82 73 L60 86 L38 73 L38 47 Z" style="animation-delay:.3s"/>
+    </svg>
+  </div>
+  <p class="preloader-label">Menyiapkan Undangan</p>
+  <div class="preloader-progress"><span id="preloaderBar"></span></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- OPENING GATE                                                  -->
+<!-- ============================================================ -->
+<section class="gate" id="gate">
+  <div class="gate-doors" aria-hidden="true">
+    <div class="gate-door left"></div>
+    <div class="gate-door right"></div>
+  </div>
+  <div class="gate-glow" aria-hidden="true"></div>
+  <div class="gate-content">
+    <div class="gate-monogram">
+      <svg viewBox="0 0 96 96" fill="none">
+        <path class="mono-line" d="M48 6 L88 27 L88 69 L48 90 L8 69 L8 27 Z"/>
+      </svg>
+    </div>
+    <p class="gate-eyebrow">The Wedding Of</p>
+    <h1 class="gate-names" id="gateNames" aria-label="Alexander &amp; Isabella"></h1>
+    <p class="gate-invite-to">Kepada Yth. Bapak/Ibu/Saudara/i
+      <span id="guestNameDisplay">Tamu Undangan</span>
+    </p>
+    <div class="gate-cta">
+      <button class="btn btn-solid" id="openInvitationBtn" type="button">
+        <span class="btn-icon"></span> Buka Undangan
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SCROLL PROGRESS RING                                          -->
+<!-- ============================================================ -->
+<div class="scroll-ring" id="scrollRing">
+  <svg viewBox="0 0 56 56">
+    <circle class="ring-bg" cx="28" cy="28" r="24"/>
+    <circle class="ring-fill" id="ringFill" cx="28" cy="28" r="24" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<!-- AUDIO PLAYER                                                  -->
+<!-- ============================================================ -->
+<div class="audio-player" id="audioPlayer">
+  <button class="audio-toggle" id="audioToggle" type="button" aria-label="Putar musik">
+    <span class="audio-vinyl-ring" aria-hidden="true"></span>
+    <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <div class="audio-meta">
+    <span class="audio-title">Theme Song</span>
+    <div class="audio-progress" id="audioProgress"><div class="audio-progress-fill" id="audioProgressFill"></div></div>
+    <div class="audio-volume">
+      <input type="range" id="audioVolume" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
+    </div>
+  </div>
+</div>
+<audio id="bgAudio" loop preload="none"></audio>
+
+<!-- ============================================================ -->
+<!-- SECTION NAV DOTS                                              -->
+<!-- ============================================================ -->
+<nav class="nav-dots" id="navDots" aria-label="Navigasi bagian">
+  <a href="#hero" data-label="Beranda" class="is-active"></a>
+  <a href="#couple" data-label="Mempelai"></a>
+  <a href="#love-story" data-label="Kisah Kami"></a>
+  <a href="#gallery" data-label="Galeri"></a>
+  <a href="#countdown" data-label="Hitung Mundur"></a>
+  <a href="#event" data-label="Acara"></a>
+  <a href="#gift" data-label="Hadiah"></a>
+  <a href="#rsvp" data-label="RSVP"></a>
+  <a href="#guestbook" data-label="Ucapan"></a>
+</nav>
+
+<main id="mainContent">
+
+  <!-- ============================================================ -->
+  <!-- HERO                                                          -->
+  <!-- ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"><img id="heroImg" src="" alt="" loading="eager" onerror="this.classList.add('media-missing')"></div>
+    <svg class="hero-chandelier" viewBox="0 0 400 200" fill="none" aria-hidden="true">
+      <line x1="200" y1="0" x2="200" y2="30" stroke="rgba(212,175,122,0.4)" stroke-width="1"/>
+      <ellipse cx="200" cy="55" rx="140" ry="14" stroke="rgba(212,175,122,0.35)" stroke-width="1" fill="none"/>
+      <ellipse cx="200" cy="75" rx="100" ry="10" stroke="rgba(185,121,63,0.3)" stroke-width="1" fill="none"/>
+      <g stroke="rgba(236,211,160,0.55)" stroke-width="1">
+        <line x1="80" y1="55" x2="80" y2="95"/><line x1="130" y1="60" x2="130" y2="105"/>
+        <line x1="200" y1="65" x2="200" y2="115"/><line x1="270" y1="60" x2="270" y2="105"/>
+        <line x1="320" y1="55" x2="320" y2="95"/>
+      </g>
+      <g fill="rgba(236,211,160,0.85)">
+        <circle cx="80" cy="98" r="2.4"/><circle cx="130" cy="108" r="2.4"/>
+        <circle cx="200" cy="118" r="3"/><circle cx="270" cy="108" r="2.4"/><circle cx="320" cy="98" r="2.4"/>
+      </g>
+    </svg>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Undangan Pernikahan</p>
+      <h1 class="hero-title"><span id="heroGroom">Alexander</span><span class="amp">&amp;</span><span id="heroBride">Isabella</span></h1>
+      <p class="hero-date"><span class="rule"></span><span id="heroDate">14 November 2026</span><span class="rule"></span></p>
+      <p class="hero-invite-note">Dengan penuh syukur, kami mengundang Anda untuk menjadi saksi ikrar suci kami di sebuah malam yang akan kami kenang selamanya.</p>
+    </div>
+    <div class="hero-scroll-cue"><span>Gulir</span><span class="line"></span></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- WELCOME                                                       -->
+  <!-- ============================================================ -->
+  <section class="section welcome" id="welcome">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Selamat Datang</span>
+      </div>
+      <p class="welcome-verse reveal" data-reveal-delay="1">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang."</p>
+      <p class="welcome-verse-source reveal" data-reveal-delay="2">Q.S. Ar-Rum : 21</p>
+      <div class="welcome-names reveal" data-reveal-delay="2">
+        <span class="name" id="welcomeGroom">Alexander</span>
+        <svg class="amp-orn" viewBox="0 0 34 34" fill="none"><path d="M17 2 L31 10 L31 24 L17 32 L3 24 L3 10 Z" stroke="var(--champagne-gold)" stroke-width="1"/></svg>
+        <span class="name" id="welcomeBride">Isabella</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 900 110"><defs><linearGradient id="bronzeSweep" x1="0" x2="1"><stop offset="0" stop-color="var(--bronze)" stop-opacity="0"/><stop offset="0.5" stop-color="var(--gold-bright)" stop-opacity="1"/><stop offset="1" stop-color="var(--bronze)" stop-opacity="0"/></linearGradient></defs>
+    <path class="vein" d="M0 55 Q225 20 450 55 T900 55"/>
+    <path class="sweep" d="M0 55 Q225 90 450 55 T900 55"/>
+  </svg></div>
+
+  <!-- ============================================================ -->
+  <!-- COUPLE — BRIDE & GROOM                                        -->
+  <!-- ============================================================ -->
+  <section class="section" id="couple">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Mempelai</span>
+        <h2 class="section-title">The <em>Bride</em> &amp; Groom</h2>
+      </div>
+      <div class="couple-grid">
+        <div class="couple-card reveal" data-reveal-delay="1">
+          <div class="couple-portrait"><img id="groomImg" src="" alt="Foto mempelai pria" loading="lazy" onerror="this.classList.add('media-missing')"></div>
+          <h3 class="couple-name" id="groomName">Alexander Wirawan</h3>
+          <p class="couple-role">Mempelai Pria</p>
+          <p class="couple-parents" id="groomParents"></p>
+        </div>
+        <svg class="couple-divider-orn reveal" data-reveal-delay="2" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="var(--champagne-gold)" stroke-width="1"/><path d="M32 12 L48 32 L32 52 L16 32 Z" stroke="var(--bronze)" stroke-width="1"/></svg>
+        <div class="couple-card reveal" data-reveal-delay="3">
+          <div class="couple-portrait"><img id="brideImg" src="" alt="Foto mempelai wanita" loading="lazy" onerror="this.classList.add('media-missing')"></div>
+          <h3 class="couple-name" id="brideName">Isabella Kirana</h3>
+          <p class="couple-role">Mempelai Wanita</p>
+          <p class="couple-parents" id="brideParents"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FAMILY                                                        -->
+  <!-- ============================================================ -->
+  <section class="section" id="family">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Keluarga</span>
+        <h2 class="section-title">Dengan Restu <em>Keluarga</em></h2>
+      </div>
+      <div class="family-grid">
+        <div class="family-card glass-panel reveal" data-reveal-delay="1">
+          <span class="family-side">Keluarga Mempelai Pria</span>
+          <p class="family-parents" id="groomFamilyParents"></p>
+          <p class="family-child" id="groomFamilyChild"></p>
+        </div>
+        <div class="family-card glass-panel reveal" data-reveal-delay="2">
+          <span class="family-side">Keluarga Mempelai Wanita</span>
+          <p class="family-parents" id="brideFamilyParents"></p>
+          <p class="family-child" id="brideFamilyChild"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- LOVE STORY                                                    -->
+  <!-- ============================================================ -->
+  <section class="section" id="love-story">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Perjalanan Kami</span>
+        <h2 class="section-title">Journey Through <em>Our Story</em></h2>
+        <p class="section-sub" style="margin-inline:auto; text-align:center;">Setiap langkah membawa kami menyusuri lorong waktu menuju satu momen ini.</p>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="timeline-track"><div class="timeline-track-fill" id="timelineFill"></div></div>
+        <!-- timeline items injected by main.js from TIMELINE_DATA -->
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 900 110"><path class="vein" d="M0 55 Q225 90 450 55 T900 55"/><path class="sweep" d="M0 55 Q225 20 450 55 T900 55"/></svg></div>
+
+  <!-- ============================================================ -->
+  <!-- GALLERY                                                       -->
+  <!-- ============================================================ -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Momen</span>
+        <h2 class="section-title">Highlight <em>Moments</em></h2>
+      </div>
+      <div class="gallery-masonry" id="galleryMasonry" role="list" aria-label="Galeri foto"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- WEDDING TRAILER                                               -->
+  <!-- ============================================================ -->
+  <section class="section" id="trailer">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Cinematic</span>
+        <h2 class="section-title">Wedding <em>Trailer</em></h2>
+      </div>
+      <div class="trailer-frame reveal-scale" id="trailerFrame">
+        <video id="trailerVideo" playsinline preload="none" poster=""></video>
+        <button class="trailer-play" id="trailerPlayBtn" type="button" aria-label="Putar trailer">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+      <p class="trailer-caption reveal">Sekilas kisah kami, dirangkai dalam gambar bergerak.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- COUNTDOWN                                                     -->
+  <!-- ============================================================ -->
+  <section class="section" id="countdown">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Menghitung Hari</span>
+        <h2 class="section-title">Hingga Hari <em>Bahagia</em></h2>
+      </div>
+      <div class="countdown-grid" id="countdownGrid">
+        <div class="flip-unit"><div class="flip-card"><div class="flip-card-face" id="cdDays">00</div></div><span class="flip-label">Hari</span></div>
+        <div class="flip-unit"><div class="flip-card"><div class="flip-card-face" id="cdHours">00</div></div><span class="flip-label">Jam</span></div>
+        <div class="flip-unit"><div class="flip-card"><div class="flip-card-face" id="cdMinutes">00</div></div><span class="flip-label">Menit</span></div>
+        <div class="flip-unit"><div class="flip-card"><div class="flip-card-face" id="cdSeconds">00</div></div><span class="flip-label">Detik</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 900 110"><path class="vein" d="M0 55 Q225 20 450 55 T900 55"/><path class="sweep" d="M0 55 Q225 90 450 55 T900 55"/></svg></div>
+
+  <!-- ============================================================ -->
+  <!-- EVENT — CEREMONY & RECEPTION                                  -->
+  <!-- ============================================================ -->
+  <section class="section" id="event">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Rangkaian Acara</span>
+        <h2 class="section-title">Ceremony &amp; <em>Reception</em></h2>
+      </div>
+      <div class="event-grid">
+        <div class="event-card glass-panel reveal" data-reveal-delay="1">
+          <span class="event-kind">01 — Sakral</span>
+          <h3 class="event-venue" id="akadLabel">Akad Nikah</h3>
+          <div class="event-row"><svg class="ico" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 9h18M4 5h16v16H4z"/></svg><span id="akadDate"></span></div>
+          <div class="event-row"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span id="akadTime"></span></div>
+          <div class="event-row"><svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="akadVenue"></span></div>
+          <div class="event-actions">
+            <button class="btn btn-ghost" data-calendar="google" data-event="akad"><span class="btn-icon"></span>Google Calendar</button>
+            <button class="btn btn-ghost" data-calendar="apple" data-event="akad"><span class="btn-icon"></span>Apple Calendar</button>
+          </div>
+        </div>
+        <div class="event-card glass-panel reveal" data-reveal-delay="2">
+          <span class="event-kind">02 — Perayaan</span>
+          <h3 class="event-venue" id="receptionLabel">Resepsi</h3>
+          <div class="event-row"><svg class="ico" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 9h18M4 5h16v16H4z"/></svg><span id="receptionDate"></span></div>
+          <div class="event-row"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span id="receptionTime"></span></div>
+          <div class="event-row"><svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="receptionVenue"></span></div>
+          <div class="event-actions">
+            <button class="btn btn-ghost" data-calendar="google" data-event="reception"><span class="btn-icon"></span>Google Calendar</button>
+            <button class="btn btn-ghost" data-calendar="apple" data-event="reception"><span class="btn-icon"></span>Apple Calendar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- MAPS / VENUE / TRAVEL                                         -->
+  <!-- ============================================================ -->
+  <section class="section" id="venue">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Lokasi</span>
+        <h2 class="section-title">Menuju <em>Ballroom</em></h2>
+      </div>
+      <div class="maps-wrap">
+        <div class="maps-embed reveal-scale" data-reveal-delay="1">
+          <iframe id="mapsIframe" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi venue pernikahan"></iframe>
+        </div>
+        <div class="maps-info glass-panel reveal" data-reveal-delay="2">
+          <div class="maps-info-row">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <div><h4>Alamat Venue</h4><p id="venueAddress"></p></div>
+          </div>
+          <div class="maps-info-row">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M3 12l18-9-9 18-2-7z"/></svg>
+            <div><h4>Navigasi</h4><p><a href="#" id="navigationLink" class="btn btn-ghost" style="margin-top:8px; padding:10px 18px; font-size:0.62rem;">Buka di Google Maps</a></p></div>
+          </div>
+          <div class="maps-info-row">
+            <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+            <div><h4>Parkir</h4><p id="parkingInfo"></p></div>
+          </div>
+          <div class="maps-info-row">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M3 21h18M6 21V9l6-4 6 4v12M10 21v-6h4v6"/></svg>
+            <div>
+              <h4>Hotel Terdekat</h4>
+              <ul class="travel-list" id="accommodationList"></ul>
+            </div>
+          </div>
+          <div class="maps-info-row">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M4 3h16v12H8l-4 4z"/></svg>
+            <div>
+              <h4>Restoran Terdekat</h4>
+              <ul class="travel-list" id="restaurantList"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- DRESS CODE                                                    -->
+  <!-- ============================================================ -->
+  <section class="section" id="dresscode">
+    <div class="container">
+      <div class="dresscode-panel glass-panel reveal">
+        <span class="eyebrow">Ketentuan Busana</span>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,4vw,2.6rem);">Dress <em>Code</em></h2>
+        <p class="section-sub" style="margin-inline:auto;" id="dressCodeDesc"></p>
+        <div class="dresscode-swatches" id="dressCodeSwatches"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 900 110"><path class="vein" d="M0 55 Q225 90 450 55 T900 55"/><path class="sweep" d="M0 55 Q225 20 450 55 T900 55"/></svg></div>
+
+  <!-- ============================================================ -->
+  <!-- GIFT                                                          -->
+  <!-- ============================================================ -->
+  <section class="section" id="gift">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Tanda Kasih</span>
+        <h2 class="section-title">Wedding <em>Gift</em></h2>
+        <p class="section-sub" style="margin-inline:auto; text-align:center;">Kehadiran Anda adalah hadiah terindah. Namun jika ingin memberi tanda kasih, kami sediakan pilihan berikut.</p>
+      </div>
+      <div class="gift-grid">
+        <div class="gift-card glass-panel reveal" data-reveal-delay="1">
+          <span class="eyebrow">Scan QRIS</span>
+          <div class="gift-qr"><img id="qrisImg" src="" alt="Kode QRIS" onerror="this.classList.add('media-missing')"></div>
+          <button class="btn btn-ghost gift-copy-btn" id="downloadQrBtn" type="button"><span class="btn-icon"></span>Unduh QR</button>
+        </div>
+        <div class="gift-card glass-panel reveal" data-reveal-delay="2">
+          <span class="eyebrow">Transfer Bank</span>
+          <p class="gift-bank" id="giftBank1"></p>
+          <p class="gift-account" id="giftAccount1"></p>
+          <p class="gift-owner" id="giftOwner1"></p>
+          <hr style="border:none; border-top:1px solid var(--line-hairline); margin:20px 0;">
+          <p class="gift-bank" id="giftBank2"></p>
+          <p class="gift-account" id="giftAccount2"></p>
+          <p class="gift-owner" id="giftOwner2"></p>
+          <button class="btn btn-ghost gift-copy-btn" id="copyAccountBtn" type="button" data-account=""><span class="btn-icon"></span>Salin Rekening</button>
+          <p class="gift-toast" id="giftToast">Nomor rekening disalin</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- RSVP                                                          -->
+  <!-- ============================================================ -->
+  <section class="section" id="rsvp">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Konfirmasi Kehadiran</span>
+        <h2 class="section-title">RSVP</h2>
+      </div>
+      <form class="rsvp-panel glass-panel reveal" id="rsvpForm" novalidate>
+        <div class="form-row">
+          <label for="rsvpName">Nama Lengkap</label>
+          <input type="text" id="rsvpName" name="name" placeholder="Nama Anda" required>
+        </div>
+        <div class="form-row">
+          <label>Kehadiran</label>
+          <div class="form-choice-group" id="rsvpAttendance" role="radiogroup">
+            <button type="button" class="form-choice is-active" data-value="hadir">Hadir</button>
+            <button type="button" class="form-choice" data-value="tidak-hadir">Tidak Hadir</button>
+            <button type="button" class="form-choice" data-value="ragu">Masih Ragu</button>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="rsvpGuests">Jumlah Tamu</label>
+          <select id="rsvpGuests" name="guests">
+            <option value="1">1 Orang</option>
+            <option value="2">2 Orang</option>
+            <option value="3">3 Orang</option>
+            <option value="4">4 Orang</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="rsvpMessage">Ucapan &amp; Doa</label>
+          <textarea id="rsvpMessage" name="message" placeholder="Tuliskan ucapan dan doa terbaik Anda..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-solid rsvp-submit"><span class="btn-icon"></span>Kirim Konfirmasi</button>
+        <div class="rsvp-success" id="rsvpSuccess">
+          <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" stroke="var(--champagne-gold)" stroke-width="1"/><path d="M17 29l7 7 15-15" stroke="var(--gold-bright)" stroke-width="2" fill="none"/></svg>
+          <h4>Terima Kasih</h4>
+          <p>Konfirmasi Anda telah kami terima dengan penuh syukur.</p>
+          <div class="rsvp-particles" id="rsvpParticles"></div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- GUEST BOOK                                                    -->
+  <!-- ============================================================ -->
+  <section class="section" id="guestbook">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Ucapan &amp; Doa</span>
+        <h2 class="section-title">Guest <em>Book</em></h2>
+      </div>
+      <form class="guestbook-form glass-panel reveal" id="guestbookForm">
+        <div class="form-row">
+          <label for="gbName">Nama</label>
+          <input type="text" id="gbName" placeholder="Nama Anda" required>
+        </div>
+        <div class="form-row">
+          <label for="gbMessage">Pesan</label>
+          <textarea id="gbMessage" placeholder="Tuliskan ucapan Anda..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-ghost" style="width:100%; justify-content:center;"><span class="btn-icon"></span>Kirim Ucapan</button>
+      </form>
+      <div class="guestbook-wall reveal" id="guestbookWall"></div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 900 110"><path class="vein" d="M0 55 Q225 20 450 55 T900 55"/><path class="sweep" d="M0 55 Q225 90 450 55 T900 55"/></svg></div>
+
+  <!-- ============================================================ -->
+  <!-- INSTAGRAM / HASHTAG                                           -->
+  <!-- ============================================================ -->
+  <section class="section" id="instagram">
+    <div class="container">
+      <div class="hashtag-panel glass-panel reveal">
+        <span class="eyebrow">Abadikan Momen</span>
+        <p class="hashtag-text" id="hashtagText">#TheObsidianVows</p>
+        <p class="hashtag-note">Gunakan tagar ini saat mengunggah foto Anda di hari bahagia kami, agar kami dapat mengumpulkan setiap kenangan.</p>
+      </div>
+      <div class="insta-grid" id="instaGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FAQ                                                           -->
+  <!-- ============================================================ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Tanya Jawab</span>
+        <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CONTACT                                                       -->
+  <!-- ============================================================ -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Kontak</span>
+        <h2 class="section-title">Hubungi <em>Kami</em></h2>
+      </div>
+      <div class="contact-grid" id="contactGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ENDING EXPERIENCE                                             -->
+  <!-- ============================================================ -->
+  <section class="ending" id="ending">
+    <div class="ending-corridor" aria-hidden="true"></div>
+    <div class="ending-vignette" aria-hidden="true"></div>
+    <div class="ending-content">
+      <p class="ending-quote" id="endingQuote">"In The Depth Of Darkness, We Found Our Light."</p>
+      <h3 class="ending-names" id="endingNames"><span id="endingGroom">Alexander</span> <span class="amp">&amp;</span> <span id="endingBride">Isabella</span></h3>
+      <p class="ending-thanks">Terima Kasih Atas Doa &amp; Kehadiran Anda</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER                                                        -->
+  <!-- ============================================================ -->
+  <footer class="footer">
+    <svg class="footer-mark" viewBox="0 0 96 96" fill="none"><path d="M48 6 L88 27 L88 69 L48 90 L8 69 L8 27 Z" stroke="var(--champagne-gold)" stroke-width="1"/></svg>
+    <p class="footer-names" id="footerNames">Alexander &amp; Isabella</p>
+    <p class="footer-date" id="footerDate">14 . 11 . 2026</p>
+    <p class="footer-credit">Dibuat dengan cinta — Obsidian Noir Wedding Invitation</p>
+  </footer>
+
+</main>
+
+<!-- ============================================================ -->
+<!-- LIGHTBOX                                                      -->
+<!-- ============================================================ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto">
+  <div class="lightbox-frame">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">✕</button>
+    <button class="lightbox-prev" id="lightboxPrev" aria-label="Sebelumnya">‹</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-next" id="lightboxNext" aria-label="Berikutnya">›</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TOAST                                                         -->
+<!-- ============================================================ -->
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/media-config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

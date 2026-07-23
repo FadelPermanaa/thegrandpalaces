@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celestial Elysium — Kavin & Alysia</title>
+<meta name="description" content="Undangan Pernikahan Digital — Celestial Elysium, Heavenly Kingdom Luxury Wedding">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- CUSTOM CURSOR -->
+<!-- ============================================================ -->
+<div class="cursor-halo" id="cursorHalo"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- ============================================================ -->
+<!-- PRELOADER -->
+<!-- ============================================================ -->
+<div id="preloader">
+  <div class="preloader-monogram">K &amp; A</div>
+  <div class="preloader-bar"></div>
+  <div class="preloader-label">Membuka Gerbang Kerajaan Langit</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- OPENING GATE EXPERIENCE -->
+<!-- ============================================================ -->
+<div id="opening">
+  <div class="starfield" id="starfield"></div>
+  <div class="opening-halo"></div>
+  <h1 class="opening-title">Kavin <span class="amp">&amp;</span> Alysia</h1>
+  <p class="opening-sub">Undangan Memasuki Kerajaan Surgawi</p>
+  <button class="btn-open" id="btnOpen">Buka Undangan</button>
+</div>
+<div class="whiteout" id="whiteout"></div>
+
+<!-- ============================================================ -->
+<!-- AMBIENT BACKGROUND (persists behind all sections) -->
+<!-- ============================================================ -->
+<canvas class="sky-canvas" id="skyCanvas"></canvas>
+<div class="aurora-layer"></div>
+
+<!-- ============================================================ -->
+<!-- NAVIGATION -->
+<!-- ============================================================ -->
+<header class="site-nav" id="siteNav">
+  <a href="#hero" class="nav-mark">K &amp; A</a>
+  <button class="nav-toggle" id="navToggle"><span></span>Menu</button>
+</header>
+<nav class="nav-panel" id="navPanel">
+  <button class="nav-close" id="navClose">Tutup</button>
+  <ul>
+    <li><a href="#couple">Mempelai</a></li>
+    <li><a href="#story">Kisah Cinta</a></li>
+    <li><a href="#gallery">Galeri</a></li>
+    <li><a href="#countdown">Hitung Mundur</a></li>
+    <li><a href="#event">Acara</a></li>
+    <li><a href="#venue">Lokasi</a></li>
+    <li><a href="#gift">Hadiah</a></li>
+    <li><a href="#rsvp">RSVP</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Kontak</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ============================================================ -->
+  <!-- HERO -->
+  <!-- ============================================================ -->
+  <section id="hero">
+    <div class="hero-beam"></div>
+    <img class="hero-palace" src="" data-src-var="heroImage" alt="Crystal Palace of the Heavenly Kingdom" onerror="this.style.display='none'">
+    <div class="hero-content">
+      <p class="hero-eyebrow">The Wedding Of</p>
+      <h1 class="hero-names">Kavin<span class="amp">&amp;</span>Alysia</h1>
+      <p class="hero-date">Sabtu · 12 Desember 2026 · Crystal Palace of Elysium</p>
+    </div>
+    <div class="hero-scroll">
+      <span class="orbit"></span>
+      <span>Gulir</span>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- WELCOME -->
+  <!-- ============================================================ -->
+  <section id="welcome">
+    <div class="section-inner reveal">
+      <p class="welcome-quote">"Di atas awan tempat cahaya bersemayam, dua jiwa dipersatukan oleh takdir yang telah dituliskan sejak <span>langit pertama kali menyalakan bintangnya.</span>"</p>
+      <div class="divider-halo"></div>
+      <p class="welcome-quote" style="font-size:1.05rem;">Dengan penuh syukur, kami mengundang Anda untuk menjadi saksi dalam perjalanan cinta kami menuju kerajaan surgawi yang abadi.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- COUPLE -->
+  <!-- ============================================================ -->
+  <section id="couple">
+    <div class="section-inner">
+      <div class="eyebrow reveal">Bride &amp; Groom</div>
+      <h2 class="section-title reveal">Mempelai</h2>
+      <div class="couple-grid">
+        <div class="couple-card reveal-scale">
+          <div class="frame-marble"><img src="" data-src-var="groomImage" alt="Groom" onerror="this.style.background='var(--heavenly-beige)'"></div>
+          <h3 class="couple-name">Kavin Aditya</h3>
+          <p class="couple-role">The Groom</p>
+          <p class="couple-desc">Putra dari Bapak Ardian Wijaya &amp; Ibu Ratna Suminar</p>
+        </div>
+        <div class="couple-amp reveal">&amp;</div>
+        <div class="couple-card reveal-scale">
+          <div class="frame-marble"><img src="" data-src-var="brideImage" alt="Bride" onerror="this.style.background='var(--heavenly-beige)'"></div>
+          <h3 class="couple-name">Alysia Kirana</h3>
+          <p class="couple-role">The Bride</p>
+          <p class="couple-desc">Putri dari Bapak Surya Hartono &amp; Ibu Dewi Anggraini</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FAMILY -->
+  <!-- ============================================================ -->
+  <section id="family">
+    <div class="section-inner">
+      <div class="eyebrow reveal">With Blessings Of</div>
+      <h2 class="section-title reveal">Keluarga</h2>
+      <div class="family-grid">
+        <div class="family-block reveal">
+          <h4>Keluarga Mempelai Pria</h4>
+          <p>Bpk. Ardian Wijaya</p>
+          <p>Ibu Ratna Suminar</p>
+          <small>Jakarta Selatan</small>
+        </div>
+        <div class="family-block reveal">
+          <h4>Keluarga Mempelai Wanita</h4>
+          <p>Bpk. Surya Hartono</p>
+          <p>Ibu Dewi Anggraini</p>
+          <small>Bandung</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- LOVE STORY -->
+  <!-- ============================================================ -->
+  <section id="story">
+    <div class="section-inner">
+      <div class="eyebrow reveal">Journey Through The Heavenly Kingdom</div>
+      <h2 class="section-title reveal">Kisah Cinta</h2>
+      <div class="story-path">
+        <div class="story-line"></div>
+
+        <div class="story-item reveal">
+          <div class="story-node"></div>
+          <p class="story-year">2019 — Pulau Pertemuan</p>
+          <h3 class="story-title">Awal Perjumpaan</h3>
+          <p class="story-text">Dua jiwa bertemu di antara keramaian dunia, tanpa menyadari bahwa cahaya kecil itu akan menuntun keduanya menyusuri jalan yang sama.</p>
+        </div>
+
+        <div class="story-item reveal">
+          <div class="story-node"></div>
+          <p class="story-year">2021 — Taman Langit</p>
+          <h3 class="story-title">Tumbuhnya Kepercayaan</h3>
+          <p class="story-text">Waktu demi waktu, percakapan sederhana berubah menjadi ikatan yang semakin dalam, tumbuh perlahan seperti taman di atas awan.</p>
+        </div>
+
+        <div class="story-item reveal">
+          <div class="story-node"></div>
+          <p class="story-year">2023 — Gerbang Suci</p>
+          <h3 class="story-title">Janji Setia</h3>
+          <p class="story-text">Di bawah langit yang bertabur bintang, sebuah janji terucap: melangkah bersama menuju masa depan yang belum tertulis.</p>
+        </div>
+
+        <div class="story-item reveal">
+          <div class="story-node"></div>
+          <p class="story-year">2026 — Istana Elysium</p>
+          <h3 class="story-title">Menuju Kerajaan Abadi</h3>
+          <p class="story-text">Dan kini, gerbang kerajaan surgawi terbuka untuk menyambut dua jiwa yang akan disatukan selamanya.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- GALLERY (symmetrical editorial grid) -->
+  <!-- ============================================================ -->
+  <section id="gallery">
+    <div class="section-inner">
+      <div class="eyebrow reveal">Highlight Moments</div>
+      <h2 class="section-title reveal">Galeri</h2>
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- populated by JS from galleryImages variable, first item wide as focal couple image -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">Tutup</button>
+    <img src="" id="lightboxImg" alt="Gallery preview">
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TRAILER VIDEO -->
+  <!-- ============================================================ -->
+  <section id="trailer">
+    <div class="section-inner">
+      <div class="eyebrow reveal">Our Story On Film</div>
+      <h2 class="section-title reveal">Wedding Trailer</h2>
+      <div class="video-frame reveal-scale">
+        <video id="trailerVideo" playsinline preload="none"></video>
+        <div class="video-play" id="videoPlayOverlay"><button id="videoPlayBtn">▶</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- COUNTDOWN -->
+  <!-- ============================================================ -->
+  <section id="countdown">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">Save The Date</div>
+      <h2 class="section-title reveal">Menghitung Hari</h2>
+      <div class="countdown-grid reveal-scale">
+        <div class="flip-unit"><span class="flip-num" id="cdDays">00</span><span class="flip-label">Hari</span></div>
+        <div class="flip-unit"><span class="flip-num" id="cdHours">00</span><span class="flip-label">Jam</span></div>
+        <div class="flip-unit"><span class="flip-num" id="cdMinutes">00</span><span class="flip-label">Menit</span></div>
+        <div class="flip-unit"><span class="flip-num" id="cdSeconds">00</span><span class="flip-label">Detik</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- EVENT: CEREMONY & RECEPTION -->
+  <!-- ============================================================ -->
+  <section id="event">
+    <div class="section-inner">
+      <div class="eyebrow reveal">The Sacred Day</div>
+      <h2 class="section-title reveal">Akad &amp; Resepsi</h2>
+      <div class="event-grid">
+        <div class="event-card reveal-scale">
+          <h3>Akad Nikah</h3>
+          <time>Sabtu, 12 Desember 2026 · 09:00 WIB</time>
+          <p>Sacred Chapel of Elysium, Crystal Palace Grand Hall</p>
+          <div class="event-actions">
+            <a class="pill-btn" href="#" data-calendar="google">Google Calendar</a>
+            <a class="pill-btn" href="#" data-calendar="apple">Apple Calendar</a>
+          </div>
+        </div>
+        <div class="event-card reveal-scale">
+          <h3>Resepsi</h3>
+          <time>Sabtu, 12 Desember 2026 · 18:00 WIB</time>
+          <p>Golden Ballroom, Crystal Palace of Elysium</p>
+          <div class="event-actions">
+            <a class="pill-btn" href="#" data-calendar="google">Google Calendar</a>
+            <a class="pill-btn" href="#" data-calendar="apple">Apple Calendar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- VENUE / MAP -->
+  <!-- ============================================================ -->
+  <section id="venue">
+    <div class="section-inner">
+      <div class="eyebrow reveal">Where Heaven Meets Earth</div>
+      <h2 class="section-title reveal">Lokasi Acara</h2>
+      <div class="venue-wrap reveal-scale">
+        <div class="venue-info">
+          <h3>Crystal Palace of Elysium</h3>
+          <p>Jl. Langit Utama No. 7, Kawasan Kerajaan Surgawi, Jakarta Selatan.<br>Parkir tersedia luas di area timur gedung.</p>
+          <button class="pill-btn" id="copyAddressBtn" style="align-self:flex-start;">Salin Alamat</button>
+        </div>
+        <div class="venue-map">
+          <iframe src="https://maps.google.com/maps?q=Jakarta&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- DRESS CODE -->
+  <!-- ============================================================ -->
+  <section id="dresscode">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">Attire</div>
+      <h2 class="section-title reveal">Dress Code</h2>
+      <p class="section-sub reveal" style="margin:0 auto;">Kami mengundang Anda mengenakan busana bernuansa warna kerajaan langit berikut, formal elegan.</p>
+      <div class="palette-row reveal" style="justify-content:center;">
+        <span class="swatch" style="background:#F8F6F1;"></span>
+        <span class="swatch" style="background:#D4AF7A;"></span>
+        <span class="swatch" style="background:#C9CFD9;"></span>
+        <span class="swatch" style="background:#4E6E99;"></span>
+        <span class="swatch" style="background:#C9B8E8;"></span>
+        <span class="swatch" style="background:#EAE0CC;"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- GIFT / QRIS -->
+  <!-- ============================================================ -->
+  <section id="gift">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">A Token Of Love</div>
+      <h2 class="section-title reveal">Tanda Kasih</h2>
+      <p class="section-sub reveal" style="margin:0 auto;">Kehadiran Anda adalah hadiah paling berharga bagi kami. Namun jika ingin memberikan tanda kasih, dapat melalui:</p>
+      <div class="gift-grid">
+        <div class="gift-card reveal-scale">
+          <h4>QRIS</h4>
+          <div class="qr-box">Kode QRIS<br>(ganti dengan gambar QR asli)</div>
+          <p>Pindai untuk memberikan hadiah digital</p>
+        </div>
+        <div class="gift-card reveal-scale">
+          <h4>Transfer Bank</h4>
+          <p>Bank Elysium · 1234 5678 90<br>a.n. Kavin Aditya</p>
+          <button class="copy-btn" id="copyBankBtn">Salin Nomor Rekening</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- RSVP -->
+  <!-- ============================================================ -->
+  <section id="rsvp">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">Kindly Confirm</div>
+      <h2 class="section-title reveal">RSVP</h2>
+      <p class="section-sub reveal" style="margin:0 auto;">Mohon konfirmasi kehadiran Anda sebelum 1 Desember 2026.</p>
+      <form class="rsvp-form reveal" id="rsvpForm">
+        <div class="field"><label for="rsvpName">Nama</label><input type="text" id="rsvpName" required></div>
+        <div class="field"><label for="rsvpAttend">Kehadiran</label>
+          <select id="rsvpAttend"><option>Hadir</option><option>Belum Pasti</option><option>Tidak Hadir</option></select>
+        </div>
+        <div class="field"><label for="rsvpGuests">Jumlah Tamu</label><input type="number" id="rsvpGuests" min="1" value="1"></div>
+        <div class="field"><label for="rsvpMessage">Ucapan &amp; Doa</label><textarea id="rsvpMessage" rows="4"></textarea></div>
+        <button type="submit" class="submit-btn">Kirim Konfirmasi</button>
+      </form>
+      <div class="rsvp-success" id="rsvpSuccess">Terima kasih. Doa dan restu Anda telah tiba di kerajaan kami. ✦</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- GUEST BOOK -->
+  <!-- ============================================================ -->
+  <section id="guestbook">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">Words From The Heart</div>
+      <h2 class="section-title reveal">Buku Tamu</h2>
+      <div class="guestbook-list" id="guestbookList">
+        <div class="guest-entry reveal"><b>Dinda &amp; Rangga</b><p>Selamat menempuh hidup baru, semoga selalu diberkati kebahagiaan seperti kerajaan langit yang abadi.</p></div>
+        <div class="guest-entry reveal"><b>Family Hartono</b><p>Bahagia sekali melihat kalian bersatu. Doa terbaik untuk perjalanan kalian ke depan.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- INSTAGRAM / HASHTAG -->
+  <!-- ============================================================ -->
+  <section id="hashtag-section">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">Share Your Moment</div>
+      <h2 class="section-title reveal">Wedding Hashtag</h2>
+      <p class="hashtag reveal">#KavinAndAlysiaElysium</p>
+      <div class="insta-grid reveal" id="instaGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FAQ -->
+  <!-- ============================================================ -->
+  <section id="faq">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">Good To Know</div>
+      <h2 class="section-title reveal">FAQ</h2>
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <div class="faq-q">Apakah anak-anak diperbolehkan hadir? <span class="faq-icon">+</span></div>
+          <div class="faq-a"><p>Dengan penuh hormat, acara ini dikhususkan untuk tamu dewasa.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q">Apakah tersedia area parkir? <span class="faq-icon">+</span></div>
+          <div class="faq-a"><p>Ya, area parkir luas tersedia di sisi timur gedung Crystal Palace.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q">Bagaimana jika berhalangan hadir? <span class="faq-icon">+</span></div>
+          <div class="faq-a"><p>Mohon konfirmasi melalui formulir RSVP agar kami dapat mengatur jumlah tamu.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ACCOMMODATION / PARKING / TRAVEL GUIDE -->
+  <!-- ============================================================ -->
+  <section id="travel">
+    <div class="section-inner">
+      <div class="eyebrow reveal">For Our Traveling Guests</div>
+      <h2 class="section-title reveal">Akomodasi &amp; Panduan Perjalanan</h2>
+      <div class="travel-grid">
+        <div class="travel-card reveal-scale"><h4>Hotel Terdekat</h4><p>The Ivory Grand Hotel, berjarak 5 menit berkendara dari lokasi acara.</p></div>
+        <div class="travel-card reveal-scale"><h4>Restoran Terdekat</h4><p>Aurora Garden Restaurant, cocok untuk santai sebelum atau sesudah acara.</p></div>
+        <div class="travel-card reveal-scale"><h4>Area Parkir</h4><p>Tersedia parkir luas dan valet di pintu masuk utama Crystal Palace.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CONTACT -->
+  <!-- ============================================================ -->
+  <section id="contact">
+    <div class="section-inner" style="text-align:center;">
+      <div class="eyebrow reveal" style="justify-content:center;">Reach Us</div>
+      <h2 class="section-title reveal">Kontak</h2>
+      <p class="section-sub reveal" style="margin:0 auto;">Untuk pertanyaan lebih lanjut, silakan hubungi perwakilan kami.</p>
+      <div class="family-grid" style="margin-top:50px;">
+        <div class="family-block reveal"><h4>Perwakilan Pria</h4><p>Bimo</p><small>+62 811 0000 0001</small></div>
+        <div class="family-block reveal"><h4>Perwakilan Wanita</h4><p>Sasha</p><small>+62 811 0000 0002</small></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================ -->
+<!-- CLOSING / ENDING EXPERIENCE -->
+<!-- ============================================================ -->
+<section id="closing">
+  <div class="section-inner">
+    <p class="closing-line reveal">"Love Is The Light That Leads Us Home."</p>
+    <p class="closing-names reveal">Kavin &amp; Alysia</p>
+    <p class="closing-date reveal">12 · 12 · 2026</p>
+    <p class="footer-meta reveal">Celestial Elysium — With Love, From The Heavenly Kingdom</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- MUSIC TOGGLE & SCROLL ORBIT -->
+<!-- ============================================================ -->
+<audio id="bgMusic" loop preload="none"></audio>
+<button class="music-toggle paused" id="musicToggle"><span></span><span></span><span></span></button>
+<div class="scroll-orbit">
+  <svg width="52" height="52" viewBox="0 0 52 52">
+    <circle class="bg" cx="26" cy="26" r="23" fill="none" stroke-width="1.5"/>
+    <circle class="fg" id="scrollProgressCircle" cx="26" cy="26" r="23" fill="none" stroke-width="1.5" stroke-dasharray="144.5" stroke-dashoffset="144.5"/>
+  </svg>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

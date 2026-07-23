@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arka &amp; Nara — Astral Sanctuary</title>
+<meta name="description" content="Undangan pernikahan digital Arka &amp; Nara — Astral Sanctuary, sebuah perayaan cinta di kerajaan langit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ================= CUSTOM CURSOR ================= -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <svg viewBox="0 0 34 34"><g id="cursor-glyph" fill="none" stroke="#F3DFAE" stroke-width="1">
+    <path d="M17 2 L19 15 L32 17 L19 19 L17 32 L15 19 L2 17 L15 15 Z"/>
+  </g></svg>
+</div>
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+
+<canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+<!-- ================= PRELOADER ================= -->
+<div class="preloader" id="preloader">
+  <div class="preloader-emblem">
+    <svg viewBox="0 0 120 120">
+      <circle class="preloader-ring" cx="60" cy="60" r="52"/>
+      <circle class="preloader-ring reverse" cx="60" cy="60" r="42"/>
+      <path class="preloader-mark" d="M60 20 L66 54 L100 60 L66 66 L60 100 L54 66 L20 60 L54 54 Z"/>
+    </svg>
+  </div>
+  <div class="preloader-label">Astral Sanctuary</div>
+  <div class="preloader-bar"></div>
+</div>
+
+<!-- ================= GATE / OPENING EXPERIENCE ================= -->
+<div class="gate" id="gate">
+  <div class="gate-sky">
+    <canvas id="gate-star-canvas" aria-hidden="true"></canvas>
+    <div class="gate-aurora"></div>
+  </div>
+  <svg class="gate-island" viewBox="0 0 600 260" aria-hidden="true">
+    <ellipse cx="300" cy="180" rx="230" ry="26" fill="#171a44" opacity=".7"/>
+    <path d="M100 175 Q300 90 500 175 L470 200 Q300 140 130 200 Z" fill="#20244f"/>
+    <g stroke="#EDE6D8" stroke-width="2" opacity=".55">
+      <line x1="230" y1="175" x2="230" y2="90"/>
+      <line x1="270" y1="175" x2="270" y2="70"/>
+      <line x1="310" y1="175" x2="310" y2="65"/>
+      <line x1="350" y1="175" x2="350" y2="75"/>
+      <line x1="390" y1="175" x2="390" y2="95"/>
+    </g>
+    <path d="M180 175 Q300 200 420 175" stroke="#F3DFAE" stroke-width="1.5" opacity=".6" fill="none"/>
+  </svg>
+  <div class="gate-bridge"></div>
+  <div class="gate-content">
+    <p class="gate-kicker">Undangan Pernikahan</p>
+    <h1 class="gate-names" id="gate-names" aria-label="Arka &amp; Nara"></h1>
+    <p class="gate-date">12 · 06 · 2027 &nbsp;—&nbsp; Grand Celestial Resort</p>
+    <button class="gate-button" id="open-invitation">
+      <span>Buka Undangan</span>
+    </button>
+    <p class="gate-hint">Disarankan menyalakan suara untuk pengalaman terbaik</p>
+  </div>
+</div>
+
+<!-- ================= CONSTELLATION SCROLL THREAD ================= -->
+<div class="constellation-thread" aria-hidden="true">
+  <svg viewBox="0 0 26 800" preserveAspectRatio="none">
+    <path class="thread-path" id="thread-path" d="M13,0 L13,800"/>
+    <path class="thread-progress" id="thread-progress" d="M13,0 L13,800" pathLength="1"/>
+    <g id="thread-nodes"></g>
+  </svg>
+</div>
+
+<!-- ================= NAV ================= -->
+<nav class="site-nav" id="site-nav">
+  <a href="#hero" class="nav-mark">A &amp; N</a>
+  <ul class="nav-links">
+    <li><a href="#story">Kisah</a></li>
+    <li><a href="#gallery">Galeri</a></li>
+    <li><a href="#events">Acara</a></li>
+    <li><a href="#rsvp">RSVP</a></li>
+    <li><a href="#guestbook">Ucapan</a></li>
+  </ul>
+  <button class="sound-toggle" id="nav-sound-toggle" aria-label="Aktifkan/nonaktifkan musik">
+    <svg viewBox="0 0 20 20" class="sound-bars"><rect x="3" y="8" width="3" height="8" rx="1" fill="#F3DFAE"/><rect x="8.5" y="4" width="3" height="12" rx="1" fill="#F3DFAE"/><rect x="14" y="10" width="3" height="6" rx="1" fill="#F3DFAE"/></svg>
+  </button>
+</nav>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="deco-layer" id="hero-deco"></div>
+    <div class="hero-photo-frame media-frame" id="hero-image-wrap">
+      <div class="media-placeholder" data-var="heroImage">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5.5-5.5L9 17"/></svg>
+        <span>heroImage<br>1.webp</span>
+      </div>
+    </div>
+    <div class="container hero-content">
+      <p class="hero-eyebrow">The Wedding Of</p>
+      <h1 class="hero-title">Arka <span class="amp">&amp;</span> Nara</h1>
+      <p class="hero-sub">Dua jiwa dipertemukan lintas semesta, akan disatukan dalam sebuah upacara suci di sanctuary yang mengambang di atas awan.</p>
+      <div class="hero-meta">
+        <div>Tanggal<strong>12 Juni 2027</strong></div>
+        <div>Lokasi<strong>Grand Celestial Resort</strong></div>
+      </div>
+      <div class="hero-scroll"><div class="hero-scroll-line"></div>Gulir Untuk Menjelajah</div>
+    </div>
+  </section>
+
+  <div class="divider" data-divider>
+    <svg viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="divider-gradient" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#F3DFAE" stop-opacity="0"/><stop offset=".5" stop-color="#F3DFAE"/><stop offset="1" stop-color="#F3DFAE" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path class="divider-line" d="M0,70 Q300,10 600,70 T1200,70"/>
+    </svg>
+  </div>
+
+  <!-- ================= WELCOME ================= -->
+  <section class="panel panel-glass welcome" id="welcome">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Selamat Datang</p>
+        <h2 class="section-title">Di Gerbang <em>Sanctuary</em> Kami</h2>
+      </div>
+      <p class="welcome-verse reveal reveal-delay-1">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan untukmu, agar engkau merasa tenteram kepadanya."</p>
+      <p class="welcome-body reveal reveal-delay-2">Dengan penuh syukur, kami mengundang Anda untuk hadir dan menjadi saksi ketika dua jalur cahaya akhirnya menyatu — merayakan hari yang telah lama kami nantikan, di antara pilar marmer dan taburan bintang.</p>
+    </div>
+  </section>
+
+  <!-- ================= COUPLE / FAMILY ================= -->
+  <section class="panel panel-dark" id="couple">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Mempelai</p>
+        <h2 class="section-title">Kedua <em>Mempelai</em></h2>
+        <p class="section-lede" style="margin:0 auto;">Dua keluarga, dua kisah, kini bersatu dalam satu ikatan suci.</p>
+      </div>
+      <div class="couple-grid">
+        <div class="couple-card reveal reveal-delay-1">
+          <div class="couple-frame media-frame" id="groom-image-wrap">
+            <div class="media-placeholder" data-var="groomImage">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5.5-5.5L9 17"/></svg>
+              <span>groomImage<br>2.webp</span>
+            </div>
+          </div>
+          <h3 class="couple-name">Arka Wijaya Kusuma</h3>
+          <p class="couple-role">Mempelai Pria</p>
+          <p class="couple-parents">Putra dari Bapak — &amp; Ibu —</p>
+        </div>
+        <div class="couple-divider reveal reveal-delay-2" aria-hidden="true">
+          <svg viewBox="0 0 46 46"><path d="M23 4 L27 20 L43 23 L27 26 L23 42 L19 26 L3 23 L19 20 Z" fill="none" stroke="#F3DFAE" stroke-width="1"/></svg>
+        </div>
+        <div class="couple-card reveal reveal-delay-3">
+          <div class="couple-frame media-frame" id="bride-image-wrap">
+            <div class="media-placeholder" data-var="brideImage">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5.5-5.5L9 17"/></svg>
+              <span>brideImage<br>3.webp</span>
+            </div>
+          </div>
+          <h3 class="couple-name">Nara Cahyaning Putri</h3>
+          <p class="couple-role">Mempelai Wanita</p>
+          <p class="couple-parents">Putri dari Bapak — &amp; Ibu —</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LOVE STORY ================= -->
+  <section class="panel panel-glass" id="story">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Perjalanan Kami</p>
+        <h2 class="section-title">Lintasan <em>Cinta</em></h2>
+        <p class="section-lede" style="margin:0 auto;">Sebuah jalur yang membentang dari pulau ke pulau di langit — setiap titik adalah babak dalam kisah kami.</p>
+      </div>
+      <div class="story-track" id="story-track">
+        <div class="story-line"></div>
+        <!-- items injected by JS from MEDIA.loveStory -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section class="panel panel-dark" id="gallery">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Momen</p>
+        <h2 class="section-title">Galeri <em>Sanctuary</em></h2>
+        <p class="section-lede" style="margin:0 auto;">Kepingan waktu yang kami abadikan, tersusun rapi seperti relief pada kuil marmer.</p>
+      </div>
+      <div class="gallery-grid reveal" id="gallery-grid"></div>
+    </div>
+  </section>
+
+  <!-- ================= TRAILER ================= -->
+  <section class="panel panel-glass" id="trailer">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Highlight</p>
+        <h2 class="section-title">Wedding <em>Trailer</em></h2>
+      </div>
+      <div class="trailer-frame reveal reveal-delay-1" id="trailer-frame">
+        <div class="media-placeholder" data-var="trailerVideo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 8l7 4-7 4z" fill="currentColor" stroke="none"/></svg>
+          <span>trailerVideo<br>trailer.mp4</span>
+        </div>
+        <button class="trailer-play" id="trailer-play" aria-label="Putar trailer">
+          <svg viewBox="0 0 24 24" fill="#0a0b1a"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" data-divider>
+    <svg viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true"><path class="divider-line" d="M0,70 Q300,130 600,70 T1200,70" stroke="url(#divider-gradient)"/></svg>
+  </div>
+
+  <!-- ================= COUNTDOWN ================= -->
+  <section class="panel panel-dark text-center" id="countdown-section">
+    <div class="container">
+      <p class="eyebrow reveal">Menghitung Hari</p>
+      <h2 class="section-title reveal reveal-delay-1">Hingga Gerbang <em>Terbuka</em></h2>
+      <div class="countdown reveal reveal-delay-2" id="countdown" aria-live="polite">
+        <div class="countdown-unit"><div class="countdown-value" id="cd-days">00</div><div class="countdown-label">Hari</div></div>
+        <div class="countdown-unit"><div class="countdown-value" id="cd-hours">00</div><div class="countdown-label">Jam</div></div>
+        <div class="countdown-unit"><div class="countdown-value" id="cd-minutes">00</div><div class="countdown-label">Menit</div></div>
+        <div class="countdown-unit"><div class="countdown-value" id="cd-seconds">00</div><div class="countdown-label">Detik</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EVENTS (Ceremony + Reception) ================= -->
+  <section class="panel panel-glass" id="events">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Rangkaian Acara</p>
+        <h2 class="section-title">Akad &amp; <em>Resepsi</em></h2>
+      </div>
+      <div class="events-grid" id="events-grid"></div>
+    </div>
+  </section>
+
+  <!-- ================= VENUE / MAPS / PARKING / TRAVEL ================= -->
+  <section class="panel panel-dark" id="venue">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Lokasi</p>
+        <h2 class="section-title">Menuju <em>Sanctuary</em></h2>
+      </div>
+      <div class="venue-wrap reveal reveal-delay-1">
+        <div class="map-frame">
+          <iframe src="" data-var="mapsEmbedUrl" title="Peta lokasi venue" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="venue-info-list">
+          <div class="venue-info-item">
+            <div class="venue-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#F3DFAE" stroke-width="1.3"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+            <div><div class="venue-info-title">Alamat Venue</div><div class="venue-info-desc">Jl. Langit Senja No. 7, Bukit Anggrek</div></div>
+          </div>
+          <div class="venue-info-item">
+            <div class="venue-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#F3DFAE" stroke-width="1.3"><rect x="3" y="7" width="18" height="12" rx="2"/><circle cx="8" cy="13" r="1.6"/><circle cx="16" cy="13" r="1.6"/><path d="M6 7l1.5-3h9L18 7"/></svg></div>
+            <div><div class="venue-info-title">Parkir</div><div class="venue-info-desc">Area parkir luas tersedia di venue, dipandu petugas kami.</div></div>
+          </div>
+          <div class="venue-info-item">
+            <div class="venue-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#F3DFAE" stroke-width="1.3"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <div><div class="venue-info-title">Akomodasi Terdekat</div><div class="venue-info-desc">Beberapa hotel berjarak 5–10 menit dari venue untuk tamu luar kota.</div></div>
+          </div>
+          <div class="venue-info-item">
+            <div class="venue-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#F3DFAE" stroke-width="1.3"><path d="M4 13l4-8h8l4 8M4 13v6h16v-6M4 13h16"/></svg></div>
+            <div><div class="venue-info-title">Kuliner Sekitar</div><div class="venue-info-desc">Beragam restoran dan kafe tersedia di sekitar area resort.</div></div>
+          </div>
+          <div class="venue-info-item">
+            <div class="venue-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#F3DFAE" stroke-width="1.3"><path d="M12 3v18M3 12h18"/></svg></div>
+            <div><div class="venue-info-title">Panduan Perjalanan</div><div class="venue-info-desc">±40 menit dari bandara terdekat via tol utama.</div></div>
+          </div>
+          <a class="btn btn-solid" href="https://www.google.com/maps?q=Grand+Celestial+Resort" target="_blank" rel="noopener">
+            <span>Buka Navigasi</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DRESS CODE ================= -->
+  <section class="panel panel-glass text-center" id="dresscode">
+    <div class="container">
+      <p class="eyebrow reveal">Dress Code</p>
+      <h2 class="section-title reveal reveal-delay-1">Nuansa <em>Sanctuary</em></h2>
+      <p class="section-lede reveal reveal-delay-2" style="margin:0 auto;">Kami mengundang Anda mengenakan busana formal dengan palet warna berikut, selaras dengan suasana perayaan.</p>
+      <div class="dresscode-swatches reveal reveal-delay-3">
+        <div class="swatch" style="background:#F7F3EC" data-name="Pearl White"></div>
+        <div class="swatch" style="background:#C8CEDC" data-name="Moonlight Silver"></div>
+        <div class="swatch" style="background:#D6B67C" data-name="Starlight Gold"></div>
+        <div class="swatch" style="background:#4C5A93" data-name="Celestial Blue"></div>
+        <div class="swatch" style="background:#BBA9DD" data-name="Soft Lavender"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GIFT ================= -->
+  <section class="panel panel-dark text-center" id="gift">
+    <div class="container">
+      <p class="eyebrow reveal">Tanda Kasih</p>
+      <h2 class="section-title reveal reveal-delay-1">Kirim <em>Hadiah</em></h2>
+      <p class="section-lede reveal reveal-delay-2" style="margin:0 auto 40px;">Doa restu Anda adalah hadiah terindah. Namun bila berkenan memberi tanda kasih, kami sediakan opsi berikut.</p>
+      <div class="gift-card reveal reveal-delay-3">
+        <div class="qris-frame media-frame">
+          <div class="media-placeholder" data-var="qrisImage">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM19 19h2v2h-2z"/></svg>
+            <span>qrisImage</span>
+          </div>
+        </div>
+        <div class="gift-account">•••• •••• 8821</div>
+        <div class="gift-bank">a.n. Arka Wijaya Kusuma — Bank Celestia</div>
+        <div class="gift-actions">
+          <button class="btn" id="copy-account"><span>Salin Rekening</span></button>
+          <button class="btn" id="download-qris"><span>Unduh QRIS</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RSVP ================= -->
+  <section class="panel panel-glass" id="rsvp">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Konfirmasi Kehadiran</p>
+        <h2 class="section-title">RSVP</h2>
+        <p class="section-lede" style="margin:0 auto;">Mohon konfirmasi kehadiran Anda sebelum 1 Mei 2027 agar kami dapat mempersiapkan sanctuary dengan sempurna.</p>
+      </div>
+      <div class="rsvp-wrap reveal reveal-delay-1">
+        <form id="rsvp-form" novalidate>
+          <div class="form-row">
+            <label for="rsvp-name">Nama Lengkap</label>
+            <input type="text" id="rsvp-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row two-col">
+            <div>
+              <label for="rsvp-attend">Kehadiran</label>
+              <select id="rsvp-attend" name="attend" required>
+                <option value="">Pilih</option>
+                <option value="yes">Hadir</option>
+                <option value="no">Tidak Hadir</option>
+              </select>
+            </div>
+            <div>
+              <label for="rsvp-guests">Jumlah Tamu</label>
+              <select id="rsvp-guests" name="guests">
+                <option value="1">1 Orang</option>
+                <option value="2">2 Orang</option>
+                <option value="3">3 Orang</option>
+                <option value="4">4 Orang</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="rsvp-message">Pesan &amp; Doa</label>
+            <textarea id="rsvp-message" name="message" placeholder="Tuliskan doa dan harapan Anda untuk kami..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-solid rsvp-submit"><span>Kirim Konfirmasi</span></button>
+        </form>
+        <div class="rsvp-success" id="rsvp-success">
+          <svg viewBox="0 0 56 56" fill="none" stroke="#F3DFAE" stroke-width="1.2"><circle cx="28" cy="28" r="24"/><path d="M18 28l7 7 14-14"/></svg>
+          <h3>Terima Kasih</h3>
+          <p>Konfirmasi Anda telah kami terima dengan penuh syukur. Sampai jumpa di sanctuary.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GUEST BOOK ================= -->
+  <section class="panel panel-dark" id="guestbook">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Buku Tamu</p>
+        <h2 class="section-title">Ucapan &amp; <em>Doa</em></h2>
+      </div>
+      <div class="guestbook-grid" id="guestbook-grid">
+        <p class="guestbook-empty">Jadilah yang pertama mengirimkan ucapan melalui form RSVP di atas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INSTAGRAM / HASHTAG ================= -->
+  <section class="panel panel-glass text-center" id="hashtag">
+    <div class="container">
+      <p class="eyebrow reveal">Abadikan Momen</p>
+      <h2 class="section-title reveal reveal-delay-1">Bagikan Dengan <em>Tagar Kami</em></h2>
+      <p class="footer-hashtag reveal reveal-delay-2" style="font-size:1.4rem;">#ArkaNaraCelestial</p>
+      <p class="section-lede reveal reveal-delay-3" style="margin:0 auto;">Gunakan tagar ini pada unggahan Anda agar kami dapat mengumpulkan setiap momen indah dari sudut pandang Anda.</p>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="panel panel-dark" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Pertanyaan Umum</p>
+        <h2 class="section-title">FAQ</h2>
+      </div>
+      <div class="faq-list" id="faq-list"></div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="panel panel-glass text-center" id="contact">
+    <div class="container">
+      <p class="eyebrow reveal">Butuh Bantuan?</p>
+      <h2 class="section-title reveal reveal-delay-1">Hubungi <em>Kami</em></h2>
+      <div class="contact-grid reveal reveal-delay-2">
+        <div class="contact-card">
+          <div class="name">Dinda</div>
+          <div class="role">Wedding Coordinator</div>
+          <a class="btn" href="tel:+6281200000000"><span>Hubungi</span></a>
+        </div>
+        <div class="contact-card">
+          <div class="name">Raka</div>
+          <div class="role">Groomsman</div>
+          <a class="btn" href="tel:+6281300000000"><span>Hubungi</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CLOSING / FOOTER ================= -->
+  <footer class="footer" id="closing">
+    <div class="deco-layer" id="footer-deco"></div>
+    <div class="container">
+      <p class="footer-quote reveal">"Across The Infinite Sky, Destiny Brought Us Together."</p>
+      <h2 class="footer-names reveal reveal-delay-1">Arka &amp; Nara</h2>
+      <p class="footer-hashtag reveal reveal-delay-2">#ArkaNaraCelestial</p>
+      <p class="footer-meta reveal reveal-delay-3">Dengan penuh cinta, kami nantikan kehadiran Anda di sanctuary kami.<br>
+      Dibuat dengan hormat &middot; Astral Sanctuary © 2027</p>
+    </div>
+  </footer>
+
+</main>
+
+<!-- ================= MUSIC PLAYER ================= -->
+<div class="music-player" id="music-player">
+  <button class="music-toggle" id="music-toggle" aria-label="Putar/jeda musik">
+    <svg viewBox="0 0 24 24" fill="#F3DFAE" id="music-icon"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+  <div class="music-progress"><div class="music-progress-fill" id="music-progress-fill"></div></div>
+  <div class="music-title">Theme Song</div>
+</div>
+<audio id="bg-audio" loop preload="none"></audio>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galeri foto">
+  <div class="lightbox-frame">
+    <img id="lightbox-img" src="" alt="Foto galeri">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Tutup">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <button class="lightbox-prev" id="lightbox-prev" aria-label="Sebelumnya">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <button class="lightbox-next" id="lightbox-next" aria-label="Berikutnya">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="assets/js/media-config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
