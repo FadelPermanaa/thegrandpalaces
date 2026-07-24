@@ -37,6 +37,15 @@
   --ease-soft: cubic-bezier(.16,.84,.44,1);
 }
 
+/* ===== CUSTOM CURSOR — mewah bintang ===== */
+body {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="%23d8b98a" stroke-width="1.2" opacity="0.9"/><circle cx="18" cy="18" r="8" fill="none" stroke="%23d8b98a" stroke-width="1" opacity="0.8"/><circle cx="18" cy="18" r="2.5" fill="%23d8b98a" /><path d="M18 4 L19.5 12 L18 10 L16.5 12 Z" fill="%23d8b98a" opacity="0.7"/><path d="M18 32 L16.5 24 L18 26 L19.5 24 Z" fill="%23d8b98a" opacity="0.7"/><path d="M4 18 L12 16.5 L10 18 L12 19.5 Z" fill="%23d8b98a" opacity="0.7"/><path d="M32 18 L24 19.5 L26 18 L24 16.5 Z" fill="%23d8b98a" opacity="0.7"/><path d="M8 8 L14 10 L12 12 L10 14 Z" fill="%23d8b98a" opacity="0.5"/><path d="M28 28 L22 26 L24 24 L26 22 Z" fill="%23d8b98a" opacity="0.5"/></svg>') 18 18, auto;
+}
+a:hover, button:hover, .btn:hover, .chip:hover, .g-item:hover, .event-card:hover, .faq-q:hover {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="17" fill="none" stroke="%23e7e6f0" stroke-width="1.8" opacity="1"/><circle cx="22" cy="22" r="10" fill="none" stroke="%23e7e6f0" stroke-width="1.2" opacity="0.9"/><circle cx="22" cy="22" r="3" fill="%23e7e6f0" /><path d="M22 6 L24 14 L22 12 L20 14 Z" fill="%23e7e6f0" opacity="0.9"/><path d="M22 38 L20 30 L22 32 L24 30 Z" fill="%23e7e6f0" opacity="0.9"/><path d="M6 22 L14 20 L12 22 L14 24 Z" fill="%23e7e6f0" opacity="0.9"/><path d="M38 22 L30 24 L32 22 L30 20 Z" fill="%23e7e6f0" opacity="0.9"/><path d="M10 10 L16 12 L14 14 L12 16 Z" fill="%23e7e6f0" opacity="0.7"/><path d="M34 34 L28 32 L30 30 L32 28 Z" fill="%23e7e6f0" opacity="0.7"/><circle cx="22" cy="22" r="20" fill="none" stroke="%23d8b98a" stroke-width="0.5" opacity="0.6"/></svg>') 22 22, auto;
+}
+@supports not (cursor: url()) { body { cursor: pointer; } }
+
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
@@ -56,7 +65,6 @@ img{max-width:100%;display:block;}
 button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit;}
 ::selection{background:var(--champagne);color:var(--midnight);}
 
-/* ---------- shared atmosphere layer ---------- */
 #sky-canvas{
   position:fixed; inset:0; width:100%; height:100%;
   z-index:0; pointer-events:none;
@@ -83,7 +91,6 @@ button{font-family:inherit;cursor:pointer;background:none;border:none;color:inhe
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ---------- ornaments ---------- */
 .divider{
   display:flex; align-items:center; justify-content:center; gap:14px;
   margin:0 auto; width:min(340px,70%);
@@ -91,14 +98,11 @@ button{font-family:inherit;cursor:pointer;background:none;border:none;color:inhe
 .divider .line{flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--champagne), transparent); opacity:.6;}
 .divider .mark{width:7px;height:7px;border:1px solid var(--champagne); transform:rotate(45deg); opacity:.85;}
 
-.star-svg{width:16px;height:16px;opacity:.8;}
-
 .eyebrow{
   font-family:var(--font-display); font-size:.68rem; letter-spacing:.42em; text-transform:uppercase;
   color:var(--champagne); text-align:center; margin-bottom:18px; opacity:.9;
 }
 
-/* ---------- section shell ---------- */
 section{
   position:relative; z-index:3;
   padding:140px 24px;
@@ -149,9 +153,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 }
 .btn-outline:hover{box-shadow:0 0 0 1px rgba(216,185,138,.8), 0 0 30px rgba(216,185,138,.2);}
 
-/* ============================================================
-   PRELOADER
-   ============================================================ */
 #preloader{
   position:fixed; inset:0; z-index:200; background:var(--black-space);
   display:flex; align-items:center; justify-content:center; flex-direction:column; gap:26px;
@@ -177,7 +178,7 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .pre-label{font-family:var(--font-body); font-weight:200; font-size:.6rem; letter-spacing:.4em; text-transform:uppercase; color:var(--moon-silver-dim); opacity:0; animation:preFade 1.4s ease .9s forwards;}
 
 /* ============================================================
-   OPENING / GATE (cover before "Buka Undangan")
+   GATE — logo KIRANA & NARARYA dengan & di tengah
    ============================================================ */
 #gate{
   position:fixed; inset:0; z-index:150; overflow:hidden;
@@ -186,7 +187,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
   transition:transform 1.4s var(--ease-lux), opacity 1.4s var(--ease-lux);
 }
 #gate.opened{transform:translateY(-100%); opacity:0; pointer-events:none;}
-#gate-stars, #gate-meteor{position:absolute; inset:0;}
 .gate-moon{
   position:absolute; top:8%; left:50%; transform:translateX(-50%);
   width:120px; height:120px; border-radius:50%;
@@ -197,30 +197,47 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 @keyframes moonRise{from{opacity:0; transform:translate(-50%,40px) scale(.7);} to{opacity:1; transform:translate(-50%,0) scale(1);}}
 .gate-content{
   position:relative; z-index:4; text-align:center; padding:0 24px;
-  display:flex; flex-direction:column; align-items:center; gap:24px;
+  display:flex; flex-direction:column; align-items:center; gap:20px;
 }
 .gate-eyebrow{
   font-family:var(--font-body); font-weight:200; font-size:.62rem; letter-spacing:.5em; text-transform:uppercase;
   color:var(--moon-silver-dim); opacity:0; animation:gFade 1.2s ease 1.6s forwards;
 }
-.gate-names{
-  font-family:var(--font-display); font-size:clamp(2.2rem,7vw,4.2rem); letter-spacing:.08em; color:var(--white);
-  display:flex; gap:.4em; flex-wrap:wrap; justify-content:center;
+/* === logo 3 baris: Kirana, &, Nararya === */
+.gate-logo{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  font-family:var(--font-display);
+  color:var(--white);
   text-shadow:0 0 50px rgba(216,185,138,.3);
 }
-.gate-names span{opacity:0; transform:translateY(14px); display:inline-block; animation:letterUp .9s var(--ease-soft) forwards;}
-.gate-amp{font-family:var(--font-sub); font-style:italic; color:var(--champagne); font-size:.7em;}
+.gate-logo .name{
+  font-size:clamp(2.6rem,8vw,4.8rem);
+  letter-spacing:.06em;
+  line-height:1.1;
+  opacity:0;
+  animation:letterUp .9s var(--ease-soft) forwards;
+}
+.gate-logo .amp{
+  font-family:var(--font-sub);
+  font-style:italic;
+  font-size:clamp(1.6rem,4vw,2.6rem);
+  color:var(--champagne);
+  opacity:0;
+  animation:letterUp .9s var(--ease-soft) .15s forwards;
+  letter-spacing:.1em;
+}
+.gate-logo .name:nth-child(1){ animation-delay:0.4s; }
+.gate-logo .amp{ animation-delay:0.55s; }
+.gate-logo .name:nth-child(3){ animation-delay:0.7s; }
 @keyframes letterUp{to{opacity:1; transform:translateY(0);}}
 @keyframes gFade{to{opacity:1;}}
+
 .gate-guest{
   font-family:var(--font-sub); font-style:italic; font-size:1rem; color:var(--lavender);
   opacity:0; animation:gFade 1.2s ease 2.1s forwards;
 }
 .gate-btn-wrap{opacity:0; animation:gFade 1.2s ease 2.6s forwards;}
 
-/* ============================================================
-   MUSIC PLAYER — crescent moon
-   ============================================================ */
 #music-player{
   position:fixed; bottom:26px; right:26px; z-index:120;
   width:58px; height:58px; border-radius:50%;
@@ -235,9 +252,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 @keyframes moonPulse{0%,100%{box-shadow:0 0 24px rgba(231,230,240,.4),0 6px 20px rgba(0,0,0,.4);}50%{box-shadow:0 0 40px rgba(231,230,240,.65),0 6px 24px rgba(0,0,0,.4);}}
 #music-player svg{width:16px;height:16px; margin-left:12px; fill:var(--midnight);}
 
-/* ============================================================
-   HERO
-   ============================================================ */
 #hero{
   min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
   padding-top:120px; position:relative; overflow:hidden;
@@ -258,7 +272,7 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
   font-family:var(--font-display); font-size:clamp(2.8rem,8vw,5.6rem); color:var(--white);
   letter-spacing:.05em; line-height:1.15; text-shadow:0 0 60px rgba(216,185,138,.28);
 }
-.hero-amp{display:block; font-family:var(--font-sub); font-style:italic; color:var(--champagne); font-size:.55em; margin:.1em 0;}
+.hero-amp{display:inline-block; font-family:var(--font-sub); font-style:italic; color:var(--champagne); font-size:.55em; margin:0 .15em;}
 .hero-date{
   font-family:var(--font-body); font-weight:300; letter-spacing:.3em; text-transform:uppercase; font-size:.78rem;
   color:var(--moon-silver-dim); border-top:1px solid rgba(216,185,138,.35); border-bottom:1px solid rgba(216,185,138,.35);
@@ -272,14 +286,8 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .scroll-line{width:1px; height:38px; background:linear-gradient(var(--champagne),transparent); animation:scrollLine 2.4s ease-in-out infinite;}
 @keyframes scrollLine{0%{opacity:0; transform:scaleY(0); transform-origin:top;}40%{opacity:1;transform:scaleY(1);transform-origin:top;}100%{opacity:0; transform:scaleY(1); transform-origin:bottom;}}
 
-/* ============================================================
-   WELCOME / QUOTE
-   ============================================================ */
 .quote-mark{font-family:var(--font-editorial); font-style:italic; font-size:2.6rem; color:var(--champagne); opacity:.7; line-height:1;}
 
-/* ============================================================
-   COUPLE
-   ============================================================ */
 .couple-grid{display:grid; grid-template-columns:1fr auto 1fr; gap:40px; align-items:center; margin-top:60px;}
 @media (max-width:720px){.couple-grid{grid-template-columns:1fr; gap:56px;}}
 .couple-card{display:flex; flex-direction:column; align-items:center; gap:16px;}
@@ -289,10 +297,14 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
   display:flex; align-items:center; justify-content:center;
   font-family:var(--font-display); font-size:2.4rem; color:var(--champagne);
   box-shadow:0 0 0 1px rgba(216,185,138,.4), 0 0 50px rgba(75,58,134,.5);
+  overflow:hidden;
+}
+.couple-photo img{
+  width:100%; height:100%; object-fit:cover; border-radius:50%;
 }
 .couple-photo::before{
   content:''; position:absolute; inset:-14px; border-radius:50%; border:1px dashed rgba(216,185,138,.35);
-  animation:spin 40s linear infinite;
+  animation:spin 40s linear infinite; pointer-events:none;
 }
 .couple-name{font-family:var(--font-display); font-size:1.5rem; color:var(--white); letter-spacing:.04em;}
 .couple-alias{font-family:var(--font-sub); font-style:italic; color:var(--lavender); font-size:1rem;}
@@ -303,9 +315,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 }
 @media (max-width:720px){.couple-divider-vert{display:none;}}
 
-/* ============================================================
-   LOVE STORY — constellation timeline
-   ============================================================ */
 .story-track{position:relative; margin-top:70px; padding-left:0;}
 .story-line{
   position:absolute; left:50%; top:0; bottom:0; width:1px; transform:translateX(-50%);
@@ -330,31 +339,31 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
   .story-dot{left:14px;}
 }
 
-/* ============================================================
-   GALLERY
-   ============================================================ */
 .gallery-masonry{
   columns:3 220px; column-gap:16px; margin-top:60px;
 }
 .gallery-masonry .g-item{
   break-inside:avoid; margin-bottom:16px; border-radius:6px; overflow:hidden; position:relative;
   background:linear-gradient(160deg,var(--indigo),var(--navy)); box-shadow:0 0 0 1px rgba(216,185,138,.2);
-  aspect-ratio:var(--ar,3/4); display:flex; align-items:center; justify-content:center;
+  aspect-ratio:var(--ar,3/4);
   transition:transform .5s var(--ease-lux), box-shadow .5s;
 }
 .gallery-masonry .g-item:hover{transform:translateY(-6px); box-shadow:0 0 0 1px rgba(216,185,138,.5), 0 20px 40px rgba(0,0,0,.4);}
-.g-item span{font-family:var(--font-sub); font-style:italic; color:var(--lavender); opacity:.6; font-size:.85rem;}
+.gallery-masonry .g-item img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
 
-/* ============================================================
-   VIDEO TRAILER
-   ============================================================ */
 .video-frame{
   margin-top:50px; position:relative; border-radius:10px; overflow:hidden; aspect-ratio:16/9;
   background:radial-gradient(ellipse at 50% 40%, #1b234f, var(--black-space));
   box-shadow:0 0 0 1px rgba(216,185,138,.3), 0 30px 70px rgba(0,0,0,.5);
   display:flex; align-items:center; justify-content:center; cursor:pointer;
 }
+.video-frame img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.7;
+}
 .play-btn{
+  position:relative; z-index:2;
   width:76px; height:76px; border-radius:50%; display:flex; align-items:center; justify-content:center;
   background:rgba(247,245,240,.1); border:1px solid rgba(216,185,138,.6); backdrop-filter:blur(6px);
   transition:transform .4s var(--ease-lux);
@@ -362,9 +371,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .video-frame:hover .play-btn{transform:scale(1.1);}
 .play-btn svg{width:22px;height:22px; fill:var(--champagne); margin-left:4px;}
 
-/* ============================================================
-   COUNTDOWN
-   ============================================================ */
 .countdown-frame{
   margin-top:56px; display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
 }
@@ -376,9 +382,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .cd-num{font-family:var(--font-display); font-size:2.1rem; color:var(--white); text-shadow:0 0 20px rgba(216,185,138,.4);}
 .cd-label{font-size:.6rem; letter-spacing:.28em; text-transform:uppercase; color:var(--moon-silver-dim); margin-top:8px;}
 
-/* ============================================================
-   EVENT CARDS
-   ============================================================ */
 .event-grid{display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:60px;}
 @media (max-width:720px){.event-grid{grid-template-columns:1fr;}}
 .event-card{
@@ -403,7 +406,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 }
 .chip:hover{background:rgba(216,185,138,.12); box-shadow:0 0 20px rgba(216,185,138,.2);}
 
-/* ---------- map ---------- */
 .map-frame{
   margin-top:20px; border-radius:14px; overflow:hidden; box-shadow:0 0 0 1px rgba(216,185,138,.3);
 }
@@ -414,11 +416,9 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .map-info-item b{display:block; font-family:var(--font-display); font-size:.66rem; letter-spacing:.22em; color:var(--champagne); margin-bottom:8px; text-transform:uppercase;}
 .map-info-item span{font-size:.82rem; color:var(--moon-silver-dim);}
 
-/* ---------- dress code ---------- */
 .dresscode-swatches{display:flex; justify-content:center; gap:16px; margin-top:30px; flex-wrap:wrap;}
 .swatch{width:52px; height:52px; border-radius:50%; box-shadow:0 0 0 1px rgba(216,185,138,.4), 0 8px 20px rgba(0,0,0,.35);}
 
-/* ---------- gift ---------- */
 .gift-card{
   margin-top:50px; max-width:440px; margin-left:auto; margin-right:auto;
   padding:40px 32px; border-radius:16px; text-align:center;
@@ -428,9 +428,11 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .qr-box{
   width:170px; height:170px; margin:20px auto; border-radius:12px;
   background:repeating-linear-gradient(45deg, #14183a, #14183a 6px, #1c2150 6px, #1c2150 12px);
-  display:flex; align-items:center; justify-content:center; font-size:.7rem; color:var(--moon-silver-dim);
+  display:flex; align-items:center; justify-content:center;
   box-shadow:0 0 0 1px rgba(216,185,138,.35);
+  overflow:hidden;
 }
+.qr-box img{width:100%; height:100%; object-fit:contain;}
 .acc-row{
   display:flex; align-items:center; justify-content:space-between; gap:12px;
   padding:14px 18px; border-radius:10px; background:rgba(255,255,255,.03); margin-top:16px;
@@ -439,7 +441,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .copy-btn{font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--champagne); border:1px solid rgba(216,185,138,.4); padding:8px 14px; border-radius:999px;}
 .copy-btn:hover{background:rgba(216,185,138,.12);}
 
-/* ---------- RSVP ---------- */
 .rsvp-form{margin-top:50px; display:flex; flex-direction:column; gap:18px; text-align:left;}
 .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
 @media (max-width:600px){.form-row{grid-template-columns:1fr;}}
@@ -457,7 +458,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 }
 #rsvp-success.show{display:block;}
 
-/* ---------- guest book ---------- */
 .gb-list{margin-top:50px; display:grid; grid-template-columns:1fr 1fr; gap:18px; text-align:left;}
 @media (max-width:700px){.gb-list{grid-template-columns:1fr;}}
 .gb-card{
@@ -469,7 +469,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .gb-name{font-family:var(--font-sub); font-style:italic; color:var(--champagne); font-size:1rem; margin-bottom:6px;}
 .gb-msg{font-size:.82rem; color:var(--moon-silver-dim); line-height:1.7;}
 
-/* ---------- hashtag / instagram ---------- */
 .hashtag-badge{
   display:inline-block; margin-top:20px; padding:14px 30px; border-radius:999px;
   font-family:var(--font-display); font-size:.9rem; letter-spacing:.1em; color:var(--champagne);
@@ -479,7 +478,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 @media (max-width:600px){.ig-grid{grid-template-columns:repeat(2,1fr);}}
 .ig-item{aspect-ratio:1; border-radius:8px; background:linear-gradient(160deg,var(--indigo),var(--navy)); box-shadow:0 0 0 1px rgba(216,185,138,.2); display:flex; align-items:center; justify-content:center; color:var(--lavender); opacity:.5; font-size:.7rem;}
 
-/* ---------- faq / accommodation ---------- */
 .faq-item{
   text-align:left; padding:22px 0; border-bottom:1px solid rgba(216,185,138,.18);
   cursor:pointer;
@@ -497,15 +495,6 @@ p{line-height:1.95; color:var(--moon-silver-dim); font-weight:300; font-size:.98
 .info-card b{display:block; font-family:var(--font-display); font-size:.68rem; letter-spacing:.2em; color:var(--champagne); margin-bottom:10px; text-transform:uppercase;}
 .info-card p{font-size:.84rem;}
 
-/* ---------- contact ---------- */
-.contact-grid{display:flex; justify-content:center; gap:40px; margin-top:50px; flex-wrap:wrap;}
-.contact-card{text-align:center;}
-.contact-name{font-family:var(--font-sub); font-style:italic; font-size:1.2rem; color:var(--white); margin-bottom:4px;}
-.contact-role{font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--moon-silver-dim); margin-bottom:12px;}
-
-/* ============================================================
-   CLOSING / FOOTER
-   ============================================================ */
 #closing{
   min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden;
 }
@@ -517,7 +506,6 @@ footer{
 }
 footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacing:.3em; color:var(--champagne); margin-bottom:10px;}
 
-/* ---------- scroll progress + nav dots ---------- */
 #progress-bar{
   position:fixed; top:0; left:0; height:2px; z-index:130; width:0%;
   background:linear-gradient(90deg, var(--champagne), var(--aurora-cyan)); box-shadow:0 0 12px rgba(216,185,138,.6);
@@ -531,11 +519,9 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 #nav-dots .dot.active{background:var(--champagne); box-shadow:0 0 10px rgba(216,185,138,.7); transform:scale(1.4);}
 @media (max-width:900px){#nav-dots{display:none;}}
 
-/* meteor */
 .meteor{position:fixed; z-index:2; width:2px; height:2px; background:var(--white); border-radius:50%; pointer-events:none; opacity:0;}
 .meteor::before{content:''; position:absolute; top:0; left:0; width:80px; height:1px; background:linear-gradient(90deg, rgba(255,255,255,.8), transparent); transform-origin:left;}
 
-/* stagger */
 .stagger > *{opacity:0; transform:translateY(20px); transition:all .8s var(--ease-soft);}
 .stagger.in-view > *{opacity:1; transform:translateY(0);}
 .stagger.in-view > *:nth-child(1){transition-delay:.05s;}
@@ -546,7 +532,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 </head>
 <body>
 
-<!-- ================= AMBIENT BACKGROUND LAYERS ================= -->
 <canvas id="sky-canvas"></canvas>
 <div class="aurora-layer"></div>
 <div class="cosmic-fog"></div>
@@ -554,7 +539,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 <div id="progress-bar"></div>
 <div id="nav-dots"></div>
 
-<!-- ================= PRELOADER ================= -->
 <div id="preloader">
   <div class="pre-moon"><div class="pre-ring"></div></div>
   <div class="pre-mono">K &amp; R</div>
@@ -566,7 +550,12 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   <div class="gate-moon"></div>
   <div class="gate-content">
     <div class="gate-eyebrow">The Wedding Celebration Of</div>
-    <h1 class="gate-names" id="gate-names"></h1>
+    <!-- LOGO 3 BARIS: Kirana, &, Nararya -->
+    <div class="gate-logo">
+      <span class="name">Kirana</span>
+      <span class="amp">&amp;</span>
+      <span class="name">Nararya</span>
+    </div>
     <p class="gate-guest">Kepada Yth. Bapak/Ibu/Saudara/i<br><span id="guest-name">Tamu Undangan</span></p>
     <div class="gate-btn-wrap">
       <button class="btn" id="open-invitation">✦ Buka Undangan ✦</button>
@@ -574,13 +563,11 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
 </div>
 
-<!-- ================= MUSIC PLAYER ================= -->
 <button id="music-player" aria-label="Putar musik">
   <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
 </button>
-<audio id="bg-audio" loop preload="none"></audio>
+<audio id="bg-audio" loop preload="auto" src="assets/audio/theme-song.mp3"></audio>
 
-<!-- ================= HERO ================= -->
 <section id="hero">
   <div class="hero-moon"></div>
   <div class="hero-content">
@@ -593,7 +580,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
-<!-- ================= WELCOME ================= -->
 <section id="welcome">
   <div class="section-inner reveal">
     <div class="eyebrow">Welcome</div>
@@ -605,7 +591,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 
 <div class="divider reveal"><span class="line"></span><span class="mark"></span><span class="line"></span></div>
 
-<!-- ================= COUPLE ================= -->
 <section id="couple">
   <div class="section-inner reveal">
     <div class="eyebrow">Bride &amp; Groom</div>
@@ -613,14 +598,14 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
   <div class="couple-grid">
     <div class="couple-card reveal reveal-delay-1">
-      <div class="couple-photo">K</div>
+      <div class="couple-photo"><img src="assets/images/1.webp" alt="Kirana"></div>
       <div class="couple-name">Kirana Ayudhita Wardhani</div>
       <div class="couple-alias">"Kira"</div>
       <div class="couple-parents">Putri kedua dari<br>Bapak Bambang Wardhana &amp; Ibu Ratna Kusuma</div>
     </div>
     <div class="couple-divider-vert reveal"></div>
     <div class="couple-card reveal reveal-delay-2">
-      <div class="couple-photo">N</div>
+      <div class="couple-photo"><img src="assets/images/2.webp" alt="Nararya"></div>
       <div class="couple-name">Nararya Adityawarman</div>
       <div class="couple-alias">"Rangga"</div>
       <div class="couple-parents">Putra pertama dari<br>Bapak Surya Adiwangsa &amp; Ibu Dewi Anggraini</div>
@@ -630,7 +615,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 
 <div class="divider reveal"><span class="line"></span><span class="mark"></span><span class="line"></span></div>
 
-<!-- ================= LOVE STORY ================= -->
 <section id="love-story">
   <div class="section-inner reveal">
     <div class="eyebrow">Our Journey</div>
@@ -638,7 +622,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
   <div class="story-track">
     <div class="story-line"></div>
-
     <div class="story-item reveal">
       <div class="story-card">
         <div class="story-dot"></div>
@@ -647,7 +630,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
         <p>Kami pertama bertemu di sebuah acara komunitas astronomi kampus, saat sama-sama mendongak menatap hujan meteor Perseid. Percakapan singkat malam itu ternyata menjadi awal dari kisah panjang.</p>
       </div>
     </div>
-
     <div class="story-item reveal">
       <div class="story-card">
         <div class="story-dot"></div>
@@ -656,7 +638,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
         <p>Dari diskusi tentang rasi bintang, tumbuh rasa yang lebih dalam. Kami memutuskan untuk saling mengenal lebih jauh dan menjalani hari-hari bersama, melewati suka dan duka.</p>
       </div>
     </div>
-
     <div class="story-item reveal">
       <div class="story-card">
         <div class="story-dot"></div>
@@ -665,7 +646,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
         <p>Di sebuah observatorium kecil, dengan latar langit malam penuh bintang, Rangga berlutut dan mengajukan pertanyaan yang telah lama ia simpan. Jawaban "Ya" menjadi bintang paling terang malam itu.</p>
       </div>
     </div>
-
     <div class="story-item reveal">
       <div class="story-card">
         <div class="story-dot"></div>
@@ -679,39 +659,37 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 
 <div class="divider reveal"><span class="line"></span><span class="mark"></span><span class="line"></span></div>
 
-<!-- ================= GALLERY ================= -->
 <section id="gallery">
   <div class="section-inner reveal">
     <div class="eyebrow">Gallery</div>
     <h2 class="heading-lg">Momen Yang Terekam Cahaya</h2>
   </div>
   <div class="gallery-masonry reveal reveal-delay-1">
-    <div class="g-item" style="--ar:3/4"><span>01</span></div>
-    <div class="g-item" style="--ar:1/1"><span>02</span></div>
-    <div class="g-item" style="--ar:4/5"><span>03</span></div>
-    <div class="g-item" style="--ar:3/4"><span>04</span></div>
-    <div class="g-item" style="--ar:1/1"><span>05</span></div>
-    <div class="g-item" style="--ar:4/5"><span>06</span></div>
-    <div class="g-item" style="--ar:3/4"><span>07</span></div>
-    <div class="g-item" style="--ar:1/1"><span>08</span></div>
-    <div class="g-item" style="--ar:4/5"><span>09</span></div>
+    <div class="g-item" style="--ar:3/4"><img src="assets/images/3.webp" alt="Gallery 1"></div>
+    <div class="g-item" style="--ar:1/1"><img src="assets/images/4.webp" alt="Gallery 2"></div>
+    <div class="g-item" style="--ar:4/5"><img src="assets/images/5.webp" alt="Gallery 3"></div>
+    <div class="g-item" style="--ar:3/4"><img src="assets/images/6.webp" alt="Gallery 4"></div>
+    <div class="g-item" style="--ar:1/1"><img src="assets/images/7.webp" alt="Gallery 5"></div>
+    <div class="g-item" style="--ar:4/5"><img src="assets/images/8.webp" alt="Gallery 6"></div>
+    <div class="g-item" style="--ar:3/4"><img src="assets/images/9.webp" alt="Gallery 7"></div>
+    <div class="g-item" style="--ar:1/1"><img src="assets/images/10.webp" alt="Gallery 8"></div>
+    <div class="g-item" style="--ar:4/5"><img src="assets/images/11.webp" alt="Gallery 9"></div>
   </div>
 </section>
 
-<!-- ================= VIDEO TRAILER ================= -->
 <section id="trailer">
   <div class="section-inner reveal">
     <div class="eyebrow">Wedding Trailer</div>
     <h2 class="heading-lg">Kisah Kami Dalam Gerak dan Cahaya</h2>
   </div>
   <div class="video-frame reveal reveal-delay-1">
+    <img src="assets/images/12.webp" alt="Video thumbnail">
     <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
   </div>
 </section>
 
 <div class="divider reveal"><span class="line"></span><span class="mark"></span><span class="line"></span></div>
 
-<!-- ================= COUNTDOWN ================= -->
 <section id="countdown">
   <div class="section-inner reveal">
     <div class="eyebrow">Counting Down</div>
@@ -725,7 +703,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
 </section>
 
-<!-- ================= EVENTS ================= -->
 <section id="events">
   <div class="section-inner reveal">
     <div class="eyebrow">Save The Date</div>
@@ -757,7 +734,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
 </section>
 
-<!-- ================= MAPS ================= -->
 <section id="location">
   <div class="section-inner reveal">
     <div class="eyebrow">Venue</div>
@@ -776,7 +752,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 
 <div class="divider reveal"><span class="line"></span><span class="mark"></span><span class="line"></span></div>
 
-<!-- ================= DRESS CODE ================= -->
 <section id="dresscode">
   <div class="section-inner reveal">
     <div class="eyebrow">Dress Code</div>
@@ -792,7 +767,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
 </section>
 
-<!-- ================= GIFT ================= -->
 <section id="gift">
   <div class="section-inner reveal">
     <div class="eyebrow">Wedding Gift</div>
@@ -800,7 +774,7 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
     <p>Doa restu Anda adalah karunia terindah bagi kami. Namun jika berkenan memberikan tanda kasih, kami sediakan berikut ini.</p>
   </div>
   <div class="gift-card reveal reveal-delay-1">
-    <div class="qr-box">QRIS Code</div>
+    <div class="qr-box"><img src="assets/images/13.webp" alt="QR Code"></div>
     <button class="chip" onclick="alert('QR berhasil diunduh (contoh).')">Unduh QR</button>
     <div class="acc-row">
       <span>BCA · 8801234567<br>a.n. Kirana Ayudhita</span>
@@ -815,7 +789,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 
 <div class="divider reveal"><span class="line"></span><span class="mark"></span><span class="line"></span></div>
 
-<!-- ================= RSVP ================= -->
 <section id="rsvp">
   <div class="section-inner reveal" id="rsvp-form-wrap">
     <div class="eyebrow">RSVP</div>
@@ -844,7 +817,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
 </section>
 
-<!-- ================= GUEST BOOK ================= -->
 <section id="guestbook">
   <div class="section-inner reveal">
     <div class="eyebrow">Guest Book</div>
@@ -860,7 +832,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 
 <div class="divider reveal"><span class="line"></span><span class="mark"></span><span class="line"></span></div>
 
-<!-- ================= HASHTAG + INSTAGRAM ================= -->
 <section id="hashtag">
   <div class="section-inner reveal">
     <div class="eyebrow">Share The Moment</div>
@@ -872,7 +843,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
 </section>
 
-<!-- ================= FAQ ================= -->
 <section id="faq">
   <div class="section-inner reveal">
     <div class="eyebrow">FAQ</div>
@@ -894,7 +864,6 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
   </div>
 </section>
 
-<!-- ================= ACCOMMODATION + PARKING + CONTACT ================= -->
 <section id="info">
   <div class="info-grid">
     <div class="info-card reveal">
@@ -906,25 +875,8 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
       <p>Area parkir tersedia langsung di area Skyline Observatory & Garden dengan kapasitas ±150 kendaraan.</p>
     </div>
   </div>
-  <div class="section-inner reveal reveal-delay-2" style="margin-top:70px;">
-    <div class="eyebrow">Contact Person</div>
-    <h2 class="heading-lg">Hubungi Kami</h2>
-  </div>
-  <div class="contact-grid reveal reveal-delay-2">
-    <div class="contact-card">
-      <div class="contact-name">Ayu</div>
-      <div class="contact-role">Pihak Mempelai Wanita</div>
-      <a class="chip" href="https://wa.me/6281234567890" target="_blank" rel="noopener">WhatsApp</a>
-    </div>
-    <div class="contact-card">
-      <div class="contact-name">Bima</div>
-      <div class="contact-role">Pihak Mempelai Pria</div>
-      <a class="chip" href="https://wa.me/6281298765432" target="_blank" rel="noopener">WhatsApp</a>
-    </div>
-  </div>
 </section>
 
-<!-- ================= CLOSING ================= -->
 <section id="closing">
   <div>
     <div class="quote-mark reveal">“</div>
@@ -972,7 +924,6 @@ function spawnMeteor(){
     life:1
   });
 }
-let lastT=performance.now();
 function drawStars(t){
   ctx.clearRect(0,0,w,h);
   for(const s of stars){
@@ -1010,17 +961,6 @@ window.addEventListener('load', ()=>{
   setTimeout(()=>{
     document.getElementById('preloader').classList.add('hide');
   }, 1800);
-});
-
-/* letter-by-letter gate name reveal */
-const gateNamesEl = document.getElementById('gate-names');
-const fullName = "Kirana & Nararya";
-[...fullName].forEach((ch,i)=>{
-  const span=document.createElement('span');
-  span.textContent = ch===' ' ? '\u00A0' : ch;
-  if(ch==='&') span.classList.add('gate-amp');
-  span.style.animationDelay = (0.4 + i*0.05)+'s';
-  gateNamesEl.appendChild(span);
 });
 
 /* guest name from ?to= query param */

@@ -12,7 +12,7 @@
 
     <style>
         /* ============================================================
-           ROYAL PALACE VERSAILLES — DESIGN TOKENS (diambil dari benchmark)
+           ROYAL PALACE VERSAILLES — DESIGN TOKENS
            ============================================================ */
         :root {
             --obsidian: #08080a;
@@ -84,7 +84,7 @@
         }
 
         /* ============================================================
-           GRAIN + VIGNETTE (dari benchmark)
+           GRAIN + VIGNETTE
            ============================================================ */
         .grain {
             position: fixed;
@@ -104,7 +104,7 @@
         }
 
         /* ============================================================
-           UTILITIES (dari benchmark)
+           UTILITIES
            ============================================================ */
         .eyebrow {
             font-family: var(--font-body);
@@ -162,7 +162,6 @@
             text-align: center;
         }
 
-        /* reveal-on-scroll (dari benchmark) */
         .reveal {
             opacity: 0;
             transform: translateY(46px) scale(.985);
@@ -187,7 +186,6 @@
             transition-delay: .46s;
         }
 
-        /* diamond divider (dari benchmark) */
         .diamond {
             width: 12px;
             height: 12px;
@@ -216,7 +214,6 @@
             opacity: .7;
         }
 
-        /* buttons (dari benchmark) */
         .btn {
             position: relative;
             display: inline-flex;
@@ -269,7 +266,7 @@
         }
 
         /* ============================================================
-           PRELOADER (dari benchmark, disesuaikan)
+           PRELOADER
            ============================================================ */
         #preloader {
             position: fixed;
@@ -348,7 +345,7 @@
         }
 
         /* ============================================================
-           COVER / OPENING (dari benchmark, tema Versailles)
+           COVER / OPENING
            ============================================================ */
         #cover {
             position: fixed;
@@ -452,7 +449,6 @@
             opacity: 0;
             animation: fadeUp 1s var(--ease) forwards .9s;
         }
-        /* Cover names — stacked vertically */
         .cover-names {
             display: flex;
             flex-direction: column;
@@ -550,67 +546,85 @@
         }
 
         /* ============================================================
-           SCROLL PROGRESS DIAMOND + DOT NAV (dari benchmark)
+           PROGRESS INDICATOR & CURSOR CUSTOM (BERBASIS TEMA)
            ============================================================ */
-        #progress-diamond {
+        #customProgress {
             position: fixed;
             right: 26px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 400;
-            width: 20px;
-            height: 20px;
-            display: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
         }
-        #progress-diamond svg {
+        #customProgress svg {
             width: 100%;
             height: 100%;
-            transform: rotate(45deg);
+            display: block;
         }
-        #progress-diamond .track {
+        #customProgress .track {
             fill: none;
-            stroke: rgba(255, 255, 255, .12);
+            stroke: rgba(255,255,255,0.12);
             stroke-width: 2;
         }
-        #progress-diamond .fill {
+        #customProgress .fill {
             fill: none;
             stroke: var(--gold);
-            stroke-width: 2;
-            stroke-dasharray: 126;
-            stroke-dashoffset: 126;
-            transition: stroke-dashoffset .1s linear;
+            stroke-width: 2.5;
+            stroke-dasharray: 107;
+            stroke-dashoffset: 107;
+            transition: stroke-dashoffset 0.1s linear;
         }
-        .dotnav {
+
+        .custom-cursor {
             position: fixed;
-            right: 56px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 400;
-            display: none;
-            flex-direction: column;
-            gap: 16px;
+            pointer-events: none;
+            z-index: 9999;
+            width: 32px;
+            height: 32px;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.2s ease;
+            opacity: 0;
         }
-        .dotnav button {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .22);
-            transition: all .4s var(--ease);
+        .custom-cursor.show {
+            opacity: 1;
         }
-        .dotnav button.active {
-            background: var(--gold);
-            box-shadow: 0 0 10px rgba(201, 169, 98, .8);
-            transform: scale(1.5);
+        .custom-cursor svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
-        @media (min-width: 960px) {
-            #progress-diamond,
-            .dotnav {
-                display: flex;
-            }
+
+        /* ===== TEMA HUTAN ===== */
+        body.theme-hutan #customProgress .fill {
+            stroke: #2e7d32;
+        }
+        body.theme-hutan #customProgress .track {
+            stroke: rgba(46,125,50,0.2);
+        }
+
+        /* ===== TEMA CHINESE ===== */
+        body.theme-chinese #customProgress .fill {
+            stroke: #c62828;
+        }
+        body.theme-chinese #customProgress .track {
+            stroke: rgba(198,40,40,0.2);
+        }
+
+        /* ===== TEMA ROYAL (default) ===== */
+        body.theme-royal #customProgress .fill {
+            stroke: var(--gold);
+        }
+        body.theme-royal #customProgress .track {
+            stroke: rgba(201,169,98,0.2);
         }
 
         /* ============================================================
-           FLOATING MUSIC PLAYER (dari benchmark)
+           FLOATING MUSIC PLAYER
            ============================================================ */
         #player {
             position: fixed;
@@ -717,7 +731,7 @@
         }
 
         /* ============================================================
-           TOP NAVBAR (dari benchmark)
+           TOP NAVBAR
            ============================================================ */
         #navbar {
             position: fixed;
@@ -756,7 +770,7 @@
         }
 
         /* ============================================================
-           HERO (tema Versailles + elemen dari benchmark)
+           HERO
            ============================================================ */
         #hero {
             min-height: 100svh;
@@ -881,7 +895,6 @@
             opacity: 0;
             animation: fadeUp 1s var(--ease) forwards .1s;
         }
-        /* Hero title — stacked vertically */
         .hero-title {
             display: flex;
             flex-direction: column;
@@ -946,8 +959,6 @@
             gap: 10px;
             opacity: 0;
             animation: fadeUp 1s var(--ease) forwards 1.3s;
-            /* ensure it's centered */
-            margin-left: 0;
             pointer-events: none;
         }
         .scroll-cue .stick {
@@ -985,7 +996,7 @@
         }
 
         /* ============================================================
-           WELCOME (dari benchmark)
+           WELCOME
            ============================================================ */
         #welcome {
             background: linear-gradient(180deg, var(--obsidian), #0a0a0d 50%, var(--obsidian));
@@ -1016,7 +1027,7 @@
         }
 
         /* ============================================================
-           COUPLE (dari benchmark)
+           COUPLE
            ============================================================ */
         .couple-grid {
             display: grid;
@@ -1103,7 +1114,7 @@
         }
 
         /* ============================================================
-           LOVE STORY TIMELINE (dari benchmark)
+           LOVE STORY
            ============================================================ */
         .timeline {
             position: relative;
@@ -1198,7 +1209,7 @@
         }
 
         /* ============================================================
-           GALLERY — TRENDY LAYOUT 12 ITEMS, 3 KOLOM, SIMETRIS
+           GALLERY — 12 gambar, trendy layout
            ============================================================ */
         .gallery-grid {
             display: grid;
@@ -1224,7 +1235,6 @@
             cursor: pointer;
             background: var(--charcoal);
             aspect-ratio: 1 / 1;
-            /* default, di-override inline untuk efek trendy */
         }
         .g-item .ph {
             width: 100%;
@@ -1258,9 +1268,6 @@
         .g-item:hover .shine {
             transform: translateX(120%);
         }
-
-        /* Efek trendy: beberapa item memiliki aspect ratio berbeda, tapi tetap dalam grid simetris
-           Untuk menjaga batas atas/bawah lurus, kita pakai grid dengan row span dan column span */
         .g-item.tall {
             grid-row: span 2;
             aspect-ratio: 1 / 1.8;
@@ -1272,7 +1279,6 @@
         .g-item.square {
             aspect-ratio: 1 / 1;
         }
-        /* Pada 2 kolom, kita sesuaikan */
         @media (max-width: 860px) {
             .g-item.tall {
                 grid-row: span 1;
@@ -1292,7 +1298,9 @@
             }
         }
 
-        /* Lightbox (dari benchmark) */
+        /* ============================================================
+           LIGHTBOX
+           ============================================================ */
         #lightbox {
             position: fixed;
             inset: 0;
@@ -1342,7 +1350,7 @@
         }
 
         /* ============================================================
-           COUNTDOWN (dari benchmark)
+           COUNTDOWN
            ============================================================ */
         .count-grid {
             display: flex;
@@ -1383,7 +1391,7 @@
         }
 
         /* ============================================================
-           EVENT DETAILS (dari benchmark)
+           EVENT
            ============================================================ */
         .event-grid {
             display: grid;
@@ -1508,7 +1516,7 @@
         }
 
         /* ============================================================
-           GIFT (dari benchmark)
+           GIFT
            ============================================================ */
         .gift-grid {
             display: grid;
@@ -1580,7 +1588,7 @@
         }
 
         /* ============================================================
-           RSVP (dari benchmark)
+           RSVP
            ============================================================ */
         .form-card {
             max-width: 620px;
@@ -1665,7 +1673,7 @@
         }
 
         /* ============================================================
-           GUEST BOOK (dari benchmark)
+           GUEST BOOK
            ============================================================ */
         .wishes-list {
             max-width: 680px;
@@ -1735,7 +1743,7 @@
         }
 
         /* ============================================================
-           FAQ (dari benchmark)
+           FAQ
            ============================================================ */
         .faq-list {
             max-width: 720px;
@@ -1781,7 +1789,7 @@
         }
 
         /* ============================================================
-           FOOTER / ENDING (dari benchmark + tema Versailles)
+           FOOTER
            ============================================================ */
         #footer {
             position: relative;
@@ -1868,7 +1876,7 @@
         }
 
         /* ============================================================
-           RESPONSIVE FINE-TUNE
+           RESPONSIVE
            ============================================================ */
         @media (max-width: 640px) {
             .section {
@@ -1894,10 +1902,15 @@
                 align-items: center;
                 text-align: center;
             }
+            #customProgress {
+                right: 12px;
+                width: 30px;
+                height: 30px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="theme-royal">
 
     <!-- ========== GRAIN + VIGNETTE ========== -->
     <div class="grain"></div>
@@ -1928,9 +1941,7 @@
                 </svg>
             </div>
             <div class="cover-label">Undangan Resmi Pernikahan</div>
-            <div class="cover-names" id="cover-names">
-                <!-- Generated by JS: Isabelle, &, Alexandre -->
-            </div>
+            <div class="cover-names" id="cover-names"></div>
             <div class="cover-date">Minggu, 18 Oktober 2026</div>
             <div class="cover-invite-to">Kepada Yth. Bapak / Ibu / Saudara/i</div>
             <div class="cover-guest">Tamu Undangan</div>
@@ -1959,14 +1970,16 @@
         <source src="assets/music/theme-song.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- ========== SCROLL PROGRESS + DOT NAV ========== -->
-    <div id="progress-diamond">
+    <!-- ========== CUSTOM PROGRESS + CURSOR (THEMED) ========== -->
+    <div id="customProgress">
         <svg viewBox="0 0 40 40">
-            <polygon class="track" points="20,3 37,20 20,37 3,20" />
-            <polygon class="fill" id="diamond-fill" points="20,3 37,20 20,37 3,20" />
+            <circle class="track" cx="20" cy="20" r="17" />
+            <circle class="fill" id="customProgressFill" cx="20" cy="20" r="17" />
         </svg>
     </div>
-    <nav class="dotnav" id="dotnav"></nav>
+    <div class="custom-cursor" id="customCursor">
+        <!-- Akan diisi oleh JS -->
+    </div>
 
     <!-- ========== TOP NAVBAR ========== -->
     <nav id="navbar">
@@ -1999,16 +2012,14 @@
         <div class="floating-crystals" id="hero-crystals"></div>
         <div class="hero-content">
             <div class="hero-eyebrow eyebrow">The Royal Wedding Of</div>
-            <div class="hero-title" id="hero-title">
-                <!-- Generated by JS: Isabelle, &, Alexandre -->
-            </div>
+            <div class="hero-title" id="hero-title"></div>
             <p class="hero-sub">Mengundang Anda Ke Sebuah Malam Yang Megah</p>
             <div class="hero-date-row">
                 <div class="hero-date">18 · 10 · 2026</div>
                 <div class="hero-date">Le Château Ballroom, Jakarta</div>
             </div>
         </div>
-        <div class="scroll-cue" id="scrollCue">
+        <div class="scroll-cue">
             <div class="stick"></div>
             <span>Scroll</span>
         </div>
@@ -2075,14 +2086,13 @@
     </section>
 
     <!-- ============================================================
-    LOVE STORY — TIMELINE
+    LOVE STORY
     ============================================================ -->
     <section id="story" class="section" data-section="Kisah Cinta">
         <div class="wrap">
             <div class="center reveal"><div class="eyebrow">Love Story</div><h2 class="section-title">Sebuah Lorong Menuju Kebersamaan</h2></div>
             <div class="timeline" id="timeline">
                 <div class="spine"><div class="spine-fill" id="spine-fill"></div></div>
-
                 <div class="tl-item left reveal">
                     <div class="tl-year">2018 · Perjumpaan Pertama</div>
                     <h4>A Chance Encounter</h4>
@@ -2108,7 +2118,7 @@
     </section>
 
     <!-- ============================================================
-    GALLERY — 12 GAMBAR, LAYOUT TRENDY (3 KOLOM, BEBERAPA TALL/WIDE)
+    GALLERY — 12 gambar (1.webp s/d 12.webp)
     ============================================================ -->
     <section id="gallery" class="section" data-section="Galeri">
         <div class="wrap">
@@ -2124,7 +2134,7 @@
     </div>
 
     <!-- ============================================================
-    EVENT / WEDDING CEREMONY
+    EVENT
     ============================================================ -->
     <section id="event" class="section" data-section="Acara">
         <div class="wrap">
@@ -2151,7 +2161,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="reveal center" style="margin-top:70px;">
                 <div class="eyebrow">Dress Code</div>
                 <div class="dress-row">
@@ -2162,7 +2171,6 @@
                 </div>
                 <p class="section-sub" style="margin-top:16px;">Champagne Gold &amp; Ivory — Royal Elegance</p>
             </div>
-
             <div class="map-box reveal">
                 <iframe loading="lazy" src="https://www.google.com/maps?q=Jakarta&output=embed" title="Lokasi Venue"></iframe>
                 <div class="map-overlay">
@@ -2301,7 +2309,7 @@
     </section>
 
     <!-- ============================================================
-    FOOTER / ENDING
+    FOOTER
     ============================================================ -->
     <footer id="footer">
         <div class="city-lights" id="city-lights"></div>
@@ -2314,7 +2322,7 @@
     </footer>
 
     <!-- ============================================================
-    JAVASCRIPT
+    JAVASCRIPT — SEMUA DALAM SATU BLOK
     ============================================================ -->
     <script>
         (function() {
@@ -2357,11 +2365,8 @@
             var coverNames = document.getElementById('cover-names');
             var names = ['Isabelle', 'Alexandre'];
             var htmlCover = '';
-            // First name
             htmlCover += '<span class="name-line" style="animation-delay:0.2s">' + names[0] + '</span>';
-            // Ampersand
             htmlCover += '<span class="amp-line" style="animation-delay:0.4s">&amp;</span>';
-            // Second name
             htmlCover += '<span class="name-line" style="animation-delay:0.6s">' + names[1] + '</span>';
             coverNames.innerHTML = htmlCover;
 
@@ -2447,32 +2452,35 @@
             }, { threshold: 0.18 });
             revealEls.forEach(function(el) { io.observe(el); });
 
-            // ---------- section-based nav dots + progress diamond ----------
+            // ---------- SECTION NAV & PROGRESS (tidak pakai dotnav lagi, pakai customProgress) ----------
             var sections = document.querySelectorAll('[data-section]');
-            var dotnav = document.getElementById('dotnav');
-            sections.forEach(function(sec, i) {
-                var b = document.createElement('button');
-                b.setAttribute('aria-label', sec.dataset.section);
-                b.addEventListener('click', function() { sec.scrollIntoView({ behavior: 'smooth' }); });
-                dotnav.appendChild(b);
-            });
-            var dotBtns = dotnav.querySelectorAll('button');
 
+            // ---------- CUSTOM PROGRESS (THEMED) ----------
+            var progressFill = document.getElementById('customProgressFill');
+
+            function updateProgress(pct) {
+                if (progressFill) {
+                    var circumference = 2 * Math.PI * 17; // r=17
+                    var offset = circumference - (circumference * pct);
+                    progressFill.style.strokeDasharray = circumference;
+                    progressFill.style.strokeDashoffset = offset;
+                }
+            }
+
+            // ---------- SCROLL HANDLER ----------
             function onScroll() {
                 var scrollTop = window.scrollY;
                 var docHeight = document.documentElement.scrollHeight - window.innerHeight;
                 var pct = Math.min(1, scrollTop / docHeight);
-                var dash = 126 - (126 * pct);
-                var fill = document.getElementById('diamond-fill');
-                if (fill) fill.style.strokeDashoffset = dash;
+                updateProgress(pct);
 
+                // Aktifkan section (untuk keperluan lain)
                 var activeIdx = 0;
                 sections.forEach(function(sec, i) {
                     var r = sec.getBoundingClientRect();
                     if (r.top < window.innerHeight * 0.5) activeIdx = i;
                 });
-                dotBtns.forEach(function(b, i) { b.classList.toggle('active', i === activeIdx); });
-
+                // update spine timeline
                 var tl = document.getElementById('timeline');
                 if (tl) {
                     var r = tl.getBoundingClientRect();
@@ -2484,6 +2492,49 @@
                 }
             }
             window.addEventListener('scroll', onScroll, { passive: true });
+
+            // ---------- CUSTOM CURSOR (THEMED) ----------
+            var cursorEl = document.getElementById('customCursor');
+            // Tentukan tema dari class body
+            var theme = 'royal';
+            var bodyClasses = document.body.className.split(' ');
+            for (var i = 0; i < bodyClasses.length; i++) {
+                if (bodyClasses[i].startsWith('theme-')) {
+                    var t = bodyClasses[i].replace('theme-', '');
+                    if (t === 'hutan' || t === 'chinese' || t === 'royal') {
+                        theme = t;
+                        break;
+                    }
+                }
+            }
+
+            // Pilih SVG cursor sesuai tema
+            var cursorSVG = '';
+            if (theme === 'hutan') {
+                cursorSVG =
+                    '<svg viewBox="0 0 32 32"><path d="M16 4 C8 4 4 12 4 20 C4 26 8 30 16 30 C24 30 28 26 28 20 C28 12 24 4 16 4 Z" fill="#2e7d32" opacity="0.9" stroke="#1b5e20" stroke-width="1"/><path d="M16 8 L16 26 M12 14 L20 14 M12 18 L20 18" stroke="#1b5e20" stroke-width="0.5" opacity="0.5"/></svg>';
+            } else if (theme === 'chinese') {
+                cursorSVG =
+                    '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#c62828" opacity="0.2" stroke="#c62828" stroke-width="1.5"/><text x="16" y="22" font-size="18" text-anchor="middle" fill="#c62828" font-family="serif">囍</text></svg>';
+            } else { // royal / default
+                cursorSVG =
+                    '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="rgba(201,169,98,0.15)" stroke="#c9a962" stroke-width="1.5"/><polygon points="16,4 22,12 20,12 20,20 12,20 12,12 10,12" fill="#c9a962" opacity="0.9"/></svg>';
+            }
+            cursorEl.innerHTML = cursorSVG;
+
+            var cursorVisible = false;
+            document.addEventListener('mousemove', function(e) {
+                cursorEl.style.left = e.clientX + 'px';
+                cursorEl.style.top = e.clientY + 'px';
+                if (!cursorVisible) {
+                    cursorVisible = true;
+                    cursorEl.classList.add('show');
+                }
+            });
+            document.addEventListener('mouseleave', function() {
+                cursorEl.classList.remove('show');
+                cursorVisible = false;
+            });
 
             // ---------- countdown ----------
             var target = new Date('2026-10-18T08:00:00+07:00').getTime();
@@ -2503,7 +2554,7 @@
             tickCountdown();
             setInterval(tickCountdown, 1000);
 
-            // ---------- GALLERY: 12 gambar dengan layout trendy ----------
+            // ---------- GALLERY (12 gambar) ----------
             var galleryFiles = [
                 '1.webp', '2.webp', '3.webp', '4.webp',
                 '5.webp', '6.webp', '7.webp', '8.webp',
@@ -2513,7 +2564,6 @@
                 'wide'
             ];
             var grid = document.getElementById('gallery-grid');
-
             galleryFiles.forEach(function(src, index) {
                 var item = document.createElement('div');
                 item.className = 'g-item ' + classes[index % classes.length];
@@ -2662,6 +2712,14 @@
                 });
             }, { threshold: 0.4 });
             if (endingLine) endingObs.observe(endingLine);
+
+            // ---------- inisialisasi progress pertama kali ----------
+            setTimeout(function() {
+                var scrollTop = window.scrollY;
+                var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                var pct = Math.min(1, scrollTop / docHeight);
+                updateProgress(pct);
+            }, 200);
 
         })();
     </script>
