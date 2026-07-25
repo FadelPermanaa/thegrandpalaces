@@ -20,7 +20,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
 
 <style>
 /* =================== TOKENS =================== */
@@ -42,6 +42,7 @@
   --f-display:'Cinzel',serif;
   --f-sub:'Cormorant Garamond',serif;
   --f-body:'Poppins',sans-serif;
+  --f-guest:'Alex Brush',cursive;
 
   --ease:cubic-bezier(.22,.68,.1,1);
   --ease-slow:cubic-bezier(.16,.6,.2,1);
@@ -174,8 +175,13 @@ img{max-width:100%;display:block;}
   margin:18px 0;
   letter-spacing:.05em;
   text-shadow:0 0 40px rgba(201,162,75,.3);
+  display:flex;flex-direction:column;align-items:center;gap:.18em;line-height:1.15;
 }
+.cover-names .cn-line{display:flex;justify-content:center;flex-wrap:wrap;}
 .cover-names .letter{opacity:0;display:inline-block;transform:translateY(14px);filter:blur(4px);}
+.cover-amp-row{display:flex;align-items:center;gap:.6em;margin:.06em 0;}
+.cover-amp-row::before,.cover-amp-row::after{content:'';width:32px;height:1px;background:linear-gradient(to right,transparent,var(--gold));}
+.cover-amp-row::after{background:linear-gradient(to left,transparent,var(--gold));}
 .cover-amp{
   font-family:var(--f-sub);font-style:italic;color:var(--bronze);font-size:.55em;margin:0 .15em;
 }
@@ -188,6 +194,23 @@ img{max-width:100%;display:block;}
   margin-top:6px;font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;
 }
 @keyframes coverIn{to{opacity:1;}}
+
+/* ================= COVER — GUEST NAME (link ?to=Nama) ================= */
+.cover-guest{
+  margin-top:26px;
+  opacity:0;animation:coverIn 1s var(--ease) forwards 3.3s;
+}
+.cg-label{
+  font-family:var(--f-body);font-weight:400;font-size:11px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--ivory);opacity:.75;line-height:1.8;
+}
+.cg-name{
+  font-family:var(--f-guest);
+  font-size:clamp(1.7rem,4.6vw,2.6rem);
+  color:var(--gold-light);
+  margin-top:6px;
+  text-shadow:0 0 20px rgba(201,162,75,.25);
+}
 
 .open-btn{
   margin-top:44px;opacity:0;animation:coverIn 1s var(--ease) forwards 3.6s;
@@ -606,6 +629,12 @@ html.cx-down #cx-ring{width:26px;height:26px;}
     </h1>
     <p class="cover-sub">You are graciously invited</p>
     <p class="cover-date">Saturday · 12 December 2026</p>
+
+    <div class="cover-guest" id="cover-guest" style="display:none;">
+      <p class="cg-label">Kepada Yth.<br>Bapak / Ibu / Saudara/i</p>
+      <p class="cg-name" id="cover-guest-name"></p>
+    </div>
+
     <button class="open-btn" id="open-btn">Buka Undangan</button>
   </div>
 </div>
@@ -777,8 +806,8 @@ html.cx-down #cx-ring{width:26px;height:26px;}
       <p class="datetime">12 December 2026 · 16:00</p>
       <p class="venue">Grand Cathedral Hall<br>Jl. Kemewahan No. 1, Jakarta</p>
       <div class="event-actions">
-        <button class="pill-btn add-calendar" data-title="Wedding Ceremony">Save to Calendar</button>
-        <button class="pill-btn">Open Navigation</button>
+        <button class="pill-btn add-calendar" data-title="Wedding Ceremony" data-start="20261212T160000" data-end="20261212T180000" data-location="Grand Cathedral Hall, Jl. Kemewahan No. 1, Jakarta">Save to Calendar</button>
+        <button class="pill-btn open-nav" data-location="Grand Cathedral Hall, Jl. Kemewahan No. 1, Jakarta">Open Navigation</button>
       </div>
     </div>
     <div class="event-card deco-frame">
@@ -787,8 +816,8 @@ html.cx-down #cx-ring{width:26px;height:26px;}
       <p class="datetime">12 December 2026 · 19:00</p>
       <p class="venue">The Majestic Ballroom<br>Hotel Grandeur, Jakarta</p>
       <div class="event-actions">
-        <button class="pill-btn add-calendar" data-title="Wedding Reception">Save to Calendar</button>
-        <button class="pill-btn">Dress Code: Black Tie</button>
+        <button class="pill-btn add-calendar" data-title="Wedding Reception" data-start="20261212T190000" data-end="20261212T220000" data-location="The Majestic Ballroom, Hotel Grandeur, Jakarta">Save to Calendar</button>
+        <button class="pill-btn" style="cursor:default;">Dress Code: Black Tie</button>
       </div>
     </div>
   </div>
@@ -854,7 +883,7 @@ html.cx-down #cx-ring{width:26px;height:26px;}
     <h2 class="display-xl">RSVP</h2>
   </div>
   <form class="reveal rsvp-form" id="rsvp-form">
-    <div class="field"><input type="text" placeholder=" " required><label>Nama Lengkap</label></div>
+    <div class="field"><input type="text" id="rsvp-name" placeholder=" " required><label>Nama Lengkap</label></div>
     <div class="radio-group">
       <label class="radio-opt"><input type="radio" name="attend" value="yes" checked> Hadir</label>
       <label class="radio-opt"><input type="radio" name="attend" value="no"> Tidak Hadir</label>
@@ -950,21 +979,78 @@ const $ = (s,c=document)=>c.querySelector(s);
 const $$ = (s,c=document)=>Array.from(c.querySelectorAll(s));
 
 /* ================= COVER NAME LETTER ANIMATION ================= */
+/* Format: nama mempelai wanita (baris 1) / logo "&" (baris 2) / nama mempelai pria (baris 3) */
 (function initCoverNames(){
   const el = $('#cover-names-text');
-  const text = 'Isabella & Alexander';
-  let html='';
-  let delay = 0.3;
-  for(const ch of text){
-    if(ch===' '){ html += ' '; continue; }
-    if(ch==='&'){ html += `<span class="amp letter" style="animation:coverLetterIn .8s var(--ease) forwards ${delay}s">&amp;</span>`; delay+=0.05; continue; }
-    html += `<span class="letter" style="animation:coverLetterIn .7s var(--ease) forwards ${delay}s">${ch}</span>`;
-    delay += 0.045;
+  const brideName = 'Isabella';
+  const groomName = 'Alexander';
+
+  function typeLetters(text, startDelay, step){
+    let html = '';
+    let delay = startDelay;
+    for(const ch of text){
+      if(ch===' '){ html += '&nbsp;'; delay += step*0.5; continue; }
+      html += `<span class="letter" style="animation:coverLetterIn .7s var(--ease) forwards ${delay.toFixed(3)}s">${ch}</span>`;
+      delay += step;
+    }
+    return { html, delay };
   }
-  el.innerHTML = html;
+
+  const lineBride = document.createElement('div');
+  lineBride.className = 'cn-line';
+  const lineAmp = document.createElement('div');
+  lineAmp.className = 'cn-line cover-amp-row';
+  const lineGroom = document.createElement('div');
+  lineGroom.className = 'cn-line';
+
+  let delay = 0.3;
+  let res = typeLetters(brideName, delay, 0.045);
+  lineBride.innerHTML = res.html;
+  delay = res.delay + 0.25;
+
+  lineAmp.innerHTML = `<span class="amp letter" style="animation:coverLetterIn .8s var(--ease) forwards ${delay.toFixed(3)}s">&amp;</span>`;
+  delay += 0.35;
+
+  res = typeLetters(groomName, delay, 0.045);
+  lineGroom.innerHTML = res.html;
+
+  el.innerHTML = '';
+  el.appendChild(lineBride);
+  el.appendChild(lineAmp);
+  el.appendChild(lineGroom);
+
   const style = document.createElement('style');
   style.textContent = `@keyframes coverLetterIn{to{opacity:1;transform:translateY(0);filter:blur(0);}}`;
   document.head.appendChild(style);
+})();
+
+/* ================= GUEST NAME — personalized link (?to=NamaTamu) ================= */
+/* Contoh: https://domainanda.com/?to=Budi%20Santoso  atau  ?to=Budi+Santoso */
+function getGuestNameFromURL(){
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('to');
+  if (!raw) return '';
+  let decoded = raw.replace(/\+/g, ' ');
+  try { decoded = decodeURIComponent(decoded); } catch (err) { /* biarkan apa adanya jika gagal decode */ }
+  return decoded.trim().replace(/\s+/g, ' ');
+}
+function toTitleCase(str){
+  return str.replace(/\S+/g, word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+}
+(function initGuestName(){
+  const guestNameRaw = getGuestNameFromURL();
+  if (!guestNameRaw) return; // link umum tanpa ?to= -> blok nama tamu tetap tersembunyi
+  const displayName = toTitleCase(guestNameRaw);
+  const guestBlock = $('#cover-guest');
+  const guestNameEl = $('#cover-guest-name');
+  if (guestNameEl) guestNameEl.textContent = displayName;
+  if (guestBlock) guestBlock.style.display = 'block';
+  const rsvpNameInput = $('#rsvp-name');
+  if (rsvpNameInput && !rsvpNameInput.value) {
+    rsvpNameInput.value = displayName;
+    rsvpNameInput.closest('.field') && rsvpNameInput.closest('.field').classList.add('has-value');
+  }
+  document.title = displayName + ' — ' + document.title;
 })();
 
 /* candle flames on cover */
@@ -1252,10 +1338,19 @@ setInterval(updateCountdown,1000);
 $$('.add-calendar').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     const title = encodeURIComponent(btn.dataset.title + ' - Isabella & Alexander');
-    const start = '20261212T160000';
-    const end = '20261212T220000';
-    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=Wedding%20Celebration&location=Hotel%20Grandeur%2C%20Jakarta`;
+    const start = btn.dataset.start || '20261212T160000';
+    const end = btn.dataset.end || '20261212T220000';
+    const location = encodeURIComponent(btn.dataset.location || 'Hotel Grandeur, Jakarta');
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=Wedding%20Celebration&location=${location}`;
     window.open(url,'_blank');
+  });
+});
+
+/* ================= OPEN NAVIGATION (Google Maps) ================= */
+$$('.open-nav').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const location = encodeURIComponent(btn.dataset.location || 'Jakarta');
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${location}`, '_blank');
   });
 });
 

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Isabella & Alessandro — Amalfi Coast Wedding</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Alex+Brush&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    AMALFI COAST LUXURY — DESIGN TOKENS
@@ -25,6 +25,7 @@
   --font-display: 'Cormorant Garamond', serif;
   --font-sub:     'Cormorant', serif;
   --font-body:    'Inter', sans-serif;
+  --font-guest:   'Alex Brush', cursive;
 
   --ease-soft: cubic-bezier(.22,.61,.36,1);
   --ease-slow: cubic-bezier(.16,.84,.44,1);
@@ -206,13 +207,30 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;}
 .cover-names{
   font-family:var(--font-display);font-weight:300;
   font-size:clamp(2.6rem,9vw,5.6rem);margin:14px 0;line-height:1.05;
+  display:flex;flex-direction:column;align-items:center;gap:.14em;
 }
+.cover-names .cn-line{display:flex;justify-content:center;flex-wrap:wrap;}
 .cover-names .letter{display:inline-block;opacity:0;transform:translateY(18px);animation:letterIn .7s var(--ease-soft) forwards;}
+.cover-amp-row{display:flex;align-items:center;gap:.5em;margin:.04em 0;}
+.cover-amp-row::before,.cover-amp-row::after{content:"";width:30px;height:1px;background:linear-gradient(to right,transparent,var(--gold));}
+.cover-amp-row::after{background:linear-gradient(to left,transparent,var(--gold));}
 .cover-amp{color:var(--gold);font-style:italic;padding:0 .15em;}
 @keyframes letterIn{to{opacity:1;transform:translateY(0);}}
 .cover-date{
   font-family:var(--font-sub);font-size:1rem;letter-spacing:.25em;color:var(--sand);
   opacity:0;animation:fadeUp 1s var(--ease-soft) 1.6s forwards;
+}
+
+/* ---- guest name block (link ?to=NamaTamu) ---- */
+.cover-guest{margin-top:20px;opacity:0;animation:fadeUp 1s var(--ease-soft) 1.9s forwards;}
+.cg-label{
+  font-family:var(--font-body);font-weight:400;font-size:.7rem;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--sand);opacity:.85;line-height:1.85;
+}
+.cg-name{
+  font-family:var(--font-guest);font-size:clamp(1.7rem,4.6vw,2.5rem);
+  color:var(--ivory);margin-top:6px;
+  text-shadow:0 0 20px rgba(217,168,87,.3);
 }
 .cover-cta{
   margin-top:44px;opacity:0;animation:fadeUp 1s var(--ease-soft) 2.2s forwards;
@@ -686,6 +704,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
     <div class="cover-eyebrow">The Wedding Celebration Of</div>
     <h1 class="cover-names" id="coverNames"></h1>
     <div class="cover-date">12 &middot; 09 &middot; 2026 — Ravello, Italia</div>
+
+    <div class="cover-guest" id="coverGuest" style="display:none;">
+      <p class="cg-label">Kepada Yth.<br>Bapak / Ibu / Saudara/i</p>
+      <p class="cg-name" id="coverGuestName"></p>
+    </div>
+
     <div class="cover-cta">
       <button class="btn-luxury" id="openBtn">
         <span>Buka Undangan</span>
@@ -957,7 +981,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
       <div class="gold-divider"></div>
     </div>
     <form class="rsvp-form reveal" id="rsvpForm">
-      <div class="field"><label>Nama</label><input type="text" required placeholder="Nama lengkap Anda"></div>
+      <div class="field"><label>Nama</label><input type="text" id="rsvpName" required placeholder="Nama lengkap Anda"></div>
       <div class="field"><label>Kehadiran</label>
         <select required>
           <option value="">Pilih konfirmasi</option>
@@ -1205,17 +1229,73 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   });
 
   // ---------- cover name letters ----------
+  // Format: nama mempelai wanita (baris 1) / logo "&" (baris 2) / nama mempelai pria (baris 3)
   const coverNames=document.getElementById('coverNames');
-  const nameStr="Isabella & Alessandro";
-  [...nameStr].forEach((ch,i)=>{
-    const span=document.createElement('span');
-    span.className='letter';
-    span.style.animationDelay=(0.5+i*0.035)+'s';
-    if(ch===' '){span.innerHTML='&nbsp;';}
-    else if(ch==='&'){span.textContent=ch;span.classList.add('cover-amp');}
-    else{span.textContent=ch;}
-    coverNames.appendChild(span);
-  });
+  const brideName="Isabella";
+  const groomName="Alessandro";
+
+  function typeLetters(text,startDelay,step){
+    const frag=document.createDocumentFragment();
+    let delay=startDelay;
+    for(const ch of text){
+      const span=document.createElement('span');
+      span.className='letter';
+      span.style.animationDelay=delay.toFixed(3)+'s';
+      span.textContent=ch;
+      frag.appendChild(span);
+      delay+=step;
+    }
+    return {frag,delay};
+  }
+
+  const lineBride=document.createElement('div');lineBride.className='cn-line';
+  const lineAmp=document.createElement('div');lineAmp.className='cn-line cover-amp-row';
+  const lineGroom=document.createElement('div');lineGroom.className='cn-line';
+
+  let nameDelay=0.5;
+  let res=typeLetters(brideName,nameDelay,0.035);
+  lineBride.appendChild(res.frag);
+  nameDelay=res.delay+0.2;
+
+  const ampSpan=document.createElement('span');
+  ampSpan.className='letter cover-amp';
+  ampSpan.style.animationDelay=nameDelay.toFixed(3)+'s';
+  ampSpan.textContent='&';
+  lineAmp.appendChild(ampSpan);
+  nameDelay+=0.3;
+
+  res=typeLetters(groomName,nameDelay,0.035);
+  lineGroom.appendChild(res.frag);
+
+  coverNames.appendChild(lineBride);
+  coverNames.appendChild(lineAmp);
+  coverNames.appendChild(lineGroom);
+
+  // ---------- guest name — personalized link (?to=NamaTamu) ----------
+  // Contoh: https://domainanda.com/?to=Budi%20Santoso  atau  ?to=Budi+Santoso
+  function getGuestNameFromURL(){
+    const params=new URLSearchParams(window.location.search);
+    const raw=params.get('to');
+    if(!raw)return '';
+    let decoded=raw.replace(/\+/g,' ');
+    try{decoded=decodeURIComponent(decoded);}catch(err){/* biarkan apa adanya jika gagal decode */}
+    return decoded.trim().replace(/\s+/g,' ');
+  }
+  function toTitleCase(str){
+    return str.replace(/\S+/g,word=>word.charAt(0).toUpperCase()+word.slice(1).toLowerCase());
+  }
+  (function initGuestName(){
+    const guestNameRaw=getGuestNameFromURL();
+    if(!guestNameRaw)return; // link umum tanpa ?to= -> blok nama tamu tetap tersembunyi
+    const displayName=toTitleCase(guestNameRaw);
+    const guestBlock=document.getElementById('coverGuest');
+    const guestNameEl=document.getElementById('coverGuestName');
+    if(guestNameEl)guestNameEl.textContent=displayName;
+    if(guestBlock)guestBlock.style.display='block';
+    const rsvpNameInput=document.getElementById('rsvpName');
+    if(rsvpNameInput && !rsvpNameInput.value)rsvpNameInput.value=displayName;
+    document.title=displayName+' — '+document.title;
+  })();
 
   // ---------- preloader -> cover ----------
   window.addEventListener('load',()=>{

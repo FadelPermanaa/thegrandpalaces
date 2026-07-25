@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Imperial Moon Pavilion — The Wedding of Groom & Bride</title>
+  <title>Undangan Pernikahan Guntur &amp; Bunga</title>
   <meta name="description" content="Undangan pernikahan digital — Imperial Moon Pavilion" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,7 +19,7 @@
 
   <style>
     /* ============================================================
-       IMPERIAL MOON PAVILION — Design tokens (tidak berubah)
+       IMPERIAL MOON PAVILION — Design tokens
        ============================================================ */
     :root {
       --moon-white: #F6F3EC;
@@ -300,7 +299,7 @@
       position: relative;
       width: min(38vw, 220px);
       height: min(38vw, 220px);
-      margin-bottom: 8px;
+      margin-bottom: 2px;
       opacity: 0;
       transform: translateY(30px) scale(.85);
       animation: moonrise 2.6s var(--ease-slow) .4s forwards;
@@ -378,7 +377,7 @@
     }
 
     .monogram {
-      margin: 18px 0 6px;
+      margin: 8px 0 2px;
       opacity: 0;
       animation: fadein 1.4s var(--ease) 2.4s forwards;
     }
@@ -395,14 +394,14 @@
     .open-names {
       font-family: var(--display);
       font-weight: 300;
-      font-size: clamp(1.7rem, 5vw, 3rem);
+      font-size: clamp(1.9rem, 6vw, 3.6rem);
       letter-spacing: .06em;
       color: var(--moon-white);
-      margin-top: 10px;
+      margin-top: 2px;
       display: flex;
-      gap: .5em;
-      justify-content: center;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
     }
     .open-names span {
       display: inline-block;
@@ -414,8 +413,8 @@
       font-family: var(--accent-font);
       font-style: italic;
       color: var(--gold-soft);
-      font-size: .75em;
-      align-self: center;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      margin: 0;
     }
     @keyframes letterUp {
       to {
@@ -425,7 +424,7 @@
     }
 
     .open-sub {
-      margin-top: 16px;
+      margin-top: 6px;
       font-size: .7rem;
       letter-spacing: .35em;
       text-transform: uppercase;
@@ -434,43 +433,62 @@
       animation: fadein 1.2s var(--ease) 3.3s forwards;
     }
 
-    /* --- GUEST NAME pada opening --- */
-    /* ----- gaya untuk sapaan dua baris di opening & welcome ----- */
-#open-guest,
-#welcome-guest {
-  display: block;
-  margin-top: 20px;
-  text-align: center;
-  line-height: 1.5;
-}
-#open-guest .sapaan,
-#welcome-guest .sapaan {
-  display: block;
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  color: var(--silver);
-  opacity: 0.8;
-  font-family: var(--body);
-  text-transform: uppercase;
-}
-#open-guest .nama-tamu,
-#welcome-guest .nama-tamu {
-  display: block;
-  font-size: clamp(1.2rem, 2.8vw, 1.8rem);
-  font-family: var(--display);
-  color: var(--gold-soft);
-  font-weight: 300;
-  letter-spacing: 0.04em;
-  margin-top: 4px;
-}
-    #open-guest .honorific {
-      font-size: .65em;
-      opacity: .7;
-      letter-spacing: .2em;
+    /* ----- sapaan nama tamu — satu set class konsisten (opening & welcome) ----- */
+    .guest-invite {
+      display: block;
+      margin: 10px auto 0;
+      text-align: center;
+      opacity: 0;
+      animation: fadein 1.1s var(--ease) 3.6s forwards;
+    }
+    .guest-label {
+      display: block;
+      font-family: var(--body);
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--silver);
+      opacity: .85;
+      margin-bottom: 6px;
+    }
+    .guest-honor {
+      display: block;
+      font-family: var(--body);
+      font-size: .75rem;
+      letter-spacing: .12em;
+      color: var(--silver);
+      opacity: .8;
+      margin-bottom: 6px;
+    }
+    .guest-name {
+      display: block;
+      font-family: var(--accent-font);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1.3rem, 3.2vw, 2rem);
+      color: var(--gold-soft);
+      letter-spacing: .02em;
+      position: relative;
+      padding-bottom: 8px;
+    }
+    .guest-name::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 38px;
+      height: 1px;
+      background: var(--gold-soft);
+    }
+    #welcome .guest-invite {
+      margin-top: 22px;
+      animation: none;
+      opacity: 1;
     }
 
     #open-btn {
-      margin-top: 44px;
+      margin-top: 22px;
       padding: 15px 46px;
       border: 1px solid var(--gold-soft);
       border-radius: 2px;
@@ -481,7 +499,7 @@
       position: relative;
       overflow: hidden;
       opacity: 0;
-      animation: fadein 1.2s var(--ease) 3.7s forwards;
+      animation: fadein 1.2s var(--ease) 4.2s forwards;
       transition: color .5s var(--ease), letter-spacing .5s var(--ease);
     }
     #open-btn::before {
@@ -681,7 +699,9 @@
       position: relative;
       overflow: hidden;
       display: flex;
-      align-items: flex-end;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
     }
     .hero-media {
       position: absolute;
@@ -722,7 +742,8 @@
       position: relative;
       z-index: 2;
       width: 100%;
-      padding: 0 6vw 9vh;
+      padding: 0 6vw;
+      margin-bottom: clamp(56px, 9vh, 90px);
       text-align: center;
     }
     .hero-eyebrow {
@@ -754,11 +775,9 @@
       opacity: 0;
     }
     .hero-scroll {
-      position: absolute;
-      bottom: 26px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative;
       z-index: 2;
+      margin-bottom: clamp(18px, 3vh, 30px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -851,21 +870,6 @@
     }
     #welcome .lede {
       margin: 26px auto 0;
-    }
-    /* guest name di welcome */
-    #welcome-guest {
-      display: block;
-      font-family: var(--display);
-      font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-      color: var(--gold-soft);
-      margin-top: 12px;
-      letter-spacing: .04em;
-      font-weight: 300;
-    }
-    #welcome-guest .honorific {
-      font-size: .75em;
-      opacity: .75;
-      letter-spacing: .15em;
     }
     .quote-cn {
       font-family: var(--display);
@@ -1892,7 +1896,7 @@
   </div>
 
   <!-- ============================================================
-       OPENING — dengan nama tamu dari URL
+       OPENING — dengan nama tamu dari URL (?to=nama)
        ============================================================ -->
   <div id="opening">
     <div class="stars"></div>
@@ -1915,17 +1919,18 @@
     </div>
 
     <h1 class="open-names">
-      <span style="animation-delay:2.5s">Guntur</span>
+      <span style="animation-delay:2.5s">Bunga</span>
       <span class="open-amp" style="animation-delay:2.7s">&amp;</span>
-      <span style="animation-delay:2.9s">Bunga</span>
+      <span style="animation-delay:2.9s">Guntur</span>
     </h1>
     <p class="open-sub">Undangan Pernikahan</p>
 
-    <!-- TEMPAT NAMA TAMU DIOPENING -->
-    <span id="open-guest">
-  <span class="guest-honorific">Yth. Bapak/ibu/saudara/i</span>
-  <span class="guest-name" id="guestNameDisplay"></span>
-</span>
+    <!-- SAPAAN NAMA TAMU DI OPENING — diisi via ?to=namaundangan -->
+    <div class="guest-invite" id="openGuestInvite" style="display:none;">
+      <span class="guest-label">Kepada Yth,</span>
+      <span class="guest-honor">Bapak / Ibu / Saudara / i</span>
+      <span class="guest-name" id="openGuestName"></span>
+    </div>
 
     <button id="open-btn">Buka Undangan</button>
   </div>
@@ -1985,8 +1990,12 @@
       <div class="eyebrow reveal">Selamat Datang</div>
       <h2 class="section-title reveal">Dengan penuh syukur, kami mengundang Anda<br>menyaksikan janji suci di bawah <em>purnama</em></h2>
 
-      <!-- SAPAAN NAMA TAMU DI WELCOME -->
-      <span id="welcome-guest" class="reveal"></span>
+      <!-- SAPAAN NAMA TAMU DI WELCOME — diisi via ?to=namaundangan -->
+      <div class="guest-invite" id="welcomeGuestInvite" style="display:none;">
+        <span class="guest-label">Kepada Yth,</span>
+        <span class="guest-honor">Bapak / Ibu / Saudara / i</span>
+        <span class="guest-name" id="welcomeGuestName"></span>
+      </div>
 
       <p class="lede reveal" style="margin-left:auto; margin-right:auto;">Seperti bulan yang selalu kembali purnama, kasih ini kami rawat untuk kembali pulang pada satu sama lain — di tepi danau yang tenang, di antara kabut tipis, dan cahaya lentera yang hangat.</p>
       <div class="quote-cn reveal">花好月圆 · Bunga mekar, rembulan penuh</div>
@@ -2183,7 +2192,7 @@
       </div>
       <form class="rsvp-form reveal" id="rsvp-form">
         <div class="f-two">
-          <div class="f-row"><label>Nama Lengkap</label><input type="text" required placeholder="Nama Anda"></div>
+          <div class="f-row"><label>Nama Lengkap</label><input type="text" required placeholder="Nama Anda" id="rsvp-name"></div>
           <div class="f-row"><label>Kehadiran</label>
             <select required>
               <option value="">Pilih</option>
@@ -2341,41 +2350,6 @@
     };
 
     /* ============================================================
-       FUNGSI NAMA TAMU — baca dari URL ?guest=...
-       ============================================================ */
-    function applyGuestName() {
-  const name = getGuestName();
-  console.log('[Guest] Nama dari URL:', name || '(tidak ada)');
-
-  // 1. ELEMEN UTAMA #guestName (yang Anda gunakan)
-  const guestEl = document.getElementById('guestName');
-  if (guestEl) {
-    if (name) {
-      guestEl.innerHTML = name;
-      console.log('[Guest] #guestName diubah menjadi:', name);
-    }
-  }
-
-  // 2. ELEMEN #open-guest (untuk opening screen) - DUA BARIS
-  const openGuest = document.getElementById('open-guest');
-  if (openGuest && name) {
-  openGuest.innerHTML = `
-    <span class="sapaan">Yth. Bapak/Ibu/Saudara/i</span>
-    <span class="nama-tamu">${name}</span>
-  `;
-}
-
-  // 3. ELEMEN #welcome-guest (jika ada)
-  const welcomeGuest = document.getElementById('welcome-guest');
-  if (welcomeGuest && name) {
-    welcomeGuest.innerHTML = `
-      <span class="sapaan">Kepada Yth. Bapak/Ibu/Saudara/i</span>
-      <span class="nama-tamu">${name}</span>
-    `;
-    console.log('[Guest] #welcome-guest diubah');
-  }
-}
-    /* ============================================================
        PRELOADER
        ============================================================ */
     window.addEventListener('load', () => {
@@ -2385,16 +2359,68 @@
     });
 
     /* ============================================================
-       OPENING BUTTON
+       GUEST NAME FROM URL — ?to=namaundangan (TUNGGAL & RAPIH)
        ============================================================ */
-    document.getElementById('open-btn').addEventListener('click', () => {
+    (function initGuestName() {
+      function formatGuestName(raw) {
+        if (!raw) return '';
+        let name = raw.replace(/\+/g, ' ');
+        try { name = decodeURIComponent(name); } catch (_) { /* biarkan apa adanya */ }
+        name = name.replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (!name) return '';
+        return name.split(' ').map(w => {
+          if (!w) return w;
+          return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+        }).join(' ');
+      }
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const guestName = formatGuestName(params.get('to'));
+        if (!guestName) return;
+
+        // Isi di opening
+        const openInvite = document.getElementById('openGuestInvite');
+        const openName = document.getElementById('openGuestName');
+        if (openInvite && openName) {
+          openName.textContent = guestName;
+          openInvite.style.display = 'block';
+        }
+
+        // Isi di welcome
+        const welcomeInvite = document.getElementById('welcomeGuestInvite');
+        const welcomeName = document.getElementById('welcomeGuestName');
+        if (welcomeInvite && welcomeName) {
+          welcomeName.textContent = guestName;
+          welcomeInvite.style.display = 'block';
+        }
+
+        // Isi di form RSVP
+        const rsvpName = document.getElementById('rsvp-name');
+        if (rsvpName && !rsvpName.value) {
+          rsvpName.value = guestName;
+        }
+
+        // Ubah judul halaman
+        document.title = `Undangan Pernikahan untuk ${guestName} — Guntur & Bunga`;
+      } catch (_) { /* jika gagal, biarkan tanpa nama */ }
+    })();
+
+    /* ============================================================
+       OPENING BUTTON — sekarang pasti muncul & berfungsi
+       ============================================================ */
+    document.getElementById('open-btn').addEventListener('click', function(e) {
+      e.preventDefault();
       const opening = document.getElementById('opening');
       opening.classList.add('leaving');
       document.body.style.overflow = 'auto';
+
+      // Putar musik
       const audio = document.getElementById('bg-audio');
       audio.volume = 0;
       audio.play().catch(() => {});
       document.getElementById('player').classList.add('playing');
+
       let v = 0;
       const fade = setInterval(() => {
         v += 0.02;
@@ -2402,18 +2428,26 @@
           clearInterval(fade); }
         audio.volume = v;
       }, 160);
+
+      // Tampilkan hero
       triggerHeroReveal();
     });
+
+    // Lock scroll awal
     document.body.style.overflow = 'hidden';
 
     function triggerHeroReveal() {
       document.querySelectorAll('.reveal-el').forEach((el, i) => {
         el.style.transitionDelay = (i * 180) + 'ms';
-        requestAnimationFrame(() => el.style.opacity = 1);
-        el.style.transform = 'translateY(0)';
+        requestAnimationFrame(() => {
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        });
       });
     }
-    document.querySelectorAll('.reveal-el').forEach(el => { el.style.transform = 'translateY(24px)'; });
+    document.querySelectorAll('.reveal-el').forEach(el => {
+      el.style.transform = 'translateY(24px)';
+    });
 
     /* ============================================================
        CUSTOM CURSOR
@@ -2619,7 +2653,7 @@
     const rsvpForm = document.getElementById('rsvp-form');
     rsvpForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = rsvpForm.querySelector('input[type=text]').value || 'Tamu';
+      const name = document.getElementById('rsvp-name').value || 'Tamu';
       const msg = rsvpForm.querySelector('textarea').value;
       rsvpForm.style.display = 'none';
       const success = document.getElementById('rsvp-success');
@@ -2665,76 +2699,6 @@
           a.style.maxHeight = a.scrollHeight + 'px'; }
       });
     });
-
-    /* ============================================================
-       JALANKAN SETGUESTNAME() SETELAH DOM SIAP
-       ============================================================ */
-    document.addEventListener('DOMContentLoaded', setGuestName);
-    // fallback jika DOMContentLoaded sudah lewat
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      setGuestName();
-    }
   </script>
-  <script>
-  (function() {
-    // === FUNGSI MEMBACA NAMA TAMU DARI URL ===
-    function getGuestName() {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const raw = params.get('guest');
-        if (!raw) return null;
-        const decoded = decodeURIComponent(raw).trim();
-        return decoded || null;
-      } catch (e) {
-        console.warn('Gagal membaca parameter guest:', e);
-        return null;
-      }
-    }
-
-    // === FUNGSI UTAMA UNTUK MENGGANTI NAMA ===
-    function applyGuestName() {
-      const name = getGuestName(); // <-- ini yang hilang!
-      console.log('[Guest] Nama dari URL:', name || '(tidak ada)');
-
-      // 1. ELEMEN UTAMA #guestName (yang Anda gunakan)
-      const guestEl = document.getElementById('guestName');
-      if (guestEl) {
-        if (name) {
-          guestEl.textContent = name; // atau dengan sapaan: 'Yth. Bapak/Ibu ' + name
-          console.log('[Guest] #guestName diubah menjadi:', name);
-        } else {
-          console.log('[Guest] #guestName tetap default (Tamu Undangan)');
-        }
-      } else {
-        console.warn('[Guest] Elemen #guestName tidak ditemukan.');
-      }
-
-      // 2. ELEMEN #open-guest (jika ada)
-      const openGuest = document.getElementById('open-guest');
-      if (openGuest && name) {
-        openGuest.innerHTML = `<span class="honorific">Yth. Bapak/Ibu</span> 
-        ${name}`;
-        console.log('[Guest] #open-guest diubah');
-      }
-
-      // 3. ELEMEN #welcome-guest (jika ada)
-      const welcomeGuest = document.getElementById('welcome-guest');
-      if (welcomeGuest && name) {
-        welcomeGuest.innerHTML = `<span class="honorific">Kepada Yth. Bapak/Ibu</span> ${name}`;
-        console.log('[Guest] #welcome-guest diubah'); // perbaiki kutip di sini
-      }
-    }
-
-    // === EKSEKUSI ===
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', applyGuestName);
-    } else {
-      applyGuestName();
-    }
-
-    // Opsional: jalankan ulang jika hash berubah
-    window.addEventListener('hashchange', applyGuestName);
-  })();
-</script>
 </body>
 </html>

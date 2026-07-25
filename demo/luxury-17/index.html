@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -28,6 +28,7 @@
   --display:'Playfair Display', 'Didot', serif;
   --sub:'Cormorant Garamond', serif;
   --body:'Inter', sans-serif;
+  --guest:'Alex Brush', cursive;
 
   --ease:cubic-bezier(.22,.61,.36,1);
   --dur-slow:1.4s;
@@ -198,19 +199,34 @@ button{font-family:inherit;cursor:pointer;background:none;border:none;color:inhe
   font-family:var(--display);
   font-size:clamp(40px,9vw,110px);
   line-height:1;
-  display:flex;gap:.3em;flex-wrap:wrap;justify-content:center;
+  display:flex;flex-direction:column;gap:.14em;align-items:center;justify-content:center;
 }
+.op-line{display:flex;flex-wrap:wrap;justify-content:center;}
 .op-names .letters{display:inline-flex;overflow:hidden;}
 .op-names .letters span{
   display:inline-block;opacity:0;transform:translateY(60%);
   animation:letterUp .7s var(--ease) forwards;
 }
+.op-amp-row{align-items:center;gap:.5em;margin:.02em 0;}
+.op-amp-row::before,.op-amp-row::after{content:'';width:36px;height:1px;align-self:center;background:linear-gradient(90deg,transparent,var(--gold-soft));}
+.op-amp-row::after{background:linear-gradient(90deg,var(--gold-soft),transparent);}
 .op-amp{
-  font-family:var(--sub);font-style:italic;color:var(--gold);
-  opacity:0;animation:opUp 1s var(--ease) forwards 2.1s;
+  font-family:var(--sub);font-style:italic;color:var(--gold);font-size:.4em;
+  opacity:0;transform:translateY(10px);animation:opUp 1s var(--ease) forwards;
 }
 @keyframes letterUp{to{opacity:1;transform:translateY(0);}}
 @keyframes opUp{to{opacity:1;transform:translateY(0);}}
+
+/* ---- guest name block (link ?to=NamaTamu) ---- */
+.op-guest{opacity:0;transform:translateY(10px);animation:opUp 1s var(--ease) forwards;}
+.og-label{
+  font-family:var(--body);font-weight:400;font-size:10px;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--gold-soft);opacity:.85;line-height:1.9;
+}
+.og-name{
+  font-family:var(--guest);font-size:clamp(26px,4.6vw,40px);
+  color:var(--ivory);margin-top:4px;
+}
 
 .op-rule{
   width:0;height:1px;background:var(--gold);
@@ -663,12 +679,18 @@ a, button, input, select, textarea, .pill-btn, .open-btn, .play-btn, .copy-btn, 
   <div class="opening-content">
     <div class="op-kicker">You are cordially invited</div>
     <div class="op-names" id="opNames">
-      <span class="letters" data-word="Kirana"></span>
-      <span class="op-amp">&amp;</span>
-      <span class="letters" data-word="Rafael"></span>
+      <div class="op-line"><span class="letters" data-word="Kirana"></span></div>
+      <div class="op-line op-amp-row"><span class="op-amp">&amp;</span></div>
+      <div class="op-line"><span class="letters" data-word="Rafael"></span></div>
     </div>
     <div class="op-rule"></div>
     <div class="op-date">Sabtu &middot; 14 November 2026 &middot; Jakarta</div>
+
+    <div class="op-guest" id="opGuest" style="display:none;">
+      <p class="og-label">Kepada Yth.<br>Bapak / Ibu / Saudara/i</p>
+      <p class="og-name" id="opGuestName"></p>
+    </div>
+
     <button class="open-btn" id="openBtn">Buka Undangan</button>
   </div>
 </div>
@@ -994,7 +1016,7 @@ a, button, input, select, textarea, .pill-btn, .open-btn, .play-btn, .copy-btn, 
     <div class="rsvp-card reveal" id="rsvpFormWrap">
       <form id="rsvpForm">
         <div class="form-two">
-          <div class="form-row"><label>Nama Lengkap</label><input type="text" required placeholder="Nama Anda"></div>
+          <div class="form-row"><label>Nama Lengkap</label><input type="text" id="rsvpName" required placeholder="Nama Anda"></div>
           <div class="form-row"><label>Kehadiran</label>
             <select required>
               <option value="">Pilih</option>
@@ -1131,18 +1153,57 @@ a, button, input, select, textarea, .pill-btn, .open-btn, .play-btn, .copy-btn, 
   const opening = document.getElementById('opening');
   const flash = document.getElementById('flash');
 
-  // build letter-by-letter names
-  document.querySelectorAll('.letters').forEach(el=>{
-    const word = el.getAttribute('data-word');
-    let delay = 1.3;
-    word.split('').forEach(ch=>{
+  // build letter-by-letter names — berurutan: wanita (Kirana) -> logo & -> pria (Rafael)
+  function typeLetters(el, text, startDelay, step){
+    let delay = startDelay;
+    text.split('').forEach(ch=>{
       const s = document.createElement('span');
       s.textContent = ch;
-      s.style.animationDelay = delay+'s';
-      delay += 0.06;
+      s.style.animationDelay = delay.toFixed(3)+'s';
+      delay += step;
       el.appendChild(s);
     });
-  });
+    return delay;
+  }
+  const brideLettersEl = document.querySelector('.letters[data-word="Kirana"]');
+  const groomLettersEl = document.querySelector('.letters[data-word="Rafael"]');
+  const ampEl = document.querySelector('.op-amp');
+
+  let nameDelay = 1.3;
+  nameDelay = typeLetters(brideLettersEl, brideLettersEl.getAttribute('data-word'), nameDelay, 0.06);
+  nameDelay += 0.2;
+  ampEl.style.animationDelay = nameDelay.toFixed(3)+'s';
+  nameDelay += 0.3;
+  typeLetters(groomLettersEl, groomLettersEl.getAttribute('data-word'), nameDelay, 0.06);
+
+  // ---------- guest name — personalized link (?to=NamaTamu) ----------
+  // Contoh: https://domainanda.com/?to=Budi%20Santoso  atau  ?to=Budi+Santoso
+  function getGuestNameFromURL(){
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('to');
+    if(!raw) return '';
+    let decoded = raw.replace(/\+/g, ' ');
+    try{ decoded = decodeURIComponent(decoded); }catch(err){ /* biarkan apa adanya jika gagal decode */ }
+    return decoded.trim().replace(/\s+/g, ' ');
+  }
+  function toTitleCase(str){
+    return str.replace(/\S+/g, word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  }
+  (function initGuestName(){
+    const guestNameRaw = getGuestNameFromURL();
+    if(!guestNameRaw) return; // link umum tanpa ?to= -> blok nama tamu tetap tersembunyi
+    const displayName = toTitleCase(guestNameRaw);
+    const guestBlock = document.getElementById('opGuest');
+    const guestNameEl = document.getElementById('opGuestName');
+    if(guestNameEl) guestNameEl.textContent = displayName;
+    if(guestBlock){
+      guestBlock.style.display = 'block';
+      guestBlock.style.animationDelay = '3.1s';
+    }
+    const rsvpNameInput = document.getElementById('rsvpName');
+    if(rsvpNameInput && !rsvpNameInput.value) rsvpNameInput.value = displayName;
+    document.title = displayName + ' — ' + document.title;
+  })();
 
   window.addEventListener('load', ()=>{
     setTimeout(()=>{

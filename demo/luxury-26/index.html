@@ -183,27 +183,40 @@ button{ font-family:inherit; border:none; background:none; cursor:pointer; }
 
 .gate-names{
   font-family:var(--font-display); font-weight:400;
+  display:flex; flex-direction:column; align-items:center;
   font-size:clamp(2.6rem, 8vw, 5.4rem);
   color:var(--ink); line-height:1.05; letter-spacing:.01em;
 }
 .gate-names .who{
-  display:inline-block; opacity:0; filter:blur(6px); transform:translateY(14px);
+  display:block; opacity:0; filter:blur(6px); transform:translateY(14px);
   animation:letterIn 1.3s var(--ease-soft) forwards;
 }
 .gate-names .who:nth-child(1){ animation-delay:.7s; }
-.gate-names .amp{ display:inline-block; font-style:italic; color:var(--champagne-gold); padding:0 .3rem; opacity:0; animation:letterIn 1.3s var(--ease-soft) 1.05s forwards;}
+.gate-names .amp{
+  display:block; font-style:italic; color:var(--champagne-gold-soft);
+  font-size:clamp(1.5rem,3.6vw,2.4rem); line-height:1; margin:.12em 0;
+  opacity:0; animation:letterIn 1.3s var(--ease-soft) 1.05s forwards;
+}
 .gate-names .who:nth-child(3){ animation-delay:1.35s; }
 @keyframes letterIn{ to{ opacity:1; filter:blur(0); transform:translateY(0);} }
 
 .gate-date{
-  margin-top:1rem; font-size:.85rem; letter-spacing:.35em; text-transform:uppercase;
+  margin-top:1.3rem; font-size:.85rem; letter-spacing:.35em; text-transform:uppercase;
   color:var(--ink-soft); opacity:0; animation:revealLine 1s ease 1.8s forwards;
 }
 @keyframes revealLine{ to{ opacity:1; } }
 
 .gate-guest{
-  margin-top:1.6rem; font-size:.85rem; color:var(--stone-gray);
+  margin-top:1.8rem; display:flex; flex-direction:column; align-items:center; gap:.55rem;
   opacity:0; animation:revealLine 1s ease 2.1s forwards;
+}
+.gate-guest-label{
+  font-size:.78rem; letter-spacing:.12em; color:var(--stone-gray);
+}
+.gate-guest .guest-name{
+  display:block; font-family:'Cormorant Garamond', var(--font-display), serif;
+  font-style:italic; font-weight:600; font-size:clamp(1.3rem,3.2vw,1.9rem);
+  color:var(--champagne-gold); letter-spacing:.02em;
 }
 .gate-guest strong{ color:var(--ink); font-weight:600; }
 
@@ -288,9 +301,22 @@ section{ position:relative; width:100%; padding:clamp(5rem,10vw,9rem) 0; }
 .nav-links a::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--champagne-gold); transition:width .4s var(--ease-glass); }
 .nav-links a:hover::after{ width:100%; }
 .nav-toggle{ display:none; }
+.nav-toggle .icon-close{ display:none; }
+.nav-toggle.open .icon-menu{ display:none; }
+.nav-toggle.open .icon-close{ display:block; }
 @media (max-width:860px){
-  .nav-links{ display:none; }
-  .nav-toggle{ display:inline-flex; width:38px; height:38px; align-items:center; justify-content:center; }
+  .nav-links{
+    display:flex; flex-direction:column; gap:0; list-style:none;
+    position:absolute; top:100%; left:0; right:0;
+    background:rgba(251,250,246,0.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 20px 40px -20px rgba(60,50,30,0.25);
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .5s var(--ease-glass), opacity .4s;
+  }
+  .nav-links.open{ max-height:400px; opacity:1; }
+  .nav-links a{ display:block; padding:1.1rem clamp(1.2rem,4vw,3rem); }
+  .nav-links a::after{ display:none; }
+  .nav-toggle{ display:inline-flex; width:38px; height:38px; align-items:center; justify-content:center; z-index:2; }
 }
 
 /* =========================================================
@@ -717,10 +743,13 @@ footer{
     <div class="gate-eyebrow">The Wedding Of</div>
     <div class="gate-mono"></div>
     <h1 class="gate-names">
-      <span class="who">Arka</span><span class="amp">&amp;</span><span class="who">Namira</span>
+      <span class="who">Namira</span><span class="amp">&amp;</span><span class="who">Arka</span>
     </h1>
     <div class="gate-date">28 · November · 2026</div>
-    <p class="gate-guest">Kepada Yth. <span class="guest-name" id="guestNameGate">Bapak/Ibu/Saudara/i</span></p>
+    <div class="gate-guest">
+      <span class="gate-guest-label">Kepada Yth. Bapak/Ibu/Saudara/i</span>
+      <span class="guest-name" id="guestNameGate">Tamu Undangan</span>
+    </div>
     <button class="btn-open" id="openBtn"><span>Buka Undangan</span></button>
   </div>
 </div>
@@ -728,15 +757,16 @@ footer{
 <!-- NAV -->
 <nav id="site-nav">
   <div class="nav-mono">A&amp;N</div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#couple">Mempelai</a></li>
     <li><a href="#story">Kisah</a></li>
     <li><a href="#gallery">Galeri</a></li>
     <li><a href="#event">Acara</a></li>
     <li><a href="#rsvp">RSVP</a></li>
   </ul>
-  <button class="nav-toggle" aria-label="Menu">
-    <svg width="20" height="20" viewBox="0 0 20 20"><line x1="2" y1="5" x2="18" y2="5" stroke="currentColor"/><line x1="2" y1="10" x2="18" y2="10" stroke="currentColor"/><line x1="2" y1="15" x2="18" y2="15" stroke="currentColor"/></svg>
+  <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false" aria-controls="navLinks">
+    <svg class="icon-menu" width="20" height="20" viewBox="0 0 20 20"><line x1="2" y1="5" x2="18" y2="5" stroke="currentColor"/><line x1="2" y1="10" x2="18" y2="10" stroke="currentColor"/><line x1="2" y1="15" x2="18" y2="15" stroke="currentColor"/></svg>
+    <svg class="icon-close" width="18" height="18" viewBox="0 0 18 18"><line x1="2" y1="2" x2="16" y2="16" stroke="currentColor"/><line x1="16" y1="2" x2="2" y2="16" stroke="currentColor"/></svg>
   </button>
 </nav>
 
@@ -1163,8 +1193,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- guest name from URL ---------- */
   const params = new URLSearchParams(window.location.search);
   const guest = params.get(CONFIG.guestParam);
-  if(guest){
+  if(guest && guest.trim() !== ''){
     document.getElementById('guestNameGate').textContent = decodeURIComponent(guest.replace(/\+/g,' '));
+    document.title = `Undangan Pernikahan — ${decodeURIComponent(guest.replace(/\+/g,' '))}`;
   }
 
   /* ---------- bind hero / couple images ---------- */
@@ -1266,6 +1297,24 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive:true });
+
+  /* ---------- mobile nav menu ---------- */
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    navToggle.setAttribute('aria-label', isOpen ? 'Tutup menu' : 'Buka menu');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Buka menu');
+    });
+  });
 
   /* ---------- timeline progress ---------- */
   const timeline = document.getElementById('timeline');

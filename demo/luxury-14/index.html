@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
 
 <!-- ================================================================
      AUDIO: place a file named exactly "theme-song" (with an audio
@@ -39,6 +39,7 @@
   --font-display: 'Playfair Display', serif;
   --font-script:  'Cormorant Garamond', serif;
   --font-body:    'Inter', sans-serif;
+  --font-guest:   'Alex Brush', cursive;
 
   --ease-soft: cubic-bezier(.22,.61,.36,1);
   --dur-slow: 1.4s;
@@ -176,10 +177,28 @@ section{ position:relative; padding:9rem 0; }
 .opening-names{
   font-family:var(--font-display); font-size:clamp(2.6rem,7vw,4.6rem);
   margin:.8rem 0; color:var(--ivory);
+  display:flex; flex-direction:column; align-items:center; gap:.16em; line-height:1.15;
 }
+.opening-names .on-line{ display:flex; justify-content:center; flex-wrap:wrap; }
 .opening-names .letter{ display:inline-block; opacity:0; transform:translateY(14px); animation:letterIn .6s var(--ease-soft) forwards; }
 @keyframes letterIn{ to{opacity:1; transform:translateY(0);} }
+.opening-amp-row{ display:flex; align-items:center; gap:.6em; margin:.05em 0; }
+.opening-amp-row::before,.opening-amp-row::after{ content:''; width:30px; height:1px; background:linear-gradient(to right,transparent,var(--gold)); }
+.opening-amp-row::after{ background:linear-gradient(to left,transparent,var(--gold)); }
+.opening-amp{ font-family:var(--font-script); font-style:italic; color:var(--gold-soft); font-size:.5em; margin:0 .1em; }
 .opening-date{ font-family:var(--font-body); letter-spacing:.15em; color:var(--mist); font-size:.85rem; text-transform:uppercase; margin-bottom:1.8rem; }
+
+/* ---- guest name block (link ?to=NamaTamu) ---- */
+.opening-guest{ margin:0 0 1.6rem; opacity:0; animation:fadeUp 1s var(--ease-soft) 2.9s forwards; }
+.og-label{
+  font-family:var(--font-body); font-weight:400; font-size:.68rem; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--mist); opacity:.8; line-height:1.8;
+}
+.og-name{
+  font-family:var(--font-guest); font-size:clamp(1.6rem,4.4vw,2.4rem);
+  color:var(--gold-soft); margin-top:.25rem;
+  text-shadow:0 0 18px rgba(201,164,92,.25);
+}
 
 .open-btn{
   position:relative; display:inline-flex; align-items:center; gap:.6rem;
@@ -681,11 +700,17 @@ html.cx-down #cx-twig{ width:36px; height:36px; }
       <span class="opening-eyebrow">The Wedding Of</span>
       <h1 class="opening-names" id="opening-names" aria-label="Aiko and Rafael"></h1>
       <div class="opening-date">14 . 02 . 2027 — Secret Pine Valley</div>
+
+      <div class="opening-guest" id="opening-guest" style="display:none;">
+        <p class="og-label">Kepada Yth.<br>Bapak / Ibu / Saudara/i</p>
+        <p class="og-name" id="opening-guest-name"></p>
+      </div>
+
       <button id="open-btn" class="open-btn">
         Buka Undangan
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </button>
-      <div class="opening-hint">Kepada Bapak/Ibu/Saudara/i — mohon maaf perihal nama tidak tertera</div>
+      <div class="opening-hint" id="opening-hint-general">Kepada Bapak/Ibu/Saudara/i — mohon maaf perihal nama tidak tertera</div>
     </div>
   </div>
 </div>
@@ -1060,15 +1085,82 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 /* ---------------------------------------------------------------
    1. Opening names — letter by letter
 --------------------------------------------------------------- */
+/* Format: nama mempelai wanita (baris 1) / logo "&" (baris 2) / nama mempelai pria (baris 3) */
 const namesEl = $('#opening-names');
-const namesText = "Aiko & Rafael";
-namesText.split('').forEach((ch,i)=>{
-  const span = document.createElement('span');
-  span.className='letter';
-  span.style.animationDelay = (0.9 + i*0.045)+'s';
-  span.textContent = ch === ' ' ? '\u00A0' : ch;
-  namesEl.appendChild(span);
-});
+const brideName = "Aiko";
+const groomName = "Rafael";
+
+function typeLetters(text, startDelay, step){
+  let frag = document.createDocumentFragment();
+  let delay = startDelay;
+  for(const ch of text){
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.style.animationDelay = delay.toFixed(3)+'s';
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    frag.appendChild(span);
+    delay += (ch===' ') ? step*0.5 : step;
+  }
+  return { frag, delay };
+}
+
+const lineBride = document.createElement('div');
+lineBride.className = 'on-line';
+const lineAmp = document.createElement('div');
+lineAmp.className = 'on-line opening-amp-row';
+const lineGroom = document.createElement('div');
+lineGroom.className = 'on-line';
+
+let nameDelay = 0.9;
+let res = typeLetters(brideName, nameDelay, 0.045);
+lineBride.appendChild(res.frag);
+nameDelay = res.delay + 0.2;
+
+const ampSpan = document.createElement('span');
+ampSpan.className = 'opening-amp letter';
+ampSpan.style.animationDelay = nameDelay.toFixed(3)+'s';
+ampSpan.textContent = '&';
+lineAmp.appendChild(ampSpan);
+nameDelay += 0.3;
+
+res = typeLetters(groomName, nameDelay, 0.045);
+lineGroom.appendChild(res.frag);
+
+namesEl.appendChild(lineBride);
+namesEl.appendChild(lineAmp);
+namesEl.appendChild(lineGroom);
+
+/* ---------------------------------------------------------------
+   1b. Guest name — personalized link (?to=NamaTamu)
+   Contoh: https://domainanda.com/?to=Budi%20Santoso  atau  ?to=Budi+Santoso
+--------------------------------------------------------------- */
+function getGuestNameFromURL(){
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('to');
+  if(!raw) return '';
+  let decoded = raw.replace(/\+/g, ' ');
+  try{ decoded = decodeURIComponent(decoded); }catch(err){ /* biarkan apa adanya jika gagal decode */ }
+  return decoded.trim().replace(/\s+/g, ' ');
+}
+function toTitleCase(str){
+  return str.replace(/\S+/g, word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+}
+(function initGuestName(){
+  const guestNameRaw = getGuestNameFromURL();
+  const guestBlock = $('#opening-guest');
+  const guestHintGeneral = $('#opening-hint-general');
+  if(!guestNameRaw){
+    return; // link umum tanpa ?to= -> blok nama tamu tetap tersembunyi, pesan permintaan maaf tetap tampil
+  }
+  const displayName = toTitleCase(guestNameRaw);
+  const guestNameEl = $('#opening-guest-name');
+  if(guestNameEl) guestNameEl.textContent = displayName;
+  if(guestBlock) guestBlock.style.display = 'block';
+  if(guestHintGeneral) guestHintGeneral.style.display = 'none';
+  const rsvpNameInput = $('#rsvp-name');
+  if(rsvpNameInput && !rsvpNameInput.value) rsvpNameInput.value = displayName;
+  document.title = displayName + ' — ' + document.title;
+})();
 
 /* ---------------------------------------------------------------
    2. Preloader -> Opening

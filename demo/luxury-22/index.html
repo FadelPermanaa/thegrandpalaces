@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;600;700&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;600;700&family=Poppins:wght@200;300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
 
 <style>
 /* =========================================================
@@ -33,6 +33,7 @@
   --font-display:'Cormorant Garamond', serif;
   --font-cn:'Noto Serif SC', serif;
   --font-body:'Poppins', sans-serif;
+  --font-guest:'Alex Brush', cursive;
 
   --ease-silk: cubic-bezier(.22,.61,.36,1);
   --ease-soft: cubic-bezier(.16,.84,.44,1);
@@ -334,11 +335,15 @@ body{cursor:auto;}
   font-family:var(--font-display); font-style:italic; font-weight:400;
   font-size:clamp(2.6rem,7vw,4.6rem);
   color:var(--pearl-white);
-  display:flex; align-items:center; justify-content:center; gap:22px; flex-wrap:wrap;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.16em;
 }
+.opening-names .on-line{display:flex; justify-content:center; flex-wrap:wrap;}
 .opening-names .letter{display:inline-block; opacity:0; transform:translateY(24px); animation:letterUp .8s var(--ease-soft) forwards;}
+.opening-amp-row{display:flex; align-items:center; gap:.5em; margin:.04em 0;}
+.opening-amp-row::before,.opening-amp-row::after{content:''; width:32px; height:1px; align-self:center; background:linear-gradient(90deg,transparent,var(--warm-gold));}
+.opening-amp-row::after{background:linear-gradient(90deg,var(--warm-gold),transparent);}
 .opening-amp{
-  font-size:1.6rem; color:var(--warm-gold); opacity:0; animation:fadeUp 1s ease forwards 2.6s;
+  font-size:.5em; color:var(--warm-gold); opacity:0; transform:translateY(10px); animation:fadeUp 1s ease forwards;
 }
 @keyframes letterUp{to{opacity:1; transform:translateY(0);}}
 @keyframes fadeUp{from{opacity:0; transform:translateY(16px);}to{opacity:1; transform:translateY(0);}}
@@ -350,9 +355,16 @@ body{cursor:auto;}
   margin-top:52px; opacity:0; animation:fadeUp 1.2s ease forwards 3.5s;
 }
 .opening-guest{
-  margin-top:16px; font-size:.78rem; color:var(--champagne); opacity:0; animation:fadeUp 1s ease forwards 3.3s;
+  margin-top:20px; opacity:0; animation:fadeUp 1s ease forwards 3.3s;
 }
-.opening-guest span{color:var(--warm-gold-light);}
+.og-label{
+  font-family:var(--font-body); font-weight:300; font-size:.72rem; letter-spacing:.24em;
+  text-transform:uppercase; color:var(--champagne); opacity:.85; line-height:1.85;
+}
+.og-name{
+  font-family:var(--font-guest); font-size:clamp(1.6rem,4.4vw,2.4rem);
+  color:var(--warm-gold-light); margin-top:6px;
+}
 
 /* =========================================================
    MUSIC PLAYER
@@ -781,7 +793,10 @@ footer .footer-veil{position:absolute; inset:0; z-index:1; background:linear-gra
     <div class="opening-monogram-cn">囍</div>
     <div class="opening-names" id="opening-names"></div>
     <div class="opening-date">Sabtu · 12 Desember 2026</div>
-    <div class="opening-guest">Kepada Yth. <span id="guest-name">Bapak/Ibu/Saudara/i</span></div>
+    <div class="opening-guest" id="opening-guest">
+      <p class="og-label">Kepada Yth.<br><span id="guest-fallback">Bapak / Ibu / Saudara/i</span></p>
+      <p class="og-name" id="guest-name" style="display:none;"></p>
+    </div>
     <div class="opening-cta">
       <button class="btn" id="open-invitation-btn">Buka Undangan</button>
     </div>
@@ -1348,21 +1363,63 @@ function initPreloader(){
    OPENING SEQUENCE
    ========================================================= */
 function initOpening(){
+  // Format: nama mempelai wanita (baris 1) / logo "&" (baris 2) / nama mempelai pria (baris 3)
   const namesEl = document.getElementById('opening-names');
-  const text = "Aline & Wei";
-  text.split('').forEach((ch,i) => {
-    const span = document.createElement('span');
-    span.className = 'letter';
-    span.style.animationDelay = `${1.9 + i*0.05}s`;
-    span.textContent = ch === ' ' ? '\u00A0' : ch;
-    if(ch === '&') span.classList.add('opening-amp');
-    namesEl.appendChild(span);
-  });
+  const brideName = "Aline";
+  const groomName = "Wei";
 
-  // guest name from URL param ?to=Nama
+  function typeLetters(text, startDelay, step){
+    const frag = document.createDocumentFragment();
+    let delay = startDelay;
+    for(const ch of text){
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.style.animationDelay = delay.toFixed(3)+'s';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      frag.appendChild(span);
+      delay += step;
+    }
+    return { frag, delay };
+  }
+
+  const lineBride = document.createElement('div'); lineBride.className = 'on-line';
+  const lineAmp = document.createElement('div'); lineAmp.className = 'on-line opening-amp-row';
+  const lineGroom = document.createElement('div'); lineGroom.className = 'on-line';
+
+  let nameDelay = 1.9;
+  let res = typeLetters(brideName, nameDelay, 0.05);
+  lineBride.appendChild(res.frag);
+  nameDelay = res.delay + 0.2;
+
+  const ampSpan = document.createElement('span');
+  ampSpan.className = 'letter opening-amp';
+  ampSpan.style.animationDelay = nameDelay.toFixed(3)+'s';
+  ampSpan.textContent = '&';
+  lineAmp.appendChild(ampSpan);
+  nameDelay += 0.3;
+
+  res = typeLetters(groomName, nameDelay, 0.05);
+  lineGroom.appendChild(res.frag);
+
+  namesEl.appendChild(lineBride);
+  namesEl.appendChild(lineAmp);
+  namesEl.appendChild(lineGroom);
+
+  // guest name from URL param ?to=Nama — contoh: ?to=Budi+Santoso atau ?to=Budi%20Santoso
   const params = new URLSearchParams(window.location.search);
-  const guest = params.get('to');
-  if(guest){ document.getElementById('guest-name').textContent = decodeURIComponent(guest); }
+  const guestRaw = params.get('to');
+  if(guestRaw){
+    let displayName = guestRaw.trim();
+    try{ displayName = decodeURIComponent(displayName); }catch(err){ /* sudah didekode URLSearchParams, biarkan apa adanya jika gagal */ }
+    displayName = displayName.trim().replace(/\s+/g,' ').replace(/\S+/g, w => w.charAt(0).toUpperCase()+w.slice(1).toLowerCase());
+    const guestNameEl = document.getElementById('guest-name');
+    const guestFallbackEl = document.getElementById('guest-fallback');
+    if(guestNameEl){ guestNameEl.textContent = displayName; guestNameEl.style.display = 'block'; }
+    if(guestFallbackEl) guestFallbackEl.style.display = 'none';
+    const rsvpNameInput = document.getElementById('r-name');
+    if(rsvpNameInput && !rsvpNameInput.value) rsvpNameInput.value = displayName;
+    document.title = displayName + ' — ' + document.title;
+  }
 
   document.getElementById('open-invitation-btn').addEventListener('click', () => {
     const opening = document.getElementById('opening');

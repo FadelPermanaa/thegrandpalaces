@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -32,6 +32,7 @@
   --font-display:'Playfair Display', serif;
   --font-sub:'Cormorant Garamond', serif;
   --font-body:'Inter', sans-serif;
+  --font-guest:'Alex Brush', cursive;
 
   --ease-glass: cubic-bezier(.19,1,.22,1);
   --dur-slow: 1.4s;
@@ -298,7 +299,27 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   display:flex;flex-direction:column;align-items:center;gap:.2em;line-height:1.1;
 }
 .opening-names .op-line{display:inline-block;}
-.opening-names #opAmp .letter{font-size:.42em;color:var(--chrome-accent);}
+.opening-names #opAmp{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.7em;
+  margin:.08em 0;
+}
+.opening-names #opAmp::before,
+.opening-names #opAmp::after{
+  content:"";
+  width:30px;
+  height:1px;
+  background:linear-gradient(to right, transparent, var(--silver-gray));
+}
+.opening-names #opAmp::after{background:linear-gradient(to left, transparent, var(--silver-gray));}
+.opening-names #opAmp .letter{
+  font-family:var(--font-sub);
+  font-style:italic;
+  font-size:.46em;
+  color:var(--chrome-accent);
+}
 .opening-names .letter{
   display:inline-block;
   opacity:0;
@@ -311,6 +332,32 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @keyframes letterIn{to{opacity:1;transform:translateY(0);}}
+
+/* ============================================================
+   OPENING — GUEST NAME (personalized link ?to=Nama)
+   ============================================================ */
+.opening-guest{
+  margin-top:2.2rem;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 4.35s;
+}
+.og-label{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:.72rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  line-height:1.7;
+}
+.og-name{
+  font-family:var(--font-guest);
+  font-size:clamp(1.9rem,5vw,2.9rem);
+  line-height:1.25;
+  color:var(--ink);
+  margin-top:.25rem;
+  letter-spacing:.01em;
+}
 
 #openBtn{
   margin-top:3rem;
@@ -891,6 +938,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
       <span class="op-line" id="opGroom"></span>
     </h1>
     <p class="opening-sub">Sabtu, 14 November 2026 &nbsp;·&nbsp; Jakarta</p>
+
+    <div class="opening-guest" id="openingGuest" style="display:none;">
+      <p class="og-label">Kepada Yth.<br>Bapak / Ibu / Saudara/i</p>
+      <p class="og-name" id="guestNameText"></p>
+    </div>
+
     <button class="btn-crystal" id="openBtn">
       <span>Buka Undangan</span>
     </button>
@@ -1326,6 +1379,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 <script>
 /* ============================================================
+   GUEST NAME — personalized invitation link (?to=NamaTamu)
+   Contoh: https://domainanda.com/?to=Budi%20Santoso
+   atau:   https://domainanda.com/?to=Budi+Santoso
+   ============================================================ */
+function getGuestNameFromURL(){
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('to');
+  if (!raw) return '';
+  let decoded = raw.replace(/\+/g, ' ');
+  try { decoded = decodeURIComponent(decoded); } catch (err) { /* biarkan apa adanya jika gagal decode */ }
+  return decoded.trim().replace(/\s+/g, ' ');
+}
+function toTitleCase(str){
+  return str.replace(/\S+/g, word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+}
+(function initGuestName(){
+  const guestNameRaw = getGuestNameFromURL();
+  if (!guestNameRaw) return; // link umum (tanpa ?to=) -> blok nama tamu tetap disembunyikan
+  const displayName = toTitleCase(guestNameRaw);
+  const guestBlock = document.getElementById('openingGuest');
+  const guestNameEl = document.getElementById('guestNameText');
+  if (guestNameEl) guestNameEl.textContent = displayName;
+  if (guestBlock) guestBlock.style.display = 'block';
+  // isi otomatis form RSVP dengan nama tamu agar lebih mudah
+  const rsvpNameInput = document.getElementById('rsvpName');
+  if (rsvpNameInput && !rsvpNameInput.value) rsvpNameInput.value = displayName;
+  document.title = displayName + ' — ' + document.title;
+})();
+
+/* ============================================================
    PRELOADER + OPENING SEQUENCE
    ============================================================ */
 window.addEventListener('load', () => {
@@ -1472,7 +1555,7 @@ setInterval(updateCountdown, 1000);
 /* ============================================================
    CALENDAR / NAV / COPY UTILITIES
    ============================================================ */
-function toGCalDate(iso) { return iso.replace(/[-:]/g,'').replace('.000','') + '00'; }
+function toGCalDate(iso) { return iso.replace(/[-:]/g,'').replace(/\.\d{3}/,''); }
 function addToCalendar(title, start, end, isApple) {
   if (isApple) {
     const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${title}\nDTSTART:${toGCalDate(start)}\nDTEND:${toGCalDate(end)}\nLOCATION:Crystal Grand Ballroom, Jakarta\nEND:VEVENT\nEND:VCALENDAR`;

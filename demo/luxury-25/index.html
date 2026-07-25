@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Manrope:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -33,6 +33,7 @@
 
   --display: 'Cormorant Garamond', 'Times New Roman', serif;
   --body: 'Manrope', -apple-system, sans-serif;
+  --guest-font: 'Alex Brush', 'Cormorant Garamond', cursive;
 
   --ease: cubic-bezier(.22,.61,.36,1);
   --dur-slow: 1.4s;
@@ -161,10 +162,11 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:400;letter-spacing:.01em;line
 .opening-mono path{fill:none;stroke:var(--taupe);stroke-width:1;}
 .opening-names{
   font-family:var(--display); font-size:clamp(32px,7vw,64px); font-weight:400;
-  display:flex; gap:.5em; align-items:baseline; flex-wrap:wrap; justify-content:center;
+  display:flex; flex-direction:column; gap:.12em; align-items:center; justify-content:center;
 }
 .opening-names span{display:inline-block; overflow:hidden;}
-.opening-names b{display:inline-block; font-weight:400; font-style:italic; color:var(--oak);}
+.opening-names b{display:block; font-weight:400; font-style:italic; color:var(--oak);}
+.opening-names b.opening-amp{font-size:.42em; line-height:1; margin:.08em 0;}
 .opening-letters{display:inline-block; opacity:0; transform:translateY(100%); animation:letterUp .9s var(--ease) forwards;}
 @keyframes letterUp{to{opacity:1; transform:translateY(0);}}
 @keyframes fadeUp{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
@@ -172,7 +174,13 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:400;letter-spacing:.01em;line
   margin-top:18px; opacity:0; animation:fadeUp 1.2s var(--ease) 1s forwards;
   font-size:12px; letter-spacing:.35em; text-transform:uppercase; color:var(--stone);
 }
-.opening-invite{margin-top:8px; font-size:14px; color:var(--taupe); opacity:0; animation:fadeUp 1.2s var(--ease) 1.15s forwards;}
+.opening-invite{margin-top:22px; opacity:0; animation:fadeUp 1.2s var(--ease) 1.15s forwards;}
+.invite-to{font-size:13px; letter-spacing:.12em; color:var(--taupe);}
+.invite-guest{
+  margin-top:8px; font-family:var(--guest-font); font-size:clamp(26px,4.2vw,38px);
+  font-weight:400; color:var(--oak); letter-spacing:.01em; line-height:1.3;
+  padding:0 12px; word-break:break-word;
+}
 #openBtn{
   margin-top:56px; opacity:0; animation:fadeUp 1.2s var(--ease) 1.5s forwards;
   border:1px solid var(--line-strong); padding:16px 44px; border-radius:100px;
@@ -535,12 +543,15 @@ const SITE = {
     <path d="M60 10 L100 60 L60 110 L20 60 Z"/>
   </svg>
   <div class="opening-names">
-    <span><span class="opening-letters" style="animation-delay:.5s" id="openGroom"></span></span>
-    <b><span class="opening-letters" style="animation-delay:.8s">&amp;</span></b>
-    <span><span class="opening-letters" style="animation-delay:1.1s" id="openBride"></span></span>
+    <span><span class="opening-letters" style="animation-delay:.5s" id="openBride"></span></span>
+    <b class="opening-amp"><span class="opening-letters" style="animation-delay:.8s">&amp;</span></b>
+    <span><span class="opening-letters" style="animation-delay:1.1s" id="openGroom"></span></span>
   </div>
   <div class="opening-sub">The Wedding Celebration</div>
-  <div class="opening-invite" id="guestLine">Kepada Bapak/Ibu/Saudara/i Tamu Undangan</div>
+  <div class="opening-invite">
+    <div class="invite-to">Kepada Yth. Bapak/Ibu/Saudara/i</div>
+    <div class="invite-guest" id="guestName">Tamu Undangan</div>
+  </div>
   <button id="openBtn">Buka Undangan</button>
 </div>
 
@@ -745,7 +756,7 @@ const SITE = {
   <div class="eyebrow reveal" style="text-align:center; margin-bottom:14px;">RSVP</div>
   <h2 class="reveal" style="text-align:center; font-size:clamp(30px,5vw,54px); margin-bottom:clamp(40px,7vw,60px);">Konfirmasi Kehadiran</h2>
   <form id="rsvpForm" style="max-width:640px; margin:0 auto;" class="reveal">
-    <div class="field"><label>Nama</label><input type="text" required placeholder="Nama lengkap Anda"></div>
+    <div class="field"><label>Nama</label><input type="text" id="rsvpName" required placeholder="Nama lengkap Anda"></div>
     <div class="form-row">
       <div class="field"><label>Jumlah Tamu</label><input type="number" min="1" max="5" value="1"></div>
       <div class="field">
@@ -836,6 +847,33 @@ const SITE = {
 /* ============================================================
    MEDIA BINDING — every src/href below reads from SITE{} only
    ============================================================ */
+/* ---------------- guest name from ?to= parameter ---------------- */
+function getGuestName(){
+  try{
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('to');
+    if(!raw) return '';
+    // decode, swap +/%20 to spaces (URLSearchParams already handles this), tidy spacing
+    const cleaned = raw.replace(/[-_]+/g, ' ').trim().replace(/\s+/g, ' ');
+    if(!cleaned) return '';
+    // Title Case setiap kata agar rapi meski input huruf kecil semua
+    return cleaned.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  }catch(e){ return ''; }
+}
+const guestName = getGuestName();
+
+(function bindGuestName(){
+  const guestEl = document.getElementById('guestName');
+  const rsvpNameInput = document.getElementById('rsvpName');
+  if(guestName){
+    guestEl.textContent = guestName;
+    if(rsvpNameInput) rsvpNameInput.value = guestName;
+    document.title = guestName + ' — ' + (SITE.groomName || '') + ' & ' + (SITE.brideName || '') + ' Wedding';
+  } else {
+    guestEl.textContent = 'Tamu Undangan';
+  }
+})();
+
 (function bindMedia(){
   document.getElementById('heroImg').src = SITE.heroImage;
   document.getElementById('groomImg').src = SITE.groomImage;
