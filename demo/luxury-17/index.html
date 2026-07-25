@@ -49,6 +49,7 @@ body{
   font-family:var(--body);
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
+  cursor: none !important; /* sembunyikan cursor default */
 }
 img{max-width:100%;display:block;}
 a{color:inherit;text-decoration:none;}
@@ -621,6 +622,23 @@ footer{background:var(--black);color:var(--ivory);padding:60px var(--edge) 34px;
 #player .p-bar{width:70px;height:2px;background:var(--line-light);position:relative;cursor:pointer;}
 #player .p-bar-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--gold);}
 @media (max-width:520px){#player .p-title{display:none;} #player .p-bar{width:44px;}}
+
+/* ============================================================
+   CUSTOM CURSOR — OVERRIDE
+   ============================================================ */
+#cursor-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 99999; /* di atas semua */
+}
+/* semua elemen tidak boleh menampilkan cursor default */
+a, button, input, select, textarea, .pill-btn, .open-btn, .play-btn, .copy-btn, .submit-btn {
+  cursor: none !important;
+}
 </style>
 </head>
 <body>
@@ -1099,6 +1117,11 @@ footer{background:var(--black);color:var(--ivory);padding:60px var(--edge) 34px;
   <button class="p-btn" id="pMute" aria-label="Mute">🔊</button>
 </div>
 
+<!-- ============================================================ -->
+<!-- CUSTOM CURSOR — LANTERN + HAND -->
+<!-- ============================================================ -->
+<canvas id="cursor-canvas"></canvas>
+
 <script>
 (function(){
   "use strict";
@@ -1139,15 +1162,15 @@ footer{background:var(--black);color:var(--ivory);padding:60px var(--edge) 34px;
   openBtn.addEventListener('click', ()=>{
     opening.classList.add('leave');
     document.body.style.overflow = 'auto';
-    // fade in audio 6-8s
+    // fade in audio
     bgm.volume = 0;
-    bgm.play().catch(()=>{ /* autoplay may be blocked; user can press play in player */ });
+    bgm.play().catch(()=>{ /* autoplay may be blocked */ });
     let vol = 0;
     const fadeIn = setInterval(()=>{
       vol += 0.02;
       if(vol >= 0.7){ vol = 0.7; clearInterval(fadeIn); }
       bgm.volume = vol;
-    }, 160); // ~7s to reach target volume
+    }, 160);
     setTimeout(()=>{
       player.classList.add('show');
       navdots.classList.add('show');
@@ -1155,7 +1178,6 @@ footer{background:var(--black);color:var(--ivory);padding:60px var(--edge) 34px;
   });
 
   document.body.style.overflow = 'hidden';
-  setTimeout(()=>{ if(!opening.classList.contains('leave')){} }, 0);
 
   /* ---------- SCROLL PROGRESS ---------- */
   const progress = document.getElementById('progress');
@@ -1335,10 +1357,352 @@ footer{background:var(--black);color:var(--ivory);padding:60px var(--edge) 34px;
     if(bgm.duration) bgm.currentTime = pct*bgm.duration;
   });
 
-  // graceful fallback if theme-song file is missing
   bgm.addEventListener('error', ()=>{
     console.warn('theme-song audio file not found — letakkan file audio bernama "theme-song.mp3" pada folder yang sama dengan index.html');
   });
+
+  /* ============================================================
+     CUSTOM CURSOR — LENTERA + TANGAN
+     ============================================================ */
+  const canvas = document.getElementById('cursor-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  function resizeCanvas() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  let mouseX = W / 2, mouseY = H / 2;
+  let mouseTargetX = W / 2, mouseTargetY = H / 2;
+  let handX = W / 2, handY = H / 2;
+
+  const DELAY_FACTOR = 0.01;
+  const LANTERN_SCALE = 0.5;
+
+  document.addEventListener('mousemove', function(e) {
+    mouseTargetX = e.clientX;
+    mouseTargetY = e.clientY;
+  });
+  document.addEventListener('touchmove', function(e) {
+    const touch = e.touches[0];
+    if (touch) {
+      mouseTargetX = touch.clientX;
+      mouseTargetY = touch.clientY;
+    }
+  }, { passive: true });
+  document.addEventListener('touchstart', function(e) {
+    const touch = e.touches[0];
+    if (touch) {
+      mouseTargetX = touch.clientX;
+      mouseTargetY = touch.clientY;
+    }
+  }, { passive: true });
+
+  function drawLantern(x, y, scale) {
+    const s = scale * 0.9;
+    const bodyW = 48 * s;
+    const bodyH = 62 * s;
+    const radius = 16 * s;
+    const cx = x;
+    const cy = y;
+
+    // Glow
+    const gradGlow = ctx.createRadialGradient(cx, cy, 2 * s, cx, cy, 70 * s);
+    gradGlow.addColorStop(0, 'rgba(255, 180, 80, 0.25)');
+    gradGlow.addColorStop(0.3, 'rgba(255, 140, 40, 0.12)');
+    gradGlow.addColorStop(0.7, 'rgba(200, 80, 20, 0.05)');
+    gradGlow.addColorStop(1, 'rgba(255, 100, 20, 0)');
+    ctx.fillStyle = gradGlow;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 70 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    const gradGlow2 = ctx.createRadialGradient(cx, cy - 6 * s, 4 * s, cx, cy - 6 * s, 44 * s);
+    gradGlow2.addColorStop(0, 'rgba(255, 200, 120, 0.20)');
+    gradGlow2.addColorStop(0.5, 'rgba(255, 160, 70, 0.08)');
+    gradGlow2.addColorStop(1, 'rgba(255, 100, 30, 0)');
+    ctx.fillStyle = gradGlow2;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 6 * s, 44 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Body
+    const left = cx - bodyW / 2;
+    const top = cy - bodyH / 2;
+    ctx.shadowColor = 'rgba(255, 160, 60, 0.3)';
+    ctx.shadowBlur = 20 * s;
+    const gradBody = ctx.createLinearGradient(left, top, left + bodyW, top);
+    gradBody.addColorStop(0, '#c04020');
+    gradBody.addColorStop(0.2, '#e87040');
+    gradBody.addColorStop(0.4, '#f5a060');
+    gradBody.addColorStop(0.5, '#fcc080');
+    gradBody.addColorStop(0.6, '#f5a060');
+    gradBody.addColorStop(0.8, '#e87040');
+    gradBody.addColorStop(1, '#b83820');
+    ctx.beginPath();
+    ctx.moveTo(left + radius, top);
+    ctx.lineTo(left + bodyW - radius, top);
+    ctx.quadraticCurveTo(left + bodyW, top, left + bodyW, top + radius);
+    ctx.lineTo(left + bodyW, top + bodyH - radius);
+    ctx.quadraticCurveTo(left + bodyW, top + bodyH, left + bodyW - radius, top + bodyH);
+    ctx.lineTo(left + radius, top + bodyH);
+    ctx.quadraticCurveTo(left, top + bodyH, left, top + bodyH - radius);
+    ctx.lineTo(left, top + radius);
+    ctx.quadraticCurveTo(left, top, left + radius, top);
+    ctx.closePath();
+    ctx.fillStyle = gradBody;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // ribs
+    ctx.strokeStyle = 'rgba(160, 50, 20, 0.5)';
+    ctx.lineWidth = 1.2 * s;
+    const ribCount = 8;
+    for (let i = 0; i <= ribCount; i++) {
+      const t = i / ribCount;
+      const rx = left + t * bodyW;
+      const curve = Math.sin(t * Math.PI) * 4 * s;
+      ctx.beginPath();
+      ctx.moveTo(rx, top + 8 * s + curve * 0.5);
+      ctx.lineTo(rx, top + bodyH - 8 * s - curve * 0.5);
+      ctx.stroke();
+    }
+
+    // Cap atas
+    const capW = bodyW + 10 * s;
+    const capH = 8 * s;
+    const capX = cx - capW / 2;
+    const capY = top - capH + 2 * s;
+    const gradCap = ctx.createLinearGradient(capX, capY, capX, capY + capH);
+    gradCap.addColorStop(0, '#f5d080');
+    gradCap.addColorStop(0.3, '#e8b860');
+    gradCap.addColorStop(0.7, '#d4a050');
+    gradCap.addColorStop(1, '#b88840');
+    ctx.fillStyle = gradCap;
+    ctx.beginPath();
+    ctx.moveTo(capX + 6 * s, capY);
+    ctx.quadraticCurveTo(capX + capW / 2, capY - 4 * s, capX + capW - 6 * s, capY);
+    ctx.lineTo(capX + capW - 4 * s, capY + capH);
+    ctx.lineTo(capX + 4 * s, capY + capH);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#c89030';
+    ctx.lineWidth = 1.2 * s;
+    ctx.beginPath();
+    ctx.moveTo(capX + 8 * s, capY + capH * 0.5);
+    ctx.lineTo(capX + capW - 8 * s, capY + capH * 0.5);
+    ctx.stroke();
+
+    // Cap bawah
+    const capBW = bodyW + 8 * s;
+    const capBH = 7 * s;
+    const capBX = cx - capBW / 2;
+    const capBY = top + bodyH - 2 * s;
+    const gradCapB = ctx.createLinearGradient(capBX, capBY, capBX, capBY + capBH);
+    gradCapB.addColorStop(0, '#d4a050');
+    gradCapB.addColorStop(0.4, '#e8b860');
+    gradCapB.addColorStop(0.8, '#c89040');
+    gradCapB.addColorStop(1, '#a87030');
+    ctx.fillStyle = gradCapB;
+    ctx.beginPath();
+    ctx.moveTo(capBX + 4 * s, capBY);
+    ctx.lineTo(capBX + capBW - 4 * s, capBY);
+    ctx.lineTo(capBX + capBW - 6 * s, capBY + capBH);
+    ctx.quadraticCurveTo(capBX + capBW / 2, capBY + capBH + 4 * s, capBX + 6 * s, capBY + capBH);
+    ctx.closePath();
+    ctx.fill();
+
+    // Handle
+    ctx.strokeStyle = '#d4a050';
+    ctx.lineWidth = 2.8 * s;
+    ctx.shadowColor = 'rgba(200, 150, 80, 0.2)';
+    ctx.shadowBlur = 8 * s;
+    const handleY = capY - 2 * s;
+    ctx.beginPath();
+    ctx.moveTo(cx - 20 * s, handleY);
+    ctx.quadraticCurveTo(cx - 24 * s, handleY - 22 * s, cx, handleY - 26 * s);
+    ctx.quadraticCurveTo(cx + 24 * s, handleY - 22 * s, cx + 20 * s, handleY);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#c89040';
+    ctx.beginPath();
+    ctx.arc(cx - 20 * s, handleY, 2.8 * s, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx + 20 * s, handleY, 2.8 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Rantai
+    ctx.strokeStyle = '#b88840';
+    ctx.lineWidth = 1.2 * s;
+    ctx.setLineDash([3 * s, 4 * s]);
+    ctx.beginPath();
+    ctx.moveTo(cx, handleY - 26 * s);
+    ctx.lineTo(cx, handleY - 34 * s);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#c89040';
+    ctx.beginPath();
+    ctx.arc(cx, handleY - 34 * s, 3 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Tassel
+    const tasselY = capBY + capBH + 2 * s;
+    ctx.fillStyle = '#b88030';
+    ctx.shadowBlur = 6 * s;
+    ctx.shadowColor = 'rgba(180, 100, 40, 0.2)';
+    ctx.strokeStyle = '#b88030';
+    ctx.lineWidth = 1.2 * s;
+    for (let i = -2; i <= 2; i++) {
+      ctx.beginPath();
+      ctx.moveTo(cx + i * 5 * s, tasselY);
+      ctx.lineTo(cx + i * 8 * s, tasselY + 14 * s);
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#c89040';
+    ctx.beginPath();
+    ctx.arc(cx, tasselY + 2 * s, 5 * s, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#c88030';
+    for (let i = -2; i <= 2; i++) {
+      const tx = cx + i * 6 * s;
+      const ty = tasselY + 14 * s + 4 * s;
+      ctx.beginPath();
+      ctx.moveTo(tx, ty);
+      ctx.quadraticCurveTo(tx - 5 * s, ty + 10 * s, tx, ty + 16 * s);
+      ctx.quadraticCurveTo(tx + 5 * s, ty + 10 * s, tx, ty);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+
+    // Highlight
+    const gradHighlight = ctx.createLinearGradient(left + 6 * s, top, left + 18 * s, top);
+    gradHighlight.addColorStop(0, 'rgba(255, 255, 220, 0.15)');
+    gradHighlight.addColorStop(0.5, 'rgba(255, 255, 200, 0.05)');
+    gradHighlight.addColorStop(1, 'rgba(255, 255, 220, 0)');
+    ctx.fillStyle = gradHighlight;
+    ctx.beginPath();
+    ctx.ellipse(cx - 6 * s, cy - 2 * s, 10 * s, 22 * s, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    const gradSpot = ctx.createRadialGradient(cx - 4 * s, cy - 10 * s, 1 * s, cx - 4 * s, cy - 10 * s, 16 * s);
+    gradSpot.addColorStop(0, 'rgba(255, 220, 160, 0.25)');
+    gradSpot.addColorStop(0.5, 'rgba(255, 180, 100, 0.08)');
+    gradSpot.addColorStop(1, 'rgba(255, 150, 60, 0)');
+    ctx.fillStyle = gradSpot;
+    ctx.beginPath();
+    ctx.arc(cx - 4 * s, cy - 10 * s, 16 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    return {
+      gripX: cx + 18 * s,
+      gripY: handleY - 18 * s,
+    };
+  }
+
+  function drawHand(x, y, scale, gripX, gripY) {
+    const s = scale * 0.9;
+    const dx = gripX - x;
+    const dy = gripY - y;
+    const angle = Math.atan2(dy, dx);
+    const handSize = 20 * s;
+    const handPosX = gripX - 8 * s;
+    const handPosY = gripY + 6 * s;
+
+    ctx.save();
+    ctx.translate(handPosX, handPosY);
+    ctx.rotate(angle + 0.3);
+
+    ctx.shadowColor = 'rgba(0,0,0,0.15)';
+    ctx.shadowBlur = 8 * s;
+    ctx.shadowOffsetX = 2 * s;
+    ctx.shadowOffsetY = 3 * s;
+
+    const skinColor = '#e8c9a8';
+    const skinShadow = '#d4b090';
+
+    ctx.shadowBlur = 6 * s;
+    ctx.shadowColor = 'rgba(0,0,0,0.10)';
+    ctx.fillStyle = skinColor;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 9 * s, 11 * s, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.shadowBlur = 4 * s;
+    ctx.shadowColor = 'rgba(0,0,0,0.08)';
+    const fingers = [
+      { dx: -6 * s, dy: -10 * s, rot: -0.35, len: 10 * s },
+      { dx: -2 * s, dy: -13 * s, rot: -0.10, len: 12 * s },
+      { dx: 2 * s, dy: -14 * s, rot: 0.10, len: 12 * s },
+      { dx: 6 * s, dy: -12 * s, rot: 0.35, len: 10 * s },
+    ];
+    ctx.fillStyle = skinColor;
+    for (const f of fingers) {
+      ctx.save();
+      ctx.translate(f.dx, f.dy);
+      ctx.rotate(f.rot);
+      ctx.beginPath();
+      ctx.ellipse(0, -f.len / 2, 3.2 * s, f.len / 2 + 1 * s, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = skinShadow;
+      ctx.beginPath();
+      ctx.arc(0, -f.len, 3.5 * s, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = skinColor;
+      ctx.restore();
+    }
+
+    // ibu jari
+    ctx.save();
+    ctx.translate(-11 * s, -1 * s);
+    ctx.rotate(-0.7);
+    ctx.fillStyle = skinColor;
+    ctx.beginPath();
+    ctx.ellipse(-2 * s, -5 * s, 4 * s, 8 * s, 0.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = skinShadow;
+    ctx.beginPath();
+    ctx.arc(-2 * s, -10 * s, 3.5 * s, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.restore();
+  }
+
+  function animate() {
+    mouseX += (mouseTargetX - mouseX) * 0.28;
+    mouseY += (mouseTargetY - mouseY) * 0.28;
+    handX += (mouseX - handX) * DELAY_FACTOR;
+    handY += (mouseY - handY) * DELAY_FACTOR;
+
+    ctx.clearRect(0, 0, W, H);
+    const lanternX = mouseX;
+    const lanternY = mouseY - 2;
+    const grip = drawLantern(lanternX, lanternY, LANTERN_SCALE);
+    drawHand(handX, handY, LANTERN_SCALE, grip.gripX, grip.gripY);
+
+    // sparkles
+    const time = Date.now() / 1200;
+    for (let i = 0; i < 5; i++) {
+      const angle2 = time + i * 1.2;
+      const dist = 28 + Math.sin(time * 0.7 + i) * 8;
+      const px = lanternX + Math.cos(angle2 + i * 0.9) * dist;
+      const py = lanternY - 4 + Math.sin(angle2 * 0.8 + i * 0.7) * dist * 0.5;
+      const alpha = 0.15 + Math.sin(time * 0.5 + i * 1.2) * 0.08;
+      ctx.fillStyle = `rgba(255, 200, 120, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(px, py, 1.5 * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
 
 })();
 </script>

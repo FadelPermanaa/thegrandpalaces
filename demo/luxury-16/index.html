@@ -213,17 +213,20 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;}
 #cover{
   position:fixed;inset:0;z-index:150;
   display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+  overflow-y:auto;overflow-x:hidden;
   transition:opacity 1.4s var(--ease-slow),visibility 1.4s;
+}
+.cover-content{padding-top:26px;padding-bottom:26px;}
+@media (max-height:720px){
+  .cover-guest{margin-top:20px;}
+  .cover-monogram{margin:10px auto;width:52px;height:52px;}
+  .cover-open-wrap{margin-top:28px;}
 }
 #cover.hide{opacity:0;visibility:hidden;pointer-events:none;}
 #cover .arctic-scene{transform:scale(1.06);animation:cover-zoom 22s var(--ease-slow) infinite alternate;}
 @keyframes cover-zoom{0%{transform:scale(1.06);}100%{transform:scale(1.14);}}
 .cover-content{position:relative;z-index:2;text-align:center;padding:0 6vw;}
 .cover-eyebrow{font-family:var(--font-sub);letter-spacing:.5em;text-transform:uppercase;font-size:.7rem;color:var(--ice-blue);opacity:0;animation:fade-up 1s var(--ease-slow) forwards .2s;}
-.cover-names{font-family:var(--font-display);font-size:clamp(2.6rem,9vw,5.2rem);font-weight:400;margin:14px 0;letter-spacing:.02em;}
-.cover-names .letter{display:inline-block;opacity:0;transform:translateY(24px);animation:letter-in .8s var(--ease-slow) forwards;}
-.cover-names .cover-amp{font-family:var(--font-sub);font-style:italic;color:var(--aurora-green);padding:0 .12em;}
 @keyframes letter-in{to{opacity:1;transform:translateY(0);}}
 @keyframes fade-up{to{opacity:1;}}
 .cover-date{font-family:var(--font-sub);letter-spacing:.25em;color:var(--silver);font-size:.95rem;opacity:0;animation:fade-up 1s var(--ease-slow) forwards 1.4s;}
@@ -464,6 +467,173 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;}
 footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
 .footer-note{font-family:var(--font-sub);color:var(--silver);font-size:.85rem;letter-spacing:.05em;margin-top:10px;}
 .footer-credit{font-family:var(--font-body);font-size:.72rem;color:rgba(198,210,224,.5);margin-top:30px;letter-spacing:.04em;}
+
+/* ============================================================
+   CUSTOM AURORA CURSOR — crystal shard + drifting light trail
+   ============================================================ */
+@media (hover:hover) and (pointer:fine){
+  html.has-cursor, html.has-cursor *{cursor:none !important;}
+}
+#auroraCursor{position:fixed;left:0;top:0;width:0;height:0;z-index:999;pointer-events:none;display:none;}
+@media (hover:hover) and (pointer:fine){ #auroraCursor{display:block;} }
+#auroraCursor .shard{
+  position:absolute;left:-9px;top:-9px;width:18px;height:18px;
+  transform:rotate(45deg) scale(1);
+  border:1.4px solid var(--aurora-green);
+  box-shadow:0 0 10px 1px rgba(79,240,190,.55);
+  transition:width .3s var(--ease-soft),height .3s var(--ease-soft),
+             left .3s var(--ease-soft),top .3s var(--ease-soft),
+             border-color .3s var(--ease-soft),transform .3s var(--ease-soft),
+             border-radius .3s var(--ease-soft),background .3s var(--ease-soft);
+}
+#auroraCursor .core{
+  position:absolute;left:-2.5px;top:-2.5px;width:5px;height:5px;border-radius:50%;
+  background:var(--crystal-white);box-shadow:0 0 6px 1px rgba(255,255,255,.8);
+  transition:transform .15s var(--ease-soft),opacity .2s;
+}
+#auroraCursor.hover .shard{
+  width:44px;height:44px;left:-22px;top:-22px;border-radius:50%;
+  transform:rotate(0deg);border-color:var(--aurora-violet);
+  background:rgba(142,127,234,.08);box-shadow:0 0 22px 2px rgba(142,127,234,.45);
+}
+#auroraCursor.hover .core{transform:scale(0);opacity:0;}
+#auroraCursor.down .shard{transform:rotate(45deg) scale(.78);}
+#auroraCursor .label{
+  position:absolute;top:26px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-family:var(--font-sub);letter-spacing:.16em;text-transform:uppercase;font-size:.6rem;
+  color:var(--crystal-white);opacity:0;transition:opacity .3s;
+}
+#auroraCursor.hover .label{opacity:.85;}
+.cursor-spark{position:fixed;left:0;top:0;width:4px;height:4px;border-radius:50%;
+  pointer-events:none;z-index:998;background:var(--aurora-teal);
+  box-shadow:0 0 8px 2px rgba(53,201,214,.7);
+  animation:spark-fade .9s var(--ease-soft) forwards;}
+@keyframes spark-fade{0%{opacity:.9;transform:scale(1);}100%{opacity:0;transform:scale(.2) translateY(14px);}}
+
+/* ============================================================
+   RECIPIENT / GUEST BLOCK — on cover
+   ============================================================ */
+.cover-guest{margin-top:30px;opacity:0;animation:fade-up 1s var(--ease-slow) forwards 1.7s;}
+.cover-guest-label{font-family:var(--font-sub);letter-spacing:.32em;text-transform:uppercase;font-size:.66rem;color:var(--silver);}
+@media (max-width:360px){.cover-guest-label{letter-spacing:.16em;font-size:.62rem;}}
+.cover-guest-frame{
+  display:inline-block;margin-top:10px;padding:10px 30px;position:relative;
+  max-width:88vw;
+  border-top:1px solid rgba(174,225,245,.35);border-bottom:1px solid rgba(174,225,245,.35);
+}
+#coverGuestName{word-break:break-word;}
+.cover-guest-frame::before,.cover-guest-frame::after{
+  content:"";position:absolute;top:50%;width:5px;height:5px;transform:translateY(-50%) rotate(45deg);
+  background:var(--aurora-green);box-shadow:0 0 8px 2px rgba(79,240,190,.6);
+}
+.cover-guest-frame::before{left:-3px;}
+.cover-guest-frame::after{right:-3px;}
+#coverGuestName{
+  font-family:var(--font-display);font-style:italic;font-size:clamp(1.2rem,3.4vw,1.7rem);
+  color:var(--crystal-white);letter-spacing:.01em;
+}
+
+/* ============================================================
+   COVER NAMES — bride / monogram / groom stacked layout
+   ============================================================ */
+.cover-names-stack{margin:20px 0 6px;}
+.cover-bride,.cover-groom{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.55rem,7.2vw,3.6rem);line-height:1.12;letter-spacing:.01em;
+  color:var(--crystal-white);
+}
+.cover-monogram{
+  position:relative;width:64px;height:64px;margin:14px auto;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;animation:mono-pop 1s var(--ease-slow) forwards .9s;
+}
+@keyframes mono-pop{0%{opacity:0;transform:scale(.6) rotate(-12deg);}100%{opacity:1;transform:scale(1) rotate(0);}}
+.cover-monogram::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 180deg,var(--aurora-violet),var(--aurora-teal),var(--aurora-green),var(--aurora-violet));
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1.4px),#fff calc(100% - 1.4px));
+          mask:radial-gradient(farthest-side,transparent calc(100% - 1.4px),#fff calc(100% - 1.4px));
+  animation:mono-spin 8s linear infinite;
+}
+@keyframes mono-spin{to{transform:rotate(360deg);}}
+.cover-monogram .amp{
+  font-family:var(--font-sub);font-style:italic;font-size:1.5rem;color:var(--aurora-green);
+  text-shadow:0 0 14px rgba(79,240,190,.6);
+}
+.cover-names-stack .letter{display:inline-block;opacity:0;transform:translateY(20px);animation:letter-in .75s var(--ease-slow) forwards;}
+
+/* ============================================================
+   MOBILE NAVIGATION — hamburger + drawer
+   ============================================================ */
+#navToggle{
+  position:fixed;top:18px;right:18px;z-index:170;width:46px;height:46px;border-radius:50%;
+  background:rgba(10,19,48,.65);backdrop-filter:blur(10px);border:1px solid rgba(174,225,245,.22);
+  display:flex;align-items:center;justify-content:center;gap:4px;flex-direction:column;
+  transition:opacity .5s,transform .4s var(--ease-soft);opacity:0;pointer-events:none;
+}
+#navToggle.show{opacity:1;pointer-events:auto;}
+#navToggle span{width:18px;height:1.5px;background:var(--crystal-white);transition:all .35s var(--ease-soft);}
+#navToggle.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+#navToggle.open span:nth-child(2){opacity:0;}
+#navToggle.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+#navDrawer{
+  position:fixed;inset:0;z-index:165;background:rgba(5,10,23,.97);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;
+  transition:opacity .5s var(--ease-slow),visibility .5s;
+}
+#navDrawer.open{opacity:1;visibility:visible;}
+#navDrawer .drawer-list{display:flex;flex-direction:column;gap:6px;text-align:center;max-height:80vh;overflow-y:auto;padding:20px;}
+#navDrawer .drawer-item{
+  font-family:var(--font-display);font-size:1.5rem;color:var(--silver);padding:8px 20px;
+  transition:color .3s,transform .3s;opacity:0;transform:translateY(14px);
+}
+#navDrawer.open .drawer-item{opacity:1;transform:translateY(0);}
+#navDrawer .drawer-item:hover,#navDrawer .drawer-item.active{color:var(--aurora-green);}
+@media (min-width:860px){ #navToggle,#navDrawer{display:none;} }
+
+/* ============================================================
+   BACK TO TOP — aurora ring
+   ============================================================ */
+#backToTop{
+  position:fixed;right:18px;bottom:18px;z-index:120;width:46px;height:46px;
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease-soft),transform .4s var(--ease-soft);
+}
+#backToTop.show{opacity:1;pointer-events:auto;}
+#backToTop:hover{transform:translateY(-3px);}
+#backToTop svg{width:46px;height:46px;transform:rotate(-90deg);}
+#backToTop circle.track{fill:rgba(10,19,48,.6);stroke:rgba(174,225,245,.2);stroke-width:2;}
+#backToTop circle.fill{fill:none;stroke:var(--aurora-green);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:126;stroke-dashoffset:126;filter:drop-shadow(0 0 4px rgba(79,240,190,.7));}
+#backToTop .arrow{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+#backToTop .arrow svg{width:14px;height:14px;transform:none;fill:var(--crystal-white);}
+
+/* ============================================================
+   TOAST NOTIFICATIONS
+   ============================================================ */
+#toastWrap{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:250;
+  display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;}
+.toast{
+  font-family:var(--font-sub);letter-spacing:.06em;font-size:.82rem;color:var(--midnight);
+  background:linear-gradient(120deg,var(--ice-blue),var(--crystal-white));
+  padding:11px 22px;border-radius:30px;box-shadow:0 10px 24px -8px rgba(0,0,0,.5);
+  opacity:0;transform:translateY(12px);animation:toast-in .35s var(--ease-soft) forwards, toast-out .4s var(--ease-soft) forwards 2.2s;
+}
+@keyframes toast-in{to{opacity:1;transform:translateY(0);}}
+@keyframes toast-out{to{opacity:0;transform:translateY(-10px);}}
+
+/* ============================================================
+   FILM GRAIN + MAGNETIC + TILT UTILITIES
+   ============================================================ */
+#grainOverlay{position:fixed;inset:0;z-index:150;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.magnetic{will-change:transform;}
+.tiltable{will-change:transform;transform-style:preserve-3d;}
+
+.shooting-star{position:fixed;top:0;left:0;width:2px;height:2px;background:#fff;border-radius:50%;
+  z-index:6;pointer-events:none;box-shadow:0 0 6px 1px #fff;}
+
+/* Share button */
+.share-wrap{margin-top:26px;display:flex;justify-content:center;}
 </style>
 </head>
 <body>
@@ -492,10 +662,18 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
   </div>
   <div class="cover-content">
     <div class="cover-eyebrow">The Wedding Of</div>
-    <div class="cover-names" id="coverNames"></div>
+    <div class="cover-names-stack">
+      <div class="cover-bride" id="coverBride"></div>
+      <div class="cover-monogram"><span class="amp">F&amp;M</span></div>
+      <div class="cover-groom" id="coverGroom"></div>
+    </div>
     <div class="cover-date">14 · 02 · 2027 — Tromsø, Norway</div>
+    <div class="cover-guest">
+      <div class="cover-guest-label">Kepada Yth. Bapak/Ibu/Saudara/i</div>
+      <div class="cover-guest-frame"><div id="coverGuestName">Tamu Undangan</div></div>
+    </div>
     <div class="cover-open-wrap">
-      <button class="btn-nordic" id="openBtn">Buka Undangan</button>
+      <button class="btn-nordic magnetic" id="openBtn">Buka Undangan</button>
     </div>
   </div>
 </div>
@@ -504,6 +682,21 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
 <div id="auroraProgress"></div>
 <div class="aurora-rail"><div class="fill" id="railFill"></div></div>
 <div id="navDots"></div>
+
+<!-- ============ MOBILE NAV ============ -->
+<button id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+<div id="navDrawer"><div class="drawer-list" id="drawerList"></div></div>
+
+<!-- ============ BACK TO TOP ============ -->
+<button id="backToTop" aria-label="Kembali ke atas">
+  <svg viewBox="0 0 46 46"><circle class="track" cx="23" cy="23" r="20"></circle><circle class="fill" id="backToTopRing" cx="23" cy="23" r="20"></circle></svg>
+  <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5l-7 7h4v7h6v-7h4z"/></svg></span>
+</button>
+
+<!-- ============ GRAIN + CURSOR + TOAST ============ -->
+<div id="grainOverlay"></div>
+<div id="auroraCursor"><div class="shard"></div><div class="core"></div><div class="label">Lihat</div></div>
+<div id="toastWrap"></div>
 
 <!-- ============ FLOATING PLAYER ============ -->
 <audio id="themeAudio" src="theme-song.mp3" loop preload="auto"></audio>
@@ -888,6 +1081,7 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
   <div class="container">
     <div class="eyebrow">Terima Kasih</div>
     <div class="footer-note">Merayakan cinta di bawah langit Aurora Borealis — Tromsø, Norwegia</div>
+    <div class="share-wrap"><button class="btn-nordic-outline magnetic" id="shareInvite">Bagikan Undangan</button></div>
     <div class="footer-credit">Magnus &amp; Freya · 14 Februari 2027</div>
   </div>
 </footer>
@@ -984,18 +1178,29 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
     faqList.appendChild(item);
   });
 
-  // ---------- cover name letters ----------
-  const coverNames=document.getElementById('coverNames');
-  const nameStr='Magnus & Freya';
-  [...nameStr].forEach((ch,i)=>{
-    const span=document.createElement('span');
-    span.className='letter';
-    span.style.animationDelay=(0.5+i*0.035)+'s';
-    if(ch===' '){span.innerHTML='&nbsp;';}
-    else if(ch==='&'){span.textContent=ch;span.classList.add('cover-amp');}
-    else{span.textContent=ch;}
-    coverNames.appendChild(span);
-  });
+  // ---------- cover name letters (bride / groom, stacked) ----------
+  function typeInto(el,str,startDelay){
+    [...str].forEach((ch,i)=>{
+      const span=document.createElement('span');
+      span.className='letter';
+      span.style.animationDelay=(startDelay+i*0.03)+'s';
+      span.innerHTML=(ch===' ')?'&nbsp;':ch;
+      el.appendChild(span);
+    });
+  }
+  typeInto(document.getElementById('coverBride'),'Freya Kristine',0.35);
+  typeInto(document.getElementById('coverGroom'),'Magnus Alexander',1.05);
+
+  // ---------- guest recipient via ?guest= ----------
+  const params=new URLSearchParams(window.location.search);
+  const guestRaw=params.get('guest')||params.get('to');
+  if(guestRaw){
+    const cleaned=decodeURIComponent(guestRaw).replace(/\+/g,' ').trim();
+    const titled=cleaned.replace(/\w\S*/g,t=>t.charAt(0).toUpperCase()+t.slice(1).toLowerCase());
+    document.getElementById('coverGuestName').textContent=titled||'Tamu Undangan';
+    const rNameField=document.getElementById('rName');
+    if(rNameField && !rNameField.value) rNameField.value=titled;
+  }
 
   // ---------- preloader -> ready ----------
   window.addEventListener('load',()=>{
@@ -1146,16 +1351,14 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
   document.getElementById('copyAddr').addEventListener('click',(e)=>{
     e.preventDefault();
     navigator.clipboard && navigator.clipboard.writeText('Lyngen Aurora Lodge, Jiepmaluokta, 9060 Lyngseidet, Norway');
-    const el=e.currentTarget; const orig=el.textContent;
-    el.textContent='Alamat Disalin ✓'; setTimeout(()=>el.textContent=orig,1800);
+    showToast('Alamat berhasil disalin ✓');
   });
   document.getElementById('copyAccount').addEventListener('click',(e)=>{
     navigator.clipboard && navigator.clipboard.writeText('88012245990');
-    const el=e.currentTarget; const orig=el.textContent;
-    el.textContent='Nomor Disalin ✓'; setTimeout(()=>el.textContent=orig,1800);
+    showToast('Nomor rekening berhasil disalin ✓');
   });
   document.getElementById('downloadQr').addEventListener('click',()=>{
-    alert('Ganti elemen .qr-box dengan gambar QRIS asli sebelum website dipublikasikan.');
+    showToast('Ganti .qr-box dengan gambar QRIS asli sebelum publish');
   });
 
   // ---------- snowfall ----------
@@ -1171,6 +1374,146 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
     setTimeout(()=>s.remove(),18000);
   }
   setInterval(spawnSnow,450);
+
+  // ---------- toast notifications ----------
+  const toastWrap=document.getElementById('toastWrap');
+  window.showToast=function(msg){
+    const t=document.createElement('div');t.className='toast';t.textContent=msg;
+    toastWrap.appendChild(t);
+    setTimeout(()=>t.remove(),2650);
+  };
+
+  // ---------- mobile nav drawer ----------
+  const navToggle=document.getElementById('navToggle');
+  const navDrawer=document.getElementById('navDrawer');
+  const drawerList=document.getElementById('drawerList');
+  sections.forEach(s=>{
+    const item=document.createElement('a');
+    item.className='drawer-item';item.textContent=s.dataset.nav;
+    item.addEventListener('click',()=>{
+      navDrawer.classList.remove('open');navToggle.classList.remove('open');
+      document.body.style.overflow='auto';
+      setTimeout(()=>s.scrollIntoView({behavior:'smooth'}),250);
+    });
+    drawerList.appendChild(item);
+  });
+  const drawerItems=[...drawerList.children];
+  navToggle.addEventListener('click',()=>{
+    const open=navDrawer.classList.toggle('open');
+    navToggle.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'auto';
+  });
+
+  // ---------- back to top + nav toggle visibility ----------
+  const backToTop=document.getElementById('backToTop');
+  const ringFill=document.getElementById('backToTopRing');
+  const RING_LEN=2*Math.PI*20;
+  ringFill.style.strokeDasharray=RING_LEN;
+  backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  function onScroll2(){
+    const scrollTop=window.scrollY;
+    backToTop.classList.toggle('show',scrollTop>window.innerHeight*0.6);
+    navToggle.classList.toggle('show',scrollTop>window.innerHeight*0.5);
+    const docH=document.documentElement.scrollHeight-window.innerHeight;
+    const pct=docH>0?Math.min(1,scrollTop/docH):0;
+    ringFill.style.strokeDashoffset=RING_LEN*(1-pct);
+    let activeIdx=0;
+    sections.forEach((s,i)=>{ if(s.getBoundingClientRect().top<window.innerHeight*0.5) activeIdx=i; });
+    drawerItems.forEach((d,i)=>d.classList.toggle('active',i===activeIdx));
+  }
+  window.addEventListener('scroll',onScroll2,{passive:true});
+  onScroll2();
+
+  // ---------- custom aurora cursor ----------
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    document.documentElement.classList.add('has-cursor');
+    const cur=document.getElementById('auroraCursor');
+    let cx=window.innerWidth/2, cy=window.innerHeight/2, tx=cx, ty=cy;
+    window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;});
+    (function loop(){
+      cx+=(tx-cx)*0.22; cy+=(ty-cy)*0.22;
+      cur.style.transform='translate('+cx+'px,'+cy+'px)';
+      requestAnimationFrame(loop);
+    })();
+    window.addEventListener('mousedown',()=>cur.classList.add('down'));
+    window.addEventListener('mouseup',()=>cur.classList.remove('down'));
+    const hoverables='a, button, .frame, .story-item, .couple-card, .swatch, .faq-item, input, textarea, select, .nav-dot, .drawer-item';
+    document.addEventListener('mouseover',e=>{ if(e.target.closest(hoverables)) cur.classList.add('hover'); });
+    document.addEventListener('mouseout',e=>{ if(e.target.closest(hoverables)) cur.classList.remove('hover'); });
+
+    // faint sparkle trail
+    let lastSpark=0;
+    window.addEventListener('mousemove',e=>{
+      const now=performance.now();
+      if(now-lastSpark<55) return; lastSpark=now;
+      const s=document.createElement('div');s.className='cursor-spark';
+      s.style.left=(e.clientX+(Math.random()*10-5))+'px';
+      s.style.top=(e.clientY+(Math.random()*10-5))+'px';
+      const hue=[  'var(--aurora-teal)','var(--aurora-green)','var(--aurora-violet)'][Math.floor(Math.random()*3)];
+      s.style.background=hue;
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(),900);
+    });
+  }
+
+  // ---------- magnetic buttons ----------
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      const mx=e.clientX-r.left-r.width/2, my=e.clientY-r.top-r.height/2;
+      btn.style.transform='translate('+(mx*0.25)+'px,'+(my*0.35)+'px)';
+    });
+    btn.addEventListener('mouseleave',()=>{btn.style.transform='translate(0,0)';});
+  });
+
+  // ---------- tilt on couple portraits + gallery frames ----------
+  function addTilt(el,strength){
+    el.addEventListener('mousemove',e=>{
+      const r=el.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+      el.style.transform='perspective(600px) rotateX('+(-py*strength)+'deg) rotateY('+(px*strength)+'deg)';
+    });
+    el.addEventListener('mouseleave',()=>{el.style.transform='perspective(600px) rotateX(0) rotateY(0)';});
+  }
+  document.querySelectorAll('.couple-portrait').forEach(el=>{el.classList.add('tiltable');addTilt(el,14);});
+  document.querySelectorAll('.frame').forEach(el=>{el.classList.add('tiltable');addTilt(el,6);});
+
+  // ---------- parallax on hero/cover aurora scenes ----------
+  document.querySelectorAll('#hero .arctic-scene, #cover .arctic-scene').forEach(scene=>{
+    window.addEventListener('mousemove',e=>{
+      const px=(e.clientX/window.innerWidth-0.5), py=(e.clientY/window.innerHeight-0.5);
+      scene.style.transform='translate('+(px*-14)+'px,'+(py*-10)+'px) scale(1.05)';
+    });
+  });
+
+  // ---------- occasional shooting star ----------
+  function spawnShootingStar(){
+    const s=document.createElement('div');s.className='shooting-star';
+    const startX=Math.random()*window.innerWidth*0.6+window.innerWidth*0.2;
+    const startY=Math.random()*window.innerHeight*0.25;
+    s.style.left=startX+'px';s.style.top=startY+'px';
+    document.body.appendChild(s);
+    const dist=220+Math.random()*160;
+    const angle=0.55;
+    const dx=Math.cos(angle)*dist, dy=Math.sin(angle)*dist;
+    s.animate([
+      {transform:'translate(0,0)',opacity:1,boxShadow:'0 0 6px 1px #fff, -0px 0px 0 0 rgba(255,255,255,0)'},
+      {transform:'translate('+dx+'px,'+dy+'px)',opacity:0}
+    ],{duration:900,easing:'ease-out'});
+    setTimeout(()=>s.remove(),950);
+    setTimeout(spawnShootingStar,6000+Math.random()*9000);
+  }
+  setTimeout(spawnShootingStar,4000);
+
+  // ---------- share invitation (WhatsApp) ----------
+  const shareBtn=document.getElementById('shareInvite');
+  if(shareBtn){
+    shareBtn.addEventListener('click',()=>{
+      const text=encodeURIComponent('Anda diundang ke pernikahan Magnus & Freya — 14 Februari 2027, Tromsø, Norway. Lihat undangan: '+window.location.href);
+      window.open('https://wa.me/?text='+text,'_blank');
+    });
+  }
 })();
 </script>
 </body>
