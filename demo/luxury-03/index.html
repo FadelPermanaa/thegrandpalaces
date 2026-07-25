@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
     <style>
         /* ============================================================
@@ -33,6 +33,7 @@
             --font-display: 'Cinzel', serif;
             --font-sub: 'Cormorant Garamond', serif;
             --font-body: 'Inter', sans-serif;
+            --font-guest: 'Playfair Display', serif;
         }
 
         * {
@@ -480,8 +481,12 @@
             animation: letterIn .8s var(--ease) forwards;
             animation-delay: 0.4s;
         }
-        .cover-names .name-line:nth-child(1) { animation-delay: 0.2s; }
-        .cover-names .name-line:nth-child(3) { animation-delay: 0.6s; }
+        .cover-names .name-line:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+        .cover-names .name-line:nth-child(3) {
+            animation-delay: 0.6s;
+        }
 
         @keyframes letterIn {
             to {
@@ -509,14 +514,47 @@
             animation: fadeUp 1s var(--ease) forwards 2.2s;
         }
         .cover-guest {
-            font-family: var(--font-sub);
+            font-family: var(--font-guest);
             font-style: italic;
-            font-size: 22px;
+            font-size: clamp(26px, 4.2vw, 46px);
             color: var(--gold-light);
             margin-top: 6px;
             opacity: 0;
             animation: fadeUp 1s var(--ease) forwards 2.4s;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            text-shadow: 0 0 40px rgba(201, 169, 98, 0.25), 0 0 80px rgba(201, 169, 98, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+            padding: 0 8px;
         }
+        /* Dekorasi garis bawah untuk nama tamu */
+        .cover-guest::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -6px;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+            opacity: 0.6;
+        }
+        /* versi personalisasi dengan efek tambahan */
+        .cover-guest.personalized {
+            animation: fadeUp 1s var(--ease) forwards 2.4s, glowPulse 3s ease-in-out infinite 3.4s;
+        }
+        @keyframes glowPulse {
+            0%,
+            100% {
+                text-shadow: 0 0 40px rgba(201, 169, 98, 0.25), 0 0 80px rgba(201, 169, 98, 0.08);
+            }
+            50% {
+                text-shadow: 0 0 60px rgba(201, 169, 98, 0.45), 0 0 120px rgba(201, 169, 98, 0.15);
+            }
+        }
+
         .cover-btn-wrap {
             margin-top: 46px;
             opacity: 0;
@@ -568,7 +606,7 @@
         }
         #customProgress .track {
             fill: none;
-            stroke: rgba(255,255,255,0.12);
+            stroke: rgba(255, 255, 255, 0.12);
             stroke-width: 2;
         }
         #customProgress .fill {
@@ -604,7 +642,7 @@
             stroke: #2e7d32;
         }
         body.theme-hutan #customProgress .track {
-            stroke: rgba(46,125,50,0.2);
+            stroke: rgba(46, 125, 50, 0.2);
         }
 
         /* ===== TEMA CHINESE ===== */
@@ -612,7 +650,7 @@
             stroke: #c62828;
         }
         body.theme-chinese #customProgress .track {
-            stroke: rgba(198,40,40,0.2);
+            stroke: rgba(198, 40, 40, 0.2);
         }
 
         /* ===== TEMA ROYAL (default) ===== */
@@ -620,7 +658,7 @@
             stroke: var(--gold);
         }
         body.theme-royal #customProgress .track {
-            stroke: rgba(201,169,98,0.2);
+            stroke: rgba(201, 169, 98, 0.2);
         }
 
         /* ============================================================
@@ -1907,6 +1945,9 @@
                 width: 30px;
                 height: 30px;
             }
+            .cover-guest {
+                font-size: clamp(22px, 5vw, 32px);
+            }
         }
     </style>
 </head>
@@ -1944,7 +1985,7 @@
             <div class="cover-names" id="cover-names"></div>
             <div class="cover-date">Minggu, 18 Oktober 2026</div>
             <div class="cover-invite-to">Kepada Yth. Bapak / Ibu / Saudara/i</div>
-            <div class="cover-guest">Tamu Undangan</div>
+            <div class="cover-guest" id="guestNameDisplay">Tamu Undangan</div>
             <div class="cover-btn-wrap">
                 <button class="btn solid" id="open-invite">
                     <span>Buka Undangan</span>
@@ -2328,7 +2369,28 @@
         (function() {
             "use strict";
 
-            // ---------- dust particles ----------
+            // ============================================================
+            // 1. PERSONALISASI NAMA TAMU VIA URL PARAMETER ?to=Nama
+            // ============================================================
+            var urlParams = new URLSearchParams(window.location.search);
+            var guestName = urlParams.get('to');
+
+            var guestDisplay = document.getElementById('guestNameDisplay');
+            if (guestName && guestName.trim() !== '') {
+                // Decode URL encoding (untuk nama dengan spasi, dll)
+                var decodedName = decodeURIComponent(guestName.trim());
+                // Batasi panjang untuk keamanan & tampilan
+                if (decodedName.length > 80) decodedName = decodedName.slice(0, 80) + '…';
+                guestDisplay.textContent = decodedName;
+                // Tambahkan kelas untuk efek personalisasi
+                guestDisplay.classList.add('personalized');
+            } else {
+                guestDisplay.textContent = 'Tamu Undangan';
+            }
+
+            // ============================================================
+            // 2. DUST PARTICLES
+            // ============================================================
             var dust = document.getElementById('dust');
             for (var i = 0; i < 26; i++) {
                 var s = document.createElement('span');
@@ -2340,7 +2402,9 @@
                 dust.appendChild(s);
             }
 
-            // ---------- hero floating crystals ----------
+            // ============================================================
+            // 3. HERO FLOATING CRYSTALS
+            // ============================================================
             var hc = document.getElementById('hero-crystals');
             for (var i = 0; i < 14; i++) {
                 var s = document.createElement('span');
@@ -2351,7 +2415,9 @@
                 hc.appendChild(s);
             }
 
-            // ---------- city lights footer ----------
+            // ============================================================
+            // 4. CITY LIGHTS FOOTER
+            // ============================================================
             var cl = document.getElementById('city-lights');
             for (var i = 0; i < 40; i++) {
                 var s = document.createElement('span');
@@ -2361,7 +2427,9 @@
                 cl.appendChild(s);
             }
 
-            // ---------- cover names (stacked) ----------
+            // ============================================================
+            // 5. COVER NAMES (STACKED)
+            // ============================================================
             var coverNames = document.getElementById('cover-names');
             var names = ['Isabelle', 'Alexandre'];
             var htmlCover = '';
@@ -2370,7 +2438,9 @@
             htmlCover += '<span class="name-line" style="animation-delay:0.6s">' + names[1] + '</span>';
             coverNames.innerHTML = htmlCover;
 
-            // ---------- hero title (stacked) ----------
+            // ============================================================
+            // 6. HERO TITLE (STACKED)
+            // ============================================================
             var heroTitle = document.getElementById('hero-title');
             var htmlHero = '';
             htmlHero += '<span class="name-line">' + names[0] + '</span>';
@@ -2378,14 +2448,18 @@
             htmlHero += '<span class="name-line">' + names[1] + '</span>';
             heroTitle.innerHTML = htmlHero;
 
-            // ---------- preloader ----------
+            // ============================================================
+            // 7. PRELOADER
+            // ============================================================
             window.addEventListener('load', function() {
                 setTimeout(function() {
                     document.getElementById('preloader').classList.add('hide');
                 }, 2400);
             });
 
-            // ---------- open invitation ----------
+            // ============================================================
+            // 8. OPEN INVITATION
+            // ============================================================
             var openBtn = document.getElementById('open-invite');
             var cover = document.getElementById('cover');
             var flash = document.getElementById('flash');
@@ -2418,7 +2492,9 @@
             });
             document.body.style.overflow = 'hidden';
 
-            // ---------- music player toggle ----------
+            // ============================================================
+            // 9. MUSIC PLAYER TOGGLE
+            // ============================================================
             var playToggle = document.getElementById('play-toggle');
             var iconPlay = document.getElementById('icon-play');
             var iconPause = document.getElementById('icon-pause');
@@ -2443,7 +2519,9 @@
                 }
             });
 
-            // ---------- reveal on scroll ----------
+            // ============================================================
+            // 10. REVEAL ON SCROLL
+            // ============================================================
             var revealEls = document.querySelectorAll('.reveal');
             var io = new IntersectionObserver(function(entries) {
                 entries.forEach(function(e) {
@@ -2452,10 +2530,14 @@
             }, { threshold: 0.18 });
             revealEls.forEach(function(el) { io.observe(el); });
 
-            // ---------- SECTION NAV & PROGRESS (tidak pakai dotnav lagi, pakai customProgress) ----------
+            // ============================================================
+            // 11. SECTION NAV & PROGRESS
+            // ============================================================
             var sections = document.querySelectorAll('[data-section]');
 
-            // ---------- CUSTOM PROGRESS (THEMED) ----------
+            // ============================================================
+            // 12. CUSTOM PROGRESS (THEMED)
+            // ============================================================
             var progressFill = document.getElementById('customProgressFill');
 
             function updateProgress(pct) {
@@ -2467,20 +2549,16 @@
                 }
             }
 
-            // ---------- SCROLL HANDLER ----------
+            // ============================================================
+            // 13. SCROLL HANDLER
+            // ============================================================
             function onScroll() {
                 var scrollTop = window.scrollY;
                 var docHeight = document.documentElement.scrollHeight - window.innerHeight;
                 var pct = Math.min(1, scrollTop / docHeight);
                 updateProgress(pct);
 
-                // Aktifkan section (untuk keperluan lain)
-                var activeIdx = 0;
-                sections.forEach(function(sec, i) {
-                    var r = sec.getBoundingClientRect();
-                    if (r.top < window.innerHeight * 0.5) activeIdx = i;
-                });
-                // update spine timeline
+                // Update spine timeline
                 var tl = document.getElementById('timeline');
                 if (tl) {
                     var r = tl.getBoundingClientRect();
@@ -2493,9 +2571,10 @@
             }
             window.addEventListener('scroll', onScroll, { passive: true });
 
-            // ---------- CUSTOM CURSOR (THEMED) ----------
+            // ============================================================
+            // 14. CUSTOM CURSOR (THEMED)
+            // ============================================================
             var cursorEl = document.getElementById('customCursor');
-            // Tentukan tema dari class body
             var theme = 'royal';
             var bodyClasses = document.body.className.split(' ');
             for (var i = 0; i < bodyClasses.length; i++) {
@@ -2508,7 +2587,6 @@
                 }
             }
 
-            // Pilih SVG cursor sesuai tema
             var cursorSVG = '';
             if (theme === 'hutan') {
                 cursorSVG =
@@ -2516,7 +2594,7 @@
             } else if (theme === 'chinese') {
                 cursorSVG =
                     '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#c62828" opacity="0.2" stroke="#c62828" stroke-width="1.5"/><text x="16" y="22" font-size="18" text-anchor="middle" fill="#c62828" font-family="serif">囍</text></svg>';
-            } else { // royal / default
+            } else {
                 cursorSVG =
                     '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="rgba(201,169,98,0.15)" stroke="#c9a962" stroke-width="1.5"/><polygon points="16,4 22,12 20,12 20,20 12,20 12,12 10,12" fill="#c9a962" opacity="0.9"/></svg>';
             }
@@ -2536,7 +2614,9 @@
                 cursorVisible = false;
             });
 
-            // ---------- countdown ----------
+            // ============================================================
+            // 15. COUNTDOWN
+            // ============================================================
             var target = new Date('2026-10-18T08:00:00+07:00').getTime();
 
             function tickCountdown() {
@@ -2554,7 +2634,9 @@
             tickCountdown();
             setInterval(tickCountdown, 1000);
 
-            // ---------- GALLERY (12 gambar) ----------
+            // ============================================================
+            // 16. GALLERY (12 gambar)
+            // ============================================================
             var galleryFiles = [
                 '1.webp', '2.webp', '3.webp', '4.webp',
                 '5.webp', '6.webp', '7.webp', '8.webp',
@@ -2580,7 +2662,9 @@
                 grid.appendChild(item);
             });
 
-            // ---------- lightbox ----------
+            // ============================================================
+            // 17. LIGHTBOX
+            // ============================================================
             document.getElementById('lightbox-close').addEventListener('click', function() {
                 document.getElementById('lightbox').classList.remove('open');
             });
@@ -2591,7 +2675,9 @@
                 if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
             });
 
-            // ---------- FAQ accordion ----------
+            // ============================================================
+            // 18. FAQ ACCORDION
+            // ============================================================
             document.querySelectorAll('.faq-item').forEach(function(item) {
                 var q = item.querySelector('.faq-q');
                 var a = item.querySelector('.faq-a');
@@ -2608,7 +2694,9 @@
                 });
             });
 
-            // ---------- calendar / navigation ----------
+            // ============================================================
+            // 19. CALENDAR / NAVIGATION
+            // ============================================================
             document.querySelectorAll('[data-cal]').forEach(function(b) {
                 b.addEventListener('click', function() {
                     var start = '20261018T010000Z',
@@ -2625,7 +2713,9 @@
                 });
             });
 
-            // ---------- copy address ----------
+            // ============================================================
+            // 20. COPY ADDRESS
+            // ============================================================
             document.getElementById('copy-address').addEventListener('click', function(e) {
                 navigator.clipboard.writeText('Jl. Kencana Raya No.8, Jakarta').then(function() {
                     var t = e.target.textContent;
@@ -2634,7 +2724,9 @@
                 }).catch(function() {});
             });
 
-            // ---------- copy account ----------
+            // ============================================================
+            // 21. COPY ACCOUNT
+            // ============================================================
             document.getElementById('copy-acc').addEventListener('click', function(e) {
                 navigator.clipboard.writeText('123456789099').then(function() {
                     var t = e.target.textContent;
@@ -2643,12 +2735,16 @@
                 }).catch(function() {});
             });
 
-            // ---------- download QR placeholder ----------
+            // ============================================================
+            // 22. DOWNLOAD QR PLACEHOLDER
+            // ============================================================
             document.getElementById('download-qr').addEventListener('click', function() {
                 alert('Ganti tombol ini untuk mengunduh file QRIS asli Anda.');
             });
 
-            // ---------- RSVP submit + confetti ----------
+            // ============================================================
+            // 23. RSVP SUBMIT + CONFETTI
+            // ============================================================
             var rsvpForm = document.getElementById('rsvp-form');
             rsvpForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -2678,7 +2774,9 @@
                 }
             }
 
-            // ---------- guest book ----------
+            // ============================================================
+            // 24. GUEST BOOK
+            // ============================================================
             var wishesList = document.getElementById('wishes-list');
             var seedWishes = [
                 { name: 'Michael & Sophia', msg: 'Selamat menempuh hidup baru! Semoga selalu bahagia dan langgeng.' },
@@ -2704,7 +2802,9 @@
                 e.target.reset();
             });
 
-            // ---------- ending line reveal ----------
+            // ============================================================
+            // 25. ENDING LINE REVEAL
+            // ============================================================
             var endingLine = document.getElementById('ending-line');
             var endingObs = new IntersectionObserver(function(entries) {
                 entries.forEach(function(e) {
@@ -2713,7 +2813,9 @@
             }, { threshold: 0.4 });
             if (endingLine) endingObs.observe(endingLine);
 
-            // ---------- inisialisasi progress pertama kali ----------
+            // ============================================================
+            // 26. INISIALISASI PROGRESS PERTAMA KALI
+            // ============================================================
             setTimeout(function() {
                 var scrollTop = window.scrollY;
                 var docHeight = document.documentElement.scrollHeight - window.innerHeight;
