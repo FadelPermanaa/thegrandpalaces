@@ -532,7 +532,7 @@ form#rsvp-form{ max-width:480px; margin:3rem auto 0; text-align:left; }
 .faq-q .plus{ color:var(--gold); transition:transform .4s var(--ease-soft); flex-shrink:0; }
 .faq-item.open .faq-q .plus{ transform:rotate(45deg); }
 .faq-a{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease-soft); }
-.faq-item.open .faq-a{ max-height:200px; }
+.faq-item.open .faq-a{ max-height:400px; }
 .faq-a p{ padding-bottom:1.3rem; color:var(--mist); font-size:.88rem; line-height:1.8; }
 
 /* ==========================================================================
@@ -585,6 +585,51 @@ form#rsvp-form{ max-width:480px; margin:3rem auto 0; text-align:left; }
 
 ::selection{ background:var(--gold); color:var(--pine-dark); }
 
+/* ==========================================================================
+   22. CUSTOM CURSOR — kunang-kunang & ranting berputar (bukan titik+lingkaran polos)
+   ========================================================================== */
+html.has-custom-cursor, html.has-custom-cursor *{ cursor:none !important; }
+#cx-glow{
+  position:fixed; top:0; left:0; width:240px; height:240px; border-radius:50%; z-index:70;
+  pointer-events:none; transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(201,164,92,.07), transparent 70%);
+}
+#cx-firefly{
+  position:fixed; top:0; left:0; z-index:72; pointer-events:none; transform:translate(-50%,-50%);
+  width:6px; height:6px; border-radius:50%; background:#e6c878;
+  box-shadow:0 0 8px 2px rgba(230,200,120,.85), 0 0 18px 4px rgba(230,200,120,.4);
+  transition:width .25s var(--ease-soft), height .25s var(--ease-soft), opacity .25s var(--ease-soft);
+  animation:fireflyPulse 1.8s ease-in-out infinite;
+}
+@keyframes fireflyPulse{ 0%,100%{ opacity:.75; } 50%{ opacity:1; } }
+#cx-twig{
+  position:fixed; top:0; left:0; z-index:71; pointer-events:none; transform:translate(-50%,-50%);
+  width:46px; height:46px;
+  transition:width .3s var(--ease-soft), height .3s var(--ease-soft), opacity .3s var(--ease-soft);
+}
+#cx-twig svg{ width:100%; height:100%; overflow:visible; animation:twigSpin 9s linear infinite; }
+#cx-twig .twig-line{ stroke:var(--gold-soft); stroke-width:1; opacity:.7; stroke-linecap:round; }
+#cx-twig .twig-leaf{ fill:var(--moss-light); opacity:.8; }
+@keyframes twigSpin{ to{ transform:rotate(360deg); } }
+
+html.cx-hover #cx-twig{ width:78px; height:78px; }
+html.cx-hover #cx-twig svg{ animation-duration:4s; }
+html.cx-hover #cx-firefly{ width:3px; height:3px; opacity:.5; }
+html.cx-view #cx-twig{ width:92px; height:92px; }
+#cx-label{
+  position:fixed; top:0; left:0; z-index:72; pointer-events:none; transform:translate(-50%,-50%);
+  font-family:var(--font-body); font-size:.6rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold-soft); opacity:0; transition:opacity .3s var(--ease-soft); white-space:nowrap;
+}
+html.cx-view #cx-label{ opacity:1; }
+html.cx-down #cx-firefly{ width:9px; height:9px; }
+html.cx-down #cx-twig{ width:36px; height:36px; }
+
+@media (hover:none), (pointer:coarse){
+  #cx-glow, #cx-firefly, #cx-twig, #cx-label{ display:none !important; }
+  html.has-custom-cursor, html.has-custom-cursor *{ cursor:auto !important; }
+}
+
 /* scrollbar */
 ::-webkit-scrollbar{ width:8px; }
 ::-webkit-scrollbar-track{ background:var(--pine-dark); }
@@ -597,6 +642,25 @@ form#rsvp-form{ max-width:480px; margin:3rem auto 0; text-align:left; }
 <div class="vignette"></div>
 <div id="progress-bar"></div>
 <div id="section-indicator"></div>
+
+<!-- ===================== CUSTOM CURSOR ===================== -->
+<div id="cx-glow"></div>
+<div id="cx-twig">
+  <svg viewBox="0 0 92 92">
+    <g transform="translate(46,46)">
+      <line class="twig-line" x1="-40" y1="0" x2="-14" y2="0"/>
+      <line class="twig-line" x1="14" y1="0" x2="40" y2="0"/>
+      <line class="twig-line" x1="0" y1="-40" x2="0" y2="-14"/>
+      <line class="twig-line" x1="0" y1="14" x2="0" y2="40"/>
+      <path class="twig-leaf" d="M-40 0 Q-33 -6 -26 0 Q-33 6 -40 0 Z"/>
+      <path class="twig-leaf" d="M40 0 Q33 -6 26 0 Q33 6 40 0 Z"/>
+      <path class="twig-leaf" d="M0 -40 Q-6 -33 0 -26 Q6 -33 0 -40 Z"/>
+      <path class="twig-leaf" d="M0 40 Q-6 33 0 26 Q6 33 0 40 Z"/>
+    </g>
+  </svg>
+</div>
+<div id="cx-firefly"></div>
+<div id="cx-label">Lihat</div>
 
 <!-- ===================== PRELOADER ===================== -->
 <div id="preloader">
@@ -1354,6 +1418,90 @@ else { drawFireflies(); drawLeaves(); }
     t.style.transform += ' translateX(-50%)';
     wrap.appendChild(t);
   }
+})();
+
+/* ---------------------------------------------------------------
+   14. Custom cursor — firefly + ranting berputar dengan lag halus
+--------------------------------------------------------------- */
+(function initCustomCursor(){
+  const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if(!fine || reduceMotion) return;
+
+  document.documentElement.classList.add('has-custom-cursor');
+  const glow = $('#cx-glow'), firefly = $('#cx-firefly'), twig = $('#cx-twig'), label = $('#cx-label');
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
+  let tx = mx, ty = my;
+
+  document.addEventListener('mousemove', (e)=>{
+    mx = e.clientX; my = e.clientY;
+    glow.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+    firefly.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+    label.style.transform = `translate(${mx}px, ${my+40}px) translate(-50%,-50%)`;
+  });
+
+  (function raf(){
+    tx += (mx-tx)*0.14; ty += (my-ty)*0.14;
+    twig.style.transform = `translate(${tx}px, ${ty}px) translate(-50%,-50%)`;
+    requestAnimationFrame(raf);
+  })();
+
+  document.addEventListener('mousedown', ()=>document.documentElement.classList.add('cx-down'));
+  document.addEventListener('mouseup', ()=>document.documentElement.classList.remove('cx-down'));
+
+  const hoverables = 'a, button, .faq-q, .gold-line, input, textarea, select, #nav-dots a, #music-toggle';
+  const viewables = '.gallery-item, .video-thumb, .portrait-frame';
+
+  document.addEventListener('mouseover', (e)=>{
+    if(e.target.closest(viewables)){
+      document.documentElement.classList.add('cx-hover','cx-view');
+      label.textContent = e.target.closest('.video-thumb') ? 'Putar' : 'Lihat';
+    } else if(e.target.closest(hoverables)){
+      document.documentElement.classList.add('cx-hover');
+      document.documentElement.classList.remove('cx-view');
+    }
+  });
+  document.addEventListener('mouseout', (e)=>{
+    const to = e.relatedTarget;
+    if(!to || !(to.closest && (to.closest(hoverables) || to.closest(viewables)))){
+      document.documentElement.classList.remove('cx-hover','cx-view');
+    }
+  });
+  document.addEventListener('mouseleave', ()=>{ firefly.style.opacity='0'; twig.style.opacity='0'; glow.style.opacity='0'; });
+  document.addEventListener('mouseenter', ()=>{ firefly.style.opacity='1'; twig.style.opacity='1'; glow.style.opacity='1'; });
+})();
+
+/* ---------------------------------------------------------------
+   15. Magnetic buttons — tombol utama sedikit "tertarik" ke kursor
+--------------------------------------------------------------- */
+(function initMagneticButtons(){
+  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches || reduceMotion) return;
+  $$('.open-btn, .pill-btn, .submit-btn, #music-toggle').forEach(btn=>{
+    btn.style.transition = btn.style.transition ? btn.style.transition+', transform .3s var(--ease-soft)' : 'transform .3s var(--ease-soft)';
+    btn.addEventListener('mousemove', (e)=>{
+      const r = btn.getBoundingClientRect();
+      const relX = e.clientX - r.left - r.width/2;
+      const relY = e.clientY - r.top - r.height/2;
+      btn.style.transform = `translate(${relX*0.2}px, ${relY*0.3}px)`;
+    });
+    btn.addEventListener('mouseleave', ()=>{ btn.style.transform = 'translate(0,0)'; });
+  });
+})();
+
+/* ---------------------------------------------------------------
+   16. Tilt halus pada foto mempelai (portrait-frame)
+--------------------------------------------------------------- */
+(function initPortraitTilt(){
+  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches || reduceMotion) return;
+  $$('.portrait-frame').forEach(frame=>{
+    frame.style.transition = 'transform .4s var(--ease-soft)';
+    frame.addEventListener('mousemove', (e)=>{
+      const r = frame.getBoundingClientRect();
+      const px = (e.clientX-r.left)/r.width - 0.5;
+      const py = (e.clientY-r.top)/r.height - 0.5;
+      frame.style.transform = `perspective(700px) rotateY(${px*9}deg) rotateX(${-py*9}deg) scale(1.02)`;
+    });
+    frame.addEventListener('mouseleave', ()=>{ frame.style.transform = 'perspective(700px) rotateY(0) rotateX(0) scale(1)'; });
+  });
 })();
 
 })();

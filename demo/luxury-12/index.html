@@ -292,10 +292,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .opening-names{
   font-family:var(--font-display);
-  font-size:clamp(2.6rem,8vw,6rem);
+  font-size:clamp(2.2rem,7vw,5.2rem);
   margin:1.2rem 0;
   letter-spacing:.01em;
+  display:flex;flex-direction:column;align-items:center;gap:.2em;line-height:1.1;
 }
+.opening-names .op-line{display:inline-block;}
+.opening-names #opAmp .letter{font-size:.42em;color:var(--chrome-accent);}
 .opening-names .letter{
   display:inline-block;
   opacity:0;
@@ -304,7 +307,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .opening-sub{
   font-family:var(--font-sub);font-style:italic;font-size:1.1rem;
-  color:var(--ink-faint);opacity:0;animation:fadeUp 1s ease forwards 3.4s;
+  color:var(--ink-faint);opacity:0;animation:fadeUp 1s ease forwards 3.9s;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @keyframes letterIn{to{opacity:1;transform:translateY(0);}}
@@ -312,7 +315,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 #openBtn{
   margin-top:3rem;
   opacity:0;
-  animation:fadeUp 1s ease forwards 4.4s;
+  animation:fadeUp 1s ease forwards 4.9s;
 }
 
 /* ============================================================
@@ -401,6 +404,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .hero-content{position:relative;z-index:3;padding:0 6vw;}
 .hero-content .heading-xl{margin:.6rem 0;}
+.hero-names{
+  display:flex;flex-direction:column;align-items:center;gap:.15em;line-height:1.08;
+}
+.hero-names .hn-amp{
+  font-family:var(--font-sub);font-style:italic;font-weight:300;
+  font-size:.42em;color:var(--silver-gray);
+}
 .hero-date{
   font-family:var(--font-sub);font-style:italic;
   font-size:clamp(1.05rem,1.6vw,1.4rem);
@@ -730,9 +740,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   color:rgba(255,255,255,.92);
 }
 .closing-names{
-  font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.6rem);margin:2rem 0 1rem;
+  font-family:var(--font-display);font-size:clamp(2rem,4.6vw,3.2rem);margin:2rem 0 1rem;
   position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:.18em;line-height:1.15;
 }
+.closing-names .cn-amp{font-family:var(--font-sub);font-style:italic;font-weight:300;font-size:.48em;color:rgba(255,255,255,.55);}
 .closing-hashtag{
   font-family:var(--font-body);letter-spacing:.2em;font-size:.85rem;color:var(--glass-blue);
   text-transform:uppercase;position:relative;z-index:2;
@@ -753,6 +765,97 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .center-text{text-align:center;}
 .mx-auto{margin-left:auto;margin-right:auto;}
+
+/* ============================================================
+   HEADING UNDERLINE REVEAL (chrome-line)
+   ============================================================ */
+.heading-lg{position:relative;display:inline-block;}
+.heading-lg::after{
+  content:"";position:absolute;left:0;bottom:-14px;height:1px;width:0;
+  background:linear-gradient(to right, var(--chrome-accent), var(--glass-blue), transparent);
+  transition:width 1.2s var(--ease-glass) .2s;
+}
+.center-text .heading-lg::after{left:50%;transform:translateX(-50%);}
+.reveal.is-visible .heading-lg::after{width:110px;}
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+#backToTop{
+  position:fixed;left:22px;bottom:22px;z-index:500;
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(10px) scale(.9);pointer-events:none;
+  transition:opacity .45s var(--ease-glass), transform .45s var(--ease-glass);
+}
+#backToTop.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+#backToTop svg{width:16px;height:16px;}
+@media (max-width:560px){#backToTop{left:14px;bottom:14px;width:40px;height:40px;}}
+
+/* ============================================================
+   COUPLE PHOTO TILT
+   ============================================================ */
+.couple-card{perspective:700px;}
+.couple-photo{transform-style:preserve-3d;transition:transform .4s var(--ease-glass);will-change:transform;}
+
+/* ============================================================
+   GLASS SHARD CLICK BURST
+   ============================================================ */
+.click-shard{
+  position:fixed;left:0;top:0;width:7px;height:14px;
+  background:linear-gradient(160deg, rgba(255,255,255,.95), rgba(183,210,234,.5));
+  border:1px solid rgba(255,255,255,.8);
+  pointer-events:none;z-index:499;opacity:1;
+  animation:shard-burst .75s var(--ease-glass) forwards;
+}
+@keyframes shard-burst{
+  to{transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(220deg);opacity:0;}
+}
+
+/* ============================================================
+   CUSTOM CURSOR — crystal facet
+   ============================================================ */
+@media (hover:hover) and (pointer:fine){
+  body, a, button, input, textarea, select, .g-item, #navDots a, .faq-q{cursor:none;}
+}
+#cursorRoot{opacity:0;transition:opacity .5s ease;}
+#cursorRoot.active{opacity:1;}
+#cursorCore{
+  position:fixed;top:0;left:0;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;
+  background:var(--chrome-accent);pointer-events:none;z-index:601;
+  transition:background .3s, width .25s var(--ease-glass), height .25s var(--ease-glass), margin .25s var(--ease-glass);
+}
+#cursorRoot.hover #cursorCore, #cursorRoot.drag #cursorCore{width:0;height:0;margin:0;}
+#cursorRoot.down #cursorCore{background:var(--glass-blue);}
+#cursorFacet{
+  position:fixed;top:0;left:0;width:28px;height:28px;margin:-14px 0 0 -14px;
+  pointer-events:none;z-index:600;
+  transition:width .4s var(--ease-glass), height .4s var(--ease-glass), margin .4s var(--ease-glass);
+}
+#cursorFacet svg{width:100%;height:100%;overflow:visible;display:block;}
+#cursorFacet .facet-shape{fill:rgba(183,210,234,.08);stroke:var(--chrome-accent);stroke-width:1.1;opacity:.85;}
+#cursorRoot.hover #cursorFacet{width:58px;height:58px;margin:-29px 0 0 -29px;}
+#cursorRoot.hover #cursorFacet .facet-shape{fill:rgba(183,210,234,.16);}
+#cursorRoot.drag #cursorFacet{width:48px;height:48px;margin:-24px 0 0 -24px;}
+#cursorLabel{
+  position:fixed;top:0;left:0;pointer-events:none;z-index:602;
+  font-family:var(--font-sub);font-style:italic;font-size:12px;letter-spacing:.06em;
+  color:var(--chrome-accent);opacity:0;transition:opacity .3s ease;white-space:nowrap;
+}
+#cursorRoot.hover #cursorLabel, #cursorRoot.drag #cursorLabel{opacity:1;}
+
+/* ============================================================
+   FIX: custom cursor muncul di opening
+   ============================================================ */
+#cursorRoot,
+#cursorCore,
+#cursorFacet,
+#cursorLabel {
+  z-index: 10001; /* di atas opening (z-index:900) */
+}
+#cursorRoot {
+  pointer-events: none; /* agar tidak mengganggu klik */
+}
 </style>
 </head>
 <body>
@@ -782,7 +885,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
   <div class="opening-inner">
     <span class="opening-eyebrow">The Wedding Of</span>
-    <h1 class="opening-names" id="openingNames" aria-label="Kalya & Aldrich"></h1>
+    <h1 class="opening-names" id="openingNames">
+      <span class="op-line" id="opBride"></span>
+      <span class="op-line" id="opAmp"></span>
+      <span class="op-line" id="opGroom"></span>
+    </h1>
     <p class="opening-sub">Sabtu, 14 November 2026 &nbsp;·&nbsp; Jakarta</p>
     <button class="btn-crystal" id="openBtn">
       <span>Buka Undangan</span>
@@ -795,6 +902,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
      ============================================================ -->
 <div id="scrollProgress"></div>
 <nav id="navDots" aria-label="Navigasi bagian"></nav>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursorRoot">
+  <div id="cursorFacet"></div>
+  <div id="cursorCore"></div>
+  <div id="cursorLabel"></div>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="backToTop" class="glass" aria-label="Kembali ke beranda">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3 L20 12 L12 21 L4 12 Z" stroke="#7c8fa0" stroke-width="1.3"/>
+    <path d="M12 8 L12 16 M8 12 L16 12" stroke="#7c8fa0" stroke-width="1.1"/>
+  </svg>
+</button>
 
 <div id="musicPlayer" class="glass">
   <button id="mpToggle" aria-label="Putar atau hentikan musik">
@@ -815,9 +937,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   <section id="hero" data-nav="Home">
     <div class="hero-glass-wall"></div>
     <div class="hero-floor-reflect"></div>
+    <div class="ambient">
+      <span style="width:180px;height:180px;left:12%;top:18%;animation-delay:0s;"></span>
+      <span style="width:120px;height:120px;left:78%;top:12%;animation-delay:2s;"></span>
+      <span style="width:90px;height:90px;left:65%;top:60%;animation-delay:4s;"></span>
+      <span style="width:140px;height:140px;left:20%;top:65%;animation-delay:1s;"></span>
+    </div>
     <div class="hero-content">
       <span class="eyebrow reveal">Undangan Pernikahan</span>
-      <h1 class="heading-xl reveal">Kalya <span style="color:var(--silver-gray);font-family:var(--font-sub);font-style:italic;font-weight:300">&amp;</span> Aldrich</h1>
+      <h1 class="heading-xl hero-names reveal"><span class="hn-line">Kalya</span><span class="hn-amp">&amp;</span><span class="hn-line">Aldrich,</span></h1>
       <p class="hero-date reveal">Sabtu, 14 November 2026</p>
     </div>
     <div class="hero-scrolldown"><span>Scroll</span><div class="line"></div></div>
@@ -1183,7 +1311,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 <footer id="closing">
   <div class="city-lights" id="cityLights"></div>
   <p class="closing-quote reveal">"Pure Love, Reflected In Every Moment"</p>
-  <h2 class="closing-names crystal-shimmer">Kalya &amp; Aldrich</h2>
+  <h2 class="closing-names"><span class="cn-line crystal-shimmer">Kalya</span><span class="cn-amp">&amp;</span><span class="cn-line crystal-shimmer">Aldrich,</span></h2>
   <div class="closing-hashtag">#KalyaAndAldrich2026</div>
   <p class="footer-note">Dibuat dengan penuh cinta — 2026</p>
 </footer>
@@ -1203,19 +1331,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('preloader').classList.add('hidden');
+    // Aktifkan custom cursor secara otomatis
+    const cr = document.getElementById('cursorRoot');
+    if (cr) cr.classList.add('active');
   }, 2200);
 });
 
-// letter-by-letter names in opening
-const names = "Kalya & Aldrich";
-const namesWrap = document.getElementById('openingNames');
-names.split('').forEach((ch, i) => {
-  const s = document.createElement('span');
-  s.className = 'letter';
-  s.textContent = ch === ' ' ? '\u00A0' : ch;
-  s.style.animationDelay = (2.5 + i * 0.045) + 's';
-  namesWrap.appendChild(s);
-});
+// letter-by-letter names in opening (Wanita / & / Pria)
+function typeLine(el, text, startDelay, step){
+  let delay = startDelay;
+  [...text].forEach(ch => {
+    const s = document.createElement('span');
+    s.className = 'letter';
+    s.textContent = ch === ' ' ? '\u00A0' : ch;
+    s.style.animationDelay = delay.toFixed(3) + 's';
+    el.appendChild(s);
+    delay += step;
+  });
+  return delay;
+}
+let nameDelay = 2.5;
+nameDelay = typeLine(document.getElementById('opBride'), 'Kalya', nameDelay, 0.045) + 0.22;
+nameDelay = typeLine(document.getElementById('opAmp'), '&', nameDelay, 0.045) + 0.22;
+typeLine(document.getElementById('opGroom'), 'Aldrich,', nameDelay, 0.045);
 
 const audio = document.getElementById('bgAudio');
 const openBtn = document.getElementById('openBtn');
@@ -1428,6 +1566,155 @@ window.addEventListener('scroll', () => {
     endTriggered = true;
   }
 });
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (backToTopBtn) backToTopBtn.classList.toggle('show', window.scrollY > window.innerHeight * 0.6);
+}, { passive: true });
+if (backToTopBtn) {
+  backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+/* ============================================================
+   COUPLE PHOTO TILT (glass facet sway)
+   ============================================================ */
+document.querySelectorAll('.couple-photo').forEach(p => {
+  p.addEventListener('mousemove', (e) => {
+    const r = p.getBoundingClientRect();
+    const rx = ((e.clientY - r.top) / r.height - 0.5) * -14;
+    const ry = ((e.clientX - r.left) / r.width - 0.5) * 14;
+    p.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+  });
+  p.addEventListener('mouseleave', () => { p.style.transform = ''; });
+});
+
+/* ============================================================
+   MAGNETIC BUTTONS
+   ============================================================ */
+document.querySelectorAll('.btn-crystal, .chip-btn').forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const r = btn.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width / 2;
+    const y = e.clientY - r.top - r.height / 2;
+    btn.style.transform = `translate(${x * 0.16}px, ${y * 0.16}px)`;
+  });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+});
+
+/* ============================================================
+   CLICK GLASS-SHARD BURST
+   ============================================================ */
+function spawnClickShards(x, y) {
+  for (let i = 0; i < 6; i++) {
+    const shard = document.createElement('div');
+    shard.className = 'click-shard';
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 18 + Math.random() * 32;
+    shard.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+    shard.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+    shard.style.left = x + 'px';
+    shard.style.top = y + 'px';
+    document.body.appendChild(shard);
+    setTimeout(() => shard.remove(), 800);
+  }
+}
+document.addEventListener('click', (e) => spawnClickShards(e.clientX, e.clientY));
+
+/* ============================================================
+   CUSTOM CURSOR — crystal facet (unique, not a plain dot+ring)
+   ============================================================ */
+(function () {
+  const isFinePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if (!isFinePointer) return;
+
+  const cursorRoot = document.getElementById('cursorRoot');
+  const cursorCore = document.getElementById('cursorCore');
+  const cursorFacet = document.getElementById('cursorFacet');
+  const cursorLabel = document.getElementById('cursorLabel');
+  if (!cursorRoot || !cursorFacet) return;
+
+  const templates = {
+    default: '<svg viewBox="0 0 40 40"><path class="facet-shape" d="M20 4 L34 16 L26 36 L14 36 L6 16 Z"/></svg>',
+    link: '<svg viewBox="0 0 40 40"><path class="facet-shape" d="M20 2 L38 20 L20 38 L2 20 Z M20 2 L20 38 M2 20 L38 20"/></svg>',
+    view: '<svg viewBox="0 0 40 40"><circle class="facet-shape" cx="17" cy="17" r="11"/><line class="facet-shape" x1="25" y1="25" x2="34" y2="34" stroke-linecap="round"/></svg>',
+    drag: '<svg viewBox="0 0 40 40"><path class="facet-shape" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M8 20 L14 14 M8 20 L14 26 M8 20 H32 M32 20 L26 14 M32 20 L26 26"/></svg>'
+  };
+  cursorFacet.innerHTML = templates.default;
+
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let coreX = mouseX, coreY = mouseY, facetX = mouseX, facetY = mouseY;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorRoot.classList.add('active');
+  });
+  window.addEventListener('mouseleave', () => cursorRoot.classList.remove('active'));
+  window.addEventListener('mousedown', () => cursorRoot.classList.add('down'));
+  window.addEventListener('mouseup', () => cursorRoot.classList.remove('down'));
+
+  function loop() {
+    coreX += (mouseX - coreX) * 0.9;
+    coreY += (mouseY - coreY) * 0.9;
+    facetX += (mouseX - facetX) * 0.15;
+    facetY += (mouseY - facetY) * 0.15;
+    const dx = mouseX - facetX, dy = mouseY - facetY;
+    const angle = (Math.abs(dx) + Math.abs(dy)) > 0.5 ? Math.atan2(dy, dx) * 180 / Math.PI + 45 : 0;
+    cursorCore.style.transform = `translate(${coreX}px, ${coreY}px)`;
+    cursorFacet.style.transform = `translate(${facetX}px, ${facetY}px) rotate(${angle}deg)`;
+    cursorLabel.style.transform = `translate(${facetX + 28}px, ${facetY + 22}px)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  let currentState = 'default';
+  function setCursorState(state, label) {
+    if (state === currentState && cursorLabel.textContent === (label || '')) return;
+    currentState = state;
+    cursorRoot.classList.remove('hover', 'drag');
+    if (state === 'default') {
+      cursorFacet.innerHTML = templates.default;
+      cursorLabel.textContent = '';
+      return;
+    }
+    cursorRoot.classList.add(state === 'drag' ? 'drag' : 'hover');
+    cursorFacet.innerHTML = templates[state] || templates.link;
+    cursorLabel.textContent = label || '';
+  }
+
+  function tagCursor(selector, state, label) {
+    document.querySelectorAll(selector).forEach(el => {
+      el.setAttribute('data-cursor', state);
+      if (label) el.setAttribute('data-cursor-label', label);
+    });
+  }
+  tagCursor('a, button, input, textarea, select', 'link');
+  tagCursor('.g-item', 'view', 'Lihat');
+  tagCursor('.btn-crystal', 'link', 'Buka');
+  tagCursor('.chip-btn', 'link', 'Pilih');
+  tagCursor('.faq-q', 'link', 'Info');
+  tagCursor('#mpToggle', 'link', 'Musik');
+  tagCursor('.mp-progress', 'drag', 'Geser');
+  tagCursor('#backToTop', 'link', 'Ke Atas');
+  tagCursor('.video-frame', 'view', 'Putar');
+  document.querySelectorAll('#navDots a').forEach(el => {
+    el.setAttribute('data-cursor', 'link');
+    el.setAttribute('data-cursor-label', el.title || 'Menuju');
+  });
+
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('[data-cursor]');
+    if (target) { setCursorState(target.getAttribute('data-cursor'), target.getAttribute('data-cursor-label')); }
+  });
+  document.addEventListener('mouseout', (e) => {
+    const from = e.target.closest('[data-cursor]');
+    if (!from) return;
+    const to = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-cursor]') : null;
+    if (!to || to !== from) { setCursorState('default'); }
+  });
+})();
 </script>
 </body>
 </html>

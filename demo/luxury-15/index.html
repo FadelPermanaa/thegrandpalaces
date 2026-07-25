@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Alessandro & Isabella — Amalfi Coast Wedding</title>
+<title>Isabella & Alessandro — Amalfi Coast Wedding</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -398,8 +398,22 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;}
   display:none;align-items:center;justify-content:center;padding:6vw;
 }
 #lightbox.open{display:flex;}
-#lightbox .lb-inner{width:min(560px,90vw);aspect-ratio:4/5;border-radius:6px;background:linear-gradient(150deg,var(--sand),var(--turquoise));position:relative;}
-#lightbox .lb-close{position:absolute;top:-42px;right:0;color:var(--ivory);font-family:var(--font-sub);letter-spacing:.2em;font-size:.75rem;text-transform:uppercase;}
+#lightbox .lb-inner{width:min(560px,90vw);max-height:86vh;border-radius:8px;background:var(--ivory);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.4);}
+#lightbox .lb-close{position:absolute;top:14px;right:14px;z-index:3;color:var(--ivory);font-family:var(--font-sub);letter-spacing:.15em;font-size:.68rem;text-transform:uppercase;background:rgba(11,54,84,.45);backdrop-filter:blur(4px);padding:7px 14px;border-radius:30px;transition:background .3s;}
+#lightbox .lb-close:hover{background:rgba(11,54,84,.75);}
+#lightbox .lb-photo{width:100%;aspect-ratio:4/5;background:linear-gradient(150deg,var(--sand),var(--turquoise));position:relative;overflow:hidden;transition:background 1.2s var(--ease-slow);}
+#lightbox .lb-photo::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.3),transparent 55%);}
+#lightbox .lb-caption{padding:18px 22px 6px;font-family:var(--font-display);font-style:italic;font-size:1.15rem;color:var(--ocean-deep);text-align:center;}
+#lightbox .lb-counter{padding:0 22px 18px;font-family:var(--font-sub);letter-spacing:.2em;font-size:.68rem;text-transform:uppercase;color:var(--terracotta);text-align:center;}
+.lb-arrow{
+  position:relative;z-index:3;width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  display:none;align-items:center;justify-content:center;color:var(--ivory);
+  background:rgba(251,245,236,.14);border:1px solid rgba(251,245,236,.4);
+  font-size:1rem;transition:background .3s,transform .3s;margin:0 clamp(6px,3vw,26px);
+}
+.lb-arrow:hover{background:rgba(251,245,236,.3);transform:scale(1.08);}
+#lightbox.open{gap:0;}
+@media (min-width:640px){ .lb-arrow{display:flex;} }
 
 /* ============================================================
    COUNTDOWN
@@ -438,6 +452,7 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;}
 .event-icon{width:44px;height:44px;color:var(--terracotta);margin-bottom:14px;}
 .event-name{font-family:var(--font-display);font-size:1.7rem;}
 .event-when{font-family:var(--font-sub);color:var(--ocean);margin:10px 0 4px;font-size:1.02rem;}
+.wib-note{display:inline-block;font-family:var(--font-body);font-size:.72rem;color:var(--terracotta);opacity:.8;}
 .event-where{font-family:var(--font-body);font-size:.85rem;color:var(--ocean-deep);opacity:.75;margin-bottom:20px;}
 .event-actions{display:flex;gap:10px;flex-wrap:wrap;}
 .chip{
@@ -565,6 +580,58 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;}
 .footer-hashtag{margin-top:24px;font-family:var(--font-sub);letter-spacing:.2em;color:var(--gold);}
 .footer-contact{margin-top:40px;display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--sand);}
 .footer-credit{margin-top:50px;font-size:.7rem;letter-spacing:.15em;color:rgba(251,245,236,.55);text-transform:uppercase;}
+.footer-share:hover{background:rgba(251,245,236,.18)!important;}
+
+/* ============================================================
+   SIGNATURE CUSTOM CURSOR — "Sundial Compass"
+   A gold diamond core + rotating tick-mark ring (echoes the
+   gold-divider ornament), trailing the pointer with soft ease.
+   Morphs per context instead of a plain dot-in-circle.
+   ============================================================ */
+html.has-cursor, html.has-cursor *{cursor:none !important;}
+.cursor-dot,.cursor-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;will-change:transform;}
+.cursor-dot{
+  width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--terracotta);
+  border-radius:2px;transform:rotate(45deg) scale(1);
+  transition:background .3s,opacity .3s,transform .25s var(--ease-soft);
+  opacity:0;
+}
+.cursor-ring{
+  width:42px;height:42px;margin:-21px 0 0 -21px;z-index:9998;
+  display:flex;align-items:center;justify-content:center;
+  transition:width .4s var(--ease-soft),height .4s var(--ease-soft),
+             margin .4s var(--ease-soft),background .35s,border-color .35s,opacity .3s;
+  border-radius:50%;opacity:0;
+}
+.cursor-ring svg{position:absolute;inset:0;width:100%;height:100%;animation:cursor-spin 9s linear infinite;transition:opacity .3s;}
+@keyframes cursor-spin{to{transform:rotate(360deg);}}
+.cursor-label{
+  position:relative;font-family:var(--font-sub);font-size:.56rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ivory);opacity:0;transition:opacity .25s;white-space:nowrap;
+}
+html.cursor-ready .cursor-dot,html.cursor-ready .cursor-ring{opacity:1;}
+
+/* hover over interactive elements: ring fills, ticks fade, label appears */
+.cursor-ring.st-hover{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(11,54,84,.82);}
+.cursor-ring.st-hover svg{opacity:0;}
+.cursor-ring.st-hover .cursor-label{opacity:1;}
+html.cursor-ready .cursor-dot.st-hidden{opacity:0;}
+
+/* text fields: ring becomes a thin blinking caret */
+.cursor-ring.st-text{width:2px;height:22px;margin:-11px 0 0 -1px;background:var(--terracotta);border-radius:2px;animation:caret-blink 1s step-end infinite;}
+.cursor-ring.st-text svg{display:none;}
+
+/* mousedown: quick pulse */
+.cursor-ring.st-down{transform:scale(.88);}
+@keyframes caret-blink{50%{opacity:.15;}}
+
+@media (pointer:coarse),(hover:none){
+  .cursor-dot,.cursor-ring{display:none !important;}
+  html.has-cursor,html.has-cursor *{cursor:auto !important;}
+}
+@media (prefers-reduced-motion: reduce){
+  .cursor-ring svg{animation:none;}
+}
 
 /* skip link / focus visibility */
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
@@ -573,6 +640,25 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 </style>
 </head>
 <body>
+
+<!-- ============ SIGNATURE CUSTOM CURSOR ============ -->
+<div class="cursor-ring" id="cursorRing">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="32" cy="32" r="30" stroke="var(--terracotta)" stroke-width="1" opacity=".55"/>
+    <g stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round">
+      <line x1="32" y1="2" x2="32" y2="9"/>
+      <line x1="32" y1="55" x2="32" y2="62"/>
+      <line x1="2" y1="32" x2="9" y2="32"/>
+      <line x1="55" y1="32" x2="62" y2="32"/>
+      <line x1="10.7" y1="10.7" x2="15.6" y2="15.6"/>
+      <line x1="48.4" y1="48.4" x2="53.3" y2="53.3"/>
+      <line x1="10.7" y1="53.3" x2="15.6" y2="48.4"/>
+      <line x1="48.4" y1="15.6" x2="53.3" y2="10.7"/>
+    </g>
+  </svg>
+  <span class="cursor-label" id="cursorLabel"></span>
+</div>
+<div class="cursor-dot" id="cursorDot"></div>
 
 <!-- ============ SIGNATURE SUN-PATH RAIL ============ -->
 <div id="oceanProgress"></div>
@@ -584,7 +670,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
     <div class="preloader-sun"></div>
     <div class="preloader-sea"></div>
   </div>
-  <div class="preloader-mono">A &amp; I</div>
+  <div class="preloader-mono">I &amp; A</div>
   <div class="preloader-label">Amalfi Coast &middot; Italia</div>
 </div>
 
@@ -743,10 +829,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   </div>
 </section>
 
-<div id="lightbox">
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Galeri foto">
+  <button class="lb-arrow lb-prev" id="lbPrev" aria-label="Foto sebelumnya">&#10094;</button>
   <div class="lb-inner">
     <div class="lb-close" id="lbClose">Tutup ✕</div>
+    <div class="lb-photo" id="lbPhoto"></div>
+    <div class="lb-caption" id="lbCaption"></div>
+    <div class="lb-counter" id="lbCounter"></div>
   </div>
+  <button class="lb-arrow lb-next" id="lbNext" aria-label="Foto berikutnya">&#10095;</button>
 </div>
 
 <!-- ============ COUNTDOWN ============ -->
@@ -776,20 +867,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
       <div class="event-card reveal">
         <svg class="event-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2l3 6 6 1-4.5 4.3L17.5 20 12 16.8 6.5 20l1-6.7L3 9l6-1z"/></svg>
         <div class="event-name">Holy Matrimony</div>
-        <div class="event-when">Sabtu, 12 September 2026 &middot; 15.00 WITA</div>
+        <div class="event-when">Sabtu, 12 September 2026 &middot; 15.00 CEST<span class="wib-note"> (± 20.00 WIB)</span></div>
         <div class="event-where">Chiesa di San Giovanni, Ravello</div>
         <div class="event-actions">
-          <a class="chip" href="#">+ Google Calendar</a>
-          <a class="chip" href="#">+ Apple Calendar</a>
+          <a class="chip" href="#" id="gcalCeremony">+ Google Calendar</a>
+          <a class="chip" href="#" id="icsCeremony">+ Apple Calendar</a>
         </div>
       </div>
       <div class="event-card reveal">
         <svg class="event-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20h16M6 20V10l6-5 6 5v10M9 20v-6h6v6"/></svg>
         <div class="event-name">Cliffside Reception</div>
-        <div class="event-when">Sabtu, 12 September 2026 &middot; 18.00 WITA</div>
+        <div class="event-when">Sabtu, 12 September 2026 &middot; 18.00 CEST<span class="wib-note"> (± 23.00 WIB)</span></div>
         <div class="event-where">Villa Cimbrone Terrace, Ravello</div>
         <div class="event-actions">
-          <a class="chip" href="#">Buka Navigasi</a>
+          <a class="chip" href="https://www.google.com/maps/dir/?api=1&destination=Villa+Cimbrone%2C+Ravello%2C+Italy" target="_blank" rel="noopener">Buka Navigasi</a>
           <a class="chip" id="copyAddr" href="#">Salin Alamat</a>
         </div>
       </div>
@@ -847,11 +938,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
     </div>
     <div class="gift-card reveal">
       <p class="section-sub" style="margin:0 auto;text-align:center;">Doa restu Anda adalah karunia terindah. Namun bila ingin memberi tanda kasih, kami menyediakan:</p>
-      <div class="qr-box" aria-label="Kode QRIS"></div>
-      <div class="acc-number">BCA &middot; 1234 5678 90 &middot; Isabella &amp; Alessandro</div>
+      <div class="qr-box" id="qrBox" aria-label="Kode QRIS"></div>
+      <div class="acc-number">BCA &middot; 1234 5678 90 &middot; a.n. Isabella &amp; Alessandro</div>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-        <a class="chip" href="#">Salin Nomor Rekening</a>
-        <a class="chip" href="#">Unduh QRIS</a>
+        <a class="chip" href="#" id="copyAcc">Salin Nomor Rekening</a>
+        <a class="chip" href="#" id="downloadQr">Unduh QRIS</a>
       </div>
     </div>
   </div>
@@ -940,11 +1031,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   <div class="villa-lights"></div>
   <div class="container" style="position:relative;z-index:2;">
     <div class="reveal footer-tagline">&ldquo;Like The Endless Sea, Our Love Knows No Horizon.&rdquo;</div>
-    <div class="reveal footer-names">Alessandro &amp; Isabella</div>
+    <div class="reveal footer-names">Isabella &amp; Alessandro</div>
     <div class="reveal footer-date">12 September 2026 &middot; Ravello, Italia</div>
-    <div class="reveal footer-hashtag">#AlessandroIsabellaInAmalfi</div>
+    <div class="reveal footer-hashtag">#IsabellaAlessandroInAmalfi</div>
     <div class="reveal footer-contact">
       <span>Dengan penuh syukur, kami menantikan kehadiran Anda.</span>
+      <button class="chip footer-share" id="shareBtn" style="margin:16px auto 0;border-color:rgba(251,245,236,.4);color:var(--ivory);"><span>Bagikan Undangan Ini</span></button>
     </div>
     <div class="footer-credit">Amalfi Coast Luxury Wedding &middot; Made with love</div>
   </div>
@@ -952,24 +1044,138 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 
 <script>
 (function(){
+  // ---------- signature custom cursor ----------
+  (function initCursor(){
+    const isFinePointer = window.matchMedia && window.matchMedia('(pointer:fine)').matches && !('ontouchstart' in window);
+    if(!isFinePointer) return;
+    document.documentElement.classList.add('has-cursor');
+    const dot=document.getElementById('cursorDot');
+    const ring=document.getElementById('cursorRing');
+    const label=document.getElementById('cursorLabel');
+    let mx=window.innerWidth/2, my=window.innerHeight/2;
+    let rx=mx, ry=my;
+    let started=false;
+
+    window.addEventListener('mousemove',(e)=>{
+      mx=e.clientX; my=e.clientY;
+      dot.style.transform=`translate(${mx}px,${my}px) rotate(45deg)`;
+      if(!started){ started=true; rx=mx; ry=my; document.documentElement.classList.add('cursor-ready'); }
+    },{passive:true});
+
+    function raf(){
+      rx+=(mx-rx)*0.16; ry+=(my-ry)*0.16;
+      ring.style.transform=`translate(${rx}px,${ry}px)`;
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    const hoverMap=[
+      ['#openBtn, .btn-luxury','Buka'],
+      ['.frame','Lihat'],
+      ['.chip','Klik'],
+      ['#playToggle, #muteToggle','Putar'],
+      ['.nav-dot','Menuju'],
+      ['.lb-arrow','Geser'],
+      ['.player-track','Geser'],
+      ['.lb-close','Tutup'],
+      ['.faq-item','Info'],
+      ['.wish-card','Ucapan'],
+      ['a, button','Klik']
+    ];
+    function matchLabel(el){
+      for(const [sel,text] of hoverMap){
+        if(el.closest(sel)) return text;
+      }
+      return null;
+    }
+    document.addEventListener('mouseover',(e)=>{
+      const textField=e.target.closest('input,textarea,select');
+      if(textField){
+        ring.className='cursor-ring st-text';
+        dot.classList.add('st-hidden');
+        return;
+      }
+      const text=matchLabel(e.target);
+      if(text){
+        ring.className='cursor-ring st-hover';
+        label.textContent=text;
+        dot.classList.add('st-hidden');
+      }else{
+        ring.className='cursor-ring';
+        dot.classList.remove('st-hidden');
+      }
+    });
+    window.addEventListener('mousedown',()=>ring.classList.add('st-down'));
+    window.addEventListener('mouseup',()=>ring.classList.remove('st-down'));
+    document.addEventListener('mouseleave',()=>{document.documentElement.classList.remove('cursor-ready');});
+    document.addEventListener('mouseenter',()=>{document.documentElement.classList.add('cursor-ready');});
+  })();
+
   // ---------- data ----------
   const tones = [
     ['#E8D6B3','#6EC1C2'],['#4A90B8','#0B3654'],['#C1613D','#E8D6B3'],
     ['#6E7B4E','#E8D6B3'],['#D9A857','#C4577E'],['#2E6E8E','#6EC1C2'],
     ['#C4577E','#F7D9A8'],['#0B3654','#4A90B8']
   ];
+  const galleryCaptions=[
+    'Pertemuan pertama di kafe tepi laut',
+    'Menyusuri jalan setapak Positano',
+    'Senja keemasan di atas tebing',
+    'Tawa yang mengalun sepanjang Ravello',
+    'Aroma lemon dan angin Mediterania',
+    'Langkah kecil menuju janji besar',
+    'Lamaran di ujung tebing saat senja',
+    'Menghitung hari menuju Villa Cimbrone'
+  ];
   const masonry = document.getElementById('masonry');
+  const gEls=[];
   for(let i=0;i<8;i++){
     const f=document.createElement('div');f.className='frame';
     const ph=document.createElement('div');ph.className='ph';
     ph.style.setProperty('--tone1',tones[i][0]);ph.style.setProperty('--tone2',tones[i][1]);
     ph.style.setProperty('--ar', (i%3===0)?'1/1':(i%3===1?'4/5':'1/1.3'));
-    f.appendChild(ph);f.addEventListener('click',()=>lightbox.classList.add('open'));
+    f.appendChild(ph);
+    f.addEventListener('click',()=>openLightbox(i));
     masonry.appendChild(f);
+    gEls.push(f);
   }
+
   const lightbox=document.getElementById('lightbox');
-  document.getElementById('lbClose').addEventListener('click',()=>lightbox.classList.remove('open'));
-  lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.classList.remove('open');});
+  const lbPhoto=document.getElementById('lbPhoto');
+  const lbCaption=document.getElementById('lbCaption');
+  const lbCounter=document.getElementById('lbCounter');
+  let lbIndex=0;
+
+  function renderLightbox(){
+    lbPhoto.style.background=`linear-gradient(150deg,${tones[lbIndex][0]},${tones[lbIndex][1]})`;
+    lbCaption.textContent=galleryCaptions[lbIndex];
+    lbCounter.textContent=`${lbIndex+1} / ${tones.length}`;
+  }
+  let prevOverflow='';
+  function openLightbox(i){
+    lbIndex=i;renderLightbox();
+    lightbox.classList.add('open');
+    prevOverflow=document.body.style.overflow;
+    document.body.style.overflow='hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow=prevOverflow;
+  }
+  function stepLightbox(dir){
+    lbIndex=(lbIndex+dir+tones.length)%tones.length;
+    renderLightbox();
+  }
+  document.getElementById('lbClose').addEventListener('click',closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click',()=>stepLightbox(-1));
+  document.getElementById('lbNext').addEventListener('click',()=>stepLightbox(1));
+  lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+  window.addEventListener('keydown',e=>{
+    if(!lightbox.classList.contains('open'))return;
+    if(e.key==='Escape')closeLightbox();
+    if(e.key==='ArrowLeft')stepLightbox(-1);
+    if(e.key==='ArrowRight')stepLightbox(1);
+  });
 
   const wishes=[
     ['Marco & Elena','Selamat menempuh hidup baru! Semoga selalu bahagia seperti pesisir Amalfi yang tenang.'],
@@ -1000,7 +1206,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 
   // ---------- cover name letters ----------
   const coverNames=document.getElementById('coverNames');
-  const nameStr="Alessandro & Isabella";
+  const nameStr="Isabella & Alessandro";
   [...nameStr].forEach((ch,i)=>{
     const span=document.createElement('span');
     span.className='letter';
@@ -1109,7 +1315,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   onScroll();
 
   // ---------- countdown ----------
-  const weddingDate=new Date('2026-09-12T15:00:00+08:00').getTime();
+  const weddingDate=new Date('2026-09-12T15:00:00+02:00').getTime(); // 15:00 CEST, Ravello, Italia
   function tick(){
     const now=Date.now();
     let diff=Math.max(0,weddingDate-now);
@@ -1130,6 +1336,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
     e.currentTarget.style.display='none';
     const success=document.getElementById('rsvpSuccess');
     success.classList.add('show','in');
+    for(let i=0;i<26;i++){ setTimeout(()=>spawnPetal(true),i*45); }
   });
 
   // ---------- copy address ----------
@@ -1140,17 +1347,123 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
     el.textContent='Alamat Disalin ✓'; setTimeout(()=>el.textContent=orig,1800);
   });
 
+  // ---------- copy account number ----------
+  document.getElementById('copyAcc').addEventListener('click',(e)=>{
+    e.preventDefault();
+    navigator.clipboard && navigator.clipboard.writeText('BCA 1234 5678 90 a.n. Isabella & Alessandro');
+    const el=e.currentTarget; const orig=el.textContent;
+    el.textContent='Nomor Disalin ✓'; setTimeout(()=>el.textContent=orig,1800);
+  });
+
+  // ---------- generate + download QRIS (canvas render of the swatch) ----------
+  document.getElementById('downloadQr').addEventListener('click',(e)=>{
+    e.preventDefault();
+    const size=340, canvas=document.createElement('canvas');
+    canvas.width=size;canvas.height=size;
+    const ctx=canvas.getContext('2d');
+    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,size,size);
+    const cell=size/16;
+    for(let y=0;y<16;y++){
+      for(let x=0;x<16;x++){
+        const border=(x<2||x>13||y<2||y>13);
+        const noise=((x*31+y*17)%7===0);
+        if(border || noise){
+          ctx.fillStyle='#0B3654';
+          ctx.fillRect(x*cell,y*cell,cell,cell);
+        }
+      }
+    }
+    // corner markers
+    [[0,0],[13,0],[0,13]].forEach(([cx,cy])=>{
+      ctx.fillStyle='#0B3654';ctx.fillRect(cx*cell,cy*cell,cell*3,cell*3);
+      ctx.fillStyle='#ffffff';ctx.fillRect((cx+.6)*cell,(cy+.6)*cell,cell*1.8,cell*1.8);
+      ctx.fillStyle='#0B3654';ctx.fillRect((cx+1.1)*cell,(cy+1.1)*cell,cell*.8,cell*.8);
+    });
+    const link=document.createElement('a');
+    link.download='QRIS-IsabellaAlessandro.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+    const el=e.currentTarget; const orig=el.textContent;
+    el.textContent='QRIS Terunduh ✓'; setTimeout(()=>el.textContent=orig,1800);
+  });
+
+  // ---------- add-to-calendar links ----------
+  function pad(n){return String(n).padStart(2,'0');}
+  function toICSDate(d){
+    return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate())+'T'+pad(d.getUTCHours())+pad(d.getUTCMinutes())+'00Z';
+  }
+  const ceremonyStart=new Date('2026-09-12T15:00:00+02:00');
+  const ceremonyEnd=new Date('2026-09-12T16:30:00+02:00');
+  const evtTitle='Pernikahan Isabella & Alessandro';
+  const evtLoc='Chiesa di San Giovanni, Ravello, Italia';
+  const evtDesc='Holy Matrimony — Isabella & Alessandro, Ravello, Italia';
+
+  document.getElementById('gcalCeremony').addEventListener('click',(e)=>{
+    e.preventDefault();
+    const url='https://calendar.google.com/calendar/render?action=TEMPLATE'
+      +'&text='+encodeURIComponent(evtTitle)
+      +'&dates='+toICSDate(ceremonyStart)+'/'+toICSDate(ceremonyEnd)
+      +'&details='+encodeURIComponent(evtDesc)
+      +'&location='+encodeURIComponent(evtLoc);
+    window.open(url,'_blank');
+  });
+
+  document.getElementById('icsCeremony').addEventListener('click',(e)=>{
+    e.preventDefault();
+    const ics=[
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//IsabellaAlessandro//Wedding//ID','BEGIN:VEVENT',
+      'UID:'+Date.now()+'@isabella-alessandro-wedding',
+      'DTSTAMP:'+toICSDate(new Date()),
+      'DTSTART:'+toICSDate(ceremonyStart),
+      'DTEND:'+toICSDate(ceremonyEnd),
+      'SUMMARY:'+evtTitle,
+      'DESCRIPTION:'+evtDesc,
+      'LOCATION:'+evtLoc,
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    const blob=new Blob([ics],{type:'text/calendar'});
+    const link=document.createElement('a');
+    link.href=URL.createObjectURL(blob);
+    link.download='pernikahan-isabella-alessandro.ics';
+    link.click();
+  });
+
+  // ---------- share invitation ----------
+  const shareBtn=document.getElementById('shareBtn');
+  if(shareBtn){
+    shareBtn.addEventListener('click',async ()=>{
+      const shareData={title:'Undangan Pernikahan Isabella & Alessandro',text:'Kami mengundang Anda ke pernikahan kami di Ravello, Italia.',url:location.href};
+      try{
+        if(navigator.share){ await navigator.share(shareData); }
+        else{
+          await navigator.clipboard.writeText(location.href);
+          const orig=shareBtn.innerHTML;
+          shareBtn.innerHTML='<span>Tautan Disalin ✓</span>';
+          setTimeout(()=>shareBtn.innerHTML=orig,1800);
+        }
+      }catch(err){ /* share cancelled */ }
+    });
+  }
+
   // ---------- bougainvillea petals ----------
-  function spawnPetal(){
+  function spawnPetal(burst){
     const p=document.createElement('div');p.className='petal';
-    p.style.left=Math.random()*100+'vw';
-    p.style.setProperty('--drift',(Math.random()*120-60)+'px');
-    p.style.animationDuration=(9+Math.random()*6)+'s';
+    if(burst){
+      p.style.left=(30+Math.random()*40)+'vw';
+      p.style.top='30%';
+      p.style.setProperty('--drift',(Math.random()*200-100)+'px');
+      p.style.animationDuration=(2.2+Math.random()*1.6)+'s';
+      p.style.width=p.style.height=(6+Math.random()*8)+'px';
+    }else{
+      p.style.left=Math.random()*100+'vw';
+      p.style.setProperty('--drift',(Math.random()*120-60)+'px');
+      p.style.animationDuration=(9+Math.random()*6)+'s';
+    }
     p.style.background=Math.random()>0.5?'#C4577E':'#E0A458';
     document.body.appendChild(p);
-    setTimeout(()=>p.remove(),16000);
+    setTimeout(()=>p.remove(),burst?4000:16000);
   }
-  setInterval(spawnPetal,1800);
+  setInterval(()=>spawnPetal(false),1800);
 })();
 </script>
 </body>
