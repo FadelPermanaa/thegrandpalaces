@@ -41,17 +41,82 @@
             --ease-bounce: cubic-bezier(.34, 1.56, .64, 1);
         }
 
-        /* ===== CUSTOM CURSOR — mewah ===== */
-        body {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="%23C7A468" stroke-width="1.5" /><circle cx="16" cy="16" r="8" fill="none" stroke="%23C7A468" stroke-width="1.2" /><circle cx="16" cy="16" r="2.5" fill="%23C7A468" /><path d="M16 2 L18 10 L16 8 L14 10 Z" fill="%23C7A468" opacity="0.7"/><path d="M16 30 L14 22 L16 24 L18 22 Z" fill="%23C7A468" opacity="0.7"/><path d="M2 16 L10 14 L8 16 L10 18 Z" fill="%23C7A468" opacity="0.7"/><path d="M30 16 L22 18 L24 16 L22 14 Z" fill="%23C7A468" opacity="0.7"/></svg>') 16 16, auto;
+        /* ===== CUSTOM CURSOR — kuntum bunga & varian unik (menggantikan bentuk eclipse) ===== */
+        @media (pointer: fine) {
+            html.cx-active, html.cx-active a, html.cx-active button, html.cx-active .btn,
+            html.cx-active .chip, html.cx-active .gallery-item, html.cx-active .story-item,
+            html.cx-active .event-card, html.cx-active .contact-card, html.cx-active .info-card,
+            html.cx-active .faq-q, html.cx-active .swatch, html.cx-active .couple-flip,
+            html.cx-active input, html.cx-active textarea, html.cx-active select {
+                cursor: none;
+            }
         }
-        /* efek hover mewah */
-        a:hover, button:hover, .btn:hover, .chip:hover, .gallery-item:hover, .story-item:hover, .event-card:hover, .contact-card:hover, .info-card:hover, .faq-q:hover, .swatch:hover, .couple-flip:hover {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="%23E08A4E" stroke-width="2" /><circle cx="20" cy="20" r="10" fill="none" stroke="%23E08A4E" stroke-width="1.5" /><circle cx="20" cy="20" r="3" fill="%23E08A4E" /><path d="M20 4 L22 12 L20 10 L18 12 Z" fill="%23E08A4E" opacity="0.8"/><path d="M20 36 L18 28 L20 30 L22 28 Z" fill="%23E08A4E" opacity="0.8"/><path d="M4 20 L12 18 L10 20 L12 22 Z" fill="%23E08A4E" opacity="0.8"/><path d="M36 20 L28 22 L30 20 L28 18 Z" fill="%23E08A4E" opacity="0.8"/></svg>') 20 20, auto;
+        #cx-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--terracotta-deep);
+            pointer-events: none;
+            z-index: 10001;
+            transform: translate(-50%, -50%);
+            transition: background .35s ease, width .2s ease, height .2s ease, opacity .2s ease;
         }
-        /* fallback jika gambar tidak support */
-        @supports not (cursor: url()) {
-            body { cursor: pointer; }
+        #cx-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 42px;
+            height: 42px;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: width .35s var(--ease-bounce), height .35s var(--ease-bounce), opacity .25s ease;
+            opacity: 0;
+        }
+        #cx-ring.show { opacity: 1; }
+        #cx-ring svg { width: 100%; height: 100%; overflow: visible; }
+        #cx-ring .cx-petals { animation: cxSpin 10s linear infinite; transform-origin: 20px 20px; }
+        #cx-ring.cx-hover { width: 64px; height: 64px; }
+        #cx-ring.cx-hover .cx-petals { animation-duration: 3.2s; }
+        #cx-ring.cx-text {
+            width: 2px;
+            height: 24px;
+            background: var(--terracotta-deep);
+            border-radius: 2px;
+            animation: cxBlink 1s steps(1) infinite;
+        }
+        #cx-ring.cx-text svg { display: none; }
+        @keyframes cxSpin { to { transform: rotate(360deg); } }
+        @keyframes cxBlink { 50% { opacity: 0; } }
+        #cx-label {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10002;
+            font-family: var(--font-mono-caps);
+            font-size: .58rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--cream);
+            background: var(--terracotta-deep);
+            padding: .3rem .6rem;
+            border-radius: 999px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translate(-50%, 24px) scale(.75);
+            transition: opacity .25s ease, transform .25s var(--ease-bounce);
+            box-shadow: 0 6px 18px rgba(90, 50, 20, .3);
+        }
+        #cx-label.show { opacity: 1; transform: translate(-50%, 30px) scale(1); }
+        @media (pointer: coarse), (hover: none) {
+            #cx-dot, #cx-ring, #cx-label { display: none !important; }
         }
 
         /* ============================================================
@@ -305,14 +370,17 @@
             background: linear-gradient(180deg, #F9DFA9 0%, #E9A868 32%, #C1774E 68%, #7A5240 100%);
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             flex-direction: column;
             text-align: center;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 6vh 0 4vh;
             opacity: 0;
             visibility: hidden;
             transition: opacity 1s ease, visibility 1s, transform 1.4s var(--ease-slow);
         }
+        #opening::-webkit-scrollbar { width: 0; height: 0; }
         #opening.show {
             opacity: 1;
             visibility: visible;
@@ -389,17 +457,20 @@
 
         .op-names {
             margin-top: 1rem;
-            font-size: clamp(2.6rem, 8vw, 5.2rem);
+            font-size: clamp(2.2rem, 6.6vw, 4.2rem);
             color: #fff;
             font-weight: 500;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: .15em;
+            align-items: center;
+            gap: .1em;
+            line-height: 1.08;
             text-shadow: 0 6px 30px rgba(90, 50, 20, .35);
         }
         .op-names .word {
             display: inline-flex;
+            white-space: nowrap;
         }
         .op-names .letter {
             opacity: 0;
@@ -409,9 +480,21 @@
         .op-amp {
             font-style: italic;
             color: var(--gold-soft);
-            margin: 0 .1em;
             opacity: 0;
             animation: opFade .8s ease forwards 1.6s;
+        }
+        .op-amp.op-amp-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: .5em;
+            height: .5em;
+            font-size: .4em;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-soft);
+            background: rgba(255, 255, 255, .08);
+            box-shadow: 0 6px 18px rgba(90, 50, 20, .3);
+            margin: .18em 0;
         }
         @keyframes opLetter {
             to {
@@ -429,10 +512,58 @@
             opacity: 0;
             animation: opFade 1s ease forwards 2.1s;
         }
-        .op-btn {
-            margin-top: 2.4rem;
+        .op-guest {
+            margin-top: 1.2rem;
             opacity: 0;
-            animation: opFade 1s ease forwards 2.5s;
+            animation: opFade 1s ease forwards 2.35s;
+        }
+        .op-guest-label {
+            font-family: var(--font-mono-caps);
+            font-size: .62rem;
+            letter-spacing: .32em;
+            text-transform: uppercase;
+            color: var(--gold-soft);
+        }
+        .op-guest-role {
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: .82rem;
+            color: var(--cream);
+            opacity: .85;
+            margin-top: .35rem;
+            letter-spacing: .02em;
+        }
+        .op-guest-name {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(1.25rem, 3.2vw, 1.8rem);
+            color: #fff;
+            margin-top: .45rem;
+            padding: 0 .3rem .45rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .4);
+            display: inline-block;
+            min-width: 220px;
+            max-width: 80vw;
+            overflow-wrap: break-word;
+        }
+        .op-btn {
+            margin-top: 1.4rem;
+            margin-bottom: .5rem;
+            opacity: 0;
+            animation: opFade 1s ease forwards 2.85s;
+        }
+
+        @media (max-height: 700px) {
+            #opening { padding: 3vh 0 3vh; }
+            .op-line { margin-bottom: .8rem; }
+            @keyframes opGrowLine { to { height: 28px; } }
+            .op-monogram { font-size: clamp(1.5rem, 4vw, 2rem); }
+            .op-names { margin-top: .5rem; font-size: clamp(1.7rem, 5.5vw, 3rem); }
+            .op-date { margin-top: .6rem; }
+            .op-guest { margin-top: .8rem; }
+            .op-guest-name { margin-top: .3rem; }
+            .op-btn { margin-top: 1rem; }
         }
 
         .btn {
@@ -612,14 +743,38 @@
         }
         .hero-names {
             color: #fff;
-            font-size: clamp(3.2rem, 9vw, 6.4rem);
-            margin: .5rem 0;
+            font-size: clamp(2.5rem, 7.4vw, 4.8rem);
+            margin: .6rem 0;
             text-shadow: 0 8px 40px rgba(90, 50, 20, .4);
             opacity: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.08;
+            gap: .05em;
         }
-        .hero-names .amp {
+        .hero-names .name-line {
+            display: block;
+            white-space: nowrap;
+        }
+        .hero-names .amp,
+        .hero-names .amp-badge {
             font-style: italic;
             color: var(--gold-soft);
+        }
+        .hero-names .amp-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: .58em;
+            height: .58em;
+            font-size: .36em;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-soft);
+            background: rgba(255, 255, 255, .08);
+            box-shadow: 0 6px 20px rgba(90, 50, 20, .3), inset 0 0 12px rgba(255, 246, 220, .25);
+            margin: .16em 0;
+            line-height: 1;
         }
         .hero-date {
             color: var(--cream);
@@ -2047,6 +2202,20 @@
     </style>
 </head>
 <body>
+    <!-- ========== CUSTOM CURSOR ========== -->
+    <div id="cx-dot"></div>
+    <div id="cx-ring">
+        <svg viewBox="0 0 40 40" id="cxRingSvg">
+            <g class="cx-petals">
+                <path d="M20 3 C24 9 24 15 20 20 C16 15 16 9 20 3Z" fill="none" stroke="var(--terracotta-deep)" stroke-width="1.2"/>
+                <path d="M37 20 C31 24 25 24 20 20 C25 16 31 16 37 20Z" fill="none" stroke="var(--terracotta-deep)" stroke-width="1.2"/>
+                <path d="M20 37 C16 31 16 25 20 20 C24 25 24 31 20 37Z" fill="none" stroke="var(--terracotta-deep)" stroke-width="1.2"/>
+                <path d="M3 20 C9 16 15 16 20 20 C15 24 9 24 3 20Z" fill="none" stroke="var(--terracotta-deep)" stroke-width="1.2"/>
+            </g>
+            <circle cx="20" cy="20" r="2" fill="var(--terracotta-deep)"/>
+        </svg>
+    </div>
+    <div id="cx-label"></div>
 
     <!-- ========== CANVAS: PARTICLES ========== -->
     <canvas id="particle-canvas"></canvas>
@@ -2080,11 +2249,16 @@
             <div class="op-line"></div>
             <div class="op-monogram">A &amp; I</div>
             <h1 class="op-names">
-                <span class="word" data-word="Alessandro"></span>
-                <span class="op-amp">&amp;</span>
                 <span class="word" data-word="Isabella"></span>
+                <span class="op-amp op-amp-badge">&amp;</span>
+                <span class="word" data-word="Alessandro"></span>
             </h1>
             <div class="op-date">28 · JUNI · 2027 — TUSCANY, ITALY</div>
+            <div class="op-guest" id="opGuest">
+                <div class="op-guest-label">Kepada Yth.</div>
+                <div class="op-guest-role">Bapak/Ibu/Saudara/i</div>
+                <div class="op-guest-name" id="guestName">Tamu Undangan</div>
+            </div>
             <div class="op-btn">
                 <button class="btn" id="openBtn">Buka Undangan</button>
             </div>
@@ -2107,7 +2281,11 @@
         </div>
         <div class="hero-inner" id="heroParallax">
             <div class="hero-eyebrow" id="he1">THE WEDDING OF</div>
-            <h1 class="hero-names" id="he2">Alessandro <span class="amp">&amp;</span> Isabella</h1>
+            <h1 class="hero-names" id="he2">
+                <span class="name-line">Isabella</span>
+                <span class="amp-badge">&amp;</span>
+                <span class="name-line">Alessandro</span>
+            </h1>
             <div class="hero-date" id="he3">28 JUNE 2027 · VILLA DEL SOLE, TUSCANY</div>
             <div class="hero-scroll" id="he4"><span>SCROLL</span><span class="stem"></span></div>
         </div>
@@ -2609,6 +2787,35 @@
                 }
             }
             setTimeout(updateLoad, 300);
+        })();
+
+        /* ================================================================
+           GUEST NAME — dari parameter URL ?guest=Nama+Tamu
+           ================================================================ */
+        (function() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                let guest = params.get('guest');
+                const guestNameEl = document.getElementById('guestName');
+                if (guest && guest.trim()) {
+                    guest = guest.replace(/[-_]/g, ' ').trim();
+                    guest = guest.replace(/\s+/g, ' ');
+                    guest = guest.replace(/\b\w/g, (c) => c.toUpperCase());
+                    if (guestNameEl) guestNameEl.textContent = guest;
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const rsvpName = document.getElementById('rsvpName');
+                        if (rsvpName && !rsvpName.value) rsvpName.value = guest;
+                    });
+                    if (document.readyState !== 'loading') {
+                        const rsvpName = document.getElementById('rsvpName');
+                        if (rsvpName && !rsvpName.value) rsvpName.value = guest;
+                    }
+                } else if (guestNameEl) {
+                    guestNameEl.textContent = 'Tamu Undangan';
+                }
+            } catch (err) {
+                console.warn('Guest param parsing skipped:', err);
+            }
         })();
 
         // letter-by-letter names in opening
@@ -3210,6 +3417,93 @@
             document.querySelector('#weather-widget .icon').textContent = w.icon;
             document.querySelector('#weather-widget .temp').textContent = w.temp + '°';
             document.querySelector('#weather-widget .desc').textContent = 'Tuscany · ' + w.desc;
+        })();
+
+        /* ================================================================
+           CUSTOM CURSOR — bunga + varian hover/teks
+           ================================================================ */
+        (function() {
+            if (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches) return;
+
+            const dot = document.getElementById('cx-dot');
+            const ring = document.getElementById('cx-ring');
+            const label = document.getElementById('cx-label');
+            if (!dot || !ring || !label) return;
+            document.documentElement.classList.add('cx-active');
+
+            let mouseX = -100, mouseY = -100;
+            let ringX = -100, ringY = -100;
+            let labelX = -100, labelY = -100;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.left = mouseX + 'px';
+                dot.style.top = mouseY + 'px';
+                ring.classList.add('show');
+            });
+
+            (function raf() {
+                ringX += (mouseX - ringX) * 0.18;
+                ringY += (mouseY - ringY) * 0.18;
+                labelX += (mouseX - labelX) * 0.22;
+                labelY += (mouseY - labelY) * 0.22;
+                ring.style.left = ringX + 'px';
+                ring.style.top = ringY + 'px';
+                label.style.left = labelX + 'px';
+                label.style.top = labelY + 'px';
+                requestAnimationFrame(raf);
+            })();
+
+            const cursorLabels = [
+                ['.gallery-item', 'Lihat'],
+                ['.couple-flip', 'Balik'],
+                ['.faq-q', 'Buka'],
+                ['.event-card', 'Detail'],
+                ['.contact-card', 'Hubungi'],
+                ['.swatch', 'Pilih'],
+                ['.story-item', 'Kisah'],
+                ['.chip', 'Klik'],
+                ['.btn', 'Klik'],
+                ['button', 'Klik'],
+                ['a', 'Buka'],
+            ];
+
+            document.addEventListener('mouseover', (e) => {
+                const field = e.target.closest('input, textarea');
+                if (field) {
+                    ring.className = 'show cx-text';
+                    dot.style.opacity = '0';
+                    label.classList.remove('show');
+                    return;
+                }
+                for (const [sel, text] of cursorLabels) {
+                    const match = e.target.closest(sel);
+                    if (match) {
+                        ring.className = 'show cx-hover';
+                        dot.style.opacity = '0';
+                        label.textContent = text;
+                        label.classList.add('show');
+                        return;
+                    }
+                }
+                ring.className = 'show';
+                dot.style.opacity = '1';
+                label.classList.remove('show');
+            });
+
+            document.addEventListener('mouseleave', () => {
+                ring.classList.remove('show');
+                dot.style.opacity = '0';
+                label.classList.remove('show');
+            });
+            document.addEventListener('mouseenter', () => {
+                ring.classList.add('show');
+                dot.style.opacity = '1';
+            });
+
+            document.addEventListener('mousedown', () => dot.style.transform = 'translate(-50%, -50%) scale(1.8)');
+            document.addEventListener('mouseup', () => dot.style.transform = 'translate(-50%, -50%) scale(1)');
         })();
 
         console.log('✨ Alessandro & Isabella — The Wedding');
