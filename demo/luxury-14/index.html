@@ -1524,6 +1524,12 @@ else { drawFireflies(); drawLeaves(); }
   let mx = window.innerWidth/2, my = window.innerHeight/2;
   let tx = mx, ty = my;
 
+  // posisikan kursor langsung saat load, jangan tunggu mousemove pertama
+  glow.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+  firefly.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+  twig.style.transform = `translate(${tx}px, ${ty}px) translate(-50%,-50%)`;
+  label.style.transform = `translate(${mx}px, ${my+40}px) translate(-50%,-50%)`;
+
   document.addEventListener('mousemove', (e)=>{
     mx = e.clientX; my = e.clientY;
     glow.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
