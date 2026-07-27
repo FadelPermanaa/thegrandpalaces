@@ -566,7 +566,7 @@ footer .foot-mono{font-family:var(--font-display); font-size:1rem; letter-spacin
 <button id="music-player" aria-label="Putar musik">
   <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
 </button>
-<audio id="bg-audio" loop preload="auto" src="assets/audio/theme-song.mp3"></audio>
+<audio id="bg-audio" loop preload="auto" src="theme-song.mp3"></audio>
 
 <section id="hero">
   <div class="hero-moon"></div>
@@ -1121,6 +1121,7 @@ const navIO=new IntersectionObserver((entries)=>{
 },{threshold:.5});
 navSections.forEach(id=>{ const el=document.getElementById(id); if(el) navIO.observe(el); });
 </script>
+
 
 <!-- ==== GALLERY8 (auto) ==== -->
 <style id="g8-style">
