@@ -2,7 +2,7 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8">
-    <title>The Grand Palace</title>
+    <title>Judul Websitemu</title>
     
     <!-- Tambahkan kode ini untuk favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -391,27 +391,31 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 18px 32px;
-        max-width: var(--container);
+        padding: 18px 20px;
+        max-width: 1360px;
         margin: 0 auto;
       }
       .nav-logo {
         font-family: var(--font-display);
         font-size: 19px;
         letter-spacing: 0.04em;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-right: 20px;
       }
       .nav-menu {
         display: flex;
-        gap: 34px;
+        gap: 26px;
         align-items: center;
       }
-      .nav-menu a:not(.nav-cta) {
+      .nav-menu a:not(.nav-cta):not(.nav-reseller) {
         font-size: 13px;
         letter-spacing: 0.06em;
         text-transform: uppercase;
         color: var(--black-soft);
         position: relative;
         padding-bottom: 6px;
+        white-space: nowrap;
       }
       .nav-menu a::after {
         content: "";
@@ -436,8 +440,9 @@
         text-transform: uppercase;
         background: var(--black);
         color: var(--white);
-        padding: 12px 24px;
+        padding: 12px 20px;
         border-radius: 2px;
+        white-space: nowrap;
         transition:
           background 0.3s ease,
           transform 0.3s ease;
@@ -447,13 +452,14 @@
         transform: translateY(-2px);
       }
       .nav-reseller {
-        font-size: 12.5px;
-        letter-spacing: 0.06em;
+        font-size: 12px;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
         color: var(--gold);
         border: 1px solid var(--gold);
-        padding: 11px 20px;
+        padding: 11px 16px;
         border-radius: 2px;
+        white-space: nowrap;
         transition:
           background 0.3s ease,
           color 0.3s ease,
@@ -772,16 +778,33 @@
         position: absolute;
         left: 4px;
         right: 4px;
-        bottom: 0;
-        height: 3px;
-        background: var(--light-gray);
-        border-radius: 3px;
-        overflow: hidden;
+        bottom: -6px;
+        height: 15px;
+        cursor: grab;
+      }
+      .filter-scrollbar.dragging {
+        cursor: grabbing;
       }
       .filter-scrollbar::before {
         content: "";
         position: absolute;
-        inset: 0;
+        left: 0;
+        right: 0;
+        top: 50%;
+        margin-top: -1.5px;
+        height: 3px;
+        border-radius: 3px;
+        background: var(--light-gray);
+      }
+      .filter-scrollbar::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        margin-top: -1.5px;
+        height: 3px;
+        border-radius: 3px;
         background: linear-gradient(
           90deg,
           transparent,
@@ -792,13 +815,22 @@
       }
       .filter-scrollbar-thumb {
         position: absolute;
-        top: 0;
+        top: 50%;
         left: 0;
-        height: 100%;
+        height: 3px;
+        margin-top: -1.5px;
         min-width: 40px;
         border-radius: 3px;
         background: linear-gradient(90deg, var(--gold-soft), var(--gold));
-        transition: opacity 0.3s ease;
+        transition:
+          opacity 0.3s ease,
+          height 0.2s ease,
+          margin-top 0.2s ease;
+      }
+      .filter-scrollbar:hover .filter-scrollbar-thumb,
+      .filter-scrollbar.dragging .filter-scrollbar-thumb {
+        height: 6px;
+        margin-top: -3px;
       }
       .filter-btn {
         flex: 0 0 auto;
@@ -2699,7 +2731,7 @@
               Chinese Luxury
             </button>
           </div>
-          <div class="filter-scrollbar" aria-hidden="true">
+          <div class="filter-scrollbar" id="filterScrollTrack" aria-hidden="true">
             <div class="filter-scrollbar-thumb" id="filterScrollThumb"></div>
           </div>
         </div>
@@ -3552,19 +3584,25 @@
       (function () {
         const bar = document.getElementById("filterBar");
         const thumb = document.getElementById("filterScrollThumb");
-        if (!bar || !thumb) return;
+        const track = document.getElementById("filterScrollTrack");
+        if (!bar || !thumb || !track) return;
+
+        function metrics() {
+          const trackable = bar.scrollWidth - bar.clientWidth;
+          const trackWidth = track.clientWidth;
+          const ratio = bar.clientWidth / bar.scrollWidth;
+          const thumbWidth = Math.max(ratio * trackWidth, 40);
+          const maxThumbX = trackWidth - thumbWidth;
+          return { trackable, trackWidth, thumbWidth, maxThumbX };
+        }
 
         function syncThumb() {
-          const trackable = bar.scrollWidth - bar.clientWidth;
+          const { trackable, thumbWidth, maxThumbX } = metrics();
           if (trackable <= 0) {
             thumb.style.opacity = "0";
             return;
           }
           thumb.style.opacity = "1";
-          const ratio = bar.clientWidth / bar.scrollWidth;
-          const trackWidth = thumb.parentElement.clientWidth;
-          const thumbWidth = Math.max(ratio * trackWidth, 40);
-          const maxThumbX = trackWidth - thumbWidth;
           const scrollRatio = bar.scrollLeft / trackable;
           thumb.style.width = thumbWidth + "px";
           thumb.style.transform = `translateX(${scrollRatio * maxThumbX}px)`;
@@ -3573,7 +3611,7 @@
         window.addEventListener("resize", syncThumb);
         syncThumb();
 
-        /* drag pakai mouse */
+        /* drag pakai mouse pada isi filter-bar */
         let isDown = false,
           startX = 0,
           startScroll = 0,
@@ -3611,6 +3649,58 @@
           },
           { passive: false },
         );
+
+        /* drag langsung dari garis/scrollbar emas di bawah tombol */
+        let isTrackDown = false,
+          trackStartX = 0,
+          trackStartScroll = 0;
+        function pointerX(e) {
+          return e.touches ? e.touches[0].pageX : e.pageX;
+        }
+        function jumpTo(pageX) {
+          const { trackable, thumbWidth, maxThumbX } = metrics();
+          if (maxThumbX <= 0) return;
+          const rect = track.getBoundingClientRect();
+          let x = pageX - rect.left - thumbWidth / 2;
+          x = Math.max(0, Math.min(x, maxThumbX));
+          bar.scrollLeft = (x / maxThumbX) * trackable;
+        }
+        function startTrackDrag(e) {
+          const { trackable } = metrics();
+          if (trackable <= 0) return;
+          isTrackDown = true;
+          track.classList.add("dragging");
+          if (e.target === thumb) {
+            trackStartX = pointerX(e);
+            trackStartScroll = bar.scrollLeft;
+          } else {
+            jumpTo(pointerX(e));
+            trackStartX = pointerX(e);
+            trackStartScroll = bar.scrollLeft;
+          }
+          e.preventDefault();
+        }
+        function moveTrackDrag(e) {
+          if (!isTrackDown) return;
+          const { trackable, maxThumbX } = metrics();
+          if (maxThumbX <= 0) return;
+          const dx = pointerX(e) - trackStartX;
+          bar.scrollLeft = trackStartScroll + (dx / maxThumbX) * trackable;
+        }
+        function endTrackDrag() {
+          isTrackDown = false;
+          track.classList.remove("dragging");
+        }
+        track.addEventListener("mousedown", startTrackDrag);
+        window.addEventListener("mousemove", moveTrackDrag);
+        window.addEventListener("mouseup", endTrackDrag);
+        track.addEventListener("touchstart", startTrackDrag, {
+          passive: false,
+        });
+        window.addEventListener("touchmove", moveTrackDrag, {
+          passive: true,
+        });
+        window.addEventListener("touchend", endTrackDrag);
       })();
 
       /* preview modal */
