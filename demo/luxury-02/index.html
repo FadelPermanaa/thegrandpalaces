@@ -1688,19 +1688,23 @@
         setInterval(updCD, 1000);
 
         // ============ GALLERY MASONRY ============
-        const galleryImages = ['https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=70',
-            'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=70',
-            'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=600&q=70',
-            'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=70',
-            'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=70',
-            'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=70'
+        // 8 foto wedding (Unsplash)
+        const galleryImages = ['https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=75',
+            'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=900&q=75',
+            'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=900&q=75',
+            'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=75',
+            'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=900&q=75',
+            'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=900&q=75',
+            'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=75',
+            'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=900&q=75'
         ];
+        const galleryFallback = ['1.webp','2.webp','3.webp','4.webp','5.webp','6.webp','7.webp','8.webp'];
         const masonry = document.getElementById('masonryGrid');
         let curIdx = 0;
         galleryImages.forEach((src, i) => {
             const div = document.createElement('div');
             div.className = 'masonry-item';
-            div.innerHTML = `<img src="${src}" alt="Momen" loading="lazy">`;
+            div.innerHTML = `<img src="${src}" alt="Momen ${i+1}" loading="lazy" onerror="this.onerror=null;this.src='assets/images/${galleryFallback[i]}'">`;
             div.addEventListener('click', () => openLB(i));
             masonry.appendChild(div);
         });

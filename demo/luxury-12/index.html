@@ -1799,5 +1799,201 @@ document.addEventListener('click', (e) => spawnClickShards(e.clientX, e.clientY)
   });
 })();
 </script>
+
+<!-- ==== GALLERY8 (auto) ==== -->
+<style id="g8-style">
+/* ============================================================
+   GALLERY — 8 foto, mosaic editorial responsif
+   ============================================================ */
+.g8-grid{
+  display:grid !important;
+  grid-template-columns:repeat(4,1fr) !important;
+  grid-auto-rows:150px;
+  grid-auto-flow:row dense;
+  gap:14px;
+  margin-top:44px;
+  column-count:auto !important;
+  columns:auto !important;
+  width:100%;
+  opacity:1 !important;
+  transform:none !important;
+  visibility:visible !important;
+}
+.g8-grid .g8-item{
+  position:relative; overflow:hidden; border-radius:6px; cursor:pointer;
+  background:rgba(140,140,140,.14);
+  opacity:1 !important; transform:none !important;
+}
+.g8-grid .g8-item:nth-child(1),
+.g8-grid .g8-item:nth-child(7){ grid-column:span 2; grid-row:span 2; }
+.g8-grid .g8-item:nth-child(4),
+.g8-grid .g8-item:nth-child(8){ grid-column:span 2; }
+.g8-grid .g8-item img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform 1s cubic-bezier(.16,.8,.24,1), filter .6s ease;
+}
+.g8-grid .g8-item:hover img{ transform:scale(1.07); }
+.g8-grid .g8-item::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);
+  background:rgba(0,0,0,0); transition:background .45s ease;
+}
+.g8-grid .g8-item:hover::after{ background:rgba(0,0,0,.18); }
+.g8-grid .g8-cap{
+  position:absolute; left:14px; bottom:12px; z-index:2;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.75);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s cubic-bezier(.16,.8,.24,1);
+}
+.g8-grid .g8-item:hover .g8-cap{ opacity:1; transform:translateY(0); }
+
+@media (max-width:900px){
+  .g8-grid{ grid-template-columns:repeat(2,1fr) !important; grid-auto-rows:150px; gap:12px; }
+}
+@media (max-width:560px){
+  .g8-grid{ grid-auto-rows:108px; gap:9px; }
+  .g8-grid .g8-cap{ display:none; }
+}
+
+/* lightbox */
+#g8-lb{
+  position:fixed; inset:0; z-index:99999; display:flex;
+  align-items:center; justify-content:center;
+  background:rgba(8,8,10,.94);
+  opacity:0; pointer-events:none; transition:opacity .35s ease;
+}
+#g8-lb.open{ opacity:1; pointer-events:auto; }
+#g8-lb img{
+  max-width:88vw; max-height:84vh; object-fit:contain;
+  border-radius:4px; box-shadow:0 30px 80px rgba(0,0,0,.6);
+  transform:scale(.94); transition:transform .4s cubic-bezier(.16,.8,.24,1);
+}
+#g8-lb.open img{ transform:scale(1); }
+#g8-lb button{
+  position:absolute; background:transparent; border:1px solid rgba(255,255,255,.35);
+  color:#fff; cursor:pointer; border-radius:999px; line-height:1;
+  transition:background .25s ease, border-color .25s ease;
+}
+#g8-lb button:hover{ background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.7); }
+#g8-lb .g8-close{ top:22px; right:24px; width:40px; height:40px; font-size:19px; }
+#g8-lb .g8-prev, #g8-lb .g8-next{ top:50%; margin-top:-24px; width:48px; height:48px; font-size:24px; }
+#g8-lb .g8-prev{ left:20px; }
+#g8-lb .g8-next{ right:20px; }
+#g8-lb .g8-count{
+  position:absolute; bottom:24px; left:50%; transform:translateX(-50%);
+  color:rgba(255,255,255,.72); font-size:12px; letter-spacing:.22em;
+}
+@media (max-width:560px){
+  #g8-lb .g8-prev{ left:8px; } #g8-lb .g8-next{ right:8px; }
+  #g8-lb .g8-prev, #g8-lb .g8-next{ width:40px; height:40px; font-size:20px; }
+}
+</style>
+
+<script>
+/* ============================================================
+   GALLERY 8 FOTO + LIGHTBOX (mengambil alih galeri bawaan)
+   ============================================================ */
+(function () {
+  /* Foto lokal = sumber utama, supaya undangan tetap tampil tanpa internet.
+     REMOTE hanya cadangan bila file lokal hilang. */
+  var PHOTOS = ['assets/images/gallery-1.webp','assets/images/gallery-2.webp','assets/images/gallery-3.webp','assets/images/gallery-4.webp','assets/images/gallery-5.webp','assets/images/gallery-6.webp','assets/images/gallery-7.webp','assets/images/gallery-8.webp'];
+  var REMOTE = ['https://images.unsplash.com/photo-1519741497674-611481863552?w=1100&q=75','https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1100&q=75','https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1100&q=75','https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1100&q=75','https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1100&q=75','https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1100&q=75','https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1100&q=75','https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1100&q=75'];
+  var CAPS = ['Prewedding','Momen Hangat','Detail','Kebersamaan','Cerita Kami','Senyum','Perjalanan','Kenangan'];
+
+  function findGrid() {
+    var ids = ['gallery-grid', 'galleryGrid', 'masonryGrid', 'masonry',
+               'gallery-masonry', 'galleryMasonry', 'bentoGrid', 'g-grid'];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (el) return el;
+    }
+    var sec = document.querySelector('#gallery, section.gallery, .gallery.section');
+    if (sec) {
+      var inner = sec.querySelector('.gallery-grid, .gallery-masonry, .masonry, .g-grid, .bento-grid, .gallery-wrap');
+      if (inner) return inner;
+    }
+    return null;
+  }
+
+  var built = false;
+
+  function build() {
+    var grid = findGrid();
+    if (!grid) return;
+    if (built && grid.getAttribute('data-g8') === 'done' && grid.children.length === PHOTOS.length) return;
+
+    grid.className = 'g8-grid';
+    grid.setAttribute('data-g8', 'done');
+    grid.removeAttribute('style');
+    grid.innerHTML = '';
+
+    PHOTOS.forEach(function (src, i) {
+      var item = document.createElement('div');
+      item.className = 'g8-item';
+      var img = document.createElement('img');
+      img.alt = CAPS[i];
+      img.loading = 'lazy';
+      img.onerror = function () { this.onerror = null; this.src = REMOTE[i]; };
+      img.src = src;
+      var cap = document.createElement('span');
+      cap.className = 'g8-cap';
+      cap.textContent = CAPS[i];
+      item.appendChild(img);
+      item.appendChild(cap);
+      item.addEventListener('click', function () { openLB(i); });
+      grid.appendChild(item);
+    });
+    built = true;
+  }
+
+  /* ---------- lightbox ---------- */
+  var lb, lbImg, lbCount, idx = 0;
+
+  function ensureLB() {
+    if (lb) return;
+    lb = document.createElement('div');
+    lb.id = 'g8-lb';
+    lb.innerHTML = '<button class="g8-close" aria-label="Tutup">&#10005;</button>' +
+                   '<button class="g8-prev" aria-label="Sebelumnya">&#8249;</button>' +
+                   '<img alt="">' +
+                   '<button class="g8-next" aria-label="Berikutnya">&#8250;</button>' +
+                   '<span class="g8-count"></span>';
+    document.body.appendChild(lb);
+    lbImg = lb.querySelector('img');
+    lbCount = lb.querySelector('.g8-count');
+    lb.querySelector('.g8-close').addEventListener('click', closeLB);
+    lb.querySelector('.g8-prev').addEventListener('click', function (e) { e.stopPropagation(); nav(-1); });
+    lb.querySelector('.g8-next').addEventListener('click', function (e) { e.stopPropagation(); nav(1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLB(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLB();
+      else if (e.key === 'ArrowLeft') nav(-1);
+      else if (e.key === 'ArrowRight') nav(1);
+    });
+  }
+
+  function render() {
+    var i = idx;
+    lbImg.onerror = function () { this.onerror = null; this.src = REMOTE[i]; };
+    lbImg.src = PHOTOS[i];
+    lbCount.textContent = (i + 1) + ' / ' + PHOTOS.length;
+  }
+  function openLB(i) { ensureLB(); idx = i; render(); lb.classList.add('open'); }
+  function closeLB() { if (lb) lb.classList.remove('open'); }
+  function nav(step) { idx = (idx + step + PHOTOS.length) % PHOTOS.length; render(); }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', build);
+  } else {
+    build();
+  }
+  window.addEventListener('load', build);
+  setTimeout(build, 400);
+  setTimeout(build, 1200);
+})();
+</script>
+<!-- ==== /GALLERY8 ==== -->
 </body>
 </html>

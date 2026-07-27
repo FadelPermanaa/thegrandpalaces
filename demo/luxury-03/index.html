@@ -635,6 +635,87 @@
             width: 100%;
             height: 100%;
             display: block;
+            filter: drop-shadow(0 0 5px rgba(201, 169, 98, 0.55));
+            transition: transform 0.35s var(--ease);
+        }
+        /* sembunyikan kursor bawaan hanya di perangkat berpointer presisi */
+        @media (hover: hover) and (pointer: fine) {
+            body.cursor-custom,
+            body.cursor-custom *,
+            body.cursor-custom a,
+            body.cursor-custom button,
+            body.cursor-custom input,
+            body.cursor-custom textarea,
+            body.cursor-custom select {
+                cursor: none !important;
+            }
+        }
+        .custom-cursor.is-hover svg {
+            transform: scale(1.25) rotate(-8deg);
+        }
+        .custom-cursor.is-down svg {
+            transform: scale(0.82);
+        }
+
+        /* cincin emas yang mengekor di belakang kursor */
+        .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            width: 42px;
+            height: 42px;
+            margin: -21px 0 0 -21px;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+            opacity: 0;
+            transition: opacity .25s ease, width .35s var(--ease), height .35s var(--ease),
+                        margin .35s var(--ease), border-color .35s ease, background .35s ease;
+        }
+        .cursor-ring::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 169, 98, 0.22);
+        }
+        .cursor-ring.show { opacity: .85; }
+        .cursor-ring.is-hover {
+            width: 74px;
+            height: 74px;
+            margin: -37px 0 0 -37px;
+            border-color: var(--gold-light);
+            background: rgba(201, 169, 98, 0.07);
+        }
+        .cursor-ring.is-down {
+            width: 30px;
+            height: 30px;
+            margin: -15px 0 0 -15px;
+        }
+
+        /* serbuk emas */
+        .cursor-spark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 4px;
+            margin: -2px 0 0 -2px;
+            border-radius: 50%;
+            background: var(--gold-light);
+            box-shadow: 0 0 6px rgba(232, 213, 163, 0.9);
+            pointer-events: none;
+            z-index: 9997;
+            animation: sparkFade .85s var(--ease) forwards;
+        }
+        @keyframes sparkFade {
+            0%   { opacity: .9; transform: scale(1) translate(0, 0); }
+            100% { opacity: 0;  transform: scale(0.2) translate(var(--sx), var(--sy)); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cursor-spark { display: none; }
         }
 
         /* ===== TEMA HUTAN ===== */
@@ -1247,7 +1328,7 @@
         }
 
         /* ============================================================
-           GALLERY — 12 gambar, trendy layout
+           GALLERY — 8 foto, trendy layout
            ============================================================ */
         .gallery-grid {
             display: grid;
@@ -2018,6 +2099,7 @@
             <circle class="fill" id="customProgressFill" cx="20" cy="20" r="17" />
         </svg>
     </div>
+    <div class="cursor-ring" id="cursorRing"></div>
     <div class="custom-cursor" id="customCursor">
         <!-- Akan diisi oleh JS -->
     </div>
@@ -2159,7 +2241,7 @@
     </section>
 
     <!-- ============================================================
-    GALLERY — 12 gambar (1.webp s/d 12.webp)
+    GALLERY — 8 foto wedding (Unsplash)
     ============================================================ -->
     <section id="gallery" class="section" data-section="Galeri">
         <div class="wrap">
@@ -2587,32 +2669,135 @@
                 }
             }
 
+            var ringEl = document.getElementById('cursorRing');
+            var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
             var cursorSVG = '';
             if (theme === 'hutan') {
+                // daun berembun
                 cursorSVG =
-                    '<svg viewBox="0 0 32 32"><path d="M16 4 C8 4 4 12 4 20 C4 26 8 30 16 30 C24 30 28 26 28 20 C28 12 24 4 16 4 Z" fill="#2e7d32" opacity="0.9" stroke="#1b5e20" stroke-width="1"/><path d="M16 8 L16 26 M12 14 L20 14 M12 18 L20 18" stroke="#1b5e20" stroke-width="0.5" opacity="0.5"/></svg>';
+                    '<svg viewBox="0 0 32 32">' +
+                    '<defs><linearGradient id="curLeaf" x1="0" y1="0" x2="1" y2="1">' +
+                    '<stop offset="0%" stop-color="#66bb6a"/><stop offset="55%" stop-color="#2e7d32"/><stop offset="100%" stop-color="#14411a"/>' +
+                    '</linearGradient></defs>' +
+                    '<path d="M27 5C13.5 5 5.5 11.4 5.5 20.2c0 2.3.6 4.3 1.7 5.9L4 29.2l1.7 1.6 3.1-3.2c1.7 1.1 3.7 1.7 6 1.7C23.4 29.3 27 20.6 27 5Z" fill="url(#curLeaf)" stroke="#0f3314" stroke-width="0.8" stroke-linejoin="round"/>' +
+                    '<path d="M25 7C18 12 12.5 18.5 8.6 26.3" stroke="#c8e6c9" stroke-width="1" fill="none" opacity="0.75" stroke-linecap="round"/>' +
+                    '<path d="M22.6 12.4 15.8 13.6M20.4 17.4 13.4 18.2M17.6 22 11.6 22.4" stroke="#a5d6a7" stroke-width="0.7" opacity="0.55" stroke-linecap="round"/>' +
+                    '<circle cx="20.5" cy="9.5" r="1.5" fill="#e8f5e9" opacity="0.8"/>' +
+                    '</svg>';
             } else if (theme === 'chinese') {
+                // lampion 囍
                 cursorSVG =
-                    '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#c62828" opacity="0.2" stroke="#c62828" stroke-width="1.5"/><text x="16" y="22" font-size="18" text-anchor="middle" fill="#c62828" font-family="serif">囍</text></svg>';
+                    '<svg viewBox="0 0 32 32">' +
+                    '<defs><radialGradient id="curLantern" cx="38%" cy="32%" r="72%">' +
+                    '<stop offset="0%" stop-color="#ff7961"/><stop offset="55%" stop-color="#c62828"/><stop offset="100%" stop-color="#7f0000"/>' +
+                    '</radialGradient></defs>' +
+                    '<rect x="10" y="2.4" width="12" height="2.4" rx="1" fill="#f9c846"/>' +
+                    '<ellipse cx="16" cy="15.5" rx="11" ry="10.5" fill="url(#curLantern)" stroke="#f9c846" stroke-width="1"/>' +
+                    '<path d="M16 5v21M11 6.4c-1.6 5.6-1.6 12.6 0 18.2M21 6.4c1.6 5.6 1.6 12.6 0 18.2" stroke="#f9c846" stroke-width="0.6" fill="none" opacity="0.55"/>' +
+                    '<text x="16" y="20.4" font-size="12" text-anchor="middle" fill="#ffe9a8" font-family="serif">囍</text>' +
+                    '<rect x="11" y="25.4" width="10" height="2.2" rx="1" fill="#f9c846"/>' +
+                    '<path d="M14 27.6v3.6M16 27.6v4.2M18 27.6v3.6" stroke="#f9c846" stroke-width="0.9" stroke-linecap="round"/>' +
+                    '</svg>';
             } else {
+                // mahkota kerajaan
                 cursorSVG =
-                    '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="rgba(201,169,98,0.15)" stroke="#c9a962" stroke-width="1.5"/><polygon points="16,4 22,12 20,12 20,20 12,20 12,12 10,12" fill="#c9a962" opacity="0.9"/></svg>';
+                    '<svg viewBox="0 0 32 32">' +
+                    '<defs><linearGradient id="curGold" x1="0" y1="0" x2="0" y2="1">' +
+                    '<stop offset="0%" stop-color="#f7e9bf"/><stop offset="45%" stop-color="#c9a962"/><stop offset="100%" stop-color="#7d6634"/>' +
+                    '</linearGradient></defs>' +
+                    '<path d="M6.4 23.2 4.4 9.4l6.4 4.9L16 6.1l5.2 8.2 6.4-4.9-2 13.8Z" fill="url(#curGold)" stroke="#5f4d29" stroke-width="0.75" stroke-linejoin="round"/>' +
+                    '<rect x="6.1" y="23.7" width="19.8" height="3.4" rx="1.2" fill="url(#curGold)" stroke="#5f4d29" stroke-width="0.75"/>' +
+                    '<circle cx="16" cy="19.6" r="1.6" fill="#fff6dd"/>' +
+                    '<circle cx="10.4" cy="20.6" r="1" fill="#efe9dc" opacity="0.85"/>' +
+                    '<circle cx="21.6" cy="20.6" r="1" fill="#efe9dc" opacity="0.85"/>' +
+                    '<circle cx="4.4" cy="8.2" r="1.6" fill="#e8d5a3"/>' +
+                    '<circle cx="16" cy="4.5" r="1.8" fill="#fff6dd"/>' +
+                    '<circle cx="27.6" cy="8.2" r="1.6" fill="#e8d5a3"/>' +
+                    '</svg>';
             }
             cursorEl.innerHTML = cursorSVG;
 
-            var cursorVisible = false;
-            document.addEventListener('mousemove', function(e) {
-                cursorEl.style.left = e.clientX + 'px';
-                cursorEl.style.top = e.clientY + 'px';
-                if (!cursorVisible) {
-                    cursorVisible = true;
+            if (finePointer) {
+                document.body.classList.add('cursor-custom');
+
+                var mx = window.innerWidth / 2,
+                    my = window.innerHeight / 2;
+                var rx = mx,
+                    ry = my;
+                var cursorVisible = false;
+                var lastSpark = 0;
+
+                var HOVER_SEL = 'a, button, .g-item, input, textarea, select, [role="button"], ' +
+                    '.nav-link, .btn, .rsvp-btn, .music-toggle, label';
+
+                document.addEventListener('mousemove', function(e) {
+                    mx = e.clientX;
+                    my = e.clientY;
+                    cursorEl.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%,-50%)';
+
+                    if (!cursorVisible) {
+                        cursorVisible = true;
+                        cursorEl.classList.add('show');
+                        ringEl.classList.add('show');
+                        rx = mx;
+                        ry = my;
+                    }
+
+                    var over = e.target && e.target.closest ? e.target.closest(HOVER_SEL) : null;
+                    cursorEl.classList.toggle('is-hover', !!over);
+                    ringEl.classList.toggle('is-hover', !!over);
+
+                    // serbuk emas sesekali saat bergerak
+                    if (!reduceMotion) {
+                        var now = Date.now();
+                        if (now - lastSpark > 55) {
+                            lastSpark = now;
+                            var s = document.createElement('span');
+                            s.className = 'cursor-spark';
+                            s.style.left = mx + 'px';
+                            s.style.top = my + 'px';
+                            s.style.setProperty('--sx', (Math.random() * 22 - 11).toFixed(1) + 'px');
+                            s.style.setProperty('--sy', (Math.random() * 16 + 8).toFixed(1) + 'px');
+                            document.body.appendChild(s);
+                            setTimeout(function() {
+                                if (s.parentNode) s.parentNode.removeChild(s);
+                            }, 900);
+                        }
+                    }
+                });
+
+                // cincin mengekor dengan easing
+                (function trailRing() {
+                    rx += (mx - rx) * 0.16;
+                    ry += (my - ry) * 0.16;
+                    ringEl.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
+                    requestAnimationFrame(trailRing);
+                })();
+
+                document.addEventListener('mousedown', function() {
+                    cursorEl.classList.add('is-down');
+                    ringEl.classList.add('is-down');
+                });
+                document.addEventListener('mouseup', function() {
+                    cursorEl.classList.remove('is-down');
+                    ringEl.classList.remove('is-down');
+                });
+                document.addEventListener('mouseleave', function() {
+                    cursorEl.classList.remove('show');
+                    ringEl.classList.remove('show');
+                    cursorVisible = false;
+                });
+                document.addEventListener('mouseenter', function() {
                     cursorEl.classList.add('show');
-                }
-            });
-            document.addEventListener('mouseleave', function() {
-                cursorEl.classList.remove('show');
-                cursorVisible = false;
-            });
+                    ringEl.classList.add('show');
+                    cursorVisible = true;
+                });
+            } else {
+                cursorEl.style.display = 'none';
+                ringEl.style.display = 'none';
+            }
 
             // ============================================================
             // 15. COUNTDOWN
@@ -2635,27 +2820,31 @@
             setInterval(tickCountdown, 1000);
 
             // ============================================================
-            // 16. GALLERY (12 gambar)
+            // 16. GALLERY (8 foto wedding — Unsplash)
             // ============================================================
             var galleryFiles = [
-                '1.webp', '2.webp', '3.webp', '4.webp',
-                '5.webp', '6.webp', '7.webp', '8.webp',
-                '9.webp', '10.webp', '11.webp', '12.webp'
+                'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=75',
+                'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=900&q=75',
+                'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=900&q=75',
+                'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=75',
+                'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=900&q=75',
+                'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=900&q=75',
+                'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=75',
+                'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=900&q=75'
             ];
-            var classes = ['square', 'tall', 'wide', 'square', 'tall', 'wide', 'square', 'tall', 'wide', 'square', 'tall',
-                'wide'
-            ];
+            var galleryFallback = ['1.webp', '2.webp', '3.webp', '4.webp', '5.webp', '6.webp', '7.webp', '8.webp'];
+            var classes = ['square', 'tall', 'wide', 'square', 'tall', 'wide', 'square', 'tall'];
             var grid = document.getElementById('gallery-grid');
             galleryFiles.forEach(function(src, index) {
                 var item = document.createElement('div');
                 item.className = 'g-item ' + classes[index % classes.length];
                 item.innerHTML =
-                    '<div class="ph"><img src="assets/images/' + src + '" alt="Gallery ' + (index + 1) +
-                    '" loading="lazy" onerror="this.outerHTML=\'<span style=\\\'font-size:12px;color:var(--gold-dim);\\\'>' +
-                    src + '</span>\'"><div class="shine"></div></div>';
+                    '<div class="ph"><img src="' + src + '" alt="Gallery ' + (index + 1) +
+                    '" loading="lazy" onerror="this.onerror=null;this.src=\'assets/images/' + galleryFallback[index] +
+                    '\'"><div class="shine"></div></div>';
                 item.addEventListener('click', function() {
                     var frame = document.getElementById('lightbox-frame');
-                    frame.innerHTML = '<img src="assets/images/' + src + '" alt="Gallery ' + (index + 1) +
+                    frame.innerHTML = '<img src="' + src + '" alt="Gallery ' + (index + 1) +
                         '" style="width:100%;height:100%;object-fit:contain;">';
                     document.getElementById('lightbox').classList.add('open');
                 });
