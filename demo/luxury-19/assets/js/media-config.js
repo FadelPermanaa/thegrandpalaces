@@ -39,7 +39,7 @@ const MEDIA = {
   trailerVideo:     "/assets/video/trailer.mp4",
 
   // Audio
-  backgroundMusic: "/assets/audio/theme-song.mp3",
+  backgroundMusic: "assets/audio/theme-song.mp3",
 
   // Gift
   qrisImage:   "/assets/images/qris.webp",

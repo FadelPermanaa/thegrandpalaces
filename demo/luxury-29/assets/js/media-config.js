@@ -40,7 +40,7 @@ const MEDIA = {
   trailerVideo: "assets/video/trailer.mp4",
 
   // Audio
-  backgroundMusic: "assets/audio/theme-song.mp3",
+  backgroundMusic: "theme-song.mp3",
 
   // QRIS (opsional — untuk section Gift)
   qrisImage: "assets/images/qris.webp",
