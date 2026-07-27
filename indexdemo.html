@@ -2649,7 +2649,7 @@
           <a href="#testimonials" data-nav>Testimonials</a>
           <a href="#faq" data-nav>FAQ</a>
           <a href="#contact" data-nav>Contact</a>
-          <a href="reseller/index.html" class="nav-reseller" id="waReseller">Become Reseller</a>
+          <a href="#" class="nav-reseller" id="waReseller" target="_blank" rel="noopener">Become Reseller</a>
           <a href="#order" class="nav-cta">Order</a>
         </nav>
         <button
@@ -2691,7 +2691,7 @@
         <div class="hero-actions">
           <a href="#collections" class="btn btn-dark">Explore Collection</a>
           <a href="#" class="btn btn-outline" id="waHero">Order via WhatsApp</a>
-          <a href="reseller/index.html" class="btn btn-gold" id="waResellerHero">Become Reseller</a>
+          <a href="#" class="btn btn-gold" id="waResellerHero" target="_blank" rel="noopener">Become Reseller</a>
         </div>
       </div>
       <div class="hero-scroll">
@@ -3091,6 +3091,13 @@
       document
         .querySelectorAll("#waHero,#waMainCta")
         .forEach((el) => (el.href = waLink()));
+      document.getElementById("waReseller").href = waLink(
+        "saya ingin jadi reseller",
+      );
+      document.getElementById("waResellerHero").href = waLink(
+        "saya ingin jadi reseller",
+      );
+
       /* ============================= OPENING SEQUENCE ============================= */
       window.addEventListener("load", () => {
         setTimeout(() => {
