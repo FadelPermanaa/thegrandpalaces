@@ -4576,11 +4576,13 @@
         z-index: 99999;
         width: 22px;
         height: 22px;
-        /* Ujung pena ada di titik (2.6, 30) pada viewBox 32x32.
-           Pada ukuran 22px itu jatuh di (1.8px, 20.6px) dari sudut kiri-atas,
-           jadi elemen digeser sebanyak itu supaya ujungnya tepat di kursor
-           dan goresan tinta keluar persis dari mata pena. */
-        margin: -20.6px 0 0 -1.8px;
+        /* Ujung pena ada di titik (2.6, 30) pada viewBox 32x32 = (1.8px, 20.6px)
+           dari sudut kiri-atas saat dirender 22px. Titik tinta yang terlihat
+           sebenarnya sedikit di dalam segitiga ujungnya, bukan di sudut paling
+           luar, jadi pena digeser 3px ke kanan agar goresan tepat menyatu.
+           Ingin menggeser lagi? Ubah angka margin-left di bawah:
+           lebih besar = pena bergerak ke kanan. */
+        margin: -20.6px 0 0 1.2px;
         transform-origin: 8.1% 93.75%;
         transition: opacity 0.3s ease;
       }
