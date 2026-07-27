@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="id">
   <head>
+    <meta charset="UTF-8">
+    <title>Judul Websitemu</title>
+    
+    <!-- Tambahkan kode ini untuk favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Atau kalau pakai PNG, pakai kode ini: -->
+    <!-- <link rel="icon" href="favicon.png" type="image/png"> -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Grand Gallery — Luxury Digital Wedding Invitation</title>
@@ -439,6 +446,24 @@
         background: var(--gold);
         transform: translateY(-2px);
       }
+      .nav-reseller {
+        font-size: 12.5px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--gold);
+        border: 1px solid var(--gold);
+        padding: 11px 20px;
+        border-radius: 2px;
+        transition:
+          background 0.3s ease,
+          color 0.3s ease,
+          transform 0.3s ease;
+      }
+      .nav-reseller:hover {
+        background: var(--gold);
+        color: var(--white);
+        transform: translateY(-2px);
+      }
       .nav-burger {
         display: none;
         background: none;
@@ -476,6 +501,10 @@
           transform: translateX(0);
         }
         .nav-menu a:not(.nav-cta) {
+          padding: 11px 0;
+        }
+        .nav-reseller {
+          border: none;
           padding: 11px 0;
         }
         .nav-cta {
@@ -702,12 +731,78 @@
       }
 
       /* ============================= COLLECTION ============================= */
+      .filter-bar-wrap {
+        position: relative;
+        margin: 50px 0 60px;
+      }
       .filter-bar {
         display: flex;
         gap: 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 50px 0 60px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 4px 4px 22px;
+        cursor: grab;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent,
+          black 24px,
+          black calc(100% - 24px),
+          transparent
+        );
+        mask-image: linear-gradient(
+          to right,
+          transparent,
+          black 24px,
+          black calc(100% - 24px),
+          transparent
+        );
+      }
+      .filter-bar.dragging {
+        cursor: grabbing;
+        scroll-behavior: auto;
+      }
+      .filter-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .filter-scrollbar {
+        position: absolute;
+        left: 4px;
+        right: 4px;
+        bottom: 0;
+        height: 3px;
+        background: var(--light-gray);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .filter-scrollbar::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(198, 166, 100, 0.15) 20%,
+          rgba(198, 166, 100, 0.15) 80%,
+          transparent
+        );
+      }
+      .filter-scrollbar-thumb {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        min-width: 40px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+        transition: opacity 0.3s ease;
+      }
+      .filter-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
       }
       .filter-btn {
         font-size: 12px;
@@ -1699,7 +1794,7 @@
           width: 50px;
           height: 50px;
           right: 14px;
-          bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+          bottom: calc(16px + env(safe-area-inset-bottom, 0px));
         }
         #fab-wa svg {
           width: 24px;
@@ -1791,13 +1886,11 @@
       }
       .cmp-player-outer {
         position: fixed;
-        left: 50%;
+        left: 28px;
         bottom: 22px;
-        transform: translateX(-50%);
         z-index: 950; /* di atas konten & modal preview (800), di bawah opening screen (9999) */
         pointer-events: none;
-        width: var(--cmp-width-desktop);
-        max-width: 94vw;
+        width: auto;
       }
       .cmp-drift {
         animation: cmpDrift 32s ease-in-out infinite alternate;
@@ -1809,10 +1902,10 @@
       }
       @keyframes cmpDrift {
         0% {
-          transform: translateX(-34px);
+          transform: translateX(-14px);
         }
         100% {
-          transform: translateX(34px);
+          transform: translateX(18px);
         }
       }
       @keyframes cmpBob {
@@ -1829,8 +1922,9 @@
         pointer-events: auto;
         display: flex;
         align-items: center;
-        gap: 14px;
-        padding: 14px 22px 14px 14px;
+        justify-content: center;
+        gap: 0;
+        padding: 9px;
         border-radius: 46% 54% 52% 48% / 58% 48% 52% 42%;
         background: linear-gradient(
           155deg,
@@ -1878,22 +1972,22 @@
         z-index: 0;
       }
       .cmp-bump.a {
-        left: 26px;
-        width: 38px;
-        height: 38px;
-        top: -14px;
+        left: 14px;
+        width: 26px;
+        height: 26px;
+        top: -10px;
       }
       .cmp-bump.b {
-        left: 62px;
-        width: 54px;
-        height: 54px;
-        top: -24px;
+        left: 32px;
+        width: 36px;
+        height: 36px;
+        top: -16px;
       }
       .cmp-bump.c {
-        right: 34px;
-        width: 34px;
-        height: 34px;
-        top: -12px;
+        right: 14px;
+        width: 22px;
+        height: 22px;
+        top: -8px;
       }
       .cmp-noise {
         position: absolute;
@@ -1925,14 +2019,12 @@
         z-index: 2;
         display: flex;
         align-items: center;
-        gap: 12px;
-        width: 100%;
-        min-width: 0;
+        justify-content: center;
       }
       .cmp-play {
         flex: 0 0 auto;
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
         border: none;
         cursor: pointer;
@@ -1967,11 +2059,7 @@
         display: block;
       }
       .cmp-track-info {
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
+        display: none;
       }
       .cmp-title-wrap {
         overflow: hidden;
@@ -2020,8 +2108,8 @@
         background: linear-gradient(90deg, var(--gold-soft), var(--gold));
       }
       .cmp-eq {
+        display: none;
         flex: 0 0 auto;
-        display: flex;
         align-items: flex-end;
         gap: 3px;
         height: 16px;
@@ -2074,13 +2162,13 @@
         }
       }
       .cmp-volume {
+        display: none;
         flex: 0 0 auto;
         width: 30px;
         height: 30px;
         border: none;
         background: transparent;
         cursor: pointer;
-        display: flex;
         align-items: center;
         justify-content: center;
         opacity: 0.75;
@@ -2105,28 +2193,12 @@
       }
       @media (max-width: 520px) {
         .cmp-player-outer {
+          left: 16px;
           bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-          width: var(--cmp-width-mobile);
-        }
-        .cmp-cloud {
-          padding: 11px 16px 11px 11px;
-          gap: 10px;
-          border-radius: 40% 60% 55% 45% / 55% 45% 55% 45%;
         }
         .cmp-play {
-          width: 38px;
-          height: 38px;
-        }
-        .cmp-volume {
-          width: 26px;
-          height: 26px;
-        }
-        .cmp-title {
-          font-size: 0.72rem;
-        }
-        .cmp-bump.b {
-          width: 44px;
-          height: 44px;
+          width: 36px;
+          height: 36px;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -2545,6 +2617,7 @@
           <a href="#testimonials" data-nav>Testimonials</a>
           <a href="#faq" data-nav>FAQ</a>
           <a href="#contact" data-nav>Contact</a>
+          <a href="#" class="nav-reseller" id="waReseller" target="_blank" rel="noopener">Become Reseller</a>
           <a href="#order" class="nav-cta">Order</a>
         </nav>
         <button
@@ -2586,6 +2659,7 @@
         <div class="hero-actions">
           <a href="#collections" class="btn btn-dark">Explore Collection</a>
           <a href="#" class="btn btn-outline" id="waHero">Order via WhatsApp</a>
+          <a href="#" class="btn btn-gold" id="waResellerHero" target="_blank" rel="noopener">Become Reseller</a>
         </div>
       </div>
       <div class="hero-scroll">
@@ -2603,26 +2677,31 @@
           template. Pilih koleksi yang paling merepresentasikan kisah Anda.
         </p>
 
-        <div class="filter-bar" role="tablist" aria-label="Filter koleksi">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="floral">
-            Floral & Garden
-          </button>
-          <button class="filter-btn" data-filter="modern">Modern Luxury</button>
-          <button class="filter-btn" data-filter="dark">Dark Luxury</button>
-          <button class="filter-btn" data-filter="celestial">
-            Fantasy & Celestial
-          </button>
-          <button class="filter-btn" data-filter="editorial">
-            Editorial & Fashion
-          </button>
-          <button class="filter-btn" data-filter="beach">
-            Beach & Tropical
-          </button>
-          <button class="filter-btn" data-filter="royal">Royal & Palace</button>
-          <button class="filter-btn" data-filter="chinese">
-            Chinese Luxury
-          </button>
+        <div class="filter-bar-wrap">
+          <div class="filter-bar" role="tablist" aria-label="Filter koleksi" id="filterBar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="floral">
+              Floral & Garden
+            </button>
+            <button class="filter-btn" data-filter="modern">Modern Luxury</button>
+            <button class="filter-btn" data-filter="dark">Dark Luxury</button>
+            <button class="filter-btn" data-filter="celestial">
+              Fantasy & Celestial
+            </button>
+            <button class="filter-btn" data-filter="editorial">
+              Editorial & Fashion
+            </button>
+            <button class="filter-btn" data-filter="beach">
+              Beach & Tropical
+            </button>
+            <button class="filter-btn" data-filter="royal">Royal & Palace</button>
+            <button class="filter-btn" data-filter="chinese">
+              Chinese Luxury
+            </button>
+          </div>
+          <div class="filter-scrollbar" aria-hidden="true">
+            <div class="filter-scrollbar-thumb" id="filterScrollThumb"></div>
+          </div>
         </div>
 
         <div class="gallery-grid" id="galleryGrid"></div>
@@ -2980,6 +3059,12 @@
       document
         .querySelectorAll("#waHero,#waMainCta")
         .forEach((el) => (el.href = waLink()));
+      document.getElementById("waReseller").href = waLink(
+        "saya ingin jadi reseller",
+      );
+      document.getElementById("waResellerHero").href = waLink(
+        "saya ingin jadi reseller",
+      );
 
       /* ============================= OPENING SEQUENCE ============================= */
       window.addEventListener("load", () => {
@@ -3447,8 +3532,10 @@
       );
 
       /* filters */
+      let filterDragged = false;
       document.querySelectorAll(".filter-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
+          if (filterDragged) return; /* abaikan klik yang sebenarnya hasil drag */
           document
             .querySelectorAll(".filter-btn")
             .forEach((b) => b.classList.remove("active"));
@@ -3460,6 +3547,71 @@
           });
         });
       });
+
+      /* filter-bar: scroller custom + drag-to-scroll */
+      (function () {
+        const bar = document.getElementById("filterBar");
+        const thumb = document.getElementById("filterScrollThumb");
+        if (!bar || !thumb) return;
+
+        function syncThumb() {
+          const trackable = bar.scrollWidth - bar.clientWidth;
+          if (trackable <= 0) {
+            thumb.style.opacity = "0";
+            return;
+          }
+          thumb.style.opacity = "1";
+          const ratio = bar.clientWidth / bar.scrollWidth;
+          const trackWidth = thumb.parentElement.clientWidth;
+          const thumbWidth = Math.max(ratio * trackWidth, 40);
+          const maxThumbX = trackWidth - thumbWidth;
+          const scrollRatio = bar.scrollLeft / trackable;
+          thumb.style.width = thumbWidth + "px";
+          thumb.style.transform = `translateX(${scrollRatio * maxThumbX}px)`;
+        }
+        bar.addEventListener("scroll", syncThumb, { passive: true });
+        window.addEventListener("resize", syncThumb);
+        syncThumb();
+
+        /* drag pakai mouse */
+        let isDown = false,
+          startX = 0,
+          startScroll = 0,
+          moved = 0;
+        bar.addEventListener("mousedown", (e) => {
+          isDown = true;
+          moved = 0;
+          bar.classList.add("dragging");
+          startX = e.pageX;
+          startScroll = bar.scrollLeft;
+        });
+        window.addEventListener("mouseup", () => {
+          if (isDown && moved > 6) {
+            filterDragged = true;
+            setTimeout(() => (filterDragged = false), 50);
+          }
+          isDown = false;
+          bar.classList.remove("dragging");
+        });
+        window.addEventListener("mousemove", (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const dx = e.pageX - startX;
+          moved = Math.abs(dx);
+          bar.scrollLeft = startScroll - dx;
+        });
+
+        /* scroll roda mouse vertikal -> horizontal */
+        bar.addEventListener(
+          "wheel",
+          (e) => {
+            if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+            bar.scrollLeft += e.deltaY;
+            e.preventDefault();
+          },
+          { passive: false },
+        );
+      })();
 
       /* preview modal */
       const modal = document.getElementById("preview-modal");
@@ -3736,47 +3888,20 @@
           testTrack.scrollBy({ left: -360, behavior: "smooth" }),
         );
 
-      /* ============================= STATS COUNTER ============================= */
+      /* ============================= STATS ============================= */
+      /* Tinggal ganti angka/teksnya di sini, tidak perlu utak-atik yang lain */
       const stats = [
-        { num: 500, suffix: "+", label: "Wedding Created" },
-        { num: 5, suffix: "★", label: "Average Rating", isFloat: true },
-        { num: 98, suffix: "%", label: "Happy Customer" },
-        { num: 100, suffix: "%", label: "Responsive" },
+        { text: "100+", label: "Wedding Created" },
+        { text: "5.0★", label: "Average Rating" },
+        { text: "98%", label: "Happy Customer" },
+        { text: "100%", label: "Responsive" },
       ];
       const statsGrid = document.getElementById("statsGrid");
       stats.forEach((s) => {
         const el = document.createElement("div");
-        el.innerHTML = `<div class="stat-num" data-target="${s.num}" data-suffix="${s.suffix}">0${s.suffix}</div><div class="stat-label">${s.label}</div>`;
+        el.innerHTML = `<div class="stat-num">${s.text}</div><div class="stat-label">${s.label}</div>`;
         statsGrid.appendChild(el);
       });
-      const statObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entries.forEach((en) => {
-                const numEl = en.target.querySelector(".stat-num");
-                const target = parseFloat(numEl.dataset.target);
-                const suffix = numEl.dataset.suffix;
-                let cur = 0;
-                const step = target / 40;
-                const tick = () => {
-                  cur += step;
-                  if (cur >= target) {
-                    numEl.textContent = target + suffix;
-                    return;
-                  }
-                  numEl.textContent = Math.floor(cur) + suffix;
-                  requestAnimationFrame(tick);
-                };
-                tick();
-              });
-              statObserver.disconnect();
-            }
-          });
-        },
-        { threshold: 0.4 },
-      );
-      statObserver.observe(statsGrid);
 
       /* ============================= PROCESS ============================= */
       const steps = [
@@ -3815,31 +3940,31 @@
       const plans = [
         {
           tier: "Basic",
-          price: "Rp299K",
+          price: "Rp200K",
           note: "",
           features: [
             "1 Template Pilihan",
-            "RSVP Sederhana",
+            "Background Music",
             "Countdown & Maps",
-            "Responsive Design",
+            "Love Story & Gallery",
           ],
           popular: false,
         },
         {
           tier: "Premium",
-          price: "Rp499K",
+          price: "Rp400K",
           note: "Most Popular",
           features: [
             "Semua fitur Basic",
-            "Love Story & Gallery",
-            "Background Music",
+            "Responsive Design",
+            "RSVP Sederhana",
             "Unlimited Revisions",
           ],
           popular: true,
         },
         {
           tier: "Exclusive",
-          price: "Rp799K",
+          price: "Rp500K",
           note: "Best Seller",
           features: [
             "Semua fitur Premium",
@@ -3938,7 +4063,7 @@
       const contacts = [
         {
           label: "WhatsApp",
-          value: "+62 812-3456-7890",
+          value: "+62 813-8376-3973",
           p: '<path d="M12 3a9 9 0 0 0-7.5 13.9L3 21l4.2-1.4A9 9 0 1 0 12 3z"/>',
         },
         {

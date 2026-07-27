@@ -160,10 +160,14 @@ section{position:relative;}
 
 .eyebrow{
   font-family:var(--font-label); letter-spacing:.28em; text-transform:uppercase;
-  font-size:.72rem; color:var(--champagne-gold); font-weight:500;
-  display:flex; align-items:center; gap:14px; margin-bottom:22px;
+  font-size:.72rem; color:var(--starlight-gold); font-weight:600;
+  display:inline-flex; align-items:center; gap:14px; margin-bottom:22px;
+  padding:10px 22px; border:1px solid rgba(242,217,166,.55);
+  border-radius:999px; background:rgba(20,14,6,.28);
+  text-shadow:0 1px 3px rgba(0,0,0,.35);
+  backdrop-filter:blur(2px);
 }
-.eyebrow::before{content:''; width:34px; height:1px; background:var(--champagne-gold);}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--starlight-gold);}
 
 .section-title{
   font-family:var(--font-heading); font-weight:500;
@@ -480,16 +484,35 @@ header.site-nav.nav-hide{transform:translateY(-100%);}
 }
 
 /* ---------------------------------------------------------------------- */
-/* COUNTDOWN — marble/crystal flip                                        */
+/* COUNTDOWN — framed panel, dark → orange (hanya melingkupi konten)      */
 /* ---------------------------------------------------------------------- */
+.countdown-frame{
+  display:inline-block; max-width:920px; width:100%;
+  padding:64px 40px 56px; border-radius:18px;
+  background:linear-gradient(165deg,
+    #120904 0%,
+    #2B140A 20%,
+    #4C2210 42%,
+    #7C3A16 62%,
+    #B15E22 80%,
+    #D68A3E 100%);
+  border:1px solid rgba(242,217,166,.35);
+  box-shadow:0 30px 70px rgba(0,0,0,.35);
+}
+.countdown-frame .section-title{ text-shadow:0 4px 22px rgba(0,0,0,.4); }
+.countdown-frame .section-sub{ text-shadow:0 2px 12px rgba(0,0,0,.3); }
+
 .countdown-grid{display:flex; justify-content:center; gap:26px; margin-top:70px; flex-wrap:wrap;}
 .flip-unit{
-  width:110px; padding:26px 0; text-align:center; background:var(--zone-surface);
-  border:1px solid var(--zone-border); position:relative; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  width:120px; padding:30px 0 24px; text-align:center;
+  background:linear-gradient(165deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
+  border:1px solid rgba(242,217,166,.4); border-radius:8px;
+  position:relative; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 14px 34px rgba(0,0,0,.3);
 }
-.flip-unit::before{content:''; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(242,217,166,.25);}
-.flip-num{font-family:var(--font-heading); font-size:2.4rem; color:var(--zone-ink); display:block;}
-.flip-label{font-family:var(--font-label); letter-spacing:.2em; text-transform:uppercase; font-size:.62rem; color:var(--champagne-gold); margin-top:8px; display:block;}
+.flip-unit::before{content:''; position:absolute; left:18px; right:18px; top:50%; height:1px; background:rgba(242,217,166,.22);}
+.flip-num{font-family:var(--font-heading); font-size:2.6rem; color:#FFFFFF; display:block; text-shadow:0 3px 14px rgba(0,0,0,.4);}
+.flip-label{font-family:var(--font-label); font-weight:600; letter-spacing:.22em; text-transform:uppercase; font-size:.66rem; color:var(--starlight-gold); margin-top:10px; display:block; text-shadow:0 1px 6px rgba(0,0,0,.35);}
 
 /* ---------------------------------------------------------------------- */
 /* EVENT / CEREMONY & RECEPTION                                           */
@@ -868,13 +891,15 @@ header.site-nav.nav-hide{transform:translateY(-100%);}
   <!-- ============================================================ -->
   <section id="countdown" class="zone-dark">
     <div class="section-inner" style="text-align:center;">
-      <div class="eyebrow reveal" style="justify-content:center;">Save The Date</div>
-      <h2 class="section-title reveal">Menghitung Hari</h2>
-      <div class="countdown-grid reveal-scale">
-        <div class="flip-unit"><span class="flip-num" id="cdDays">00</span><span class="flip-label">Hari</span></div>
-        <div class="flip-unit"><span class="flip-num" id="cdHours">00</span><span class="flip-label">Jam</span></div>
-        <div class="flip-unit"><span class="flip-num" id="cdMinutes">00</span><span class="flip-label">Menit</span></div>
-        <div class="flip-unit"><span class="flip-num" id="cdSeconds">00</span><span class="flip-label">Detik</span></div>
+      <div class="countdown-frame">
+        <div class="eyebrow reveal" style="justify-content:center;">Save The Date</div>
+        <h2 class="section-title reveal">Menghitung Hari</h2>
+        <div class="countdown-grid reveal-scale">
+          <div class="flip-unit"><span class="flip-num" id="cdDays">00</span><span class="flip-label">Hari</span></div>
+          <div class="flip-unit"><span class="flip-num" id="cdHours">00</span><span class="flip-label">Jam</span></div>
+          <div class="flip-unit"><span class="flip-num" id="cdMinutes">00</span><span class="flip-label">Menit</span></div>
+          <div class="flip-unit"><span class="flip-num" id="cdSeconds">00</span><span class="flip-label">Detik</span></div>
+        </div>
       </div>
     </div>
   </section>
