@@ -4533,80 +4533,76 @@
         });
       })();
     </script>
-      <!-- ==== GP-CURSOR ==== -->
+      <!-- ==== GP-CURSOR (kaligrafi) ==== -->
     <style id="gp-cursor-style">
       /* ============================================================
-         KURSOR KHUSUS — cincin emas + label
-         Hanya aktif di perangkat berpointer presisi (desktop).
+         KURSOR KALIGRAFI — mata pena emas + goresan tinta
+         Aktif hanya setelah gerakan mouse asli terdeteksi.
          ============================================================ */
-      /* Kelas gp-cursor-on hanya dipasang JS setelah mouse betulan terdeteksi,
-         jadi tidak perlu lagi dikunci media query (laptop layar sentuh sering
-         melaporkan pointer:coarse walaupun mouse-nya ada). */
-      body.gp-cursor-on,
-      body.gp-cursor-on * {
+      body.gp-on,
+      body.gp-on * {
         cursor: none !important;
       }
-      /* kolom isian tetap memakai caret bawaan */
-      body.gp-cursor-on input,
-      body.gp-cursor-on textarea,
-      body.gp-cursor-on select {
+      body.gp-on input,
+      body.gp-on textarea,
+      body.gp-on select {
         cursor: text !important;
       }
 
-      .gp-cur,
-      .gp-ring {
+      #gp-ink {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 99997;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      #gp-ink.on {
+        opacity: 1;
+      }
+
+      .gp-nib,
+      .gp-disc {
         position: fixed;
         top: 0;
         left: 0;
         pointer-events: none;
-        z-index: 99999;
         opacity: 0;
         will-change: transform;
       }
-      .gp-cur.on,
-      .gp-ring.on {
-        opacity: 1;
-      }
-
-      .gp-cur {
-        width: 15px;
-        height: 15px;
-        margin: -7.5px 0 0 -7.5px;
+      .gp-nib {
+        z-index: 99999;
+        width: 22px;
+        height: 22px;
+        margin: -3px 0 0 -3px;
         transition: opacity 0.3s ease;
       }
-      .gp-cur svg {
+      .gp-nib svg {
         width: 100%;
         height: 100%;
         display: block;
-        filter: drop-shadow(0 1px 3px rgba(70, 52, 16, 0.45));
+        filter: drop-shadow(0 2px 4px rgba(70, 52, 16, 0.4));
       }
 
-      .gp-ring {
-        width: 40px;
-        height: 40px;
-        margin: -20px 0 0 -20px;
+      .gp-disc {
+        z-index: 99998;
+        width: 0;
+        height: 0;
+        margin: 0;
         border-radius: 50%;
-        border: 1px solid rgba(198, 166, 100, 0.85);
+        background: rgba(198, 166, 100, 0.95);
         display: flex;
         align-items: center;
         justify-content: center;
         transition:
-          opacity 0.3s ease,
           width 0.45s var(--ease),
           height 0.45s var(--ease),
           margin 0.45s var(--ease),
-          background 0.45s ease,
-          border-color 0.45s ease;
+          opacity 0.3s ease;
       }
-      .gp-ring::after {
-        content: "";
-        position: absolute;
-        inset: -6px;
-        border-radius: 50%;
-        border: 1px solid rgba(198, 166, 100, 0.2);
-      }
-
-      .gp-label {
+      .gp-disc span {
         font-family: var(--font-body);
         font-size: 9px;
         letter-spacing: 0.24em;
@@ -4614,105 +4610,164 @@
         color: #161412;
         white-space: nowrap;
         opacity: 0;
-        transform: translateY(5px);
-        transition:
-          opacity 0.3s ease,
-          transform 0.35s var(--ease);
+        transition: opacity 0.25s ease 0.1s;
       }
-
-      /* di atas elemen interaktif: cincin membesar, terisi emas, label muncul */
-      .gp-ring.hov {
-        width: 86px;
-        height: 86px;
-        margin: -43px 0 0 -43px;
-        background: rgba(198, 166, 100, 0.94);
-        border-color: rgba(198, 166, 100, 0.94);
-      }
-      .gp-ring.hov::after {
-        border-color: transparent;
-      }
-      .gp-ring.hov .gp-label {
+      .gp-nib.on,
+      .gp-disc.on {
         opacity: 1;
-        transform: translateY(0);
       }
-      .gp-cur.hov {
+      .gp-disc.hov {
+        width: 84px;
+        height: 84px;
+        margin: -42px 0 0 -42px;
+      }
+      .gp-disc.hov span {
+        opacity: 1;
+      }
+      .gp-nib.hov {
+        opacity: 0;
+      }
+      .gp-nib.txt,
+      .gp-disc.txt {
         opacity: 0;
       }
 
-      .gp-ring.down {
-        width: 30px;
-        height: 30px;
-        margin: -15px 0 0 -15px;
-      }
-      .gp-ring.hov.down {
-        width: 74px;
-        height: 74px;
-        margin: -37px 0 0 -37px;
-      }
-
-      /* sembunyikan seluruhnya saat berada di atas kolom isian */
-      .gp-cur.txt,
-      .gp-ring.txt {
-        opacity: 0;
-      }
-
-      @media (max-width: 900px) {
-        .gp-cur,
-        .gp-ring {
+      @media (max-width: 700px) {
+        #gp-ink,
+        .gp-nib,
+        .gp-disc {
           display: none;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .gp-ring {
-          transition: opacity 0.3s ease;
         }
       }
     </style>
 
     <script>
       /* ============================================================
-         KURSOR KHUSUS "THE GRAND PALACE"
-         Cincin kawin emas sebagai penunjuk, cincin luar mengekor,
-         membesar jadi tombol berlabel saat menyentuh elemen interaktif.
+         KURSOR KALIGRAFI "THE GRAND PALACE"
+         Mata pena emas menulis goresan tinta yang meruncing dan
+         memudar, seolah menandatangani undangan. Klik meninggalkan
+         cap lilin yang beriak lalu hilang.
          ============================================================ */
       (function () {
-        /* Jangan mengandalkan media query pointer:fine — banyak laptop layar
-           sentuh melaporkannya salah. Cukup tunggu event mousemove asli:
-           kalau ada mouse, kursor tampil; kalau murni sentuh, tidak pernah aktif. */
-        var cur = document.createElement("div");
-        cur.className = "gp-cur";
-        cur.innerHTML =
-          '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-          '<defs><linearGradient id="gpGold" x1="0" y1="0" x2="0" y2="1">' +
-          '<stop offset="0%" stop-color="#f4e2b4"/>' +
-          '<stop offset="50%" stop-color="#c6a664"/>' +
-          '<stop offset="100%" stop-color="#8a6f36"/>' +
+        var reduce =
+          window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        /* ---------- elemen ---------- */
+        var canvas = document.createElement("canvas");
+        canvas.id = "gp-ink";
+
+        var nib = document.createElement("div");
+        nib.className = "gp-nib";
+        nib.innerHTML =
+          '<svg viewBox="0 0 32 32" aria-hidden="true">' +
+          '<defs><linearGradient id="gpNib" x1="0" y1="0" x2="0.6" y2="1">' +
+          '<stop offset="0%" stop-color="#f6e7bd"/>' +
+          '<stop offset="45%" stop-color="#c6a664"/>' +
+          '<stop offset="100%" stop-color="#7d6434"/>' +
           "</linearGradient></defs>" +
-          '<circle cx="12" cy="14.6" r="7" fill="none" stroke="url(#gpGold)" stroke-width="2.7"/>' +
-          '<path d="M12 2.4 14.5 5.7 12 8.5 9.5 5.7Z" fill="#fffaf0" stroke="url(#gpGold)" stroke-width="0.9" stroke-linejoin="round"/>' +
+          /* badan pena */
+          '<path d="M27.4 2.1 19 10.6l3.2 3.2 8.4-8.5a2.3 2.3 0 0 0-3.2-3.2Z" fill="url(#gpNib)" stroke="#6b5529" stroke-width="0.7" stroke-linejoin="round"/>' +
+          /* mata pena */
+          '<path d="M18.2 11.4 5.4 24.2 2.6 30l5.8-2.8L21.2 14.4Z" fill="url(#gpNib)" stroke="#6b5529" stroke-width="0.7" stroke-linejoin="round"/>' +
+          /* belahan nib */
+          '<path d="M9.6 21.2 13 24.6" stroke="#6b5529" stroke-width="0.7" stroke-linecap="round"/>' +
+          '<circle cx="11.3" cy="22.9" r="1.05" fill="#fffaf0" stroke="#6b5529" stroke-width="0.5"/>' +
+          /* ujung tinta */
+          '<path d="M2.6 30 4.6 25.8 7.4 28.6Z" fill="#3a2f18"/>' +
           "</svg>";
 
-        var ring = document.createElement("div");
-        ring.className = "gp-ring";
+        var disc = document.createElement("div");
+        disc.className = "gp-disc";
         var label = document.createElement("span");
-        label.className = "gp-label";
-        ring.appendChild(label);
+        disc.appendChild(label);
 
-        document.body.appendChild(cur);
-        document.body.appendChild(ring);
+        document.body.appendChild(canvas);
+        document.body.appendChild(disc);
+        document.body.appendChild(nib);
 
-        var mx = window.innerWidth / 2,
-          my = window.innerHeight / 2,
-          rx = mx,
-          ry = my,
-          shown = false;
+        var ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        function resize() {
+          canvas.width = Math.floor(window.innerWidth * dpr);
+          canvas.height = Math.floor(window.innerHeight * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        /* ---------- state ---------- */
+        var pts = [], // titik goresan tinta
+          seals = [], // cap lilin saat klik
+          mx = 0,
+          my = 0,
+          px = 0,
+          py = 0,
+          active = false,
+          LIFE = 950; // umur goresan (ms)
+
+        function onMove(e) {
+          if (e.pointerType && e.pointerType !== "mouse") return;
+
+          mx = e.clientX;
+          my = e.clientY;
+
+          if (!active) {
+            active = true;
+            px = mx;
+            py = my;
+            document.body.classList.add("gp-on");
+            nib.classList.add("on");
+            disc.classList.add("on");
+            canvas.classList.add("on");
+          }
+
+          nib.style.transform = "translate(" + mx + "px," + my + "px)";
+          disc.style.transform = "translate(" + mx + "px," + my + "px)";
+
+          /* lebar goresan mengikuti kecepatan: pelan = tebal, cepat = tipis */
+          var dx = mx - px,
+            dy = my - py,
+            speed = Math.sqrt(dx * dx + dy * dy);
+          px = mx;
+          py = my;
+          if (!reduce) {
+            pts.push({
+              x: mx,
+              y: my,
+              w: Math.max(0.6, 4.2 - speed * 0.11),
+              t: performance.now(),
+            });
+            if (pts.length > 220) pts.shift();
+          }
+
+          /* status hover */
+          var t = e.target;
+          var field = t && t.closest && t.closest("input, textarea, select");
+          nib.classList.toggle("txt", !!field);
+          disc.classList.toggle("txt", !!field);
+          if (field) return;
+
+          var hit = t && t.closest ? t.closest(HOVER) : null;
+          if (hit) {
+            label.textContent = labelFor(hit);
+            disc.classList.add("hov");
+            nib.classList.add("hov");
+          } else {
+            disc.classList.remove("hov");
+            nib.classList.remove("hov");
+          }
+        }
 
         var HOVER =
           'a, button, [role="button"], .btn, .filter-btn, .icon-btn, ' +
           '.nav-cta, input[type="submit"], label, summary, [data-cursor]';
 
         function labelFor(el) {
-          if (el.hasAttribute("data-cursor")) return el.getAttribute("data-cursor");
+          if (el.hasAttribute("data-cursor"))
+            return el.getAttribute("data-cursor");
           var href = el.getAttribute && el.getAttribute("href");
           if (href && /^demo\//.test(href)) return "Lihat";
           if (el.matches("button, .btn, .filter-btn, .icon-btn, [type=submit]"))
@@ -4722,69 +4777,83 @@
           return "Pilih";
         }
 
-        function onMove(e) {
-          /* abaikan gerakan yang berasal dari sentuhan atau pena */
-          if (e.pointerType && e.pointerType !== "mouse") return;
+        /* ---------- gambar ---------- */
+        function draw() {
+          var now = performance.now();
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-          mx = e.clientX;
-          my = e.clientY;
-          cur.style.transform = "translate(" + mx + "px," + my + "px)";
-
-          if (!shown) {
-            shown = true;
-            rx = mx;
-            ry = my;
-            document.body.classList.add("gp-cursor-on");
-            cur.classList.add("on");
-            ring.classList.add("on");
+          /* goresan tinta: segmen meruncing, memudar seiring umur */
+          while (pts.length && now - pts[0].t > LIFE) pts.shift();
+          for (var i = 1; i < pts.length; i++) {
+            var a = pts[i - 1],
+              b = pts[i];
+            var age = (now - b.t) / LIFE;
+            var fade = 1 - age;
+            if (fade <= 0) continue;
+            var grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+            grad.addColorStop(0, "rgba(150,120,58," + fade * 0.5 + ")");
+            grad.addColorStop(1, "rgba(198,166,100," + fade * 0.85 + ")");
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = b.w * fade;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
           }
 
-          var t = e.target;
-          var field = t && t.closest && t.closest("input, textarea, select");
-          cur.classList.toggle("txt", !!field);
-          ring.classList.toggle("txt", !!field);
-          if (field) return;
-
-          var hit = t && t.closest ? t.closest(HOVER) : null;
-          if (hit) {
-            label.textContent = labelFor(hit);
-            ring.classList.add("hov");
-            cur.classList.add("hov");
-          } else {
-            ring.classList.remove("hov");
-            cur.classList.remove("hov");
+          /* cap lilin: cincin yang mengembang lalu hilang */
+          for (var s = seals.length - 1; s >= 0; s--) {
+            var sl = seals[s];
+            var p = (now - sl.t) / 620;
+            if (p >= 1) {
+              seals.splice(s, 1);
+              continue;
+            }
+            var r = 6 + p * 30;
+            ctx.beginPath();
+            ctx.arc(sl.x, sl.y, r, 0, Math.PI * 2);
+            ctx.strokeStyle = "rgba(198,166,100," + (1 - p) * 0.75 + ")";
+            ctx.lineWidth = 1.4 * (1 - p);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(sl.x, sl.y, 5 * (1 - p) + 2, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(198,166,100," + (1 - p) * 0.5 + ")";
+            ctx.fill();
           }
+
+          requestAnimationFrame(draw);
         }
+        requestAnimationFrame(draw);
 
-        /* pointermove memberi tahu jenis pointer; mousemove sebagai cadangan */
+        /* ---------- event ---------- */
         if (window.PointerEvent) {
           document.addEventListener("pointermove", onMove, { passive: true });
         } else {
           document.addEventListener("mousemove", onMove, { passive: true });
         }
 
-        (function trail() {
-          rx += (mx - rx) * 0.18;
-          ry += (my - ry) * 0.18;
-          ring.style.transform = "translate(" + rx + "px," + ry + "px)";
-          requestAnimationFrame(trail);
-        })();
-
-        document.addEventListener("mousedown", function () {
-          ring.classList.add("down");
+        document.addEventListener("mousedown", function (e) {
+          if (!active) return;
+          nib.style.transform =
+            "translate(" + mx + "px," + my + "px) scale(.86)";
+          if (!reduce) seals.push({ x: e.clientX, y: e.clientY, t: performance.now() });
         });
         document.addEventListener("mouseup", function () {
-          ring.classList.remove("down");
+          if (active)
+            nib.style.transform = "translate(" + mx + "px," + my + "px)";
         });
         document.addEventListener("mouseleave", function () {
-          cur.classList.remove("on");
-          ring.classList.remove("on");
-          shown = false;
+          nib.classList.remove("on");
+          disc.classList.remove("on");
+          canvas.classList.remove("on");
         });
         document.addEventListener("mouseenter", function () {
-          cur.classList.add("on");
-          ring.classList.add("on");
-          shown = true;
+          if (!active) return;
+          nib.classList.add("on");
+          disc.classList.add("on");
+          canvas.classList.add("on");
         });
       })();
     </script>
