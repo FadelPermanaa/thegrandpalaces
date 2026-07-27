@@ -4533,5 +4533,261 @@
         });
       })();
     </script>
+      <!-- ==== GP-CURSOR ==== -->
+    <style id="gp-cursor-style">
+      /* ============================================================
+         KURSOR KHUSUS — cincin emas + label
+         Hanya aktif di perangkat berpointer presisi (desktop).
+         ============================================================ */
+      /* Kelas gp-cursor-on hanya dipasang JS setelah mouse betulan terdeteksi,
+         jadi tidak perlu lagi dikunci media query (laptop layar sentuh sering
+         melaporkan pointer:coarse walaupun mouse-nya ada). */
+      body.gp-cursor-on,
+      body.gp-cursor-on * {
+        cursor: none !important;
+      }
+      /* kolom isian tetap memakai caret bawaan */
+      body.gp-cursor-on input,
+      body.gp-cursor-on textarea,
+      body.gp-cursor-on select {
+        cursor: text !important;
+      }
+
+      .gp-cur,
+      .gp-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 99999;
+        opacity: 0;
+        will-change: transform;
+      }
+      .gp-cur.on,
+      .gp-ring.on {
+        opacity: 1;
+      }
+
+      .gp-cur {
+        width: 15px;
+        height: 15px;
+        margin: -7.5px 0 0 -7.5px;
+        transition: opacity 0.3s ease;
+      }
+      .gp-cur svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        filter: drop-shadow(0 1px 3px rgba(70, 52, 16, 0.45));
+      }
+
+      .gp-ring {
+        width: 40px;
+        height: 40px;
+        margin: -20px 0 0 -20px;
+        border-radius: 50%;
+        border: 1px solid rgba(198, 166, 100, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 0.3s ease,
+          width 0.45s var(--ease),
+          height 0.45s var(--ease),
+          margin 0.45s var(--ease),
+          background 0.45s ease,
+          border-color 0.45s ease;
+      }
+      .gp-ring::after {
+        content: "";
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 1px solid rgba(198, 166, 100, 0.2);
+      }
+
+      .gp-label {
+        font-family: var(--font-body);
+        font-size: 9px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: #161412;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateY(5px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.35s var(--ease);
+      }
+
+      /* di atas elemen interaktif: cincin membesar, terisi emas, label muncul */
+      .gp-ring.hov {
+        width: 86px;
+        height: 86px;
+        margin: -43px 0 0 -43px;
+        background: rgba(198, 166, 100, 0.94);
+        border-color: rgba(198, 166, 100, 0.94);
+      }
+      .gp-ring.hov::after {
+        border-color: transparent;
+      }
+      .gp-ring.hov .gp-label {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .gp-cur.hov {
+        opacity: 0;
+      }
+
+      .gp-ring.down {
+        width: 30px;
+        height: 30px;
+        margin: -15px 0 0 -15px;
+      }
+      .gp-ring.hov.down {
+        width: 74px;
+        height: 74px;
+        margin: -37px 0 0 -37px;
+      }
+
+      /* sembunyikan seluruhnya saat berada di atas kolom isian */
+      .gp-cur.txt,
+      .gp-ring.txt {
+        opacity: 0;
+      }
+
+      @media (max-width: 900px) {
+        .gp-cur,
+        .gp-ring {
+          display: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .gp-ring {
+          transition: opacity 0.3s ease;
+        }
+      }
+    </style>
+
+    <script>
+      /* ============================================================
+         KURSOR KHUSUS "THE GRAND PALACE"
+         Cincin kawin emas sebagai penunjuk, cincin luar mengekor,
+         membesar jadi tombol berlabel saat menyentuh elemen interaktif.
+         ============================================================ */
+      (function () {
+        /* Jangan mengandalkan media query pointer:fine — banyak laptop layar
+           sentuh melaporkannya salah. Cukup tunggu event mousemove asli:
+           kalau ada mouse, kursor tampil; kalau murni sentuh, tidak pernah aktif. */
+        var cur = document.createElement("div");
+        cur.className = "gp-cur";
+        cur.innerHTML =
+          '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+          '<defs><linearGradient id="gpGold" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#f4e2b4"/>' +
+          '<stop offset="50%" stop-color="#c6a664"/>' +
+          '<stop offset="100%" stop-color="#8a6f36"/>' +
+          "</linearGradient></defs>" +
+          '<circle cx="12" cy="14.6" r="7" fill="none" stroke="url(#gpGold)" stroke-width="2.7"/>' +
+          '<path d="M12 2.4 14.5 5.7 12 8.5 9.5 5.7Z" fill="#fffaf0" stroke="url(#gpGold)" stroke-width="0.9" stroke-linejoin="round"/>' +
+          "</svg>";
+
+        var ring = document.createElement("div");
+        ring.className = "gp-ring";
+        var label = document.createElement("span");
+        label.className = "gp-label";
+        ring.appendChild(label);
+
+        document.body.appendChild(cur);
+        document.body.appendChild(ring);
+
+        var mx = window.innerWidth / 2,
+          my = window.innerHeight / 2,
+          rx = mx,
+          ry = my,
+          shown = false;
+
+        var HOVER =
+          'a, button, [role="button"], .btn, .filter-btn, .icon-btn, ' +
+          '.nav-cta, input[type="submit"], label, summary, [data-cursor]';
+
+        function labelFor(el) {
+          if (el.hasAttribute("data-cursor")) return el.getAttribute("data-cursor");
+          var href = el.getAttribute && el.getAttribute("href");
+          if (href && /^demo\//.test(href)) return "Lihat";
+          if (el.matches("button, .btn, .filter-btn, .icon-btn, [type=submit]"))
+            return "Klik";
+          if (href && /^#/.test(href)) return "Menuju";
+          if (href) return "Buka";
+          return "Pilih";
+        }
+
+        function onMove(e) {
+          /* abaikan gerakan yang berasal dari sentuhan atau pena */
+          if (e.pointerType && e.pointerType !== "mouse") return;
+
+          mx = e.clientX;
+          my = e.clientY;
+          cur.style.transform = "translate(" + mx + "px," + my + "px)";
+
+          if (!shown) {
+            shown = true;
+            rx = mx;
+            ry = my;
+            document.body.classList.add("gp-cursor-on");
+            cur.classList.add("on");
+            ring.classList.add("on");
+          }
+
+          var t = e.target;
+          var field = t && t.closest && t.closest("input, textarea, select");
+          cur.classList.toggle("txt", !!field);
+          ring.classList.toggle("txt", !!field);
+          if (field) return;
+
+          var hit = t && t.closest ? t.closest(HOVER) : null;
+          if (hit) {
+            label.textContent = labelFor(hit);
+            ring.classList.add("hov");
+            cur.classList.add("hov");
+          } else {
+            ring.classList.remove("hov");
+            cur.classList.remove("hov");
+          }
+        }
+
+        /* pointermove memberi tahu jenis pointer; mousemove sebagai cadangan */
+        if (window.PointerEvent) {
+          document.addEventListener("pointermove", onMove, { passive: true });
+        } else {
+          document.addEventListener("mousemove", onMove, { passive: true });
+        }
+
+        (function trail() {
+          rx += (mx - rx) * 0.18;
+          ry += (my - ry) * 0.18;
+          ring.style.transform = "translate(" + rx + "px," + ry + "px)";
+          requestAnimationFrame(trail);
+        })();
+
+        document.addEventListener("mousedown", function () {
+          ring.classList.add("down");
+        });
+        document.addEventListener("mouseup", function () {
+          ring.classList.remove("down");
+        });
+        document.addEventListener("mouseleave", function () {
+          cur.classList.remove("on");
+          ring.classList.remove("on");
+          shown = false;
+        });
+        document.addEventListener("mouseenter", function () {
+          cur.classList.add("on");
+          ring.classList.add("on");
+          shown = true;
+        });
+      })();
+    </script>
+    <!-- ==== /GP-CURSOR ==== -->
   </body>
 </html>
