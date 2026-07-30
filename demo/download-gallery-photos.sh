@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  Unduh 8 foto galeri dan sebar ke semua demo (luxury-04 .. luxury-30)
+#  Unduh 8 foto galeri dan sebar ke semua demo (luxury-01 .. luxury-35)
 # =============================================================================
 #  Versi macOS / Linux / Git Bash. Jalankan sekali saja:
 #
@@ -63,7 +63,7 @@ fi
 echo
 echo "=== Menyalin ke setiap demo ==="
 copied=0
-for n in $(seq -w 4 30); do
+for n in $(seq -w 1 35); do
   demo="$ROOT/luxury-$n"
   [ -d "$demo" ] || continue
   mkdir -p "$demo/assets/images"

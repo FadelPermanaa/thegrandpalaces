@@ -1,5 +1,5 @@
 # =============================================================================
-#  Unduh 8 foto galeri dan sebar ke semua demo (luxury-04 .. luxury-30)
+#  Unduh 8 foto galeri dan sebar ke semua demo (luxury-01 .. luxury-35)
 # =============================================================================
 #  Jalankan sekali saja, dari komputer yang terhubung internet:
 #
@@ -85,7 +85,7 @@ Write-Host ''
 Write-Host '=== Menyalin ke setiap demo ===' -ForegroundColor Cyan
 
 $copied = 0
-foreach ($n in 4..30) {
+foreach ($n in 1..35) {
     $demo = Join-Path $Root ("luxury-{0:D2}" -f $n)
     if (-not (Test-Path $demo)) { continue }
 

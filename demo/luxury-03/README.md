@@ -1,20 +1,22 @@
-# Midnight Navy — Modern Luxury Wedding Invitation
+# Sage Botanical — Floral & Garden Wedding Invitation
 
-Varian tema dari basis **Elegan Blanc (luxury-31)**: struktur section, layout, dan
+Kategori galeri: **Floral & Garden** (`floral`) — label kartu: *Floral Luxury · Botanical Collection*.
+
+Varian tema dari basis **Elegan Blanc (luxury-01)**: struktur section, layout, dan
 seluruh interaksi identik — yang berbeda adalah palet warna, pasangan font,
-tint foto, dan data dummy. Tema ini bernuansa **navy pekat + gold hangat** (gelap).
+tint foto, dan data dummy. Tema ini bernuansa **sage green + cream botanikal, aksen brass lembut** (terang).
 
-- Pasangan dummy: **Kirana & Bagas**
-- Tanggal: Minggu, 20 Desember 2026
-- Lokasi: The Grand Ballroom, Hotel Arcadia, Jakarta
-- Font: Cinzel (display) · EB Garamond (serif) · Great Vibes (script) · Montserrat (body)
+- Pasangan dummy: **Nadia & Farrel**
+- Tanggal: Minggu, 15 November 2026
+- Lokasi: Taman Kirana Garden Pavilion, Bogor
+- Font: Marcellus (display) · Cormorant Garamond (serif) · Parisienne (script) · Montserrat (body)
 
 ## Struktur folder
 ```
-luxury-33/
+luxury-03/
 ├── index.html            → seluruh markup, CSS, dan JS ada di sini
 └── assets/
-    ├── images/           → foto (opsional, saat ini memakai Unsplash)
+    ├── images/           → 1.webp..12.webp + gallery-1..8.webp (slot foto)
     ├── video/            → slot video (belum dipakai)
     ├── audio/
     │   └── theme-song.mp3 → musik latar
@@ -34,16 +36,14 @@ seluruh halaman ikut berubah.
 
 | Variabel | Nilai | Dipakai untuk |
 |---|---|---|
-| `--ivory` | `#0E1626` | latar utama (navy gelap) |
-| `--cream` | `#131E33` | latar section selang-seling |
-| `--sand` | `#1E2C47` | garis & placeholder |
-| `--gold` | `#C6A664` | aksen utama |
-| `--gold-soft` | `#E0C88E` | aksen lembut |
-| `--accent-deep` | `#8A6F3A` | hover tombol solid |
-| `--ink` | `#EDF1F8` | warna teks (terang) |
-| `--muted` | `#A3AFC4` | teks sekunder |
-| `--surface` | `#16223A` | latar kartu |
-| `--footer-bg` | `#080D18` | latar footer |
+| `--ivory` | `#F5F8F2` | latar utama |
+| `--cream` | `#E9EFE3` | latar section selang-seling |
+| `--sand` | `#D3DEC7` | garis & placeholder |
+| `--gold` | `#6E8459` | aksen utama (sage deep) |
+| `--gold-soft` | `#9DB18B` | aksen lembut |
+| `--accent-deep` | `#33402C` | hover tombol solid |
+| `--ink` | `#2A3327` | warna teks |
+| `--muted` | `#66735E` | teks sekunder |
 
 Token pendukung: `--surface-soft` (kartu semi transparan), `--field-bg` (input form),
 `--nav-bg` (navbar & tombol musik), `--veil` / `--veil-strong` (overlay di atas foto),
@@ -57,9 +57,32 @@ tombol "Simpan ke Kalender" mengikuti nilai ini.
 **Nama, orang tua, alamat, jam acara, nomor rekening** — langsung di `index.html`,
 setiap section diberi komentar penanda.
 
-**Foto** — saat ini memakai URL Unsplash. Ganti `src` pada setiap `<img>` dengan
-`assets/images/nama-file.webp` bila memakai foto sendiri. Tint tema tetap berlaku
-otomatis lewat `--img-filter`.
+**Foto** — memakai slot lokal di `assets/images/`, sama seperti demo lain, sehingga
+`demo/download-all-photos.ps1` (dan `download-gallery-photos.*`) langsung mengisinya:
+
+| Slot | Dipakai di |
+|---|---|
+| `1.webp` | hero (layar utama) |
+| `2.webp` | potret mempelai pria |
+| `3.webp` | potret mempelai wanita |
+| `4.webp` | cover pembuka (foto berdua) |
+| `5.webp` | latar kutipan Q.S. Ar-Rum 21 |
+| `6.webp` | section live streaming |
+| `7.webp` | background band 1 |
+| `8.webp` `9.webp` `10.webp` | tiga tahap Our Story |
+| `gallery-1.webp` … `gallery-8.webp` | galeri 8 foto |
+| `11.webp` | background band 2 |
+| `12.webp` | closing |
+
+Selama file itu belum ada, setiap `<img>` otomatis jatuh ke foto Unsplash pada
+atribut `data-fb` — jadi demo tidak pernah tampil kosong. Mekanismenya satu
+listener `error` fase capture di `<head>`. Tint tema tetap berlaku lewat
+`--img-filter`, baik untuk foto lokal maupun cadangan.
+
+Catatan: skrip download menyebar satu set foto yang sama ke seluruh demo, jadi
+setelah dijalankan kelima tema ini akan memakai foto yang identik (yang berbeda
+tetap palet, font, dan tint). Untuk foto berbeda per tema, taruh file sendiri di
+`assets/images/` masing-masing folder setelah skrip selesai.
 
 **Musik latar** — timpa `assets/audio/theme-song.mp3` dengan lagu Anda.
 
@@ -76,7 +99,7 @@ Breakpoint: `≤1024px` galeri 3 kolom · `≤860px` kolom ganda jadi tunggal & 
 `≤600px` galeri 2 kolom · `≥1900px` lebar konten dikunci.
 
 ## Catatan
-- RSVP & ucapan disimpan di `localStorage` (kunci `luxury33_rsvp`) — belum terhubung ke server.
+- RSVP & ucapan disimpan di `localStorage` (kunci `luxury03_rsvp`) — belum terhubung ke server.
   Untuk produksi, sambungkan handler `#rsvpForm` ke Google Sheets / API Anda.
 - Tidak ada dependensi eksternal selain Google Fonts dan foto Unsplash.
 - Semua animasi menghormati `prefers-reduced-motion`.

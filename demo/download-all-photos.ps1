@@ -1,5 +1,5 @@
 # =============================================================================
-#  Isi SEMUA slot foto di seluruh demo (luxury-01 .. luxury-30)
+#  Isi SEMUA slot foto di seluruh demo (luxury-01 .. luxury-35)
 # =============================================================================
 #  Skrip sebelumnya (download-gallery-photos.ps1) hanya mengisi galeri.
 #  Skrip ini mengisi seluruh slot foto yang masih placeholder:
@@ -115,7 +115,7 @@ for ($g = 1; $g -le 8; $g++) {
 Write-Host ''
 Write-Host '=== Menyalin ke setiap demo ===' -ForegroundColor Cyan
 $copied = 0
-foreach ($n in 1..30) {
+foreach ($n in 1..35) {
     $demo = Join-Path $Root ("luxury-{0:D2}" -f $n)
     if (-not (Test-Path $demo)) { continue }
     $imgDir = Join-Path $demo 'assets\images'

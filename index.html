@@ -972,7 +972,7 @@
       }
       .art-monogram {
         position: absolute;
-        inset: 0;
+        inset: 0 0 42px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -980,7 +980,11 @@
         font-size: 15px;
         letter-spacing: 0.25em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.9);
+        color: rgba(255, 255, 255, 0.92);
+        /* agar tetap terbaca di gradasi terang (ivory / sage / blush) */
+        text-shadow:
+          0 1px 2px rgba(10, 9, 8, 0.55),
+          0 6px 18px rgba(10, 9, 8, 0.45);
       }
       .art-caption {
         position: absolute;
@@ -990,6 +994,18 @@
         padding: 22px 22px 20px;
         background: linear-gradient(to top, rgba(10, 9, 8, 0.72), transparent);
         color: var(--white);
+      }
+      /* Kartu tanpa foto: scrim lebih tebal + ruang untuk chip klasifikasi
+         di bawah nama, sehingga teks tetap terbaca di gradasi terang. */
+      .art-caption--stack {
+        padding: 26px 22px 56px;
+        background: linear-gradient(
+          to top,
+          rgba(10, 9, 8, 0.88) 0%,
+          rgba(10, 9, 8, 0.6) 46%,
+          transparent 100%
+        );
+        text-shadow: 0 1px 3px rgba(10, 9, 8, 0.6);
       }
       .art-cat {
         font-family: var(--font-sub);
@@ -3224,14 +3240,13 @@
       // "desc" adalah deskripsi yang muncul di modal preview.
       const collections = [
         {
-          name: "Ethereal Bloom Luxury Wedding",
-          cat: "floral",
-          style: "Floral Luxury · Romantic Garden",
+          name: "Elegan Blanc",
+          cat: "modern",
+          style: "Modern Luxury \u00b7 Blanc Collection",
           mono: "EB",
-          grad: "linear-gradient(150deg,#f6ece9,#e3b8b0,#a86a72)",
+          grad: "linear-gradient(150deg,#fbf9f5,#e8dfd2,#b08d57)",
           demo: "demo/luxury-01/index.html",
-          img: "assets/images/ethereal-bloom.png",
-          desc: "Mengusung konsep taman bunga mewah dengan nuansa romantis dan elegan. Dipenuhi elemen floral premium, cahaya lembut, serta animasi yang menghadirkan suasana hangat dan penuh cinta.",
+          desc: "Undangan bernuansa ivory dan cream dengan aksen gold, tipografi serif klasik, dan layout full-width editorial. Dirancang lega untuk layar desktop namun tetap menyesuaikan di tablet dan mobile.",
         },
         {
           name: "White Marble Luxury Wedding",
@@ -3244,14 +3259,13 @@
           desc: "Terinspirasi dari ballroom hotel bintang lima dengan dominasi white marble, kaca premium, dan aksen champagne gold. Cocok bagi pasangan yang menyukai desain modern, bersih, dan berkelas.",
         },
         {
-          name: "Black Diamond Luxury Wedding",
-          cat: "dark",
-          style: "Dark Luxury · Gala Collection",
-          mono: "BD",
-          grad: "linear-gradient(150deg,#3a3733,#1c1a17,#0a0908)",
+          name: "Sage Botanical",
+          cat: "floral",
+          style: "Floral Luxury \u00b7 Botanical Collection",
+          mono: "SB",
+          grad: "linear-gradient(150deg,#f5f8f2,#c3d2b4,#6e8459)",
           demo: "demo/luxury-03/index.html",
-          img: "assets/images/black-diamond.png",
-          desc: "Menghadirkan suasana pesta malam eksklusif bertema Black Tie Gala dengan dominasi warna hitam, kilauan berlian, dan pencahayaan dramatis yang memberikan kesan mewah dan misterius.",
+          desc: "Nuansa sage green dan cream botanikal dengan aksen brass lembut. Tipografi Marcellus dan Parisienne, memberi kesan taman terbuka yang tenang dan segar namun tetap berkelas.",
         },
         {
           name: "Imperial Garden Luxury Wedding",
@@ -3264,14 +3278,13 @@
           desc: "Perpaduan taman kerajaan Eropa dengan lanskap hijau yang elegan. Menghadirkan suasana romantis khas taman istana yang dipenuhi bunga, pepohonan, dan arsitektur klasik.",
         },
         {
-          name: "Tuscany Garden Luxury Wedding",
-          cat: "floral",
-          style: "European Villa · Golden Hour",
-          mono: "TG",
-          grad: "linear-gradient(150deg,#f4ecd8,#d8b06a,#8a5a2a)",
+          name: "Midnight Navy",
+          cat: "dark",
+          style: "Dark Luxury \u00b7 Midnight Collection",
+          mono: "MN",
+          grad: "linear-gradient(150deg,#1b2a45,#0e1626,#c6a664)",
           demo: "demo/luxury-05/index.html",
-          img: "assets/images/tuscany-garden.png",
-          desc: "Terinspirasi dari villa-villa mewah di Tuscany, Italia, dengan nuansa golden hour, kebun anggur, taman Eropa, dan suasana hangat yang intim.",
+          desc: "Tema gelap bernuansa navy pekat dengan aksen gold hangat. Tipografi Cinzel dan Great Vibes, terasa formal dan tenang \u2014 sangat cocok untuk resepsi malam.",
         },
         {
           name: "Celestial Night Luxury Wedding",
@@ -3284,14 +3297,13 @@
           desc: "Mengangkat tema langit malam yang dipenuhi galaksi, aurora, bulan purnama, dan konstelasi bintang. Memberikan pengalaman magis dan sinematik yang berbeda dari tema pernikahan pada umumnya.",
         },
         {
-          name: "Paris Editorial Luxury Wedding",
-          cat: "editorial",
-          style: "Editorial Luxury · Paris Collection",
-          mono: "PE",
-          grad: "linear-gradient(150deg,#efeae2,#c9c2b5,#1f1c1a)",
+          name: "Burgundy Wine",
+          cat: "dark",
+          style: "Dark Luxury \u00b7 Wine Collection",
+          mono: "BW",
+          grad: "linear-gradient(150deg,#6e1b2c,#2a0e14,#c99b5a)",
           demo: "demo/luxury-07/index.html",
-          img: "assets/images/paris-editorial.png",
-          desc: "Terinspirasi dari dunia fashion haute couture Paris dan majalah premium seperti Vogue. Mengedepankan tipografi editorial, white space luas, dan tampilan modern yang sangat elegan.",
+          desc: "Tema gelap hangat bernuansa maroon dan burgundy dengan aksen antique gold. Tipografi Playfair Display dan Allura, kesan klasik, intim, dan dramatis.",
         },
         {
           name: "Botanical Premium Luxury Wedding",
@@ -3304,14 +3316,13 @@
           desc: "Menghadirkan suasana botanical garden premium dengan rumah kaca Eropa, dedaunan tropis, bunga eksotis, dan pencahayaan alami yang memberikan kesan segar, hidup, dan eksklusif.",
         },
         {
-          name: "Ocean Pearl Luxury Wedding",
-          cat: "beach",
-          style: "Beach Luxury · Ocean Collection",
-          mono: "OP",
-          grad: "linear-gradient(150deg,#eaf3f4,#7fb0bd,#1f4a52)",
+          name: "Blush Peony",
+          cat: "floral",
+          style: "Floral Luxury \u00b7 Peony Collection",
+          mono: "BP",
+          grad: "linear-gradient(150deg,#fef8f6,#f3d9cf,#c1826c)",
           demo: "demo/luxury-09/index.html",
-          img: "assets/images/ocean-pearl.png",
-          desc: "Terinspirasi dari private beach wedding di Maldives dan Bora Bora dengan panorama laut biru, pasir putih, mutiara, dan matahari terbenam yang romantis.",
+          desc: "Palet pastel blush peach dan dusty rose dengan aksen terracotta lembut. Tipografi Tenor Sans dan Sacramento, kesan ringan, terang, dan romantis.",
         },
         {
           name: "Imperial Palace Luxury Wedding",
@@ -3524,49 +3535,54 @@
           desc: "Kota langit bergaya fantasy dengan awan, pilar marmer putih, crystal palace, langit berbintang, cahaya ilahi, dan nuansa elegan yang magis namun tetap modern.",
         },
         {
-          name: "Elegan Blanc",
-          cat: "modern",
-          style: "Modern Luxury \u00b7 Blanc Collection",
+          name: "Ethereal Bloom Luxury Wedding",
+          cat: "floral",
+          style: "Floral Luxury · Romantic Garden",
           mono: "EB",
-          grad: "linear-gradient(150deg,#fbf9f5,#e8dfd2,#b08d57)",
+          grad: "linear-gradient(150deg,#f6ece9,#e3b8b0,#a86a72)",
           demo: "demo/luxury-31/index.html",
-          desc: "Undangan bernuansa ivory dan cream dengan aksen gold, tipografi serif klasik, dan layout full-width editorial. Dirancang lega untuk layar desktop namun tetap menyesuaikan di tablet dan mobile.",
+          img: "assets/images/ethereal-bloom.png",
+          desc: "Mengusung konsep taman bunga mewah dengan nuansa romantis dan elegan. Dipenuhi elemen floral premium, cahaya lembut, serta animasi yang menghadirkan suasana hangat dan penuh cinta.",
         },
         {
-          name: "Sage Botanical",
-          cat: "modern",
-          style: "Modern Luxury \u00b7 Botanical Collection",
-          mono: "SB",
-          grad: "linear-gradient(150deg,#f5f8f2,#c3d2b4,#6e8459)",
+          name: "Black Diamond Luxury Wedding",
+          cat: "dark",
+          style: "Dark Luxury · Gala Collection",
+          mono: "BD",
+          grad: "linear-gradient(150deg,#3a3733,#1c1a17,#0a0908)",
           demo: "demo/luxury-32/index.html",
-          desc: "Nuansa sage green dan cream botanikal dengan aksen brass lembut. Tipografi Marcellus dan Parisienne, memberi kesan taman terbuka yang tenang dan segar namun tetap berkelas.",
+          img: "assets/images/black-diamond.png",
+          desc: "Menghadirkan suasana pesta malam eksklusif bertema Black Tie Gala dengan dominasi warna hitam, kilauan berlian, dan pencahayaan dramatis yang memberikan kesan mewah dan misterius.",
         },
         {
-          name: "Midnight Navy",
-          cat: "modern",
-          style: "Modern Luxury \u00b7 Midnight Collection",
-          mono: "MN",
-          grad: "linear-gradient(150deg,#1b2a45,#0e1626,#c6a664)",
+          name: "Tuscany Garden Luxury Wedding",
+          cat: "floral",
+          style: "European Villa · Golden Hour",
+          mono: "TG",
+          grad: "linear-gradient(150deg,#f4ecd8,#d8b06a,#8a5a2a)",
           demo: "demo/luxury-33/index.html",
-          desc: "Tema gelap bernuansa navy pekat dengan aksen gold hangat. Tipografi Cinzel dan Great Vibes, terasa formal dan tenang \u2014 sangat cocok untuk resepsi malam.",
+          img: "assets/images/tuscany-garden.png",
+          desc: "Terinspirasi dari villa-villa mewah di Tuscany, Italia, dengan nuansa golden hour, kebun anggur, taman Eropa, dan suasana hangat yang intim.",
         },
         {
-          name: "Burgundy Wine",
-          cat: "modern",
-          style: "Modern Luxury \u00b7 Wine Collection",
-          mono: "BW",
-          grad: "linear-gradient(150deg,#6e1b2c,#2a0e14,#c99b5a)",
+          name: "Paris Editorial Luxury Wedding",
+          cat: "editorial",
+          style: "Editorial Luxury · Paris Collection",
+          mono: "PE",
+          grad: "linear-gradient(150deg,#efeae2,#c9c2b5,#1f1c1a)",
           demo: "demo/luxury-34/index.html",
-          desc: "Tema gelap hangat bernuansa maroon dan burgundy dengan aksen antique gold. Tipografi Playfair Display dan Allura, kesan klasik, intim, dan dramatis.",
+          img: "assets/images/paris-editorial.png",
+          desc: "Terinspirasi dari dunia fashion haute couture Paris dan majalah premium seperti Vogue. Mengedepankan tipografi editorial, white space luas, dan tampilan modern yang sangat elegan.",
         },
         {
-          name: "Blush Peony",
-          cat: "modern",
-          style: "Modern Luxury \u00b7 Peony Collection",
-          mono: "BP",
-          grad: "linear-gradient(150deg,#fef8f6,#f3d9cf,#c1826c)",
+          name: "Ocean Pearl Luxury Wedding",
+          cat: "beach",
+          style: "Beach Luxury · Ocean Collection",
+          mono: "OP",
+          grad: "linear-gradient(150deg,#eaf3f4,#7fb0bd,#1f4a52)",
           demo: "demo/luxury-35/index.html",
-          desc: "Palet pastel blush peach dan dusty rose dengan aksen terracotta lembut. Tipografi Tenor Sans dan Sacramento, kesan ringan, terang, dan romantis.",
+          img: "assets/images/ocean-pearl.png",
+          desc: "Terinspirasi dari private beach wedding di Maldives dan Bora Bora dengan panorama laut biru, pasir putih, mutiara, dan matahari terbenam yang romantis.",
         },
       ];
 
@@ -3591,11 +3607,11 @@
       ${
         c.img
           ? `<div class="art-tag"><span class="art-tag-cat">${c.style.split("·")[0].trim()}</span></div>`
-          : `<div class="art-caption">
-            <div class="art-cat">${c.style}</div>
+          : `<div class="art-caption art-caption--stack">
             <div class="art-name">${c.name}</div>
-            <div class="art-style">Digital Wedding Invitation</div>
-          </div>`
+            <div class="art-style">${c.style.split("·")[1] ? c.style.split("·")[1].trim() : "Digital Wedding Invitation"}</div>
+          </div>
+          <div class="art-tag"><span class="art-tag-cat">${c.style.split("·")[0].trim()}</span></div>`
       }
     </div>`;
         card.addEventListener("click", () => openPreview(i));

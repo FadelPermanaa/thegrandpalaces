@@ -1,6 +1,8 @@
-# Burgundy Wine — Modern Luxury Wedding Invitation
+# Burgundy Wine — Dark Luxury Wedding Invitation
 
-Varian tema dari basis **Elegan Blanc (luxury-31)**: struktur section, layout, dan
+Kategori galeri: **Dark Luxury** (`dark`) — label kartu: *Dark Luxury · Wine Collection*.
+
+Varian tema dari basis **Elegan Blanc (luxury-01)**: struktur section, layout, dan
 seluruh interaksi identik — yang berbeda adalah palet warna, pasangan font,
 tint foto, dan data dummy. Tema ini bernuansa **maroon burgundy + antique gold** (gelap).
 
@@ -11,10 +13,10 @@ tint foto, dan data dummy. Tema ini bernuansa **maroon burgundy + antique gold**
 
 ## Struktur folder
 ```
-luxury-34/
+luxury-07/
 ├── index.html            → seluruh markup, CSS, dan JS ada di sini
 └── assets/
-    ├── images/           → foto (opsional, saat ini memakai Unsplash)
+    ├── images/           → 1.webp..12.webp + gallery-1..8.webp (slot foto)
     ├── video/            → slot video (belum dipakai)
     ├── audio/
     │   └── theme-song.mp3 → musik latar
@@ -57,9 +59,32 @@ tombol "Simpan ke Kalender" mengikuti nilai ini.
 **Nama, orang tua, alamat, jam acara, nomor rekening** — langsung di `index.html`,
 setiap section diberi komentar penanda.
 
-**Foto** — saat ini memakai URL Unsplash. Ganti `src` pada setiap `<img>` dengan
-`assets/images/nama-file.webp` bila memakai foto sendiri. Tint tema tetap berlaku
-otomatis lewat `--img-filter`.
+**Foto** — memakai slot lokal di `assets/images/`, sama seperti demo lain, sehingga
+`demo/download-all-photos.ps1` (dan `download-gallery-photos.*`) langsung mengisinya:
+
+| Slot | Dipakai di |
+|---|---|
+| `1.webp` | hero (layar utama) |
+| `2.webp` | potret mempelai pria |
+| `3.webp` | potret mempelai wanita |
+| `4.webp` | cover pembuka (foto berdua) |
+| `5.webp` | latar kutipan Q.S. Ar-Rum 21 |
+| `6.webp` | section live streaming |
+| `7.webp` | background band 1 |
+| `8.webp` `9.webp` `10.webp` | tiga tahap Our Story |
+| `gallery-1.webp` … `gallery-8.webp` | galeri 8 foto |
+| `11.webp` | background band 2 |
+| `12.webp` | closing |
+
+Selama file itu belum ada, setiap `<img>` otomatis jatuh ke foto Unsplash pada
+atribut `data-fb` — jadi demo tidak pernah tampil kosong. Mekanismenya satu
+listener `error` fase capture di `<head>`. Tint tema tetap berlaku lewat
+`--img-filter`, baik untuk foto lokal maupun cadangan.
+
+Catatan: skrip download menyebar satu set foto yang sama ke seluruh demo, jadi
+setelah dijalankan kelima tema ini akan memakai foto yang identik (yang berbeda
+tetap palet, font, dan tint). Untuk foto berbeda per tema, taruh file sendiri di
+`assets/images/` masing-masing folder setelah skrip selesai.
 
 **Musik latar** — timpa `assets/audio/theme-song.mp3` dengan lagu Anda.
 
@@ -76,7 +101,7 @@ Breakpoint: `≤1024px` galeri 3 kolom · `≤860px` kolom ganda jadi tunggal & 
 `≤600px` galeri 2 kolom · `≥1900px` lebar konten dikunci.
 
 ## Catatan
-- RSVP & ucapan disimpan di `localStorage` (kunci `luxury34_rsvp`) — belum terhubung ke server.
+- RSVP & ucapan disimpan di `localStorage` (kunci `luxury07_rsvp`) — belum terhubung ke server.
   Untuk produksi, sambungkan handler `#rsvpForm` ke Google Sheets / API Anda.
 - Tidak ada dependensi eksternal selain Google Fonts dan foto Unsplash.
 - Semua animasi menghormati `prefers-reduced-motion`.
