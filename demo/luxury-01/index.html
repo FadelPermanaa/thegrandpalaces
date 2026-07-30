@@ -598,9 +598,11 @@ footer a{color:var(--gold-soft);text-decoration:none;}
 }
 /* HP */
 @media(max-width:600px){
-  .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(7rem,30vw,10rem);}
-  .gal .t2,.gal .t2.r2{grid-column:span 2;}
-  .gal .r2,.gal .t2.r2{grid-row:span 1;}
+  /* HP: grid seragam 2 x 4, semua sel sama besar, tanpa lubang.
+     Selektor disamakan dengan blok 1024px (memakai :not) supaya specificity-nya
+     menang — kalau tidak, aturan 1024px tetap berlaku karena lebih spesifik. */
+  .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(7rem,32vw,10.5rem);}
+  .gal .t2:not(.r2),.gal .t2.r2,.gal .r2{grid-column:span 1;grid-row:span 1;}
   .count-grid{grid-template-columns:repeat(2,1fr);gap:.7rem;}
   .lb-prev{left:.5rem}.lb-next{right:.5rem}.lb-close{top:.8rem;right:.8rem}
   .lb-btn{width:2.6rem;height:2.6rem;}
@@ -623,8 +625,8 @@ footer a{color:var(--gold-soft);text-decoration:none;}
    SIGNATURE — Amplop & Segel Lilin (Elegan Blanc)
    ============================================================ */
 .wax{
-  position:relative;width:clamp(4.6rem,7vw,6rem);aspect-ratio:1;margin:0 auto 1.9rem;
-  display:grid;place-items:center;
+  position:relative;width:clamp(3rem,4.4vw,4rem);aspect-ratio:1;margin:0 auto 1.1rem;
+  display:grid;place-items:center;flex:none;
 }
 .wax-half{
   position:absolute;inset:0;border-radius:50%;
@@ -650,7 +652,10 @@ footer a{color:var(--gold-soft);text-decoration:none;}
 }
 /* flap amplop yang terangkat */
 .flap{
-  position:absolute;left:0;right:0;top:0;height:38%;z-index:4;pointer-events:none;
+  /* dibatasi ke kolom kanan (.cover-body) dan di bawah konten,
+     supaya tidak pernah menutupi foto, segel, maupun tombol */
+  position:absolute;left:0;right:0;top:0;height:clamp(4rem,12%,6.5rem);
+  z-index:1;pointer-events:none;
   background:linear-gradient(180deg,var(--cream),var(--ivory));
   clip-path:polygon(0 0,100% 0,50% 100%);
   transform-origin:top center;
@@ -663,8 +668,18 @@ footer a{color:var(--gold-soft);text-decoration:none;}
 #cover.opening .wax-half.l{transform:translate(-72%,26%) rotate(-46deg);opacity:0;}
 #cover.opening .wax-half.r{transform:translate(72%,26%) rotate(46deg);opacity:0;}
 #cover.opening .wax-mono{opacity:0;}
-/* perspective harus di induk .flap (yaitu #cover) agar rotateX terlihat berkedalaman */
-#cover{perspective:1400px;}
+/* perspective di induk .flap (yaitu .cover-body) agar rotateX berkedalaman.
+   Konten selalu di atas flap; .cover-body bisa di-scroll sebagai jaring aman
+   supaya tombol "Buka Undangan" tidak pernah terpotong di layar pendek. */
+.cover-body{perspective:1100px;overflow-y:auto;}
+.cover-body > *{z-index:2;}
+@media(max-height:860px){
+  .cover-names{font-size:clamp(2.1rem,4vw,3.2rem);}
+  .cover-body{padding-block:1.6rem;}
+  .guest-card{padding:1rem 1.6rem;margin-bottom:1.6rem;}
+  .cover-date{margin-bottom:1.5rem;}
+  .flap{height:clamp(3rem,9%,4.6rem);}
+}
 
 /* letterpress crest di section pembuka */
 .crest{display:block;margin:0 auto 1.7rem;width:clamp(4.4rem,7vw,5.8rem);color:var(--gold);}
@@ -708,8 +723,8 @@ document.addEventListener(
     <img src="assets/images/4.webp" data-fb="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Mempelai">
     <div class="cover-frame"></div>
   </div>
-  <div class="flap" aria-hidden="true"></div>
   <div class="cover-body">
+    <div class="flap" aria-hidden="true"></div>
     <div class="wax" aria-hidden="true">
       <span class="wax-half l"></span><span class="wax-half r"></span>
       <span class="wax-mono">M&amp;D</span>

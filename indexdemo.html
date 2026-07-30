@@ -3232,6 +3232,7 @@
           mono: "EB",
           grad: "linear-gradient(150deg,#fbf9f5,#e8dfd2,#b08d57)",
           demo: "demo/luxury-01/index.html",
+          img: "assets/images/elegan-blanc.png",
           desc: "Undangan bernuansa ivory dan cream dengan aksen gold, tipografi serif klasik, dan layout full-width editorial. Dirancang lega untuk layar desktop namun tetap menyesuaikan di tablet dan mobile.",
         },
         {
@@ -3251,6 +3252,7 @@
           mono: "SB",
           grad: "linear-gradient(150deg,#f5f8f2,#c3d2b4,#6e8459)",
           demo: "demo/luxury-03/index.html",
+          img: "assets/images/sage-botanical.png",
           desc: "Nuansa sage green dan cream botanikal dengan aksen brass lembut. Tipografi Marcellus dan Parisienne, memberi kesan taman terbuka yang tenang dan segar namun tetap berkelas.",
         },
         {
@@ -3270,6 +3272,7 @@
           mono: "MN",
           grad: "linear-gradient(150deg,#1b2a45,#0e1626,#c6a664)",
           demo: "demo/luxury-05/index.html",
+          img: "assets/images/midnight-navy.png",
           desc: "Tema gelap bernuansa navy pekat dengan aksen gold hangat. Tipografi Cinzel dan Great Vibes, terasa formal dan tenang \u2014 sangat cocok untuk resepsi malam.",
         },
         {
@@ -3289,6 +3292,7 @@
           mono: "BW",
           grad: "linear-gradient(150deg,#6e1b2c,#2a0e14,#c99b5a)",
           demo: "demo/luxury-07/index.html",
+          img: "assets/images/burgundy-wine.png",
           desc: "Tema gelap hangat bernuansa maroon dan burgundy dengan aksen antique gold. Tipografi Playfair Display dan Allura, kesan klasik, intim, dan dramatis.",
         },
         {
@@ -3308,6 +3312,7 @@
           mono: "BP",
           grad: "linear-gradient(150deg,#fef8f6,#f3d9cf,#c1826c)",
           demo: "demo/luxury-09/index.html",
+          img: "assets/images/blush-peony.png",
           desc: "Palet pastel blush peach dan dusty rose dengan aksen terracotta lembut. Tipografi Tenor Sans dan Sacramento, kesan ringan, terang, dan romantis.",
         },
         {
@@ -3582,7 +3587,7 @@
     <div class="art-thumb">
       ${
         c.img
-          ? `<div class="frame-art has-photo"><img src="${c.img}" alt="${c.name} — pratinjau desain" loading="lazy"></div>`
+          ? `<div class="frame-art has-photo" style="background:${c.grad}"><img src="${c.img}" alt="${c.name} — pratinjau desain" loading="lazy" onerror="this.style.display='none'"></div>`
           : `<div class="frame-art" style="background:${c.grad};width:100%;height:100%;"></div><div class="art-monogram">${c.mono}</div>`
       }
       <div class="art-actions">
