@@ -627,6 +627,57 @@ footer a{color:var(--gold-soft);text-decoration:none;}
   *{animation:none !important;transition-duration:.01ms !important;}
   html{scroll-behavior:auto;}
 }
+
+/* ============================================================
+   SIGNATURE — Sulur Daun Tumbuh & Daun Jatuh (Sage Botanical)
+   ============================================================ */
+.vine{
+  position:absolute;top:0;bottom:0;width:clamp(4rem,8vw,7.5rem);
+  pointer-events:none;z-index:0;color:var(--gold);opacity:.55;
+}
+.vine.left{left:0;}
+.vine.right{right:0;transform:scaleX(-1);}
+.vine svg{width:100%;height:100%;}
+.vine path,.vine circle{
+  stroke-dasharray:1;stroke-dashoffset:1;
+}
+.vine.in path,.vine.in circle{animation:vine-draw 2.8s cubic-bezier(.4,0,.2,1) forwards;}
+.vine.in path:nth-child(2){animation-delay:.35s}
+.vine.in path:nth-child(3){animation-delay:.7s}
+.vine.in circle{animation-duration:.8s;animation-delay:1.6s}
+@keyframes vine-draw{to{stroke-dashoffset:0}}
+
+/* daun jatuh — 10 elemen CSS, tanpa JS */
+.leaves{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;}
+.leaf{
+  position:absolute;top:-6vh;width:11px;height:16px;
+  background:linear-gradient(140deg,var(--gold-soft),var(--gold));
+  border-radius:60% 0 60% 0;opacity:.5;
+  animation:leaf-fall linear infinite;
+}
+@keyframes leaf-fall{
+  0%{transform:translate3d(0,-8vh,0) rotate(0deg)}
+  100%{transform:translate3d(var(--dx,4vw),108vh,0) rotate(560deg)}
+}
+.leaf:nth-child(1){left:6%;--dx:5vw;animation-duration:17s;animation-delay:0s}
+.leaf:nth-child(2){left:16%;--dx:-4vw;animation-duration:21s;animation-delay:2.5s}
+.leaf:nth-child(3){left:27%;--dx:6vw;animation-duration:19s;animation-delay:5s}
+.leaf:nth-child(4){left:38%;--dx:-6vw;animation-duration:23s;animation-delay:1.2s}
+.leaf:nth-child(5){left:49%;--dx:3vw;animation-duration:18s;animation-delay:7s}
+.leaf:nth-child(6){left:60%;--dx:-5vw;animation-duration:22s;animation-delay:3.6s}
+.leaf:nth-child(7){left:71%;--dx:5vw;animation-duration:20s;animation-delay:9s}
+.leaf:nth-child(8){left:81%;--dx:-3vw;animation-duration:24s;animation-delay:6s}
+.leaf:nth-child(9){left:90%;--dx:4vw;animation-duration:19s;animation-delay:11s}
+.leaf:nth-child(10){left:97%;--dx:-6vw;animation-duration:25s;animation-delay:8s}
+
+/* ranting daun pengganti ornamen garis */
+.sprig{display:block;margin:0 auto 1.7rem;width:clamp(6rem,11vw,9rem);color:var(--gold);}
+
+@media(max-width:860px){ .leaves,.vine{display:none;} }
+@media(prefers-reduced-motion:reduce){
+  .leaves{display:none;}
+  .vine path,.vine circle{stroke-dashoffset:0;animation:none;}
+}
 </style>
 <script>
 /* Foto memakai slot lokal assets/images/*.webp (diisi oleh demo/download-all-photos.ps1).
@@ -650,6 +701,10 @@ document.addEventListener(
 </script>
 </head>
 <body class="locked">
+<div class="leaves" aria-hidden="true">
+  <i class="leaf"></i><i class="leaf"></i><i class="leaf"></i><i class="leaf"></i><i class="leaf"></i>
+  <i class="leaf"></i><i class="leaf"></i><i class="leaf"></i><i class="leaf"></i><i class="leaf"></i>
+</div>
 
 <!-- =========================================================
      COVER
@@ -712,9 +767,11 @@ document.addEventListener(
      ========================================================= -->
 <section class="pad center" id="pembuka">
   <div class="wrap">
-    <svg class="orn rv" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width=".9">
-      <path d="M0 12h44M76 12h44"/><path d="M60 4c4 4 4 12 0 16-4-4-4-12 0-16z"/>
-      <circle cx="52" cy="12" r="2"/><circle cx="68" cy="12" r="2"/>
+    <svg class="sprig rv" viewBox="0 0 140 34" fill="none" stroke="currentColor" stroke-width=".9" aria-hidden="true">
+      <path d="M8 17h44M88 17h44"/>
+      <path d="M70 6c5 5 5 17 0 22-5-5-5-17 0-22z"/>
+      <path d="M52 17c-5-7-13-8-18-4 4 6 12 8 18 4zM52 17c-5 7-13 8-18 4 4-6 12-8 18-4z"/>
+      <path d="M88 17c5-7 13-8 18-4-4 6-12 8-18 4zM88 17c5 7 13 8 18 4-4-6-12-8-18-4z"/>
     </svg>
     <p class="eyebrow rv">Assalamu'alaikum Wr. Wb.</p>
     <h2 class="sec-title rv d1">Dengan Memohon Rahmat<br>dan Ridho Allah SWT</h2>
@@ -791,6 +848,14 @@ document.addEventListener(
      ACARA
      ========================================================= -->
 <section class="pad center" id="acara">
+  <div class="vine right rv" aria-hidden="true">
+  <svg viewBox="0 0 100 900" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.4">
+    <path pathLength="1" d="M14 0c0 90 30 130 30 210S6 350 6 440s34 120 34 210-26 130-26 250"/>
+    <path pathLength="1" d="M40 150c18-14 30-10 42-30M36 300c-16-16-28-12-30-34M44 470c18-12 32-8 42-30M34 640c-16-14-28-12-28-34" stroke-width="1"/>
+    <path pathLength="1" d="M82 116c-6 12-18 16-30 12 4-14 16-20 30-12zM4 262c8 10 8 22 0 32-10-10-10-22 0-32zM92 436c-6 12-18 16-30 12 4-14 16-20 30-12zM4 602c8 10 8 22 0 32-10-10-10-22 0-32z" stroke-width=".9"/>
+    <circle pathLength="1" cx="46" cy="820" r="4" stroke-width="1"/>
+  </svg>
+</div>
   <div class="wrap">
     <p class="eyebrow rv">Save The Date</p>
     <h2 class="sec-title rv d1">Rangkaian Acara</h2>
@@ -910,6 +975,14 @@ document.addEventListener(
      OUR STORY
      ========================================================= -->
 <section class="pad" style="background:var(--cream)" id="story">
+  <div class="vine left rv" aria-hidden="true">
+  <svg viewBox="0 0 100 900" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.4">
+    <path pathLength="1" d="M14 0c0 90 30 130 30 210S6 350 6 440s34 120 34 210-26 130-26 250"/>
+    <path pathLength="1" d="M40 150c18-14 30-10 42-30M36 300c-16-16-28-12-30-34M44 470c18-12 32-8 42-30M34 640c-16-14-28-12-28-34" stroke-width="1"/>
+    <path pathLength="1" d="M82 116c-6 12-18 16-30 12 4-14 16-20 30-12zM4 262c8 10 8 22 0 32-10-10-10-22 0-32zM92 436c-6 12-18 16-30 12 4-14 16-20 30-12zM4 602c8 10 8 22 0 32-10-10-10-22 0-32z" stroke-width=".9"/>
+    <circle pathLength="1" cx="46" cy="820" r="4" stroke-width="1"/>
+  </svg>
+</div>
   <div class="wrap">
     <div class="center">
       <p class="eyebrow rv">Perjalanan Kami</p>

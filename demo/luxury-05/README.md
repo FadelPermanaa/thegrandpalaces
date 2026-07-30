@@ -24,6 +24,17 @@ luxury-05/
     └── fonts/            → kosong (font dimuat via Google Fonts)
 ```
 
+**Ciri khas tema ini — langit berbintang & konstelasi.** Latar seluruh halaman
+diberi bintang berkelip yang dibuat murni dari lapisan `radial-gradient` (nol
+elemen tambahan, sangat ringan). Di bawah countdown ada **konstelasi hari bahagia**:
+tujuh bintang yang menyala satu per satu lalu terhubung garis. Ornamen pemisah
+diganti deret **fase bulan** dengan bulan purnama bercahaya di tengah.
+Kelas terkait: `.stars`, `.constel`, `.moons`/`.moon`.
+
+Semua efek signature memakai CSS `transform`/`opacity` dan SVG kecil — tanpa canvas
+dan tanpa partikel berbasis JavaScript. Otomatis nonaktif di layar `≤860px` dan saat
+`prefers-reduced-motion: reduce`.
+
 ## Section yang tersedia
 Cover pembuka · Hero parallax · Salam & countdown · Kedua mempelai · Kutipan Q.S. Ar-Rum 21 ·
 Akad & Resepsi + Google Maps · Live streaming · Filter Instagram/TikTok · Background band 1 ·

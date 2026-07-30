@@ -24,6 +24,17 @@ luxury-09/
     └── fonts/            → kosong (font dimuat via Google Fonts)
 ```
 
+**Ciri khas tema ini — kelopak peony & watercolor.** 10 kelopak peony berjatuhan
+melintasi halaman dengan gerak melayang (bergeser menyamping di tengah jalan, bukan
+lurus). Setiap section terang mendapat **noda watercolor** lembut di belakang judul,
+dibuat dari dua `radial-gradient` bertumpuk tanpa blur agar tetap ringan. Ornamen
+pemisah diganti **peony mekar** enam kelopak.
+Kelas terkait: `.petals`/`.petal`, `.peony`, `.pad.center::before`.
+
+Semua efek signature memakai CSS `transform`/`opacity` dan SVG kecil — tanpa canvas
+dan tanpa partikel berbasis JavaScript. Otomatis nonaktif di layar `≤860px` dan saat
+`prefers-reduced-motion: reduce`.
+
 ## Section yang tersedia
 Cover pembuka · Hero parallax · Salam & countdown · Kedua mempelai · Kutipan Q.S. Ar-Rum 21 ·
 Akad & Resepsi + Google Maps · Live streaming · Filter Instagram/TikTok · Background band 1 ·

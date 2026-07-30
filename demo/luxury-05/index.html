@@ -627,6 +627,71 @@ footer a{color:var(--gold-soft);text-decoration:none;}
   *{animation:none !important;transition-duration:.01ms !important;}
   html{scroll-behavior:auto;}
 }
+
+/* ============================================================
+   SIGNATURE — Langit Berbintang, Konstelasi & Fase Bulan (Midnight Navy)
+   ============================================================ */
+/* bintang: 3 lapis radial-gradient, nol elemen tambahan */
+.stars{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 18%,rgba(255,255,255,.85),transparent),
+    radial-gradient(1.2px 1.2px at 34% 62%,rgba(255,255,255,.7),transparent),
+    radial-gradient(1.6px 1.6px at 68% 24%,rgba(255,255,255,.8),transparent),
+    radial-gradient(1.1px 1.1px at 82% 71%,rgba(255,255,255,.65),transparent),
+    radial-gradient(1.3px 1.3px at 51% 88%,rgba(255,255,255,.75),transparent),
+    radial-gradient(1px 1px at 24% 44%,rgba(224,200,142,.7),transparent),
+    radial-gradient(1px 1px at 91% 38%,rgba(224,200,142,.6),transparent);
+  animation:twinkle 5.5s ease-in-out infinite alternate;
+}
+.stars::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(1px 1px at 7% 76%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1px 1px at 44% 12%,rgba(255,255,255,.5),transparent),
+    radial-gradient(1.2px 1.2px at 61% 55%,rgba(255,255,255,.55),transparent),
+    radial-gradient(1px 1px at 76% 92%,rgba(255,255,255,.5),transparent);
+  animation:twinkle 7s ease-in-out infinite alternate-reverse;
+}
+@keyframes twinkle{from{opacity:.35}to{opacity:1}}
+
+/* konstelasi tanggal acara */
+.constel{display:block;margin:2.4rem auto .4rem;width:min(30rem,88%);color:var(--gold);}
+.constel line,.constel polyline{stroke:currentColor;stroke-width:.7;opacity:.55;
+  stroke-dasharray:1;stroke-dashoffset:1;}
+.constel.in polyline{animation:vine-draw 2.2s ease forwards .2s;}
+.constel circle{fill:currentColor;opacity:0;}
+.constel.in circle{animation:star-pop .5s ease forwards;}
+.constel.in circle:nth-of-type(2){animation-delay:.35s}
+.constel.in circle:nth-of-type(3){animation-delay:.6s}
+.constel.in circle:nth-of-type(4){animation-delay:.85s}
+.constel.in circle:nth-of-type(5){animation-delay:1.1s}
+.constel.in circle:nth-of-type(6){animation-delay:1.35s}
+.constel.in circle:nth-of-type(7){animation-delay:1.6s}
+.constel text{fill:var(--muted);font-family:var(--f-sans);font-size:6px;
+  letter-spacing:.3em;text-transform:uppercase;}
+@keyframes vine-draw{to{stroke-dashoffset:0}}
+@keyframes star-pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+
+/* fase bulan pengganti ornamen garis */
+.moons{display:flex;gap:clamp(.7rem,1.6vw,1.3rem);justify-content:center;
+  align-items:center;margin:0 auto 1.8rem;}
+.moon{width:clamp(.7rem,1.3vw,1rem);aspect-ratio:1;border-radius:50%;
+  border:1px solid var(--gold);position:relative;overflow:hidden;}
+.moon::after{content:"";position:absolute;inset:0;background:var(--gold);}
+.moon.m1::after{transform:translateX(-100%)}
+.moon.m2::after{clip-path:inset(0 50% 0 0)}
+.moon.m3::after{clip-path:inset(0)}
+.moon.m4::after{clip-path:inset(0 0 0 50%)}
+.moon.m5::after{transform:translateX(100%)}
+.moon.m3{width:clamp(1.1rem,2vw,1.5rem);box-shadow:0 0 14px -2px var(--gold);}
+
+@media(max-width:860px){ .stars{display:none;} }
+@media(prefers-reduced-motion:reduce){
+  .stars,.stars::after{animation:none;opacity:.7}
+  .constel line,.constel polyline{stroke-dashoffset:0;animation:none}
+  .constel circle{opacity:1;animation:none}
+}
 </style>
 <script>
 /* Foto memakai slot lokal assets/images/*.webp (diisi oleh demo/download-all-photos.ps1).
@@ -650,6 +715,7 @@ document.addEventListener(
 </script>
 </head>
 <body class="locked">
+<div class="stars" aria-hidden="true"></div>
 
 <!-- =========================================================
      COVER
@@ -712,10 +778,10 @@ document.addEventListener(
      ========================================================= -->
 <section class="pad center" id="pembuka">
   <div class="wrap">
-    <svg class="orn rv" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width=".9">
-      <path d="M0 12h44M76 12h44"/><path d="M60 4c4 4 4 12 0 16-4-4-4-12 0-16z"/>
-      <circle cx="52" cy="12" r="2"/><circle cx="68" cy="12" r="2"/>
-    </svg>
+    <div class="moons rv" aria-hidden="true">
+      <i class="moon m1"></i><i class="moon m2"></i><i class="moon m3"></i>
+      <i class="moon m4"></i><i class="moon m5"></i>
+    </div>
     <p class="eyebrow rv">Assalamu'alaikum Wr. Wb.</p>
     <h2 class="sec-title rv d1">Dengan Memohon Rahmat<br>dan Ridho Allah SWT</h2>
     <p class="lead rv d2">Segala puji bagi Allah SWT yang telah menjadikan hamba-Nya hidup berpasang-pasangan. Dengan memohon Ridho, Rahmat, dan Berkah Allah SWT, kami bermaksud mengundang Bapak/Ibu/Saudara/i dalam acara pernikahan yang kami selenggarakan.</p>
@@ -729,6 +795,14 @@ document.addEventListener(
       <div class="count-box"><b data-m>00</b><span>Menit</span></div>
       <div class="count-box"><b data-s>00</b><span>Detik</span></div>
     </div>
+    <svg class="constel rv" viewBox="0 0 300 74" aria-hidden="true">
+      <polyline pathLength="1" points="22,50 62,20 110,44 152,14 196,46 240,22 278,50" fill="none"/>
+      <circle cx="22" cy="50" r="2.6"/><circle cx="62" cy="20" r="3.4"/>
+      <circle cx="110" cy="44" r="2.4"/><circle cx="152" cy="14" r="3.8"/>
+      <circle cx="196" cy="46" r="2.4"/><circle cx="240" cy="22" r="3.2"/>
+      <circle cx="278" cy="50" r="2.6"/>
+      <text x="150" y="70" text-anchor="middle">Rasi Hari Bahagia</text>
+    </svg>
     <a class="btn rv d2" id="calBtn" href="#" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
       Simpan ke Kalender

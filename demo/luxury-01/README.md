@@ -18,6 +18,18 @@ luxury-01/
     └── fonts/            → kosong (font dimuat via Google Fonts)
 ```
 
+**Ciri khas tema ini — amplop & segel lilin.** Layar cover berperan sebagai amplop:
+ada segel lilin emas bermonogram di atas nama mempelai, dan sebuah flap berbentuk
+segitiga menutupi bagian atas. Saat tombol "Buka Undangan" ditekan, segel pecah
+menjadi dua bagian yang terpelanting ke samping lalu flap terangkat (`rotateX`)
+sebelum cover menghilang. Ornamen pemisah di section pembuka juga diganti
+**letterpress crest** bulat bermonogram, bukan garis biasa.
+Kelas terkait: `.wax`, `.wax-half`, `.wax-mono`, `.flap`, `.crest`, state `#cover.opening`.
+
+Semua efek signature memakai CSS `transform`/`opacity` dan SVG kecil — tanpa canvas
+dan tanpa partikel berbasis JavaScript. Otomatis nonaktif di layar `≤860px` dan saat
+`prefers-reduced-motion: reduce`.
+
 ## Section yang tersedia
 Cover pembuka · Hero parallax · Salam & countdown · Kedua mempelai · Kutipan Q.S. Ar-Rum 21 ·
 Akad & Resepsi + Google Maps · Live streaming · Filter Instagram/TikTok · Background band 1 ·

@@ -627,6 +627,50 @@ footer a{color:var(--gold-soft);text-decoration:none;}
   *{animation:none !important;transition-duration:.01ms !important;}
   html{scroll-behavior:auto;}
 }
+
+/* ============================================================
+   SIGNATURE — Kelopak Peony & Watercolor Bloom (Blush Peony)
+   ============================================================ */
+/* kelopak jatuh — 10 elemen CSS, tanpa JS */
+.petals{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;}
+.petal{
+  position:absolute;top:-6vh;width:14px;height:11px;
+  background:radial-gradient(120% 120% at 20% 20%,#fff,var(--gold-soft) 55%,var(--gold));
+  border-radius:60% 40% 62% 38%/54% 60% 40% 46%;
+  opacity:.55;animation:petal-fall linear infinite;
+}
+@keyframes petal-fall{
+  0%{transform:translate3d(0,-8vh,0) rotate(0deg) scale(.9)}
+  50%{transform:translate3d(calc(var(--dx,4vw) * .6),50vh,0) rotate(200deg) scale(1)}
+  100%{transform:translate3d(var(--dx,4vw),108vh,0) rotate(420deg) scale(.92)}
+}
+.petal:nth-child(1){left:5%;--dx:7vw;animation-duration:16s;animation-delay:0s}
+.petal:nth-child(2){left:15%;--dx:-5vw;animation-duration:20s;animation-delay:2s}
+.petal:nth-child(3){left:26%;--dx:8vw;animation-duration:18s;animation-delay:4.5s}
+.petal:nth-child(4){left:37%;--dx:-7vw;animation-duration:22s;animation-delay:1s}
+.petal:nth-child(5){left:48%;--dx:5vw;animation-duration:17s;animation-delay:6.5s}
+.petal:nth-child(6){left:59%;--dx:-6vw;animation-duration:21s;animation-delay:3s}
+.petal:nth-child(7){left:70%;--dx:7vw;animation-duration:19s;animation-delay:8.5s}
+.petal:nth-child(8){left:80%;--dx:-4vw;animation-duration:23s;animation-delay:5.5s}
+.petal:nth-child(9){left:89%;--dx:6vw;animation-duration:18s;animation-delay:10.5s}
+.petal:nth-child(10){left:96%;--dx:-8vw;animation-duration:24s;animation-delay:7.5s}
+
+/* noda watercolor di belakang judul section terang */
+.pad.center{isolation:isolate;}
+.pad.center::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  top:4%;left:50%;transform:translateX(-50%);
+  width:min(52rem,94%);aspect-ratio:1.7;
+  background:
+    radial-gradient(closest-side ellipse at 38% 42%,rgba(224,168,145,.34),transparent 68%),
+    radial-gradient(closest-side ellipse at 66% 56%,rgba(243,217,207,.5),transparent 66%);
+}
+/* peony mekar pengganti ornamen garis */
+.peony{display:block;margin:0 auto 1.7rem;width:clamp(4.6rem,8vw,6.4rem);color:var(--gold);}
+.peony ellipse,.peony circle{opacity:.9}
+
+@media(max-width:860px){ .petals{display:none;} .pad.center::before{width:100%;} }
+@media(prefers-reduced-motion:reduce){ .petals{display:none;} }
 </style>
 <script>
 /* Foto memakai slot lokal assets/images/*.webp (diisi oleh demo/download-all-photos.ps1).
@@ -650,6 +694,10 @@ document.addEventListener(
 </script>
 </head>
 <body class="locked">
+<div class="petals" aria-hidden="true">
+  <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+  <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+</div>
 
 <!-- =========================================================
      COVER
@@ -712,9 +760,14 @@ document.addEventListener(
      ========================================================= -->
 <section class="pad center" id="pembuka">
   <div class="wrap">
-    <svg class="orn rv" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width=".9">
-      <path d="M0 12h44M76 12h44"/><path d="M60 4c4 4 4 12 0 16-4-4-4-12 0-16z"/>
-      <circle cx="52" cy="12" r="2"/><circle cx="68" cy="12" r="2"/>
+    <svg class="peony rv" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width=".9" aria-hidden="true">
+      <ellipse cx="40" cy="26" rx="10" ry="14"/>
+      <ellipse cx="40" cy="26" rx="10" ry="14" transform="rotate(60 40 40)"/>
+      <ellipse cx="40" cy="26" rx="10" ry="14" transform="rotate(120 40 40)"/>
+      <ellipse cx="40" cy="26" rx="10" ry="14" transform="rotate(180 40 40)"/>
+      <ellipse cx="40" cy="26" rx="10" ry="14" transform="rotate(240 40 40)"/>
+      <ellipse cx="40" cy="26" rx="10" ry="14" transform="rotate(300 40 40)"/>
+      <circle cx="40" cy="40" r="5.5"/>
     </svg>
     <p class="eyebrow rv">Assalamu'alaikum Wr. Wb.</p>
     <h2 class="sec-title rv d1">Dengan Memohon Rahmat<br>dan Ridho Allah SWT</h2>

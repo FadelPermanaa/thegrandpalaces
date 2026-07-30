@@ -21,6 +21,9 @@
   --gold-soft:#C9AE86;
   --ink:#2E2A26;
   --muted:#7C7167;
+  /* token pendukung (dipakai select form & segel lilin signature) */
+  --accent-deep:#7A5F35;
+  --field-bg:#FBF9F5;
   --line:rgba(176,141,87,.32);
   --shadow:0 24px 60px -30px rgba(46,42,38,.45);
   --f-display:'Italiana',serif;
@@ -615,6 +618,64 @@ footer a{color:var(--gold-soft);text-decoration:none;}
   *{animation:none !important;transition-duration:.01ms !important;}
   html{scroll-behavior:auto;}
 }
+
+/* ============================================================
+   SIGNATURE — Amplop & Segel Lilin (Elegan Blanc)
+   ============================================================ */
+.wax{
+  position:relative;width:clamp(4.6rem,7vw,6rem);aspect-ratio:1;margin:0 auto 1.9rem;
+  display:grid;place-items:center;
+}
+.wax-half{
+  position:absolute;inset:0;border-radius:50%;
+  background:
+    radial-gradient(circle at 34% 30%,rgba(255,255,255,.5),transparent 44%),
+    radial-gradient(circle at 62% 72%,rgba(0,0,0,.22),transparent 52%),
+    linear-gradient(150deg,var(--gold-soft),var(--gold) 52%,var(--accent-deep));
+  box-shadow:0 8px 22px -10px rgba(46,42,38,.6),inset 0 0 0 1px rgba(255,255,255,.22);
+  transition:transform .82s cubic-bezier(.5,0,.75,0),opacity .82s ease;
+}
+/* tepi bergerigi khas lilin */
+.wax-half::before{
+  content:"";position:absolute;inset:6%;border-radius:50%;
+  border:1px dashed rgba(255,255,255,.4);
+}
+.wax-half.l{clip-path:polygon(0 0,52% 0,46% 50%,52% 100%,0 100%);}
+.wax-half.r{clip-path:polygon(52% 0,100% 0,100% 100%,52% 100%,46% 50%);}
+.wax-mono{
+  position:relative;z-index:2;font-family:var(--f-display);
+  font-size:clamp(.82rem,1.2vw,1rem);letter-spacing:.18em;color:#fff;
+  text-shadow:0 1px 2px rgba(0,0,0,.45);
+  transition:opacity .4s ease;
+}
+/* flap amplop yang terangkat */
+.flap{
+  position:absolute;left:0;right:0;top:0;height:38%;z-index:4;pointer-events:none;
+  background:linear-gradient(180deg,var(--cream),var(--ivory));
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top center;
+  transform:rotateX(0deg);
+  transition:transform .9s cubic-bezier(.6,0,.4,1),opacity .5s ease .5s;
+  box-shadow:0 12px 30px -18px rgba(46,42,38,.5);
+  border-bottom:1px solid var(--line);
+}
+#cover.opening .flap{transform:rotateX(-168deg);opacity:0;}
+#cover.opening .wax-half.l{transform:translate(-72%,26%) rotate(-46deg);opacity:0;}
+#cover.opening .wax-half.r{transform:translate(72%,26%) rotate(46deg);opacity:0;}
+#cover.opening .wax-mono{opacity:0;}
+/* perspective harus di induk .flap (yaitu #cover) agar rotateX terlihat berkedalaman */
+#cover{perspective:1400px;}
+
+/* letterpress crest di section pembuka */
+.crest{display:block;margin:0 auto 1.7rem;width:clamp(4.4rem,7vw,5.8rem);color:var(--gold);}
+.crest .ring{opacity:.75}
+.crest text{font-family:var(--f-display);font-size:9px;letter-spacing:.14em;fill:currentColor;}
+
+@media(max-width:860px){ .flap{display:none;} }
+@media(prefers-reduced-motion:reduce){
+  .flap,.wax-half,.wax-mono{transition:none;}
+  .flap{display:none;}
+}
 </style>
 <script>
 /* Foto memakai slot lokal assets/images/*.webp (diisi oleh demo/download-all-photos.ps1).
@@ -647,7 +708,12 @@ document.addEventListener(
     <img src="assets/images/4.webp" data-fb="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Mempelai">
     <div class="cover-frame"></div>
   </div>
+  <div class="flap" aria-hidden="true"></div>
   <div class="cover-body">
+    <div class="wax" aria-hidden="true">
+      <span class="wax-half l"></span><span class="wax-half r"></span>
+      <span class="wax-mono">M&amp;D</span>
+    </div>
     <p class="eyebrow">The Wedding Of</p>
     <h1 class="cover-names">Mitha<span class="cover-amp">&amp;</span>Dhika</h1>
     <p class="cover-date">Minggu, 13 Desember 2026</p>
@@ -700,9 +766,12 @@ document.addEventListener(
      ========================================================= -->
 <section class="pad center" id="pembuka">
   <div class="wrap">
-    <svg class="orn rv" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width=".9">
-      <path d="M0 12h44M76 12h44"/><path d="M60 4c4 4 4 12 0 16-4-4-4-12 0-16z"/>
-      <circle cx="52" cy="12" r="2"/><circle cx="68" cy="12" r="2"/>
+    <svg class="crest rv" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width=".9" aria-hidden="true">
+      <circle class="ring" cx="40" cy="40" r="30"/>
+      <circle class="ring" cx="40" cy="40" r="25.5"/>
+      <path d="M40 8c3 5 3 9 0 13-3-4-3-8 0-13z"/>
+      <path d="M22 58c6 6 12 8 18 8s12-2 18-8"/>
+      <text x="40" y="44" text-anchor="middle" stroke="none">M &amp; D</text>
     </svg>
     <p class="eyebrow rv">Assalamu'alaikum Wr. Wb.</p>
     <h2 class="sec-title rv d1">Dengan Memohon Rahmat<br>dan Ridho Allah SWT</h2>
@@ -1119,11 +1188,17 @@ document.addEventListener(
 
   /* ---------- COVER ---------- */
   var cover = $("#cover");
+  var motionOff = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   $("#openBtn").addEventListener("click", function(){
-    cover.classList.add("gone");
-    document.body.classList.remove("locked");
-    window.scrollTo(0,0);
-    setTimeout(function(){ cover.style.display="none"; reveal(); }, 900);
+    /* SIGNATURE: segel lilin pecah lalu flap amplop terangkat sebelum cover pergi */
+    cover.classList.add("opening");
+    var t1 = motionOff ? 0 : 820, t2 = motionOff ? 300 : 1700;
+    setTimeout(function(){
+      cover.classList.add("gone");
+      document.body.classList.remove("locked");
+      window.scrollTo(0,0);
+    }, t1);
+    setTimeout(function(){ cover.style.display="none"; reveal(); }, t2);
     tryPlayMusic();
   });
 

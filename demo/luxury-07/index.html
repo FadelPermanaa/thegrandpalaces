@@ -627,6 +627,54 @@ footer a{color:var(--gold-soft);text-decoration:none;}
   *{animation:none !important;transition-duration:.01ms !important;}
   html{scroll-behavior:auto;}
 }
+
+/* ============================================================
+   SIGNATURE — Velvet, Gold Foil & Art Deco (Burgundy Wine)
+   ============================================================ */
+/* tekstur velvet: satu overlay, tanpa elemen animasi */
+.velvet{
+  position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+  background-image:
+    repeating-linear-gradient(94deg,rgba(255,255,255,.035) 0 2px,transparent 2px 5px),
+    repeating-linear-gradient(4deg,rgba(0,0,0,.05) 0 3px,transparent 3px 7px),
+    radial-gradient(120% 90% at 50% 0%,transparent 40%,rgba(0,0,0,.35));
+}
+
+/* kilau gold foil menyapu judul */
+.hero-names,.sec-title,.band h3,.closing-names{
+  background:linear-gradient(100deg,
+    var(--accent-deep) 0%,var(--gold) 26%,#F6E3B8 42%,
+    var(--gold-soft) 56%,var(--gold) 72%,var(--accent-deep) 100%);
+  background-size:260% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:foil 9s linear infinite;
+}
+@keyframes foil{from{background-position:0% 0}to{background-position:260% 0}}
+/* judul di atas foto tetap perlu kontras */
+.hero-names{filter:drop-shadow(0 6px 22px rgba(0,0,0,.55));}
+.band h3,.closing-names{filter:drop-shadow(0 4px 16px rgba(0,0,0,.5));}
+
+/* ornamen art deco di sudut kartu */
+.event-card::before,.event-card::after,
+.form-card::before,.form-card::after{
+  content:"";position:absolute;width:clamp(1.4rem,2.4vw,2.1rem);aspect-ratio:1;
+  border:1px solid var(--gold);pointer-events:none;opacity:.85;
+}
+.event-card::before,.form-card::before{
+  top:.65rem;left:.65rem;border-right:0;border-bottom:0;
+}
+.event-card::after,.form-card::after{
+  bottom:.65rem;right:.65rem;border-left:0;border-top:0;
+}
+.form-card{position:relative;}
+/* kipas art deco pengganti ornamen garis */
+.deco{display:block;margin:0 auto 1.8rem;width:clamp(5.5rem,10vw,8rem);color:var(--gold);}
+
+@media(max-width:860px){ .velvet{opacity:.32} }
+@media(prefers-reduced-motion:reduce){
+  .hero-names,.sec-title,.band h3,.closing-names{animation:none;background-position:34% 0;}
+}
 </style>
 <script>
 /* Foto memakai slot lokal assets/images/*.webp (diisi oleh demo/download-all-photos.ps1).
@@ -650,6 +698,7 @@ document.addEventListener(
 </script>
 </head>
 <body class="locked">
+<div class="velvet" aria-hidden="true"></div>
 
 <!-- =========================================================
      COVER
@@ -712,9 +761,12 @@ document.addEventListener(
      ========================================================= -->
 <section class="pad center" id="pembuka">
   <div class="wrap">
-    <svg class="orn rv" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width=".9">
-      <path d="M0 12h44M76 12h44"/><path d="M60 4c4 4 4 12 0 16-4-4-4-12 0-16z"/>
-      <circle cx="52" cy="12" r="2"/><circle cx="68" cy="12" r="2"/>
+    <svg class="deco rv" viewBox="0 0 120 44" fill="none" stroke="currentColor" stroke-width=".9" aria-hidden="true">
+      <path d="M0 22h34M86 22h34"/>
+      <path d="M60 6l14 16-14 16-14-16z"/>
+      <path d="M60 12l8 10-8 10-8-10z"/>
+      <path d="M46 22h-6M80 22h-6"/>
+      <path d="M60 2v4M60 38v4"/>
     </svg>
     <p class="eyebrow rv">Assalamu'alaikum Wr. Wb.</p>
     <h2 class="sec-title rv d1">Dengan Memohon Rahmat<br>dan Ridho Allah SWT</h2>

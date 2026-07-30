@@ -24,6 +24,17 @@ luxury-03/
     └── fonts/            → kosong (font dimuat via Google Fonts)
 ```
 
+**Ciri khas tema ini — sulur daun yang tumbuh.** Di sisi section *Acara* dan
+*Our Story* ada sulur SVG yang tergambar sendiri saat masuk layar (animasi
+`stroke-dashoffset`), lengkap dengan daun dan sulur kecil. Di seluruh halaman, 10
+daun kecil berjatuhan perlahan dengan kecepatan dan arah berbeda-beda. Ornamen
+pemisah di section pembuka diganti **ranting berdaun**.
+Kelas terkait: `.vine`, `.leaves`/`.leaf`, `.sprig`.
+
+Semua efek signature memakai CSS `transform`/`opacity` dan SVG kecil — tanpa canvas
+dan tanpa partikel berbasis JavaScript. Otomatis nonaktif di layar `≤860px` dan saat
+`prefers-reduced-motion: reduce`.
+
 ## Section yang tersedia
 Cover pembuka · Hero parallax · Salam & countdown · Kedua mempelai · Kutipan Q.S. Ar-Rum 21 ·
 Akad & Resepsi + Google Maps · Live streaming · Filter Instagram/TikTok · Background band 1 ·

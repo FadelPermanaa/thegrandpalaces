@@ -24,6 +24,18 @@ luxury-07/
     └── fonts/            → kosong (font dimuat via Google Fonts)
 ```
 
+**Ciri khas tema ini — velvet & gold foil.** Seluruh halaman dilapisi tekstur
+**velvet** halus (garis-garis tipis bersilang plus vignette gelap). Semua judul
+besar — hero, judul section, judul band, dan nama penutup — tidak berwarna solid
+melainkan **gold foil** yang berkilau menyapu perlahan (`background-clip: text`).
+Kartu acara dan kartu form diberi **ornamen art-deco** di dua sudut, dan ornamen
+pemisah diganti motif kipas art-deco.
+Kelas terkait: `.velvet`, `.deco`, animasi `foil`.
+
+Semua efek signature memakai CSS `transform`/`opacity` dan SVG kecil — tanpa canvas
+dan tanpa partikel berbasis JavaScript. Otomatis nonaktif di layar `≤860px` dan saat
+`prefers-reduced-motion: reduce`.
+
 ## Section yang tersedia
 Cover pembuka · Hero parallax · Salam & countdown · Kedua mempelai · Kutipan Q.S. Ar-Rum 21 ·
 Akad & Resepsi + Google Maps · Live streaming · Filter Instagram/TikTok · Background band 1 ·
