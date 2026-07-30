@@ -1883,6 +1883,9 @@
       /* cursor glow (desktop only) */
       .cursor-glow {
         position: fixed;
+        left: 0;
+        top: 0;
+        will-change: transform;
         width: 280px;
         height: 280px;
         border-radius: 50%;
@@ -1893,7 +1896,6 @@
           rgba(198, 166, 100, 0.08),
           transparent 70%
         );
-        transform: translate(-50%, -50%);
         transition: opacity 0.3s ease;
         opacity: 0;
       }
@@ -3176,13 +3178,32 @@
       );
       sections.forEach((s) => spy.observe(s));
 
-      /* cursor glow */
-      const glow = document.getElementById("cursorGlow");
-      window.addEventListener("mousemove", (e) => {
-        glow.style.opacity = 1;
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
-      });
+      /* cursor glow — transform + rAF agar tidak memicu layout tiap gerakan mouse */
+      (function () {
+        const glow = document.getElementById("cursorGlow");
+        if (!glow || window.matchMedia("(max-width: 900px)").matches) return;
+        let gx = 0,
+          gy = 0,
+          queued = false;
+        function paint() {
+          queued = false;
+          glow.style.transform =
+            "translate3d(" + gx + "px," + gy + "px,0) translate(-50%,-50%)";
+        }
+        window.addEventListener(
+          "mousemove",
+          (e) => {
+            gx = e.clientX;
+            gy = e.clientY;
+            glow.style.opacity = 1;
+            if (!queued) {
+              queued = true;
+              requestAnimationFrame(paint);
+            }
+          },
+          { passive: true },
+        );
+      })();
 
       /* generic reveal on scroll */
       const revealObserver = new IntersectionObserver(
@@ -4578,337 +4599,5 @@
         });
       })();
     </script>
-      <!-- ==== GP-CURSOR (kaligrafi) ==== -->
-    <style id="gp-cursor-style">
-      /* ============================================================
-         KURSOR KALIGRAFI — mata pena emas + goresan tinta
-         Aktif hanya setelah gerakan mouse asli terdeteksi.
-         ============================================================ */
-      body.gp-on,
-      body.gp-on * {
-        cursor: none !important;
-      }
-      body.gp-on input,
-      body.gp-on textarea,
-      body.gp-on select {
-        cursor: text !important;
-      }
-
-      #gp-ink {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 99997;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-      }
-      #gp-ink.on {
-        opacity: 1;
-      }
-
-      .gp-nib,
-      .gp-disc {
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        opacity: 0;
-        will-change: transform;
-      }
-      .gp-nib {
-        z-index: 99999;
-        width: 22px;
-        height: 22px;
-        /* Ujung pena ada di titik (2.6, 30) pada viewBox 32x32 = (1.8px, 20.6px)
-           dari sudut kiri-atas saat dirender 22px. Titik tinta yang terlihat
-           sebenarnya sedikit di dalam segitiga ujungnya, bukan di sudut paling
-           luar, jadi pena digeser 3px ke kanan agar goresan tepat menyatu.
-           Ingin menggeser lagi? Ubah angka margin-left di bawah:
-           lebih besar = pena bergerak ke kanan. */
-        margin: -20.6px 0 0 1.2px;
-        transform-origin: 8.1% 93.75%;
-        transition: opacity 0.3s ease;
-      }
-      .gp-nib svg {
-        width: 100%;
-        height: 100%;
-        display: block;
-        filter: drop-shadow(0 2px 4px rgba(70, 52, 16, 0.4));
-      }
-
-      .gp-disc {
-        z-index: 99998;
-        width: 0;
-        height: 0;
-        margin: 0;
-        border-radius: 50%;
-        background: rgba(198, 166, 100, 0.95);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition:
-          width 0.45s var(--ease),
-          height 0.45s var(--ease),
-          margin 0.45s var(--ease),
-          opacity 0.3s ease;
-      }
-      .gp-disc span {
-        font-family: var(--font-body);
-        font-size: 9px;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
-        color: #161412;
-        white-space: nowrap;
-        opacity: 0;
-        transition: opacity 0.25s ease 0.1s;
-      }
-      .gp-nib.on,
-      .gp-disc.on {
-        opacity: 1;
-      }
-      .gp-disc.hov {
-        width: 84px;
-        height: 84px;
-        margin: -42px 0 0 -42px;
-      }
-      .gp-disc.hov span {
-        opacity: 1;
-      }
-      .gp-nib.hov {
-        opacity: 0;
-      }
-      .gp-nib.txt,
-      .gp-disc.txt {
-        opacity: 0;
-      }
-
-      @media (max-width: 700px) {
-        #gp-ink,
-        .gp-nib,
-        .gp-disc {
-          display: none;
-        }
-      }
-    </style>
-
-    <script>
-      /* ============================================================
-         KURSOR KALIGRAFI "THE GRAND PALACE"
-         Mata pena emas menulis goresan tinta yang meruncing dan
-         memudar, seolah menandatangani undangan. Klik meninggalkan
-         cap lilin yang beriak lalu hilang.
-         ============================================================ */
-      (function () {
-        var reduce =
-          window.matchMedia &&
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        /* ---------- elemen ---------- */
-        var canvas = document.createElement("canvas");
-        canvas.id = "gp-ink";
-
-        var nib = document.createElement("div");
-        nib.className = "gp-nib";
-        nib.innerHTML =
-          '<svg viewBox="0 0 32 32" aria-hidden="true">' +
-          '<defs><linearGradient id="gpNib" x1="0" y1="0" x2="0.6" y2="1">' +
-          '<stop offset="0%" stop-color="#f6e7bd"/>' +
-          '<stop offset="45%" stop-color="#c6a664"/>' +
-          '<stop offset="100%" stop-color="#7d6434"/>' +
-          "</linearGradient></defs>" +
-          /* badan pena */
-          '<path d="M27.4 2.1 19 10.6l3.2 3.2 8.4-8.5a2.3 2.3 0 0 0-3.2-3.2Z" fill="url(#gpNib)" stroke="#6b5529" stroke-width="0.7" stroke-linejoin="round"/>' +
-          /* mata pena */
-          '<path d="M18.2 11.4 5.4 24.2 2.6 30l5.8-2.8L21.2 14.4Z" fill="url(#gpNib)" stroke="#6b5529" stroke-width="0.7" stroke-linejoin="round"/>' +
-          /* belahan nib */
-          '<path d="M9.6 21.2 13 24.6" stroke="#6b5529" stroke-width="0.7" stroke-linecap="round"/>' +
-          '<circle cx="11.3" cy="22.9" r="1.05" fill="#fffaf0" stroke="#6b5529" stroke-width="0.5"/>' +
-          /* ujung tinta */
-          '<path d="M2.6 30 4.6 25.8 7.4 28.6Z" fill="#3a2f18"/>' +
-          "</svg>";
-
-        var disc = document.createElement("div");
-        disc.className = "gp-disc";
-        var label = document.createElement("span");
-        disc.appendChild(label);
-
-        document.body.appendChild(canvas);
-        document.body.appendChild(disc);
-        document.body.appendChild(nib);
-
-        var ctx = canvas.getContext("2d");
-        if (!ctx) return;
-
-        var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        function resize() {
-          canvas.width = Math.floor(window.innerWidth * dpr);
-          canvas.height = Math.floor(window.innerHeight * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-        resize();
-        window.addEventListener("resize", resize);
-
-        /* ---------- state ---------- */
-        var pts = [], // titik goresan tinta
-          seals = [], // cap lilin saat klik
-          mx = 0,
-          my = 0,
-          px = 0,
-          py = 0,
-          active = false,
-          LIFE = 950; // umur goresan (ms)
-
-        function onMove(e) {
-          if (e.pointerType && e.pointerType !== "mouse") return;
-
-          mx = e.clientX;
-          my = e.clientY;
-
-          if (!active) {
-            active = true;
-            px = mx;
-            py = my;
-            document.body.classList.add("gp-on");
-            nib.classList.add("on");
-            disc.classList.add("on");
-            canvas.classList.add("on");
-          }
-
-          nib.style.transform = "translate(" + mx + "px," + my + "px)";
-          disc.style.transform = "translate(" + mx + "px," + my + "px)";
-
-          /* lebar goresan mengikuti kecepatan: pelan = tebal, cepat = tipis */
-          var dx = mx - px,
-            dy = my - py,
-            speed = Math.sqrt(dx * dx + dy * dy);
-          px = mx;
-          py = my;
-          if (!reduce) {
-            pts.push({
-              x: mx,
-              y: my,
-              w: Math.max(0.6, 4.2 - speed * 0.11),
-              t: performance.now(),
-            });
-            if (pts.length > 220) pts.shift();
-          }
-
-          /* status hover */
-          var t = e.target;
-          var field = t && t.closest && t.closest("input, textarea, select");
-          nib.classList.toggle("txt", !!field);
-          disc.classList.toggle("txt", !!field);
-          if (field) return;
-
-          var hit = t && t.closest ? t.closest(HOVER) : null;
-          if (hit) {
-            label.textContent = labelFor(hit);
-            disc.classList.add("hov");
-            nib.classList.add("hov");
-          } else {
-            disc.classList.remove("hov");
-            nib.classList.remove("hov");
-          }
-        }
-
-        var HOVER =
-          'a, button, [role="button"], .btn, .filter-btn, .icon-btn, ' +
-          '.nav-cta, input[type="submit"], label, summary, [data-cursor]';
-
-        function labelFor(el) {
-          if (el.hasAttribute("data-cursor"))
-            return el.getAttribute("data-cursor");
-          var href = el.getAttribute && el.getAttribute("href");
-          if (href && /^demo\//.test(href)) return "Lihat";
-          if (el.matches("button, .btn, .filter-btn, .icon-btn, [type=submit]"))
-            return "Klik";
-          if (href && /^#/.test(href)) return "Menuju";
-          if (href) return "Buka";
-          return "Pilih";
-        }
-
-        /* ---------- gambar ---------- */
-        function draw() {
-          var now = performance.now();
-          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-          /* goresan tinta: segmen meruncing, memudar seiring umur */
-          while (pts.length && now - pts[0].t > LIFE) pts.shift();
-          for (var i = 1; i < pts.length; i++) {
-            var a = pts[i - 1],
-              b = pts[i];
-            var age = (now - b.t) / LIFE;
-            var fade = 1 - age;
-            if (fade <= 0) continue;
-            var grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-            grad.addColorStop(0, "rgba(150,120,58," + fade * 0.5 + ")");
-            grad.addColorStop(1, "rgba(198,166,100," + fade * 0.85 + ")");
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = b.w * fade;
-            ctx.lineCap = "round";
-            ctx.lineJoin = "round";
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-
-          /* cap lilin: cincin yang mengembang lalu hilang */
-          for (var s = seals.length - 1; s >= 0; s--) {
-            var sl = seals[s];
-            var p = (now - sl.t) / 620;
-            if (p >= 1) {
-              seals.splice(s, 1);
-              continue;
-            }
-            var r = 6 + p * 30;
-            ctx.beginPath();
-            ctx.arc(sl.x, sl.y, r, 0, Math.PI * 2);
-            ctx.strokeStyle = "rgba(198,166,100," + (1 - p) * 0.75 + ")";
-            ctx.lineWidth = 1.4 * (1 - p);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(sl.x, sl.y, 5 * (1 - p) + 2, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(198,166,100," + (1 - p) * 0.5 + ")";
-            ctx.fill();
-          }
-
-          requestAnimationFrame(draw);
-        }
-        requestAnimationFrame(draw);
-
-        /* ---------- event ---------- */
-        if (window.PointerEvent) {
-          document.addEventListener("pointermove", onMove, { passive: true });
-        } else {
-          document.addEventListener("mousemove", onMove, { passive: true });
-        }
-
-        document.addEventListener("mousedown", function (e) {
-          if (!active) return;
-          nib.style.transform =
-            "translate(" + mx + "px," + my + "px) scale(.86)";
-          if (!reduce) seals.push({ x: e.clientX, y: e.clientY, t: performance.now() });
-        });
-        document.addEventListener("mouseup", function () {
-          if (active)
-            nib.style.transform = "translate(" + mx + "px," + my + "px)";
-        });
-        document.addEventListener("mouseleave", function () {
-          nib.classList.remove("on");
-          disc.classList.remove("on");
-          canvas.classList.remove("on");
-        });
-        document.addEventListener("mouseenter", function () {
-          if (!active) return;
-          nib.classList.add("on");
-          disc.classList.add("on");
-          canvas.classList.add("on");
-        });
-      })();
-    </script>
-    <!-- ==== /GP-CURSOR ==== -->
   </body>
 </html>
