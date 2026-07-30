@@ -36,6 +36,8 @@
   --f-serif:'EB Garamond',Georgia,serif;
   --f-script:'Great Vibes',cursive;
   --f-sans:'Montserrat',system-ui,sans-serif;
+  --cover-glow:rgba(28,44,74,.95);
+  --eyebrow-strong:#E0C88E;
   --map-filter:grayscale(.4) brightness(.82) contrast(1.05);
   /* lebar konten ikut lebar layar, dibatasi agar tetap nyaman dibaca */
   --maxw:clamp(20rem,86vw,78rem);
@@ -137,7 +139,7 @@ section{position:relative;}
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:3rem clamp(1.5rem,4vw,4.5rem);position:relative;
   background:
-    radial-gradient(120% 90% at 50% 0%,rgba(243,237,228,.9),transparent 60%),
+    radial-gradient(120% 90% at 50% 0%,var(--cover-glow),transparent 60%),
     var(--ivory);
 }
 .cover-body::before{
@@ -693,6 +695,26 @@ footer a{color:var(--gold-soft);text-decoration:none;}
   .stars,.stars::after{animation:none;opacity:.7}
   .constel line,.constel polyline{stroke-dashoffset:0;animation:none}
   .constel circle{opacity:1;animation:none}
+}
+
+/* ============================================================
+   Label "THE WEDDING OF" di cover — dibuat lebih kentara:
+   warna khusus per tema (kontras >=4.5 terhadap puncak gradasi),
+   ukuran & jarak huruf naik, plus garis rambut di kedua sisi.
+   ============================================================ */
+.cover-body .eyebrow{
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(.6rem,1.6vw,1.1rem);
+  font-size:clamp(.72rem,.9vw,.82rem);
+  letter-spacing:.44em;font-weight:500;
+  color:var(--eyebrow-strong);
+  margin:0 0 1.4rem;
+}
+.cover-body .eyebrow::before,
+.cover-body .eyebrow::after{
+  content:"";height:1px;flex:none;
+  width:clamp(1.2rem,3.4vw,2.6rem);
+  background:currentColor;opacity:.6;
 }
 </style>
 <script>
