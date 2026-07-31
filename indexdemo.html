@@ -1578,7 +1578,8 @@
       /* ============================= BONUS ============================= */
       .bonus-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        /* 6 item -> 3 kolom x 2 baris, terisi penuh tanpa sel kosong */
+        grid-template-columns: repeat(3, 1fr);
         gap: 18px;
         margin-top: 50px;
       }
@@ -4152,10 +4153,8 @@
 
       /* ============================= BONUS ============================= */
       const bonuses = [
-        "Free Music",
         "Free Maps",
         "Free Countdown",
-        "Free RSVP",
         "Free Gallery",
         "Free Love Story",
         "Free Gift QR",
