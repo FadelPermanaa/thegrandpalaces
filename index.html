@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <title>The Grand Palace</title>
     
-    <!-- Tambahkan kode ini untuk favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- Atau kalau pakai PNG, pakai kode ini: -->
-    <!-- <link rel="icon" href="favicon.png" type="image/png"> -->
+    <!-- Favicon — logo Gerbang Agung.
+         SVG dipakai browser modern (tajam di semua ukuran),
+         .ico jadi cadangan untuk browser lama. -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Grand palace — Luxury Digital Wedding Invitation</title>
@@ -402,6 +404,24 @@
         white-space: nowrap;
         flex-shrink: 0;
         margin-right: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .nav-logo-mark {
+        width: 26px;
+        height: 26px;
+        flex: none;
+        color: var(--gold);
+        transition: transform 0.5s var(--ease);
+      }
+      .nav-logo:hover .nav-logo-mark {
+        transform: translateY(-2px);
+      }
+      @media (max-width: 420px) {
+        .nav-logo-mark { width: 22px; height: 22px; }
       }
       .nav-menu {
         display: flex;
@@ -2659,7 +2679,16 @@
     <!-- NAVIGATION -->
     <header id="site-nav">
       <div class="nav-inner">
-        <a href="#hero" class="nav-logo">The Grand palace</a>
+        <a href="#hero" class="nav-logo" aria-label="The Grand palace — kembali ke beranda">
+          <svg class="nav-logo-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round">
+              <path d="M18 86 V46 a32 32 0 0 1 64 0 V86" />
+              <path d="M11 86 H89" />
+            </g>
+            <path d="M50 30 l6 8 -6 8 -6 -8 z" fill="currentColor" />
+          </svg>
+          <span>The Grand palace</span>
+        </a>
         <nav class="nav-menu" id="navMenu" aria-label="Navigasi utama">
           <a href="#hero" data-nav>Home</a>
           <a href="#collections" data-nav>Collections</a>

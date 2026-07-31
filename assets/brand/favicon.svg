@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="The Grand Palace">
+  <rect width="64" height="64" rx="12" fill="#161412"/>
+  <g fill="none" stroke="#c6a664" stroke-width="4.2" stroke-linecap="round">
+    <path d="M13 52 V31 a19 19 0 0 1 38 0 V52"/>
+    <path d="M8 52 H56"/>
+  </g>
+  <path d="M32 19 l4.2 5.8 -4.2 5.8 -4.2 -5.8 z" fill="#c6a664"/>
+</svg>
