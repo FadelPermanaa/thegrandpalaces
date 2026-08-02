@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kelola Undangan — Mitha &amp; Dhika</title>
+<style>
+  :root{
+    --gold:#a9862f; --cream:#faf6ee; --ink:#2b2620; --muted:#8a7f6e;
+    --border:#e6ddc9; --ok:#3f7d4a; --err:#b6432f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:"Segoe UI",Arial,sans-serif; background:var(--cream); color:var(--ink);
+    padding:24px 16px 80px;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:1.4rem;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:.85rem;margin:0 0 28px}
+  .card{
+    background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px;
+    box-shadow:0 2px 10px rgba(0,0,0,.03);
+  }
+  .card h2{font-size:1.05rem;margin:0 0 16px;color:var(--gold);letter-spacing:.02em}
+  label{display:block;font-size:.8rem;color:var(--muted);margin:0 0 4px;font-weight:600}
+  input[type=text],input[type=password],textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;
+    font-size:.92rem;font-family:inherit;margin-bottom:16px;background:#fff;color:var(--ink);
+  }
+  textarea{min-height:70px;resize:vertical}
+  input:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .field-img{display:flex;gap:14px;align-items:center;margin-bottom:18px}
+  .field-img img{width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid var(--border);background:#f2ede0}
+  .field-img .col{flex:1}
+  .field-img .col label{margin-bottom:8px}
+  input[type=file]{font-size:.82rem}
+  button{
+    font-family:inherit;font-size:.9rem;font-weight:600;letter-spacing:.02em;
+    border:none;border-radius:8px;padding:12px 22px;cursor:pointer;
+  }
+  .btn-primary{background:var(--gold);color:#fff}
+  .btn-primary:hover{background:#957025}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+  .status{font-size:.82rem;margin-top:10px;min-height:1.2em}
+  .status.ok{color:var(--ok)}
+  .status.err{color:var(--err)}
+  #loginScreen{max-width:360px;margin:80px auto 0}
+  #loginScreen .card{text-align:left}
+  .top-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+  .top-actions a{color:var(--gold);font-size:.85rem;text-decoration:none}
+  .top-actions button{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;font-weight:500}
+  .save-bar{
+    position:sticky;bottom:0;background:var(--cream);padding:14px 0;border-top:1px solid var(--border);
+    display:flex;align-items:center;gap:14px;margin-top:8px;
+  }
+  #editorScreen{display:none}
+  .hint{font-size:.75rem;color:var(--muted);margin:-12px 0 16px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div id="loginScreen">
+    <h1>Kelola Undangan</h1>
+    <p class="sub">Masuk untuk mengubah teks &amp; foto di undangan kamu.</p>
+    <div class="card">
+      <label for="loginUser">Username</label>
+      <input type="text" id="loginUser" autocomplete="username">
+      <label for="loginPass">Password</label>
+      <input type="password" id="loginPass" autocomplete="current-password">
+      <button class="btn-primary" id="loginBtn" style="width:100%">Masuk</button>
+      <p class="status" id="loginStatus"></p>
+    </div>
+  </div>
+
+  <div id="editorScreen">
+    <div class="top-actions">
+      <div>
+        <h1 style="margin-bottom:2px">Kelola Undangan</h1>
+        <p class="sub" style="margin:0">Ubah teks &amp; foto, lalu simpan.</p>
+      </div>
+      <div style="display:flex;gap:8px">
+        <a href="index.html" target="_blank">Lihat Undangan ↗</a>
+        <button id="logoutBtn">Keluar</button>
+      </div>
+    </div>
+
+    <div id="formSections"></div>
+
+    <div class="save-bar">
+      <button class="btn-primary" id="saveBtn">Simpan Semua Teks</button>
+      <p class="status" id="saveStatus" style="margin:0"></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var CMS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
+
+  var $ = function(s,c){ return (c||document).querySelector(s); };
+
+  var GROUPS = [
+    { match: /^(bride_|groom_)/, title: "Mempelai" },
+    { match: /^(event_|akad_|resepsi_|maps_|livestream_)/, title: "Acara" },
+    { match: /^story_/, title: "Cerita Cinta" },
+    { match: /^(bank\d_|gift_)/, title: "Hadiah / Amplop Digital" },
+    { match: /^photo_/, title: "Foto" }
+  ];
+  function groupTitle(key){
+    for(var i=0;i<GROUPS.length;i++) if(GROUPS[i].match.test(key)) return GROUPS[i].title;
+    return "Lainnya";
+  }
+
+  var creds = null; // { username, password }
+  var fieldsCache = [];
+
+  function setStatus(el, msg, ok){
+    el.textContent = msg;
+    el.className = "status " + (ok === true ? "ok" : ok === false ? "err" : "");
+  }
+
+  /* ---------- LOGIN ---------- */
+  $("#loginBtn").addEventListener("click", function(){
+    var u = $("#loginUser").value.trim();
+    var p = $("#loginPass").value;
+    if(!u || !p){ setStatus($("#loginStatus"), "Isi username dan password.", false); return; }
+    $("#loginBtn").disabled = true;
+    setStatus($("#loginStatus"), "Memeriksa...", null);
+    fetch(CMS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ action: "login", username: u, password: p })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      $("#loginBtn").disabled = false;
+      if(res && res.result === "success"){
+        creds = { username: u, password: p };
+        sessionStorage.setItem("cms_creds", JSON.stringify(creds));
+        showEditor();
+      } else {
+        setStatus($("#loginStatus"), (res && res.message) || "Login gagal.", false);
+      }
+    })
+    .catch(function(){
+      $("#loginBtn").disabled = false;
+      setStatus($("#loginStatus"), "Gagal terhubung ke server. Coba lagi.", false);
+    });
+  });
+
+  $("#logoutBtn").addEventListener("click", function(){
+    sessionStorage.removeItem("cms_creds");
+    creds = null;
+    $("#editorScreen").style.display = "none";
+    $("#loginScreen").style.display = "block";
+  });
+
+  /* ---------- EDITOR ---------- */
+  function showEditor(){
+    $("#loginScreen").style.display = "none";
+    $("#editorScreen").style.display = "block";
+    loadContent();
+  }
+
+  function loadContent(){
+    fetch(CMS_URL + "?action=content")
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if(!res || res.result !== "success"){
+          setStatus($("#saveStatus"), "Gagal memuat konten.", false);
+          return;
+        }
+        fieldsCache = res.fields || [];
+        renderForm(fieldsCache);
+      })
+      .catch(function(){ setStatus($("#saveStatus"), "Gagal memuat konten.", false); });
+  }
+
+  function renderForm(fields){
+    var groups = {};
+    fields.forEach(function(f){
+      var g = groupTitle(f.key);
+      if(!groups[g]) groups[g] = [];
+      groups[g].push(f);
+    });
+
+    var order = ["Mempelai","Acara","Cerita Cinta","Hadiah / Amplop Digital","Foto","Lainnya"];
+    var html = "";
+    order.forEach(function(title){
+      if(!groups[title]) return;
+      html += '<div class="card"><h2>' + title + '</h2>';
+      groups[title].forEach(function(f){
+        if(f.type === "image"){
+          html += ''
+            + '<div class="field-img">'
+            + '  <img id="img_' + f.key + '" src="' + escAttr(f.value) + '" alt="">'
+            + '  <div class="col">'
+            + '    <label>' + esc(f.label) + '</label>'
+            + '    <input type="file" accept="image/*" data-key="' + f.key + '">'
+            + '    <p class="status" id="status_' + f.key + '"></p>'
+            + '  </div>'
+            + '</div>';
+        } else if(f.type === "textarea"){
+          html += '<label for="f_' + f.key + '">' + esc(f.label) + '</label>'
+            + '<textarea id="f_' + f.key + '" data-key="' + f.key + '">' + esc(f.value) + '</textarea>';
+        } else {
+          html += '<label for="f_' + f.key + '">' + esc(f.label) + '</label>'
+            + '<input type="text" id="f_' + f.key + '" data-key="' + f.key + '" value="' + escAttr(f.value) + '">';
+        }
+      });
+      html += '</div>';
+    });
+    $("#formSections").innerHTML = html;
+
+    Array.prototype.slice.call(document.querySelectorAll('input[type=file]')).forEach(function(inp){
+      inp.addEventListener("change", function(){ handleImageUpload(inp); });
+    });
+  }
+
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function escAttr(s){ return esc(s); }
+
+  /* ---------- SIMPAN TEKS ---------- */
+  $("#saveBtn").addEventListener("click", function(){
+    var updates = {};
+    fieldsCache.forEach(function(f){
+      if(f.type === "image") return;
+      var el = $("#f_" + f.key);
+      if(el) updates[f.key] = el.value;
+    });
+    $("#saveBtn").disabled = true;
+    setStatus($("#saveStatus"), "Menyimpan...", null);
+    fetch(CMS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ action: "updateContent", username: creds.username, password: creds.password, updates: updates })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      $("#saveBtn").disabled = false;
+      if(res && res.result === "success"){
+        setStatus($("#saveStatus"), "Tersimpan. Perubahan langsung tampil di undangan.", true);
+      } else {
+        setStatus($("#saveStatus"), (res && res.message) || "Gagal menyimpan.", false);
+      }
+    })
+    .catch(function(){
+      $("#saveBtn").disabled = false;
+      setStatus($("#saveStatus"), "Gagal terhubung ke server.", false);
+    });
+  });
+
+  /* ---------- UPLOAD FOTO ---------- */
+  function handleImageUpload(inputEl){
+    var key = inputEl.getAttribute("data-key");
+    var file = inputEl.files[0];
+    if(!file) return;
+    var statusEl = $("#status_" + key);
+    var imgEl = $("#img_" + key);
+    var previousSrc = imgEl.src;
+
+    // Preview seketika pakai file lokal, sebelum proses upload ke Drive
+    // (yang bisa makan waktu ~10-15 detik) selesai.
+    var localPreviewUrl = URL.createObjectURL(file);
+    imgEl.src = localPreviewUrl;
+    setStatus(statusEl, "Mengunggah...", null);
+
+    resizeImage(file, 1600, 0.82, function(dataUrl, mimeType){
+      var base64 = dataUrl.split(",")[1];
+      fetch(CMS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({
+          action: "uploadImage",
+          username: creds.username,
+          password: creds.password,
+          key: key,
+          filename: key + ".jpg",
+          mimeType: mimeType,
+          imageBase64: base64
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        URL.revokeObjectURL(localPreviewUrl);
+        if(res && res.result === "success"){
+          imgEl.src = res.url;
+          setStatus(statusEl, "Tersimpan.", true);
+        } else {
+          imgEl.src = previousSrc;
+          setStatus(statusEl, (res && res.message) || "Gagal mengunggah.", false);
+        }
+      })
+      .catch(function(){
+        URL.revokeObjectURL(localPreviewUrl);
+        imgEl.src = previousSrc;
+        setStatus(statusEl, "Gagal terhubung ke server.", false);
+      });
+    });
+  }
+
+  function resizeImage(file, maxDim, quality, cb){
+    var img = new Image();
+    var reader = new FileReader();
+    reader.onload = function(e){
+      img.onload = function(){
+        var w = img.width, h = img.height;
+        if(w > maxDim || h > maxDim){
+          if(w > h){ h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        var canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        cb(canvas.toDataURL("image/jpeg", quality), "image/jpeg");
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /* ---------- AUTO LOGIN KALAU SESSION MASIH ADA ---------- */
+  try{
+    var saved = sessionStorage.getItem("cms_creds");
+    if(saved){ creds = JSON.parse(saved); showEditor(); }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

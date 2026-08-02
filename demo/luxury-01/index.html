@@ -742,7 +742,7 @@ document.addEventListener(
      ========================================================= -->
 <div id="cover">
   <div class="cover-photo">
-    <img src="assets/images/4.webp" data-fb="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Mempelai">
+    <img src="assets/images/4.webp" data-cms-img="photo_cover" data-fb="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Mempelai">
     <div class="cover-frame"></div>
   </div>
   <div class="cover-body">
@@ -752,8 +752,8 @@ document.addEventListener(
       <span class="wax-mono">M&amp;D</span>
     </div>
     <p class="eyebrow">The Wedding Of</p>
-    <h1 class="cover-names">Mitha<span class="cover-amp">&amp;</span>Dhika</h1>
-    <p class="cover-date">Minggu, 13 Desember 2026</p>
+    <h1 class="cover-names"><span data-cms="bride_name">Mitha</span><span class="cover-amp">&amp;</span><span data-cms="groom_name">Dhika</span></h1>
+    <p class="cover-date" data-cms="event_date_display">Minggu, 13 Desember 2026</p>
     <div class="guest-card">
       <small>Kepada Yth. Bapak/Ibu/Saudara/i</small>
       <div id="guestName">Nama Tamu Undangan</div>
@@ -786,11 +786,11 @@ document.addEventListener(
      ========================================================= -->
 <section id="hero">
   <div class="hero-bg" data-parallax>
-    <img src="assets/images/1.webp" data-fb="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=2400&q=80" alt="Mitha dan Dhika">
+    <img src="assets/images/1.webp" data-cms-img="photo_hero" data-fb="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=2400&q=80" alt="Mitha dan Dhika">
   </div>
   <div class="hero-inner">
     <p class="eyebrow">Save The Date</p>
-    <h1 class="hero-names">Mitha<span class="amp">&amp;</span>Dhika</h1>
+    <h1 class="hero-names"><span data-cms="bride_name">Mitha</span><span class="amp">&amp;</span><span data-cms="groom_name">Dhika</span></h1>
     <div class="hero-date">
       <span>13</span><span>Desember</span><span>2026</span>
     </div>
@@ -842,11 +842,11 @@ document.addEventListener(
     <div class="couple-grid">
       <div class="person rv d1">
         <div class="person-photo">
-          <img src="assets/images/3.webp" data-fb="https://images.unsplash.com/photo-1606216794079-73f85bbd57d5?auto=format&fit=crop&w=900&q=80" alt="Pradnya Pramitha">
+          <img src="assets/images/3.webp" data-cms-img="photo_bride" data-fb="https://images.unsplash.com/photo-1606216794079-73f85bbd57d5?auto=format&fit=crop&w=900&q=80" alt="Pradnya Pramitha">
         </div>
-        <h3 class="person-name">Mitha</h3>
-        <p class="person-full">Pradnya Pramitha, S.Ds.</p>
-        <p class="person-meta">Putri Kedua dari<br><strong>Bapak Bagus Triatmoko</strong> &amp; <strong>Ibu Hanifah Ledia</strong></p>
+        <h3 class="person-name" data-cms="bride_name">Mitha</h3>
+        <p class="person-full" data-cms="bride_fullname">Pradnya Pramitha, S.Ds.</p>
+        <p class="person-meta" data-cms="bride_parents">Putri Kedua dari Bapak Bagus Triatmoko &amp; Ibu Hanifah Ledia</p>
         <div class="socials">
           <a href="#" aria-label="Instagram Mitha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
         </div>
@@ -856,11 +856,11 @@ document.addEventListener(
 
       <div class="person rv d3">
         <div class="person-photo">
-          <img src="assets/images/2.webp" data-fb="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?auto=format&fit=crop&w=900&q=80" alt="Andhika Wirapati">
+          <img src="assets/images/2.webp" data-cms-img="photo_groom" data-fb="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?auto=format&fit=crop&w=900&q=80" alt="Andhika Wirapati">
         </div>
-        <h3 class="person-name">Dhika</h3>
-        <p class="person-full">Andhika Wirapati, S.T.</p>
-        <p class="person-meta">Putra Kedua dari<br><strong>Bapak Yusuf Kama</strong> &amp; <strong>Ibu Ratna Ayu Menik</strong></p>
+        <h3 class="person-name" data-cms="groom_name">Dhika</h3>
+        <p class="person-full" data-cms="groom_fullname">Andhika Wirapati, S.T.</p>
+        <p class="person-meta" data-cms="groom_parents">Putra Kedua dari Bapak Yusuf Kama &amp; Ibu Ratna Ayu Menik</p>
         <div class="socials">
           <a href="#" aria-label="Instagram Dhika"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
         </div>
@@ -901,11 +901,11 @@ document.addEventListener(
             <div class="day">Des 2026</div>
           </div>
           <div class="sep"></div>
-          <div class="time">08.30 &ndash; 10.00 WIB</div>
+          <div class="time" data-cms="akad_time">08.30 &ndash; 10.00 WIB</div>
         </div>
-        <p class="event-place">Kediaman Mempelai Wanita</p>
-        <p class="event-addr">Jl. Jend. Sudirman No.1 RT.1/RW.4, Karet Semanggi, Setiabudi, Jakarta Selatan 12930</p>
-        <a class="btn" href="https://maps.google.com/?q=Jl.+Jend.+Sudirman+No.1+Karet+Semanggi+Setiabudi+Jakarta+Selatan" target="_blank" rel="noopener">
+        <p class="event-place" data-cms="akad_venue_name">Kediaman Mempelai Wanita</p>
+        <p class="event-addr" data-cms="akad_venue_address">Jl. Jend. Sudirman No.1 RT.1/RW.4, Karet Semanggi, Setiabudi, Jakarta Selatan 12930</p>
+        <a class="btn" data-cms-href="maps_url" href="https://maps.google.com/?q=Jl.+Jend.+Sudirman+No.1+Karet+Semanggi+Setiabudi+Jakarta+Selatan" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
           Google Maps
         </a>
@@ -921,11 +921,11 @@ document.addEventListener(
             <div class="day">Des 2026</div>
           </div>
           <div class="sep"></div>
-          <div class="time">12.30 &ndash; 17.00 WIB</div>
+          <div class="time" data-cms="resepsi_time">12.30 &ndash; 17.00 WIB</div>
         </div>
-        <p class="event-place">Kediaman Mempelai Wanita</p>
-        <p class="event-addr">Jl. Jend. Sudirman No.1 RT.1/RW.4, Karet Semanggi, Setiabudi, Jakarta Selatan 12930</p>
-        <a class="btn" href="https://maps.google.com/?q=Jl.+Jend.+Sudirman+No.1+Karet+Semanggi+Setiabudi+Jakarta+Selatan" target="_blank" rel="noopener">
+        <p class="event-place" data-cms="resepsi_venue_name">Kediaman Mempelai Wanita</p>
+        <p class="event-addr" data-cms="resepsi_venue_address">Jl. Jend. Sudirman No.1 RT.1/RW.4, Karet Semanggi, Setiabudi, Jakarta Selatan 12930</p>
+        <a class="btn" data-cms-href="maps_url" href="https://maps.google.com/?q=Jl.+Jend.+Sudirman+No.1+Karet+Semanggi+Setiabudi+Jakarta+Selatan" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
           Google Maps
         </a>
@@ -956,7 +956,7 @@ document.addEventListener(
           <strong style="color:var(--ink);font-weight:500">Minggu, 13 Desember 2026</strong><br>08.00 WIB &ndash; selesai
         </p>
         <div class="filter-btns">
-          <a class="btn" href="https://youtube.com" target="_blank" rel="noopener">
+          <a class="btn" data-cms-href="livestream_url" href="https://youtube.com" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.9 2.9 0 00-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.7a2.9 2.9 0 00-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.9 2.9 0 002 2C5.3 20 12 20 12 20s6.7 0 8.5-.7a2.9 2.9 0 002-2C23 15.6 23 12 23 12zM9.8 15.4V8.6l6 3.4-6 3.4z"/></svg>
             YouTube Live
           </a>
@@ -1012,32 +1012,32 @@ document.addEventListener(
 
     <div class="timeline">
       <div class="tl-item rv">
-        <div class="tl-photo"><img src="assets/images/8.webp" data-fb="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=80" alt="Awal bertemu"></div>
+        <div class="tl-photo"><img src="assets/images/8.webp" data-cms-img="photo_story_1" data-fb="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=80" alt="Awal bertemu"></div>
         <div class="tl-dot"><span></span></div>
         <div class="tl-text">
-          <h4>Awal Bertemu</h4>
-          <p class="tl-date">11 Januari 2023</p>
-          <p>Awal bertemu dan berkenalan saat sama-sama mengikuti zoom meeting kantor. Kemudian saling berkenalan dan bertukar nomor WhatsApp.</p>
+          <h4 data-cms="story_1_title">Awal Bertemu</h4>
+          <p class="tl-date" data-cms="story_1_date">11 Januari 2023</p>
+          <p data-cms="story_1_text">Awal bertemu dan berkenalan saat sama-sama mengikuti zoom meeting kantor. Kemudian saling berkenalan dan bertukar nomor WhatsApp.</p>
         </div>
       </div>
 
       <div class="tl-item rev rv">
-        <div class="tl-photo"><img src="assets/images/9.webp" data-fb="https://images.unsplash.com/photo-1621801306185-8c0ccf9c8eb8?auto=format&fit=crop&w=1000&q=80" alt="Tunangan"></div>
+        <div class="tl-photo"><img src="assets/images/9.webp" data-cms-img="photo_story_2" data-fb="https://images.unsplash.com/photo-1621801306185-8c0ccf9c8eb8?auto=format&fit=crop&w=1000&q=80" alt="Tunangan"></div>
         <div class="tl-dot"><span></span></div>
         <div class="tl-text">
-          <h4>Bertunangan</h4>
-          <p class="tl-date">11 Januari 2024</p>
-          <p>Setahun menjalani hubungan yang serius dan hati semakin mantap, kami memasuki ikatan tunangan bersama restu kedua keluarga.</p>
+          <h4 data-cms="story_2_title">Bertunangan</h4>
+          <p class="tl-date" data-cms="story_2_date">11 Januari 2024</p>
+          <p data-cms="story_2_text">Setahun menjalani hubungan yang serius dan hati semakin mantap, kami memasuki ikatan tunangan bersama restu kedua keluarga.</p>
         </div>
       </div>
 
       <div class="tl-item rv">
-        <div class="tl-photo"><img src="assets/images/10.webp" data-fb="https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?auto=format&fit=crop&w=1000&q=80" alt="Menikah"></div>
+        <div class="tl-photo"><img src="assets/images/10.webp" data-cms-img="photo_story_3" data-fb="https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?auto=format&fit=crop&w=1000&q=80" alt="Menikah"></div>
         <div class="tl-dot"><span></span></div>
         <div class="tl-text">
-          <h4>Menikah</h4>
-          <p class="tl-date">13 Desember 2026</p>
-          <p>Lika-liku kisah cinta kami: bahagia, sedih, senang, marah, tertawa &mdash; akan menjadi satu dalam ikatan suci pernikahan.</p>
+          <h4 data-cms="story_3_title">Menikah</h4>
+          <p class="tl-date" data-cms="story_3_date">13 Desember 2026</p>
+          <p data-cms="story_3_text">Lika-liku kisah cinta kami: bahagia, sedih, senang, marah, tertawa &mdash; akan menjadi satu dalam ikatan suci pernikahan.</p>
         </div>
       </div>
     </div>
@@ -1054,14 +1054,14 @@ document.addEventListener(
     <p class="lead rv d2">Klik foto untuk melihat dalam ukuran penuh.</p>
 
     <div class="gal rv" id="gal">
-      <figure class="t2 r2"><img loading="lazy" src="assets/images/gallery-1.webp" data-fb="https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&w=1400&q=80" alt="Galeri 1"></figure>
-      <figure><img loading="lazy" src="assets/images/gallery-2.webp" data-fb="https://images.unsplash.com/photo-1596457221755-b96bc3a6df18?auto=format&fit=crop&w=900&q=80" alt="Galeri 2"></figure>
-      <figure><img loading="lazy" src="assets/images/gallery-3.webp" data-fb="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?auto=format&fit=crop&w=900&q=80" alt="Galeri 3"></figure>
-      <figure><img loading="lazy" src="assets/images/gallery-4.webp" data-fb="https://images.unsplash.com/photo-1460978812857-470ed1c77af0?auto=format&fit=crop&w=900&q=80" alt="Galeri 4"></figure>
-      <figure><img loading="lazy" src="assets/images/gallery-5.webp" data-fb="https://images.unsplash.com/photo-1563808599481-34a342e44508?auto=format&fit=crop&w=900&q=80" alt="Galeri 5"></figure>
-      <figure class="t2"><img loading="lazy" src="assets/images/gallery-6.webp" data-fb="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Galeri 6"></figure>
-      <figure><img loading="lazy" src="assets/images/gallery-7.webp" data-fb="https://images.unsplash.com/photo-1550784718-990c6de52adf?auto=format&fit=crop&w=900&q=80" alt="Galeri 7"></figure>
-      <figure><img loading="lazy" src="assets/images/gallery-8.webp" data-fb="https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?auto=format&fit=crop&w=900&q=80" alt="Galeri 8"></figure>
+      <figure class="t2 r2"><img loading="lazy" src="assets/images/gallery-1.webp" data-cms-img="photo_gallery_1" data-fb="https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&w=1400&q=80" alt="Galeri 1"></figure>
+      <figure><img loading="lazy" src="assets/images/gallery-2.webp" data-cms-img="photo_gallery_2" data-fb="https://images.unsplash.com/photo-1596457221755-b96bc3a6df18?auto=format&fit=crop&w=900&q=80" alt="Galeri 2"></figure>
+      <figure><img loading="lazy" src="assets/images/gallery-3.webp" data-cms-img="photo_gallery_3" data-fb="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?auto=format&fit=crop&w=900&q=80" alt="Galeri 3"></figure>
+      <figure><img loading="lazy" src="assets/images/gallery-4.webp" data-cms-img="photo_gallery_4" data-fb="https://images.unsplash.com/photo-1460978812857-470ed1c77af0?auto=format&fit=crop&w=900&q=80" alt="Galeri 4"></figure>
+      <figure><img loading="lazy" src="assets/images/gallery-5.webp" data-cms-img="photo_gallery_5" data-fb="https://images.unsplash.com/photo-1563808599481-34a342e44508?auto=format&fit=crop&w=900&q=80" alt="Galeri 5"></figure>
+      <figure class="t2"><img loading="lazy" src="assets/images/gallery-6.webp" data-cms-img="photo_gallery_6" data-fb="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Galeri 6"></figure>
+      <figure><img loading="lazy" src="assets/images/gallery-7.webp" data-cms-img="photo_gallery_7" data-fb="https://images.unsplash.com/photo-1550784718-990c6de52adf?auto=format&fit=crop&w=900&q=80" alt="Galeri 7"></figure>
+      <figure><img loading="lazy" src="assets/images/gallery-8.webp" data-cms-img="photo_gallery_8" data-fb="https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?auto=format&fit=crop&w=900&q=80" alt="Galeri 8"></figure>
     </div>
   </div>
 </section>
@@ -1146,21 +1146,21 @@ document.addEventListener(
 
     <div class="gift-grid">
       <div class="bank-card rv d1">
-        <div class="bank">BCA</div>
-        <div class="no" data-no="0816994682">0816994682</div>
-        <div class="an">a.n. Pradnya Pramitha</div>
-        <button class="copy" data-copy="0816994682">Salin Nomor</button>
+        <div class="bank" data-cms="bank1_name">BCA</div>
+        <div class="no" id="bank1No" data-no="0816994682" data-cms="bank1_number">0816994682</div>
+        <div class="an">a.n. <span data-cms="bank1_holder">Pradnya Pramitha</span></div>
+        <button class="copy" id="bank1Copy" data-copy="0816994682">Salin Nomor</button>
       </div>
       <div class="bank-card rv d2">
-        <div class="bank">MANDIRI</div>
-        <div class="no" data-no="1370088123456">1370088123456</div>
-        <div class="an">a.n. Andhika Wirapati</div>
-        <button class="copy" data-copy="1370088123456">Salin Nomor</button>
+        <div class="bank" data-cms="bank2_name">MANDIRI</div>
+        <div class="no" id="bank2No" data-no="1370088123456" data-cms="bank2_number">1370088123456</div>
+        <div class="an">a.n. <span data-cms="bank2_holder">Andhika Wirapati</span></div>
+        <button class="copy" id="bank2Copy" data-copy="1370088123456">Salin Nomor</button>
       </div>
     </div>
 
     <div class="rule"></div>
-    <p class="lead rv" style="font-style:italic">Kirim hadiah ke alamat: Jl. Jend. Sudirman No.1 RT.1/RW.4, Karet Semanggi, Setiabudi, Jakarta Selatan 12930</p>
+    <p class="lead rv" style="font-style:italic">Kirim hadiah ke alamat: <span data-cms="gift_address">Jl. Jend. Sudirman No.1 RT.1/RW.4, Karet Semanggi, Setiabudi, Jakarta Selatan 12930</span></p>
   </div>
 </section>
 
@@ -1216,6 +1216,45 @@ document.addEventListener(
 
   var $  = function(s,c){ return (c||document).querySelector(s); };
   var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+
+  /* ---------- CMS: KONTEN DINAMIS DARI GOOGLE SHEETS ----------
+     Elemen dengan atribut data-cms / data-cms-img / data-cms-href
+     akan otomatis diisi ulang begitu data dari Apps Script datang.
+     Nilai hardcoded di HTML tetap tampil sebagai fallback selama
+     proses fetch berlangsung / kalau fetch gagal. */
+  var CMS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
+  function applyContent(content){
+    $$("[data-cms]").forEach(function(el){
+      var key = el.getAttribute("data-cms");
+      if(content[key]) el.textContent = content[key];
+    });
+    $$("[data-cms-img]").forEach(function(el){
+      var key = el.getAttribute("data-cms-img");
+      if(content[key]) el.src = content[key];
+    });
+    $$("[data-cms-href]").forEach(function(el){
+      var key = el.getAttribute("data-cms-href");
+      if(content[key]) el.href = content[key];
+    });
+    var b1no = $("#bank1No"), b1cp = $("#bank1Copy");
+    if(content.bank1_number){
+      if(b1no) b1no.setAttribute("data-no", content.bank1_number);
+      if(b1cp) b1cp.setAttribute("data-copy", content.bank1_number);
+    }
+    var b2no = $("#bank2No"), b2cp = $("#bank2Copy");
+    if(content.bank2_number){
+      if(b2no) b2no.setAttribute("data-no", content.bank2_number);
+      if(b2cp) b2cp.setAttribute("data-copy", content.bank2_number);
+    }
+    if(content.event_date_iso){
+      CONFIG.tanggalAcara = content.event_date_iso;
+      try{ target = new Date(CONFIG.tanggalAcara).getTime(); }catch(e){}
+    }
+  }
+  fetch(CMS_URL + "?action=content")
+    .then(function(r){ return r.json(); })
+    .then(function(res){ if(res && res.result === "success") applyContent(res.content); })
+    .catch(function(){});
 
   /* ---------- NAMA TAMU DARI URL (?to=Nama) ---------- */
   try{
