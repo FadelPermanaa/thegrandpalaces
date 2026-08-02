@@ -713,6 +713,12 @@ footer a{color:var(--gold-soft);text-decoration:none;}
   width:clamp(1.2rem,3.4vw,2.6rem);
   background:currentColor;opacity:.6;
 }
+
+/* Foto yang datanya bisa diedit pemesan (data-cms-img) disembunyikan
+   dulu lalu fade-in halus setelah konten dari CMS siap, supaya foto
+   bawaan lokal tidak "kedip" sekejap sebelum ditimpa foto pemesan. */
+[data-cms-img]{opacity:0;transition:opacity .4s ease}
+[data-cms-img].cms-ready{opacity:1}
 </style>
 <script>
 /* Foto memakai slot lokal assets/images/*.webp (diisi oleh demo/download-all-photos.ps1).
@@ -1251,10 +1257,20 @@ document.addEventListener(
       try{ target = new Date(CONFIG.tanggalAcara).getTime(); }catch(e){}
     }
   }
+  var imagesRevealed = false;
+  function revealImages(){
+    if(imagesRevealed) return;
+    imagesRevealed = true;
+    $$("[data-cms-img]").forEach(function(el){ el.classList.add("cms-ready"); });
+  }
   fetch(CMS_URL + "?action=content")
     .then(function(r){ return r.json(); })
     .then(function(res){ if(res && res.result === "success") applyContent(res.content); })
-    .catch(function(){});
+    .catch(function(){})
+    .then(revealImages);
+  // Jaring pengaman: kalau fetch macet/lambat, tetap tampilkan foto
+  // bawaan lokal setelah 2.5 detik supaya tidak kosong selamanya.
+  setTimeout(revealImages, 2500);
 
   /* ---------- NAMA TAMU DARI URL (?to=Nama) ---------- */
   try{
