@@ -1324,6 +1324,7 @@ document.addEventListener(
 
   /* ---------- RSVP ---------- */
   var STORE = "luxury35_rsvp";
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
   var memory = [];
   function load(){
     try{ return JSON.parse(localStorage.getItem(STORE)) || []; }
@@ -1371,19 +1372,28 @@ document.addEventListener(
       note.textContent = "Mohon isi nama dan ucapan (minimal 2 karakter).";
       return;
     }
-    var list = load();
-    list.push({
+    var entry = {
       nama: nama,
       hadir: $("input[name=hadir]:checked").value,
       jumlah: $("#fJml").value,
       pesan: pesan,
-      waktu: Date.now()
-    });
+      waktu: Date.now(),
+      demo: "luxury-09"
+    };
+    var list = load();
+    list.push(entry);
     save(list); render();
     this.reset();
     note.style.color = "var(--gold)";
     note.textContent = "Terima kasih! Ucapan Anda telah tersimpan.";
     setTimeout(function(){ note.textContent = ""; }, 4000);
+
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(entry)
+    }).catch(function(){});
   });
 
   /* ---------- COPY REKENING ---------- */

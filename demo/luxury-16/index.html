@@ -1160,6 +1160,14 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
     const text=document.getElementById('wText').value.trim();
     if(!text) return;
     renderWish([name,text]);
+
+    fetch("https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ demo: "luxury-16", nama: name, pesan: text })
+    }).catch(function(){});
+
     e.currentTarget.reset();
   });
 
@@ -1340,8 +1348,22 @@ footer{position:relative;padding:70px 0 34px;text-align:center;overflow:hidden;}
   });
 
   // ---------- RSVP fake submit ----------
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
   document.getElementById('rsvpForm').addEventListener('submit',(e)=>{
     e.preventDefault();
+    var entry = {
+      demo: "luxury-16",
+      nama: document.getElementById('rName') ? document.getElementById('rName').value : undefined,
+      hadir: document.getElementById('rAttend') ? document.getElementById('rAttend').value : undefined,
+      jumlah: document.getElementById('rGuests') ? document.getElementById('rGuests').value : undefined,
+      pesan: document.getElementById('rMsg') ? document.getElementById('rMsg').value : undefined
+    };
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(entry)
+    }).catch(function(){});
     e.currentTarget.style.display='none';
     const success=document.getElementById('rsvpSuccess');
     success.classList.add('show','in');

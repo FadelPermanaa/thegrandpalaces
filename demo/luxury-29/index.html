@@ -2036,6 +2036,7 @@ const MEDIA = {
     return div.innerHTML;
   }
 
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
   function initRsvp(){
     const form = $('#rsvp-form');
     const success = $('#rsvp-success');
@@ -2044,6 +2045,8 @@ const MEDIA = {
       e.preventDefault();
       const name = $('#rsvp-name').value.trim();
       const message = $('#rsvp-message').value.trim();
+      const attendEl = $('#rsvp-attend');
+      const guestsEl = $('#rsvp-guests');
       if(!name){ $('#rsvp-name').focus(); return; }
 
       if(message){
@@ -2052,6 +2055,15 @@ const MEDIA = {
         saveGuestbook(entries);
         renderGuestbook();
       }
+
+      try{
+        fetch(GAS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ demo: "luxury-29", nama: name, hadir: attendEl ? attendEl.value : undefined, jumlah: guestsEl ? guestsEl.value : undefined, pesan: message })
+        }).catch(function(){});
+      }catch(err){}
 
       form.style.display = 'none';
       success.classList.add('is-visible');

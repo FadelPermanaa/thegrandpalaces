@@ -1620,8 +1620,24 @@ document.querySelectorAll('.faq-item').forEach(function(item){
 });
 
 /* ---------- RSVP FORM ---------- */
+var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 document.getElementById('rsvp-form').addEventListener('submit', function(e){
   e.preventDefault();
+  var formEl = this;
+  var checkedRadio = formEl.querySelector('input[name=attend]:checked');
+  var entry = {
+    demo: "luxury-10",
+    nama: document.getElementById('rsvp-name') ? document.getElementById('rsvp-name').value : undefined,
+    hadir: checkedRadio && checkedRadio.closest('label') ? checkedRadio.closest('label').textContent.trim() : undefined,
+    jumlah: formEl.querySelector('select') ? formEl.querySelector('select').value : undefined,
+    pesan: formEl.querySelector('textarea') ? formEl.querySelector('textarea').value : undefined
+  };
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(entry)
+  }).catch(function(){});
   this.style.display = 'none';
   var success = document.getElementById('rsvp-success');
   success.classList.add('show','in');

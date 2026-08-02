@@ -1366,10 +1366,27 @@ function renderWish(name,msg,index){
 }
 seedWishes.forEach((w,i)=>renderWish(w.name,w.msg,i));
 
+var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 $('#rsvp-form').addEventListener('submit', (e)=>{
   e.preventDefault();
   const name = $('#rsvp-name').value.trim() || 'Tamu Undangan';
   const msg = $('#rsvp-msg').value.trim();
+
+  var checkedRadio = document.querySelector('input[name=attend]:checked');
+  var entry = {
+    demo: "luxury-14",
+    nama: name,
+    hadir: checkedRadio ? checkedRadio.value : undefined,
+    jumlah: $('#rsvp-guests') ? $('#rsvp-guests').value : undefined,
+    pesan: msg
+  };
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(entry)
+  }).catch(function(){});
+
   $('#rsvp-form').style.display='none';
   $('#rsvp-success').classList.add('show');
   if(msg) renderWish(name, msg, 0);

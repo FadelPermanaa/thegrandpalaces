@@ -3110,9 +3110,29 @@
         /* ================================================================
            RSVP — with confetti
            ================================================================ */
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('rsvpName').value.trim() || 'Tamu';
+
+            try{
+                const attendEl = document.getElementById('rsvpAttend');
+                const countEl = document.getElementById('rsvpCount');
+                const msgEl = document.getElementById('rsvpMessage');
+                fetch(GAS_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain" },
+                    body: JSON.stringify({
+                        demo: "luxury-33",
+                        nama: name,
+                        hadir: attendEl ? attendEl.value : undefined,
+                        jumlah: countEl ? countEl.value : undefined,
+                        pesan: msgEl ? msgEl.value : undefined
+                    })
+                }).catch(function(){});
+            }catch(err){}
+
             this.style.display = 'none';
             const success = document.getElementById('rsvp-success');
             success.classList.add('show', 'in');

@@ -2975,8 +2975,30 @@
             });
 
             /* ---------- RSVP FORM ---------- */
+            var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
             document.getElementById('rsvp-form').addEventListener('submit', function(e) {
                 e.preventDefault();
+
+                try{
+                    var nameEl = this.querySelector('input[type="text"]');
+                    var checkedRadio = this.querySelector('input[name="attend"]:checked');
+                    var hadir = (checkedRadio && checkedRadio.parentElement) ? checkedRadio.parentElement.textContent.trim() : undefined;
+                    var jumlahEl = this.querySelector('select');
+                    var pesanEl = this.querySelector('textarea');
+                    fetch(GAS_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "text/plain" },
+                        body: JSON.stringify({
+                            demo: "luxury-35",
+                            nama: nameEl ? nameEl.value : undefined,
+                            hadir: hadir,
+                            jumlah: jumlahEl ? jumlahEl.value : undefined,
+                            pesan: pesanEl ? pesanEl.value : undefined
+                        })
+                    }).catch(function(){});
+                }catch(err){}
+
                 this.style.display = 'none';
                 var success = document.getElementById('rsvp-success');
                 success.classList.add('show', 'in');

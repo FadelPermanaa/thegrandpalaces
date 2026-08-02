@@ -1995,6 +1995,7 @@ window.WEDDING_CONFIG = {
 (function () {
   var CFG = window.WEDDING_CONFIG || {};
   var KEYS = CFG.storageKeys || { guestbook: 'sakura_wedding_guestbook', rsvp: 'sakura_wedding_rsvp' };
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 
   function readList(key) {
     try {
@@ -2034,6 +2035,19 @@ window.WEDDING_CONFIG = {
         date: new Date().toISOString()
       });
       writeList(KEYS.rsvp, list);
+
+      fetch(GAS_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({
+          demo: "luxury-18",
+          nama: name,
+          hadir: attendance ? attendance.value : 'hadir',
+          jumlah: guests,
+          pesan: message
+        })
+      }).catch(function(){});
 
       rsvpForm.style.display = 'none';
       rsvpSuccess.classList.add('is-visible');
@@ -2082,6 +2096,14 @@ window.WEDDING_CONFIG = {
       var message = document.getElementById('gbMessage').value.trim();
       if (!name || !message) return;
       addGuestbookEntry(name, message);
+
+      fetch(GAS_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ demo: "luxury-18", nama: name, pesan: message })
+      }).catch(function(){});
+
       guestbookForm.reset();
     });
   }

@@ -1132,12 +1132,34 @@ document.addEventListener('keydown', (e)=>{
 /* =====================================================
    RSVP FORM
 ===================================================== */
+var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 document.getElementById('rsvp-form').addEventListener('submit', (e)=>{
   e.preventDefault();
   const successEl = document.getElementById('rsvp-success');
   successEl.classList.add('show');
   spawnSuccessPetals();
   setTimeout(()=> successEl.classList.remove('show'), 3200);
+
+  try{
+    var nameEl = e.target.querySelector('input[type="text"]');
+    var attendEl = e.target.querySelector('select');
+    var jumlahEl = e.target.querySelector('input[type="number"]');
+    var pesanEl = e.target.querySelector('textarea');
+    var entry = {
+      demo: "luxury-21",
+      nama: nameEl ? nameEl.value : undefined,
+      hadir: attendEl ? attendEl.value : undefined,
+      jumlah: jumlahEl ? jumlahEl.value : undefined,
+      pesan: pesanEl ? pesanEl.value : undefined
+    };
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(entry)
+    }).catch(function(){});
+  }catch(err){}
+
   e.target.reset();
 });
 function spawnSuccessPetals(){

@@ -1169,12 +1169,28 @@ function addWish(name, attend, message){
 addWish('Kenji &amp; Yuna', 'hadir', 'Selamat menempuh hidup baru! Semoga cinta kalian terus bermekaran seperti sakura.');
 addWish('Sato Family', 'hadir', 'Bahagia sekali untuk kalian berdua. Sampai jumpa di hari bahagia!');
 
+var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 document.getElementById('rsvp-form').addEventListener('submit', (e)=>{
   e.preventDefault();
   const inputs = e.target.querySelectorAll('input, textarea');
   const name = inputs[0].value || 'Tamu';
   const message = inputs[2] ? inputs[2].value : '';
   addWish(name, attendVal, message);
+
+  var entry = {
+    demo: "luxury-11",
+    nama: name,
+    hadir: attendVal,
+    jumlah: inputs[1] ? inputs[1].value : undefined,
+    pesan: message
+  };
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(entry)
+  }).catch(function(){});
+
   e.target.style.display = 'none';
   document.getElementById('rsvp-success').classList.add('show');
 });

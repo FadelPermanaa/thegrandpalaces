@@ -1353,8 +1353,23 @@ a, button, input, select, textarea, .pill-btn, .open-btn, .play-btn, .copy-btn, 
   });
 
   /* ---------- RSVP FORM ---------- */
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
   document.getElementById('rsvpForm').addEventListener('submit', function(e){
     e.preventDefault();
+    var formEl = document.getElementById('rsvpForm');
+    var entry = {
+      demo: "luxury-17",
+      nama: document.getElementById('rsvpName') ? document.getElementById('rsvpName').value : undefined,
+      hadir: formEl.querySelector('select') ? formEl.querySelector('select').value : undefined,
+      jumlah: formEl.querySelector('input[type=number]') ? formEl.querySelector('input[type=number]').value : undefined,
+      pesan: formEl.querySelector('textarea') ? formEl.querySelector('textarea').value : undefined
+    };
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(entry)
+    }).catch(function(){});
     document.getElementById('rsvpFormWrap').style.display = 'none';
     document.getElementById('rsvp-success').classList.add('show');
   });
@@ -1370,6 +1385,14 @@ a, button, input, select, textarea, .pill-btn, .open-btn, .play-btn, .copy-btn, 
     card.className = 'gb-card reveal is-visible';
     card.innerHTML = `<div class="gb-name">${name}</div><div class="gb-msg">${msg}</div>`;
     list.prepend(card);
+
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ demo: "luxury-17", nama: name, pesan: msg })
+    }).catch(function(){});
+
     this.reset();
   });
 

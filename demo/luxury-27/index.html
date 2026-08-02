@@ -1384,6 +1384,7 @@ function initCopyButtons(){
 }
 
 /* ---------- RSVP + Guest book ---------- */
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 function initRsvp(){
   const form = document.getElementById('rsvpForm');
   const success = document.getElementById('rsvpSuccess');
@@ -1404,6 +1405,15 @@ function initRsvp(){
 
     saveGuestbookEntry(entry);
     renderGuestbook();
+
+    try{
+      fetch(GAS_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ demo: "luxury-27", nama: entry.name, hadir: entry.attendance, jumlah: entry.guests, pesan: entry.message })
+      }).catch(function(){});
+    }catch(err){}
 
     form.style.display = 'none';
     success.classList.add('show');

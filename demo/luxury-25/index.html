@@ -1059,8 +1059,28 @@ document.querySelectorAll('.attend-opt').forEach(opt=>{
     opt.classList.add('active');
   });
 });
+var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 document.getElementById('rsvpForm').addEventListener('submit', function(e){
   e.preventDefault();
+  try{
+    var nameEl = document.getElementById('rsvpName');
+    var jumlahEl = this.querySelector('input[type="number"]');
+    var attendEl = this.querySelector('.attend-opt.active');
+    var pesanEl = this.querySelector('textarea');
+    var entry = {
+      demo: "luxury-25",
+      nama: nameEl ? nameEl.value : undefined,
+      hadir: attendEl ? attendEl.getAttribute('data-attend') : undefined,
+      jumlah: jumlahEl ? jumlahEl.value : undefined,
+      pesan: pesanEl ? pesanEl.value : undefined
+    };
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(entry)
+    }).catch(function(){});
+  }catch(err){}
   const overlay = document.getElementById('successOverlay');
   overlay.classList.add('open');
   for(let i=0;i<18;i++){

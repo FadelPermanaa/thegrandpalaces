@@ -1654,16 +1654,29 @@ function initDownloadQR(){
 /* =========================================================
    RSVP
    ========================================================= */
+var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 function initRSVP(){
   const form = document.getElementById('rsvp-form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('r-name').value.trim();
     const attend = document.getElementById('r-attend').value;
+    const guestsEl = document.getElementById('r-guests');
+    const guests = guestsEl ? guestsEl.value : undefined;
     const message = document.getElementById('r-message').value.trim();
     if(!name || !attend) return;
 
     addGuestbookEntry(name, message || (attend === 'yes' ? 'Dengan senang hati akan hadir!' : 'Doa terbaik untuk kalian berdua.'));
+
+    try{
+      var entry = { demo: "luxury-22", nama: name, hadir: attend, jumlah: guests, pesan: message };
+      fetch(GAS_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(entry)
+      }).catch(function(){});
+    }catch(err){}
 
     form.style.display = 'none';
     const success = document.getElementById('rsvp-success');

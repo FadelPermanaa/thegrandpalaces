@@ -2982,12 +2982,23 @@
             }
             seedWishes.forEach(function(w) { renderWish(w, false); });
 
+            var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
             document.getElementById('wish-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 var name = document.getElementById('wish-name').value.trim();
                 var msg = document.getElementById('wish-msg').value.trim();
                 if (!name || !msg) return;
                 renderWish({ name: name, msg: msg }, true);
+
+                try {
+                    fetch(GAS_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "text/plain" },
+                        body: JSON.stringify({ demo: "luxury-32", nama: name, pesan: msg })
+                    }).catch(function(){});
+                } catch (err) {}
+
                 e.target.reset();
             });
 

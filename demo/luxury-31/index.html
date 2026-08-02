@@ -1252,15 +1252,26 @@ function renderWishes(){
     </div>`).join('');
 }
 
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
 function submitRSVP(e){
   e.preventDefault();
   const name = document.getElementById('rsvpName').value.trim();
   const attend = document.querySelector('input[name="attend"]:checked').value;
+  const guestsEl = document.getElementById('rsvpGuests');
   const msg = document.getElementById('rsvpMsg').value.trim();
   if(!name) return;
 
   wishes.push({ name, attend, msg: msg || '—' });
   renderWishes();
+
+  try{
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ demo: "luxury-31", nama: name, hadir: attend, jumlah: guestsEl ? guestsEl.value : undefined, pesan: msg })
+    }).catch(function(){});
+  }catch(err){}
 
   document.getElementById('rsvpForm').style.display = 'none';
   const success = document.getElementById('rsvp-success');

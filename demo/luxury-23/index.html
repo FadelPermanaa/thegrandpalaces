@@ -2650,11 +2650,23 @@
     /* ============================================================
        RSVP
        ============================================================ */
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
     const rsvpForm = document.getElementById('rsvp-form');
     rsvpForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('rsvp-name').value || 'Tamu';
       const msg = rsvpForm.querySelector('textarea').value;
+      const attendEl = rsvpForm.querySelector('select');
+      const jumlahEl = rsvpForm.querySelector('input[type="number"]');
+      try{
+        var entry = { demo: "luxury-23", nama: name, hadir: attendEl ? attendEl.value : undefined, jumlah: jumlahEl ? jumlahEl.value : undefined, pesan: msg };
+        fetch(GAS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(entry)
+        }).catch(function(){});
+      }catch(err){}
       rsvpForm.style.display = 'none';
       const success = document.getElementById('rsvp-success');
       success.classList.add('show');

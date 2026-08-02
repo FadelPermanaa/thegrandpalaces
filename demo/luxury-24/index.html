@@ -1419,6 +1419,7 @@ section{ position:relative; padding:var(--section-pad) 0; }
   });
 
   /* ---------- guestbook: add & persist locally ---------- */
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzQixg1-a4xCzpfWTC7e_MuFWNXZwqeLh01qrvX-wfkIk1_QFavlGWOFOXZW1AerAls/exec";
   const GUESTBOOK_KEY = 'pearlOfJiangnan_guestbook';
   const guestList = document.getElementById('guest-list');
   function addGuestEntry(name, message, save){
@@ -1454,6 +1455,17 @@ section{ position:relative; padding:var(--section-pad) 0; }
     const message = msgEl.value.trim();
     if(!name || !message) return;
     addGuestEntry(name, message, true);
+
+    try{
+      var entry = { demo: "luxury-24", nama: name, pesan: message };
+      fetch(GAS_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(entry)
+      }).catch(function(){});
+    }catch(err){}
+
     nameEl.value = ''; msgEl.value = '';
   });
 
