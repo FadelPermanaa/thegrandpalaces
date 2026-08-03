@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe3f0"/>
+      <stop offset="1" stop-color="#eaf5fa"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2c7a95"/>
+      <stop offset="1" stop-color="#0d5268"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="420" fill="url(#sky)"/>
+  <circle cx="760" cy="120" r="46" fill="#fffbe8" opacity="0.9"/>
+  <!-- cliff -->
+  <path d="M0 420 L110 380 L250 418 L380 396 L520 414 L660 388 L960 416 L960 720 L0 720 Z" fill="#f6f4f0"/>
+  <path d="M0 470 L140 452 L320 474 L540 458 L760 476 L960 460 L960 720 L0 720 Z" fill="#efe9df"/>
+  <!-- blue domes on cliff -->
+  <g>
+    <path d="M300 470 c-2 -12 -2 -24 6 -34 c8 -10 24 -10 32 0 c8 10 8 22 6 34 Z" fill="#11647c"/>
+    <rect x="304" y="470" width="34" height="10" fill="#ffffff"/>
+    <path d="M348 470 c-2 -12 -2 -24 6 -34 c8 -10 24 -10 32 0 c8 10 8 22 6 34 Z" fill="#11647c"/>
+    <rect x="352" y="470" width="34" height="10" fill="#ffffff"/>
+    <path d="M420 470 c-2 -12 -2 -24 6 -34 c8 -10 24 -10 32 0 c8 10 8 22 6 34 Z" fill="#0d4f66"/>
+    <rect x="424" y="470" width="34" height="10" fill="#ffffff"/>
+    <rect x="460" y="470" width="120" height="70" fill="#ffffff"/>
+    <rect x="486" y="478" width="12" height="16" fill="#11647c"/>
+    <rect x="544" y="478" width="12" height="16" fill="#11647c"/>
+    <rect x="636" y="470" width="34" height="10" fill="#ffffff"/>
+  </g>
+  <!-- white houses -->
+  <g fill="#ffffff" stroke="#dcd7cb" stroke-width="1">
+    <rect x="120" y="470" width="70" height="56" rx="4"/>
+    <rect x="590" y="474" width="64" height="52" rx="4"/>
+    <rect x="80" y="486" width="40" height="40" rx="4"/>
+  </g>
+  <!-- sea -->
+  <rect y="520" width="960" height="200" fill="url(#sea)" opacity="0.9"/>
+  <g stroke="#ffffff" stroke-opacity="0.35" stroke-width="2" fill="none">
+    <path d="M60 560 q40 8 80 0 t80 0 t80 0"/>
+    <path d="M200 620 q40 8 80 0 t80 0 t80 0"/>
+    <path d="M480 585 q40 8 80 0 t80 0 t80 0"/>
+  </g>
+  <!-- birds -->
+  <g stroke="#0a3448" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M520 90 q7 -8 14 0 q7 -8 14 0"/>
+    <path d="M620 140 q6 -7 12 0 q6 -7 12 0"/>
+    <path d="M470 170 q5 -6 10 0 q5 -6 10 0"/>
+  </g>
+</svg>
