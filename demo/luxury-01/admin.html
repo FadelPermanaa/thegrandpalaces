@@ -151,6 +151,15 @@
   }
 
   /* ---------- LOGIN ---------- */
+  // Helper: ambil isi respons apa pun (JSON atau bukan) supaya error
+  // dari server (mis. 500 HTML, redirect login Google) terlihat jelas.
+  function readResponse(r){
+    return r.text().then(function(t){
+      try{ return { ok: r.ok, status: r.status, data: JSON.parse(t) }; }
+      catch(e){ return { ok: r.ok, status: r.status, data: t }; }
+    });
+  }
+
   $("#loginBtn").addEventListener("click", function(){
     var u = $("#loginUser").value.trim();
     var p = $("#loginPass").value;
@@ -162,20 +171,22 @@
       headers: { "Content-Type": "text/plain" },
       body: JSON.stringify({ action: "login", username: u, password: p })
     })
-    .then(function(r){ return r.json(); })
+    .then(readResponse)
     .then(function(res){
       $("#loginBtn").disabled = false;
-      if(res && res.result === "success"){
+      if(res.data && res.data.result === "success"){
         creds = { username: u, password: p };
         sessionStorage.setItem("cms_creds", JSON.stringify(creds));
         showEditor();
       } else {
-        setStatus($("#loginStatus"), (res && res.message) || "Login gagal.", false);
+        var msg = (res.data && res.data.message) || "Login gagal.";
+        setStatus($("#loginStatus"), msg, false);
       }
     })
-    .catch(function(){
+    .catch(function(err){
       $("#loginBtn").disabled = false;
-      setStatus($("#loginStatus"), "Gagal terhubung ke server. Coba lagi.", false);
+      // Tampilkan detail kalau ada, agar mudah dilacak.
+      setStatus($("#loginStatus"), "Kesalahan: " + (err && err.message ? err.message : "tak dapat terhubung ke server."), false);
     });
   });
 
