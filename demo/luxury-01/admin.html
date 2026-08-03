@@ -56,6 +56,22 @@
   }
   #editorScreen{display:none}
   .hint{font-size:.75rem;color:var(--muted);margin:-12px 0 16px}
+
+  /* ---------- TOGGLE SWITCH ---------- */
+  .switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:11px 4px;border-bottom:1px solid var(--border);}
+  .switch-row:last-child{border-bottom:none}
+  .switch-row .lbl{flex:1}
+  .switch-row .lbl b{display:block;font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:1px}
+  .switch-row .lbl small{color:var(--muted);font-size:.73rem;line-height:1.4;display:block}
+  .switch{position:relative;flex:none;width:46px;height:26px;border-radius:999px;
+    background:#d8cfba;cursor:pointer;transition:background .25s;}
+  .switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;
+    border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .25s;}
+  .switch.on{background:var(--gold);}
+  .switch.on::after{transform:translateX(20px);}
+  .switch.disabled{opacity:.45;cursor:not-allowed}
+  .settings-host .status{min-height:1.2em;margin-top:10px}
 </style>
 </head>
 <body>
@@ -88,6 +104,16 @@
     </div>
 
     <div id="formSections"></div>
+
+    <div class="card">
+      <h2>Tampilan / Fitur</h2>
+      <p class="hint" style="margin-top:-8px">Geser tombol untuk menampilkan atau menyembunyikan fitur di undangan. Perubahan tersimpan otomatis per tombol.</p>
+      <div class="settings-host" id="settingsHost"></div>
+      <div class="save-bar" style="position:static;border-top:none;padding:12px 0 0;margin-top:6px">
+        <button class="btn-primary" id="saveSettingsBtn">Simpan Semua Pengaturan</button>
+        <p class="status" id="settingsStatus" style="margin:0"></p>
+      </div>
+    </div>
 
     <div class="save-bar">
       <button class="btn-primary" id="saveBtn">Simpan Semua Teks</button>
@@ -327,6 +353,109 @@
     };
     reader.readAsDataURL(file);
   }
+
+  /* ---------- PENGATURAN TAMPILAN / FITUR (TOGGLE) ---------- */
+  var FEATURES = [
+    { key:"cover",      label:"Cover Pembuka",       hint:"Layar pembuka amplop & tombol Buka Undangan" },
+    { key:"countdown",  label:"Menuju Hari Bahagia", hint:"Counter hitung mundur & tombol simpan kalender" },
+    { key:"mempelai",   label:"Kedua Mempelai",      hint:"Bagian profil mempelai pria & wanita" },
+    { key:"acara",      label:"Acara",               hint:"Akad nikah, resepsi, & Google Maps" },
+    { key:"streaming",  label:"Live Streaming",      hint:"Tautan siaran langsung acara" },
+    { key:"filter",     label:"Wedding Filter",      hint:"Filter Instagram & TikTok" },
+    { key:"story",      label:"Our Story",           hint:"Timeline kisah cinta" },
+    { key:"gallery",    label:"Gallery",             hint:"Galeri foto + lightbox" },
+    { key:"video",      label:"Video Cerita",        hint:"Video clip cerita cinta" },
+    { key:"venue",      label:"Venue & Travel",      hint:"Peta lokasi, dress code, & info akses" },
+    { key:"rsvp",       label:"RSVP & Ucapan",       hint:"Form konfirmasi kehadiran" },
+    { key:"guestbook",  label:"Buku Tamu",           hint:"Kolom ucapan & doa" },
+    { key:"gift",       label:"Amplop Digital",      hint:"Nomor rekening / hadiah" },
+    { key:"giftconfirm",label:"Konfirmasi Kado",     hint:"Form memberitahu pengiriman hadiah" },
+    { key:"instagram",  label:"Instagram",           hint:"Bagian tagar & unggahan foto" },
+    { key:"faq",        label:"FAQ",                 hint:"Pertanyaan umum" },
+    { key:"contact",    label:"Contact Person",      hint:"Nomor kontak narahubung" },
+    { key:"doa",        label:"Doa & Penutup",       hint:"Bacaan doa & closing" },
+    { key:"music",      label:"Musik Latar",         hint:"Tombol putar/jeda musik" },
+    { key:"cursor",     label:"Kursor Kustom",       hint:"Efek kursor elegan (nonaktif di layar sentuh)" }
+  ];
+  var settingsState = {}; // { key: 1/0 }
+
+  function renderSettings(settings){
+    settingsState = settings || {};
+    var html = "";
+    FEATURES.forEach(function(f){
+      var on = settingsState[f.key] !== 0 && settingsState[f.key] !== false;
+      html += '<div class="switch-row">'
+            + '  <div class="lbl"><b>' + esc(f.label) + '</b><small>' + esc(f.hint) + '</small></div>'
+            + '  <div class="switch' + (on ? " on" : "") + '" data-key="' + f.key + '" role="switch" aria-checked="' + on + '" tabindex="0"></div>'
+            + '</div>';
+    });
+    $("#settingsHost").innerHTML = html;
+
+    var host = $("#settingsHost");
+    Array.prototype.slice.call(host.querySelectorAll(".switch")).forEach(function(sw){
+      function toggle(){
+        var key = sw.getAttribute("data-key");
+        var on = !sw.classList.contains("on");
+        sw.classList.toggle("on", on);
+        sw.setAttribute("aria-checked", on);
+        settingsState[key] = on ? 1 : 0;
+        setStatus($("#settingsStatus"), "Pengaturan " + key + ": " + (on ? "aktif" : "nonaktif") + " (belum disimpan)", null);
+      }
+      sw.addEventListener("click", toggle);
+      sw.addEventListener("keydown", function(e){
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggle(); }
+      });
+    });
+  }
+
+  function loadSettings(){
+    fetch(CMS_URL + "?action=settings")
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if(res && res.result === "success"){
+          renderSettings(res.settings || {});
+        } else {
+          // Fallback: semua fitur aktif kalau backend belum mendukung settings.
+          renderSettings({});
+        }
+      })
+      .catch(function(){ renderSettings({}); });
+  }
+
+  $("#saveSettingsBtn").addEventListener("click", function(){
+    $("#saveSettingsBtn").disabled = true;
+    setStatus($("#settingsStatus"), "Menyimpan pengaturan...", null);
+    fetch(CMS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({
+        action: "updateSettings",
+        username: creds.username,
+        password: creds.password,
+        settings: settingsState
+      })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      $("#saveSettingsBtn").disabled = false;
+      if(res && res.result === "success"){
+        setStatus($("#settingsStatus"), "Pengaturan tersimpan. Undangan diperbarui.", true);
+      } else {
+        setStatus($("#settingsStatus"), (res && res.message) || "Gagal menyimpan pengaturan.", false);
+      }
+    })
+    .catch(function(){
+      $("#saveSettingsBtn").disabled = false;
+      setStatus($("#settingsStatus"), "Gagal terhubung ke server.", false);
+    });
+  });
+
+  // Muat pengaturan tampilan bersamaan dengan konten (editorScreen sudah tampil).
+  var _origLoad = loadContent;
+  loadContent = function(){
+    _origLoad();
+    loadSettings();
+  };
 
   /* ---------- AUTO LOGIN KALAU SESSION MASIH ADA ---------- */
   try{

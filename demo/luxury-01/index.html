@@ -1472,7 +1472,7 @@ document.addEventListener(
 <!-- =========================================================
      DOA + CLOSING
      ========================================================= -->
-<section class="pad center" style="background:var(--cream)">
+<section class="pad center" style="background:var(--cream)" id="doa">
   <div class="wrap">
     <svg class="orn rv" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width=".9">
       <path d="M0 12h44M76 12h44"/><path d="M60 4c4 4 4 12 0 16-4-4-4-12 0-16z"/>
@@ -1574,6 +1574,56 @@ document.addEventListener(
   // Jaring pengaman: kalau fetch macet/lambat, tetap tampilkan foto
   // bawaan lokal setelah 2.5 detik supaya tidak kosong selamanya.
   setTimeout(revealImages, 2500);
+
+  /* ---------- PENGATURAN TAMPILAN (show/hide fitur dari admin) ---------- */
+  var FEATURE_TARGETS = {
+    cover:      "#cover",
+    countdown:  ".count-grid",
+    mempelai:   "#mempelai",
+    acara:      "#acara",
+    streaming:  "#streaming",
+    filter:     "#filter",
+    story:      "#story",
+    gallery:    "#gallery",
+    video:      "#video",
+    venue:      "#venue",
+    rsvp:       "#rsvp",
+    guestbook:  "#guestbook",
+    gift:       "#gift",
+    giftconfirm:"#giftconfirm",
+    instagram:  "#instagram",
+    faq:        "#faq",
+    contact:    "#contact",
+    doa:        "#doa, #closing",
+    music:      "#music",
+    cursor:     ".blanc-cursor-dot, .blanc-cursor-ring, #cursorDot, #cursorRing"
+  };
+  // Fitur tambahan yang ikut disembunyikan bersama induknya.
+  var FEATURE_AUX = {
+    countdown:  "#calBtn"
+  };
+  function applySettings(settings){
+    settings = settings || {};
+    Object.keys(FEATURE_TARGETS).forEach(function(key){
+      var off = (settings[key] === 0 || settings[key] === false);
+      if(off){ hideFeature(key); }
+    });
+  }
+  function hideFeature(key){
+    var sel = FEATURE_TARGETS[key];
+    if(!sel) return;
+    $$(sel).forEach(function(el){ el.style.display = "none"; });
+    if(FEATURE_AUX[key]){
+      $$(FEATURE_AUX[key]).forEach(function(el){ el.style.display = "none"; });
+    }
+    if(key === "music"){
+      var bgmL = $("#bgm"); if(bgmL){ try{ bgmL.pause(); }catch(e){} }
+    }
+  }
+  fetch(CMS_URL + "?action=settings")
+    .then(function(r){ return r.json(); })
+    .then(function(res){ if(res && res.result === "success") applySettings(res.settings || {}); })
+    .catch(function(){});
 
   /* ---------- NAMA TAMU DARI URL (?to=Nama) ---------- */
   try{
