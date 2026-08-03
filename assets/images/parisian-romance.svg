@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf6ee"/>
+      <stop offset="1" stop-color="#ecdcce"/>
+    </linearGradient>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8939c"/>
+      <stop offset="1" stop-color="#6c4a5a"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="420" fill="url(#sky)"/>
+  <circle cx="700" cy="120" r="46" fill="#f6ebdc"/>
+  <circle cx="700" cy="120" r="30" fill="#efd9c0" opacity="0.7"/>
+  <!-- distant rooftops -->
+  <g fill="#d8c9ba" opacity="0.7">
+    <polygon points="0,420 60,380 120,420"/>
+    <polygon points="90,420 160,370 230,420"/>
+    <polygon points="700,420 770,372 840,420"/>
+  </g>
+  <!-- Eiffel tower -->
+  <g fill="none" stroke="#6c655e" stroke-width="3">
+    <path d="M480 280 L440 470 L430 500 M480 280 L520 470 L530 500"/>
+    <path d="M438 380 L522 380 M446 430 L514 430 M435 470 L525 470"/>
+    <path d="M480 280 L480 500"/>
+  </g>
+  <!-- white garden + flowers row -->
+  <path d="M0 500 L120 470 L260 505 L420 480 L580 508 L740 476 L960 505 L960 720 L0 720 Z" fill="#fbf7f1"/>
+  <path d="M0 540 L180 515 L360 542 L560 518 L760 544 L960 522 L960 720 L0 720 Z" fill="#f1e8da"/>
+  <g fill="#ffffff">
+    <circle cx="90" cy="520" r="14"/><circle cx="90" cy="510" r="14"/><circle cx="100" cy="528" r="12"/>
+    <circle cx="400" cy="520" r="14"/><circle cx="400" cy="508" r="14"/><circle cx="410" cy="528" r="12"/>
+    <circle cx="740" cy="522" r="14"/><circle cx="740" cy="510" r="14"/><circle cx="750" cy="530" r="12"/>
+  </g>
+  <g fill="#d8b25a">
+    <circle cx="46" cy="520" r="4"/><circle cx="160" cy="508" r="4"/><circle cx="300" cy="512" r="4"/>
+    <circle cx="500" cy="506" r="4"/><circle cx="620" cy="514" r="4"/><circle cx="860" cy="512" r="4"/>
+  </g>
+  <!-- dusk lower -->
+  <rect y="560" width="960" height="160" fill="url(#dusk)" opacity="0.85"/>
+  <!-- street lamps -->
+  <g>
+    <rect x="180" y="520" width="4" height="60" fill="#6c655e"/>
+    <ellipse cx="182" cy="518" rx="12" ry="4" fill="#f4cd8f" opacity="0.9"/>
+    <rect x="770" y="520" width="4" height="60" fill="#6c655e"/>
+    <ellipse cx="772" cy="518" rx="12" ry="4" fill="#f4cd8f" opacity="0.9"/>
+  </g>
+  <g fill="#6c655e" opacity="0.5">
+    <ellipse cx="182" cy="540" rx="30" ry="8"/>
+    <ellipse cx="772" cy="540" rx="30" ry="8"/>
+  </g>
+</svg>
